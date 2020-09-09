@@ -14,5 +14,6 @@ Imports:
     raster,
     magick,
     gdalUtilities,
-    gdalUtils
+    gdalUtils,
+    methods
 RoxygenNote: 7.1.1

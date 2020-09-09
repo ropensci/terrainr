@@ -1,3 +1,11 @@
+#' Add a uniform buffer around a bounding box
+#'
+#' This function calculates the great circle distance both corners of your
+#' bounding box are from the centroid and extends those by a set distance. Due
+#' to using great circle distance, calculations will not be exact.
+#'
+#' @param bbox The original bounding box to add a buffer around.
+#'
 #' @export
 add_bbox_buffer <- function(bbox, distance) {
 

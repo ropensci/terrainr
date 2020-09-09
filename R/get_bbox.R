@@ -17,7 +17,8 @@
 #'   lat = c(44.05771, 44.18475),
 #'   lng = c(-73.99212, -73.81515)
 #' )
-#' get_coord_bounding_box(df$lat, df$lng)
+#' get_coord_bbox(df, lat, lng)
+#' get_coord_bbox(lat = df$lat, lng = df$lng)
 #'
 #' @export
 get_coord_bbox <- function(data = NULL, lat, lng) {

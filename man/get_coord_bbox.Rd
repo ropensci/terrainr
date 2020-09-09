@@ -4,12 +4,19 @@
 \alias{get_coord_bbox}
 \title{Get bounding box for set of coordinate points}
 \usage{
-get_coord_bbox(lat, lng)
+get_coord_bbox(data = NULL, lat, lng)
 }
 \arguments{
-\item{lat}{A vector of latitudes}
+\item{data}{Optionally, a dataframe containing vectors of latitude and
+longitude.}
 
-\item{lng}{A vector of longitudes}
+\item{lat}{If \code{data} is not \code{NULL}, the name of the column
+containing latitude values. If \code{data} is \code{NULL}, a vector of
+latitude values.}
+
+\item{lng}{If \code{data} is not \code{NULL}, the name of the column
+containing longitude values. If \code{data} is \code{NULL}, a vector of
+longitude values.}
 }
 \value{
 A list of length 2, containing the bottom-left (named "bl") and
@@ -23,5 +30,7 @@ df <- data.frame(
   lat = c(44.05771, 44.18475),
   lng = c(-73.99212, -73.81515)
 )
-get_coord_bounding_box(df$lat, df$lng)
+get_coord_bbox(df, lat, lng)
+get_coord_bbox(lat = df$lat, lng = df$lng)
+
 }
