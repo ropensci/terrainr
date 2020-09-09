@@ -67,10 +67,11 @@ get_heightmap_tiles <- function (bbox,
                          current_box[["img_height"]],
                          verbose = verbose)
 
-      writeBin(img_bin, tempfiles[[file_counter]])
+      invisible(writeBin(img_bin, tempfiles[[file_counter]]))
     }
   }
 
-  merge_rasters(tempfiles, output_file)
+  invisible(merge_rasters(tempfiles, output_file))
+  return(output_file)
 
 }

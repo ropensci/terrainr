@@ -9,3 +9,5 @@
 # TODO: Buffer different x & y (low priority)
 # TODO: document make_unity_friendly
 # TODO: document raster_to_raw
+# TODO: don't get that annoying output listing temp files from get_heightmap_tiles
+# TODO: get raster_to_raw_tiles to not create extra tiles (:|)

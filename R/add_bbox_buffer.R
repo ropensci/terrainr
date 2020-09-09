@@ -1,3 +1,4 @@
+#' @export
 add_bbox_buffer <- function(bbox, distance) {
 
   centroid <- get_bbox_centroid(bbox)

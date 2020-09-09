@@ -1,7 +1,13 @@
 #' Get bounding box for set of coordinate points
 #'
-#' @param lat A vector of latitudes
-#' @param lng A vector of longitudes
+#' @param data Optionally, a dataframe containing vectors of latitude and
+#' longitude.
+#' @param lat If \code{data} is not \code{NULL}, the name of the column
+#' containing latitude values. If \code{data} is \code{NULL}, a vector of
+#' latitude values.
+#' @param lng If \code{data} is not \code{NULL}, the name of the column
+#' containing longitude values. If \code{data} is \code{NULL}, a vector of
+#' longitude values.
 #'
 #' @return A list of length 2, containing the bottom-left (named "bl") and
 #' top-right (named "tr") coordinates of the bounding box.
@@ -12,18 +18,28 @@
 #'   lng = c(-73.99212, -73.81515)
 #' )
 #' get_coord_bounding_box(df$lat, df$lng)
+#'
 #' @export
-get_coord_bbox <- function(lat, lng) {
-  stopifnot(length(lat) == length(lng))
+get_coord_bbox <- function(data = NULL, lat, lng) {
 
-  if (any(is.na(lat) | is.na(lng))) {
-    warning("NAs present in coordinate data and will be ignored.")
+  if (!is.null(data)) {
+    lat <- quote(lat)
+    lng <- quote(lng)
+    lat_vals <- data[[lat]]
+    lng_vals <- data[[lng]]
+  } else {
+    lat_vals <- lat
+    lng_vals <- lng
   }
 
-  minlat <- min(lat, na.rm = TRUE)
-  minlng <- min(lng, na.rm = TRUE)
-  maxlat <- max(lat, na.rm = TRUE)
-  maxlng <- max(lng, na.rm = TRUE)
+  if (any(is.na(lat_vals) | is.na(lng_vals))) {
+    warning("NAs present in coordinate data will be ignored.")
+  }
+
+  minlat <- min(lat_vals, na.rm = TRUE)
+  minlng <- min(lng_vals, na.rm = TRUE)
+  maxlat <- max(lat_vals, na.rm = TRUE)
+  maxlng <- max(lng_vals, na.rm = TRUE)
 
   return(list(
     "bl" = c("lat" = minlat, "lng" = minlng),
