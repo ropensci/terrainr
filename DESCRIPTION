@@ -1,11 +1,17 @@
 Package: terrainr
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Retrieve and Transform USGS Heightmaps
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Authors@R: 
+    person(given = "Michael",
+           family = "Mahoney",
+           role = c("aut", "cre"),
+           email = "mike.mahoney.218@gmail.com",
+           comment = c(ORCID = "0000-0003-2402-304X"))
+Description: This package aids users in retrieving and manipulating USGS 
+    heightmaps, making it trivial to produce tiled images of areas of interest
+    which can then be imported into 3D rendering programs such as Unity.
+BugReports: https://github.com/mikemahoney218/terrainr/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -17,3 +23,6 @@ Imports:
     gdalUtils,
     methods
 RoxygenNote: 7.1.1
+Suggests: 
+    testthat,
+    covr

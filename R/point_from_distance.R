@@ -5,6 +5,8 @@
 #' the original point to apply
 #' @param azimuth A azimuth (in units specified in \code{azimuth_unit})
 #' representing the direction to apply the distance from the original point in
+#' @param distance_unit A string passed to [terrainr::convert_distance]
+#' indicating the units of the provided distance.
 #' @param azimuth_unit A string (either \code{degrees} or \code{radians})
 #' indicating the units of the \code{azimuth} argument
 #'
@@ -16,29 +18,28 @@
 point_from_distance <- function(coord_pair,
                                 distance,
                                 azimuth,
-                                distance_unit = c("meters",
-                                                  "kilometers",
-                                                  "miles",
-                                                  "feet"),
+                                distance_unit = "meters",
                                 azimuth_unit = c("degrees", "radians")) {
 
   distance_unit <- distance_unit[[1]]
   azimuth_unit <- azimuth_unit[[1]]
 
-  if (distance_unit == "miles") {
-    distance <- distance * 1609.344
-  } else if (distance_unit == "feet") {
-    distance <- distance * 3048
-  } else if (distance_unit == "kilometers") {
-    distance <- distance / 1000
-  }
+  distance <- convert_distance(distance, distance_unit)
 
   R <- 6371e3 # Radius of the earth in m
 
+  if (!methods::is(coord_pair, "terrainr_coordinate_pair")) {
+    coord_pair <- terrainr_coordinate_pair(coord_pair)
+  }
+
+  lat <- coord_pair@lat
+  lng <- coord_pair@lng
+
+  azimuth_unit <- azimuth_unit[[1]]
   if (azimuth_unit == "degrees") {
     azimuth <- deg_to_rad(azimuth)
-    lat <- deg_to_rad(coord_pair[["lat"]])
-    lng <- deg_to_rad(coord_pair[["lng"]])
+    lat <- deg_to_rad(lat)
+    lng <- deg_to_rad(lng)
   }
 
   angular_distance <- distance / R
@@ -53,11 +54,7 @@ point_from_distance <- function(coord_pair,
     cos(angular_distance) - sin(lat) * sin(new_lat)
   )
 
-  if (azimuth_unit == "degrees") {
-    return(c(lat = rad_to_deg(new_lat),
-             lng = rad_to_deg(new_lng)))
-  } else {
-    return(c(lat = new_lat,
-             lng = new_lng))
-  }
+  return(terrainr_coordinate_pair(c(rad_to_deg(new_lat),
+                                    rad_to_deg(new_lng))))
+
 }

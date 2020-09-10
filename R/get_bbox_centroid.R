@@ -1,7 +1,11 @@
 get_bbox_centroid <- function(bbox) {
 
-  lat <- c(bbox[[1]]["lat"], bbox[[2]]["lat"])
-  lng <- c(bbox[[1]]["lng"], bbox[[2]]["lng"])
+  if (!methods::is(bbox, "terrainr_bounding_box")) {
+    bbox <- terrainr_bounding_box(bbox[[1]], bbox[[2]])
+  }
+
+  lat <- c(bbox@bl@lat, bbox@tr@lat)
+  lng <- c(bbox@bl@lng, bbox@tr@lng)
 
   lat <- deg_to_rad(lat)
   lng <- deg_to_rad(lng)
@@ -15,5 +19,5 @@ get_bbox_centroid <- function(bbox) {
   lat <- rad_to_deg(lat)
   lng <- rad_to_deg(lng)
 
-  return(c(lat = lat, lng = lng))
+  return(terrainr_coordinate_pair(c(lat = lat, lng = lng)))
 }

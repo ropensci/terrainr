@@ -8,13 +8,13 @@ terrainr_bounding_box(bl, tr, coord_units = "degrees")
 }
 \arguments{
 \item{bl, tr}{The bottom left (\code{bl}) and top right (\code{tr}) corners of
-the bounding box, either as a [terrainr::terrainr_coordinate_point] object or
+the bounding box, either as a [terrainr::terrainr_coordinate_pair] object or
 a coordinate pair. If the coordinate pair is not named, it is assumed to be
 in (lat, lng) format; if it is named, the function will attempt to properly
 identify coordinates.}
 
-\item{coord_units}{Arguments passed to [terrainr::terrainr_coordinate_point].
-If \code{bl} and \code{tr} are already [terrainr::terrainr_coordinate_point]
+\item{coord_units}{Arguments passed to [terrainr::terrainr_coordinate_pair].
+If \code{bl} and \code{tr} are already [terrainr::terrainr_coordinate_pair]
 objects, these arguments are not used.}
 }
 \value{
@@ -28,8 +28,8 @@ Construct a terrainr_bounding_box object
 terrainr_bounding_box(bl = c(44.05003, -74.01164),
                       tr = c(44.17538, -73.83500))
 # This is identical to:
-bl_coords <- terrainr_coordinate_point(c(44.05003, -74.01164))
-tr_coords <- terrainr_coordinate_point(c(44.17538, -73.83500))
+bl_coords <- terrainr_coordinate_pair(c(44.05003, -74.01164))
+tr_coords <- terrainr_coordinate_pair(c(44.17538, -73.83500))
 terrainr_bounding_box(bl = bl_coords,
                       tr = tr_coords)
 

@@ -8,11 +8,12 @@ generate_raw_tiles(
   data = NULL,
   lat = NULL,
   lng = NULL,
+  raw_output_prefix,
   bbox = NULL,
   buffer_distance = NULL,
-  unity_friendly = NULL,
+  distance_unit = "meters",
+  unity_friendly = TRUE,
   tif_filename = NULL,
-  raw_output_prefix,
   save_tif = TRUE
 )
 }
@@ -28,9 +29,29 @@ latitude values.}
 containing longitude values. If \code{data} is \code{NULL}, a vector of
 longitude values.}
 
+\item{raw_output_prefix}{A string indicating the prefix to label output files
+with. Files are named in the pattern \code{output_prefix_x_y.raw} where
+\code{x} and \code{y} are the x and y position in pixels of the upper left
+corner.}
+
 \item{bbox}{Optionally, a bounding box representing the area to pull a DEM
 for. If provided, arguments to \code{data}, \code{lat}, and \code{lng} are
 ignored.}
+
+\item{buffer_distance}{Optionally, a numeric value indicating how much to pad
+the bounding box by.}
+
+\item{distance_unit}{A string passed to [terrainr::convert_distance]
+specifying the units of the \code{buffer_distance} argument.}
+
+\item{unity_friendly}{Logical: should the bounding box be padded to ensure
+the output .raw tiles can be easily imported to Unity?}
+
+\item{tif_filename}{The path to save the DEM raster file to. Must end with
+\code{.tif} or \code{.tiff}. Ignored if \code{save_tif} is \code{FALSE}.}
+
+\item{save_tif}{Logical: should the DEM raster be saved as a TIF in addition
+to .raw tiles?}
 }
 \description{
 This function combines the main functions in the [terrainr] package to create

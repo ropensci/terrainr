@@ -1,4 +1,13 @@
-# TODO: document
+#' Merge multiple raster files into a single raster
+#'
+#' @param input_files A character vector containing the file paths to the
+#' rasters to merge.
+#' @param output_file The file path to save the merged raster file to.
+#' @param overwrite Logical: overwrite output_file if it exists?
+#'
+#' @return NULL
+#'
+#'
 #' @export
 merge_rasters <- function(input_files, output_file, overwrite = TRUE) {
 
@@ -29,5 +38,7 @@ merge_rasters <- function(input_files, output_file, overwrite = TRUE) {
   if (fix_tiff) {
     file.rename(output_file, paste0(output_file, "f"))
   }
+
+  return(NULL)
 
 }

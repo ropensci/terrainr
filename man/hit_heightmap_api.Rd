@@ -21,7 +21,7 @@ Hit the USGS 3DEP API and retrieve an elevation heightmap
 }
 \examples{
 \dontrun{
-TODO: write examples
+# TODO: write examples
 }
 
 }
