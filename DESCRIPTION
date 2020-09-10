@@ -1,6 +1,6 @@
 Package: terrainr
 Type: Package
-Title: Retrieve and Transform USGS Heightmaps
+Title: Retrieve and Transform 'USGS' Digital Elevation Models
 Version: 0.1.0
 Authors@R: 
     person(given = "Michael",
@@ -8,9 +8,11 @@ Authors@R:
            role = c("aut", "cre"),
            email = "mike.mahoney.218@gmail.com",
            comment = c(ORCID = "0000-0003-2402-304X"))
-Description: This package aids users in retrieving and manipulating USGS 
-    heightmaps, making it trivial to produce tiled images of areas of interest
-    which can then be imported into 3D rendering programs such as Unity.
+Description: Functions for the retrieval and manipulation of 'USGS' digital 
+    elevation models, making it much easier for users to produce tiled images of 
+    areas of interest which can then be imported into 3D rendering programs such 
+    as Unity.
+URL: https://github.com/mikemahoney218/terrainr
 BugReports: https://github.com/mikemahoney218/terrainr/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
