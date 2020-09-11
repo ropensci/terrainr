@@ -7,6 +7,21 @@
 #'
 #' @return NULL
 #'
+#' @examples
+#' \dontrun{
+#' tile_1 <- terrainr_bounding_box(bl = c(44.10379, -74.01177),
+#'                                 tr = c(44.17573, -73.91171))
+#'
+#' tile_2 <-  terrainr_bounding_box(bl = c(44.03184, -74.01177),
+#'                                  tr = c(44.10379, -73.91171))
+#' raster_files <- c(tempfile(), tempfile())
+#' img_bin <- lapply(c(tile_1, tile_2),
+#'                   function(x) hit_heightmap_api(x, 8000, 8000))
+#' writeBin(img_bin[[1]], raster_files[[1]])
+#' writeBin(img_bin[[2]], raster_files[[2]])
+#' merge_rasters(raster_files, tempfile())
+#' }
+#'
 #'
 #' @export
 merge_rasters <- function(input_files, output_file, overwrite = TRUE) {

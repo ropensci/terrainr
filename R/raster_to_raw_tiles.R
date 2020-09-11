@@ -69,6 +69,7 @@ raster_to_raw_tiles <- function(input_file, output_prefix, side_length = 4097) {
 
   for (i in seq_along(temppngs)) {
     processing_image <- magick::image_read(temppngs[[i]])
+    processing_image <- magick::image_flop(processing_image)
     processing_image <- magick::image_convert(processing_image,
                                               format = "RGB",
                                               depth = 16,
