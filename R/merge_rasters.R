@@ -9,19 +9,24 @@
 #'
 #' @examples
 #' \dontrun{
-#' tile_1 <- terrainr_bounding_box(bl = c(44.10379, -74.01177),
-#'                                 tr = c(44.17573, -73.91171))
+#' tile_1 <- terrainr_bounding_box(
+#'   bl = c(44.10379, -74.01177),
+#'   tr = c(44.17573, -73.91171)
+#' )
 #'
-#' tile_2 <-  terrainr_bounding_box(bl = c(44.03184, -74.01177),
-#'                                  tr = c(44.10379, -73.91171))
+#' tile_2 <- terrainr_bounding_box(
+#'   bl = c(44.03184, -74.01177),
+#'   tr = c(44.10379, -73.91171)
+#' )
 #' raster_files <- c(tempfile(), tempfile())
-#' img_bin <- lapply(c(tile_1, tile_2),
-#'                   function(x) hit_heightmap_api(x, 8000, 8000))
+#' img_bin <- lapply(
+#'   c(tile_1, tile_2),
+#'   function(x) hit_heightmap_api(x, 8000, 8000)
+#' )
 #' writeBin(img_bin[[1]], raster_files[[1]])
 #' writeBin(img_bin[[2]], raster_files[[2]])
 #' merge_rasters(raster_files, tempfile())
 #' }
-#'
 #'
 #' @export
 merge_rasters <- function(input_files, output_file, overwrite = TRUE) {
@@ -40,12 +45,14 @@ merge_rasters <- function(input_files, output_file, overwrite = TRUE) {
   } else {
     stop("Output file must have a .tif extension")
   }
-  input_tifs <- lapply(input_files, function(x) raster::raster(x))
-  total_extent <- raster::raster(raster::extent(min(sapply(input_tifs, function(x) raster::extent(x)@xmin)),
-                                                max(sapply(input_tifs, function(x) raster::extent(x)@xmax)),
-                                                min(sapply(input_tifs, function(x) raster::extent(x)@ymin)),
-                                                max(sapply(input_tifs, function(x) raster::extent(x)@ymax))))
-  raster::projection(total_extent) <- raster::projection(input_tifs[[1]])
+  input_rasters <- lapply(input_files, function(x) raster::raster(x))
+  total_extent <- raster::raster(raster::extent(
+    min(sapply(input_rasters, function(x) raster::extent(x)@xmin)),
+    max(sapply(input_rasters, function(x) raster::extent(x)@xmax)),
+    min(sapply(input_rasters, function(x) raster::extent(x)@ymin)),
+    max(sapply(input_rasters, function(x) raster::extent(x)@ymax))
+  ))
+  raster::projection(total_extent) <- raster::projection(input_rasters[[1]])
 
   raster::writeRaster(total_extent, output_file, overwrite = overwrite)
   gdalUtils::mosaic_rasters(gdalfile = input_files, dst_dataset = output_file)
@@ -55,5 +62,4 @@ merge_rasters <- function(input_files, output_file, overwrite = TRUE) {
   }
 
   return(NULL)
-
 }

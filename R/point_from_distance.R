@@ -13,14 +13,12 @@
 #' @examples
 #' # Calculate a point 100m straight north of the coordinate pair
 #' point_from_distance(c(lat = 44.121268, lng = -73.903734), 100, 0)
-#'
 #' @export
 point_from_distance <- function(coord_pair,
                                 distance,
                                 azimuth,
                                 distance_unit = "meters",
                                 azimuth_unit = c("degrees", "radians")) {
-
   distance_unit <- distance_unit[[1]]
   azimuth_unit <- azimuth_unit[[1]]
 
@@ -54,7 +52,8 @@ point_from_distance <- function(coord_pair,
     cos(angular_distance) - sin(lat) * sin(new_lat)
   )
 
-  return(terrainr_coordinate_pair(c(rad_to_deg(new_lat),
-                                    rad_to_deg(new_lng))))
-
+  return(terrainr_coordinate_pair(c(
+    rad_to_deg(new_lat),
+    rad_to_deg(new_lng)
+  )))
 }

@@ -25,12 +25,15 @@ Construct a terrainr_bounding_box object
 }
 \examples{
 # Create bounding box from coordinates:
-terrainr_bounding_box(bl = c(44.05003, -74.01164),
-                      tr = c(44.17538, -73.83500))
+terrainr_bounding_box(
+  bl = c(44.05003, -74.01164),
+  tr = c(44.17538, -73.83500)
+)
 # This is identical to:
 bl_coords <- terrainr_coordinate_pair(c(44.05003, -74.01164))
 tr_coords <- terrainr_coordinate_pair(c(44.17538, -73.83500))
-terrainr_bounding_box(bl = bl_coords,
-                      tr = tr_coords)
-
+terrainr_bounding_box(
+  bl = bl_coords,
+  tr = tr_coords
+)
 }

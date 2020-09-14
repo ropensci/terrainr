@@ -18,5 +18,4 @@ Convert radians to degrees
 \examples{
 rad_to_deg(2 * base::pi)
 rad_to_deg(deg_to_rad(360))
-
 }

@@ -10,21 +10,29 @@
 #' @param distance_unit The units of the distance to add to the buffer, passed
 #' to [terrainr::convert_distance].
 #'
+#' @examples
+#' add_bbox_buffer(
+#'   list(
+#'     c(lat = 44.04905, lng = -74.01188),
+#'     c(lat = 44.17609, lng = -73.83493)
+#'   ),
+#'   10
+#' )
 #' @export
 add_bbox_buffer <- function(bbox, distance, distance_unit = "meters") {
-
   if (!methods::is(bbox, "terrainr_bounding_box")) {
     bbox <- terrainr_bounding_box(bbox[[1]], bbox[[2]])
   }
 
   centroid <- get_bbox_centroid(bbox)
-  corner_distance <- calc_haversine_distance(centroid,
-                                             bbox@bl)
+  corner_distance <- calc_haversine_distance(
+    centroid,
+    bbox@bl
+  )
   distance <- convert_distance(distance, distance_unit)
   add_distance <- corner_distance + distance
   bl <- point_from_distance(centroid, add_distance, 225)
   tr <- point_from_distance(centroid, add_distance, 45)
 
   return(terrainr_bounding_box(bl, tr))
-
 }

@@ -18,5 +18,4 @@ Convert decimal degrees to radians
 \examples{
 deg_to_rad(360)
 rad_to_deg(deg_to_rad(360))
-
 }

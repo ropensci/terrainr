@@ -33,5 +33,4 @@ Find latitude and longitude for a certain distance and azimuth from a point.
 \examples{
 # Calculate a point 100m straight north of the coordinate pair
 point_from_distance(c(lat = 44.121268, lng = -73.903734), 100, 0)
-
 }

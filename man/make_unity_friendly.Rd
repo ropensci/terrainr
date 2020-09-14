@@ -20,10 +20,11 @@ A resized [terrainr::terrainr_bounding_box] object.
 Resize bounding box to reduce number of blank tiles created
 }
 \examples{
-simulated_data <-  data.frame(id = seq(1, 100, 1),
-                              lat = runif(100, 44.04905, 44.17609),
-                              lng = runif(100, -74.01188, -73.83493))
+simulated_data <- data.frame(
+  id = seq(1, 100, 1),
+  lat = runif(100, 44.04905, 44.17609),
+  lng = runif(100, -74.01188, -73.83493)
+)
 bbox <- get_coord_bbox(lat = simulated_data$lat, lng = simulated_data$lng)
 make_unity_friendly(bbox)
-
 }

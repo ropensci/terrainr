@@ -20,3 +20,12 @@ This function calculates the great circle distance both corners of your
 bounding box are from the centroid and extends those by a set distance. Due
 to using great circle distance, calculations will not be exact.
 }
+\examples{
+add_bbox_buffer(
+  list(
+    c(lat = 44.04905, lng = -74.01188),
+    c(lat = 44.17609, lng = -73.83493)
+  ),
+  10
+)
+}

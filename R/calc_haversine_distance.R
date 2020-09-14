@@ -14,8 +14,7 @@
 #' calc_haversine_distance(
 #'   c(lat = 44.121268, lng = -73.903734),
 #'   c(lat = 43.121268, lng = -74.903734)
-#'   )
-#'
+#' )
 #' @export
 calc_haversine_distance <- function(point_1, point_2) {
   if (!methods::is(point_1, "terrainr_coordinate_pair")) {
@@ -33,6 +32,10 @@ calc_haversine_distance <- function(point_1, point_2) {
   a <- (sin(delta_lat / 2) * sin(delta_lat / 2)) +
     (cos(lat1_rad) * cos(lat2_rad) * sin(delta_lng / 2) * sin(delta_lng / 2))
   c <- 2 * atan2(sqrt(a), sqrt(1 - a))
+  # c inherits the name "lat" from a
+  # which means this returns a length(1) vector of distance named... "lat"
+  # so we'll get rid of that
+  names(c) <- NULL
 
   return(R * c)
 }

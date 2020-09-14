@@ -19,10 +19,8 @@
 #' )
 #' get_coord_bbox(df, lat, lng)
 #' get_coord_bbox(lat = df$lat, lng = df$lng)
-#'
 #' @export
 get_coord_bbox <- function(data = NULL, lat, lng) {
-
   if (!is.null(data)) {
     lat <- quote(lat)
     lng <- quote(lng)
@@ -37,14 +35,25 @@ get_coord_bbox <- function(data = NULL, lat, lng) {
     warning("NAs present in coordinate data will be ignored.")
   }
 
+
+  # let people get bounding boxes
+  if (length(lat_vals) == 1) {
+    lat_vals <- c(lat_vals - 1e-10, lat_vals + 1e-10)
+  }
+
+  if (length(lng_vals) == 1) {
+    lng_vals <- c(lng_vals - 1e-10, lng_vals + 1e-10)
+  }
+
   minlat <- min(lat_vals, na.rm = TRUE)
   minlng <- min(lng_vals, na.rm = TRUE)
   maxlat <- max(lat_vals, na.rm = TRUE)
   maxlng <- max(lng_vals, na.rm = TRUE)
 
   return(
-    terrainr_bounding_box(c("lat" = minlat, "lng" = minlng),
-                          c("lat" = maxlat, "lng" = maxlng))
+    terrainr_bounding_box(
+      c("lat" = minlat, "lng" = minlng),
+      c("lat" = maxlat, "lng" = maxlng)
     )
+  )
 }
-

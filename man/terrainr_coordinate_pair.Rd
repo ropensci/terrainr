@@ -23,5 +23,4 @@ Construct a terrainr_coordinate_pair object
 }
 \examples{
 terrainr_coordinate_pair(c(44.05003, -74.01164))
-
 }

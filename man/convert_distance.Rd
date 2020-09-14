@@ -6,7 +6,7 @@
 \usage{
 convert_distance(
   distance,
-  distance_unit = c("meters", "kilometers", "miles", "feet")
+  distance_unit = c("meters", "m", "kilometers", "km", "miles", "mi", "feet", "ft")
 )
 }
 \arguments{
@@ -19,5 +19,4 @@ Convert distance into meters
 }
 \examples{
 convert_distance(100, "miles")
-
 }

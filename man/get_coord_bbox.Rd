@@ -32,5 +32,4 @@ df <- data.frame(
 )
 get_coord_bbox(df, lat, lng)
 get_coord_bbox(lat = df$lat, lng = df$lng)
-
 }

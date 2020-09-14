@@ -18,8 +18,9 @@ Convert a terrainr_bounding_box object to a base list
 }
 \examples{
 # Create bounding box from coordinates:
-bbox <- terrainr_bounding_box(bl = c(44.05003, -74.01164),
-                              tr = c(44.17538, -73.83500))
+bbox <- terrainr_bounding_box(
+  bl = c(44.05003, -74.01164),
+  tr = c(44.17538, -73.83500)
+)
 export_bounding_box(bbox)
-
 }
