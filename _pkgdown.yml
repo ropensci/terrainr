@@ -1,0 +1,35 @@
+url: https://mikemahoney218.github.io/terrainr/
+authors:
+  Mike Mahoney:
+    href: https://www.mikemahoney218.com/
+template:
+  params:
+    bootswatch: flatly
+#    ganalytics: UA-127971769-2
+navbar:
+  structure:
+    right:
+    - home
+#    - articles
+    - reference
+#    - tutorials
+#    - news
+    - github
+  components:
+    home:
+      icon: fas fa-home fa-lg
+      href: index.html
+#    articles:
+#      text: Articles
+#      menu:
+#      - text: Introduction to spacey
+#        href: articles/introduction-to-spacey.html
+    reference:
+      text: Reference
+      href: reference/index.html
+#    news:
+#      text: News
+#      href: news/index.html
+    github:
+      icon: fab fa-github fa-lg
+      href: https://github.com/mikemahoney218/terrainr
