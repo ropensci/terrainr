@@ -42,18 +42,26 @@ raster_to_raw_tiles <- function(input_file, output_prefix, side_length = 4097) {
     ))
   }
 
+  x_tiles <- 0:(x_tiles - 1)
+  x_tiles <- (x_tiles * side_length)
+  x_tiles <- x_tiles + (seq_along(x_tiles) - 1)
+
+  y_tiles <- 0:(y_tiles - 1)
+  y_tiles <- (y_tiles * side_length)
+  y_tiles <- y_tiles + (seq_along(y_tiles) - 1)
+
   counter <- 1
 
-  for (i in seq(0, input_raster@nrows, 4097)) {
-    for (j in seq(0, input_raster@ncols, 4097)) {
+  for (i in seq_along(x_tiles)) {
+    for (j in seq_along(y_tiles)) {
       gdalUtils::gdal_translate(input_file, temptiffs[[counter]],
-        srcwin = paste0(i, ", ", j, ", 4097, 4097")
+        srcwin = paste0(x_tiles[[i]], ", ", y_tiles[[j]], ", ", side_length, ", ", side_length)
       )
       names(temptiffs)[[counter]] <- paste0(output_prefix,
                                             "_",
-                                            i,
+                                            x_tiles[[i]],
                                             "_",
-                                            j,
+                                            y_tiles[[j]],
                                             ".raw")
       counter <- counter + 1
     }
