@@ -19,3 +19,12 @@ Convert a terrainr_coordinate_pair object to a base vector
 coord_pair <- terrainr_coordinate_pair(c(44.05003, -74.01164))
 export_coord_pair(coord_pair)
 }
+\seealso{
+Other classes: 
+\code{\link{export_bounding_box}()},
+\code{\link{terrainr_bounding_box-class}},
+\code{\link{terrainr_bounding_box}},
+\code{\link{terrainr_coordinate_pair-class}},
+\code{\link{terrainr_coordinate_pair}}
+}
+\concept{classes}

@@ -1,7 +1,9 @@
-#' Coordinate points in the format expected by [terrainr] functions
+#' S4 class for coordinate points in the format expected by [terrainr] functions
 #'
 #' @slot lat Numeric latitude, in decimal degrees
 #' @slot lng Numeric longitude, in decimal degrees
+#'
+#' @family classes
 #'
 #' @exportClass terrainr_coordinate_pair
 methods::setClass("terrainr_coordinate_pair",
@@ -25,6 +27,8 @@ methods::setClass("terrainr_coordinate_pair",
 #' radians. Degrees stored in radians will be converted to degrees.
 #'
 #' @return A [terrainr::terrainr_coordinate_pair] object
+#'
+#' @family classes
 #'
 #' @examples
 #' terrainr_coordinate_pair(c(44.05003, -74.01164))
@@ -73,6 +77,8 @@ terrainr_coordinate_pair <- function(coords, coord_units = c(
 #'
 #' @return A vector with a coordinate pair in (latitude, longitude) format
 #'
+#' @family classes
+#'
 #' @examples
 #' coord_pair <- terrainr_coordinate_pair(c(44.05003, -74.01164))
 #' export_coord_pair(coord_pair)
@@ -86,12 +92,14 @@ export_coord_pair <- function(coord_pair) {
   }
 }
 
-#' Bounding boxes in the format expected by [terrainr] functions
+#' S4 class for bounding boxes in the format expected by [terrainr] functions
 #'
 #' @slot bl A [terrainr::terrainr_coordinate_pair] representing the bottom left
 #' corner of the bounding box
 #' @slot tr A [terrainr::terrainr_coordinate_pair] representing the top right
 #' corner of the bounding box
+#'
+#' @family classes
 #'
 #' @exportClass terrainr_bounding_box
 methods::setClass("terrainr_bounding_box",
@@ -117,6 +125,8 @@ methods::setClass("terrainr_bounding_box",
 #' objects, these arguments are not used.
 #'
 #' @return A terrainr_bounding_box object
+#'
+#' @family classes
 #'
 #' @examples
 #' # Create bounding box from coordinates:
@@ -160,6 +170,8 @@ terrainr_bounding_box <- function(bl, tr, coord_units = "degrees") {
 #'
 #' @return A list with coordinate pairs representing the lower left and upper
 #' right corners of a bounding box
+#'
+#' @family classes
 #'
 #' @examples
 #' # Create bounding box from coordinates:

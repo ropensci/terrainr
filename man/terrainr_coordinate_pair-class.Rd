@@ -3,9 +3,9 @@
 \docType{class}
 \name{terrainr_coordinate_pair-class}
 \alias{terrainr_coordinate_pair-class}
-\title{Coordinate points in the format expected by [terrainr] functions}
+\title{S4 class for coordinate points in the format expected by [terrainr] functions}
 \description{
-Coordinate points in the format expected by [terrainr] functions
+S4 class for coordinate points in the format expected by [terrainr] functions
 }
 \section{Slots}{
 
@@ -15,3 +15,12 @@ Coordinate points in the format expected by [terrainr] functions
 \item{\code{lng}}{Numeric longitude, in decimal degrees}
 }}
 
+\seealso{
+Other classes: 
+\code{\link{export_bounding_box}()},
+\code{\link{export_coord_pair}()},
+\code{\link{terrainr_bounding_box-class}},
+\code{\link{terrainr_bounding_box}},
+\code{\link{terrainr_coordinate_pair}}
+}
+\concept{classes}

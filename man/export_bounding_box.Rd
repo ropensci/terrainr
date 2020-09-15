@@ -24,3 +24,12 @@ bbox <- terrainr_bounding_box(
 )
 export_bounding_box(bbox)
 }
+\seealso{
+Other classes: 
+\code{\link{export_coord_pair}()},
+\code{\link{terrainr_bounding_box-class}},
+\code{\link{terrainr_bounding_box}},
+\code{\link{terrainr_coordinate_pair-class}},
+\code{\link{terrainr_coordinate_pair}}
+}
+\concept{classes}

@@ -24,3 +24,12 @@ Construct a terrainr_coordinate_pair object
 \examples{
 terrainr_coordinate_pair(c(44.05003, -74.01164))
 }
+\seealso{
+Other classes: 
+\code{\link{export_bounding_box}()},
+\code{\link{export_coord_pair}()},
+\code{\link{terrainr_bounding_box-class}},
+\code{\link{terrainr_bounding_box}},
+\code{\link{terrainr_coordinate_pair-class}}
+}
+\concept{classes}

@@ -3,9 +3,9 @@
 \docType{class}
 \name{terrainr_bounding_box-class}
 \alias{terrainr_bounding_box-class}
-\title{Bounding boxes in the format expected by [terrainr] functions}
+\title{S4 class for bounding boxes in the format expected by [terrainr] functions}
 \description{
-Bounding boxes in the format expected by [terrainr] functions
+S4 class for bounding boxes in the format expected by [terrainr] functions
 }
 \section{Slots}{
 
@@ -17,3 +17,12 @@ corner of the bounding box}
 corner of the bounding box}
 }}
 
+\seealso{
+Other classes: 
+\code{\link{export_bounding_box}()},
+\code{\link{export_coord_pair}()},
+\code{\link{terrainr_bounding_box}},
+\code{\link{terrainr_coordinate_pair-class}},
+\code{\link{terrainr_coordinate_pair}}
+}
+\concept{classes}

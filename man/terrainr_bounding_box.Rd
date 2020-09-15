@@ -37,3 +37,12 @@ terrainr_bounding_box(
   tr = tr_coords
 )
 }
+\seealso{
+Other classes: 
+\code{\link{export_bounding_box}()},
+\code{\link{export_coord_pair}()},
+\code{\link{terrainr_bounding_box-class}},
+\code{\link{terrainr_coordinate_pair-class}},
+\code{\link{terrainr_coordinate_pair}}
+}
+\concept{classes}

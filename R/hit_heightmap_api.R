@@ -23,60 +23,43 @@ hit_heightmap_api <- function(bbox, img.width, img.height, verbose = FALSE) {
   # API endpoint for elevation mapping:
   url <- httr::parse_url("https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer/exportImage")
 
-  counter <- 0
-  get_tif <- function() {
-    res <- httr::GET(url,
-      query = list(
-        bbox = paste(min(
-          first_corner@lng,
-          second_corner@lng
-        ),
-        min(
-          first_corner@lat,
-          second_corner@lat
-        ),
-        max(
-          second_corner@lng,
-          first_corner@lng
-        ),
-        max(
-          second_corner@lat,
-          first_corner@lat
-        ),
-        sep = ","
-        ),
-        bboxSR = 4326,
-        imageSR = 4326,
-        size = paste(img.width, img.height, sep = ","),
-        format = "tiff",
-        pixelType = "F32",
-        noDataInterpretation = "esriNoDataMatchAny",
-        interpolation = "+RSP_BilinearInterpolation",
-        f = "json"
-      )
+  res <- httr::GET(url,
+    query = list(
+      bbox = paste(min(
+        first_corner@lng,
+        second_corner@lng
+      ),
+      min(
+        first_corner@lat,
+        second_corner@lat
+      ),
+      max(
+        second_corner@lng,
+        first_corner@lng
+      ),
+      max(
+        second_corner@lat,
+        first_corner@lat
+      ),
+      sep = ","
+      ),
+      bboxSR = 4326,
+      imageSR = 4326,
+      size = paste(img.width, img.height, sep = ","),
+      format = "tiff",
+      pixelType = "F32",
+      noDataInterpretation = "esriNoDataMatchAny",
+      interpolation = "+RSP_BilinearInterpolation",
+      f = "json"
     )
+  )
 
-    body <- httr::content(res, type = "application/json")
-    Sys.sleep(1)
-    httr::GET(body$href)
-  }
+  body <- httr::content(res, type = "application/json")
+  img_res <- httr::RETRY("GET", url = body$href, times = 15, quiet = !verbose)
 
-  img_res <- NULL
-  counter <- 1
-  while (is.null(img_res) ||
-         (httr::status_code(img_res) != 200 && counter < 15)) {
-    img_res <- get_tif()
-    if (verbose) {
-      message(
-        "Attempt #", counter, ": status code ",
-        httr::status_code(img_res)
-      )
-    }
-    counter <- counter + 1
-  }
   if (httr::status_code(img_res) != 200) {
     # nocov start
-    stop(paste("Map server returned error code", httr::status_code(img_res)))
+    stop("Map server returned error code ", httr::status_code(img_res))
     # nocov end
   }
 
