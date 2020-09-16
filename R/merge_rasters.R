@@ -54,8 +54,22 @@ merge_rasters <- function(input_files, output_file, overwrite = TRUE) {
   ))
   raster::projection(total_extent) <- raster::projection(input_rasters[[1]])
 
-  raster::writeRaster(total_extent, output_file, overwrite = overwrite)
-  gdalUtils::mosaic_rasters(gdalfile = input_files, dst_dataset = output_file)
+  # we're writing an entirely NA raster to file
+  # raster, like a good package should
+  # attempts to warn us about this silly thing we're doing
+  # but we're doing it on purpose, so suppress those warnings
+  suppressWarnings(raster::writeRaster(total_extent,
+    output_file,
+    overwrite = overwrite
+  ))
+  invisible(
+    utils::capture.output(
+      gdalUtils::mosaic_rasters(
+        gdalfile = input_files,
+        dst_dataset = output_file
+        )
+      )
+    )
 
   if (fix_tiff) {
     file.rename(output_file, paste0(output_file, "f"))

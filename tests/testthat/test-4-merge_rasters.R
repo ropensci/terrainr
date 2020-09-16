@@ -6,8 +6,10 @@ test_that("merge_raster files are identical no matter the filename", {
   skip_on_cran()
   tmptif <- lapply(1:3, function(x) tempfile(fileext = ".tif"))
   tmptif[[4]] <- tempfile(fileext = ".tiff")
-  first_tile <- add_bbox_buffer(get_coord_bbox(lat = 44.05003,
-                                               lng = -74.01164), 10)
+  first_tile <- add_bbox_buffer(get_coord_bbox(
+    lat = 44.05003,
+    lng = -74.01164
+  ), 10)
   second_tile <- terrainr_bounding_box(
     bl = c(first_tile@bl@lat, first_tile@tr@lng),
     tr = point_from_distance(first_tile@tr, 10, 90)

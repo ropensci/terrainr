@@ -53,6 +53,9 @@ the output .raw tiles can be easily imported to Unity?}
 \item{save_tif}{Logical: should the DEM raster be saved as a TIF in addition
 to .raw tiles?}
 }
+\value{
+NULL, invisibly
+}
 \description{
 This function combines the main functions in the [terrainr] package to create
 .RAW image tiles of a USGS digital elevation model (DEM) covering an area of

@@ -57,12 +57,14 @@ raster_to_raw_tiles <- function(input_file, output_prefix, side_length = 4097) {
       gdalUtils::gdal_translate(input_file, temptiffs[[counter]],
         srcwin = paste0(x_tiles[[i]], ", ", y_tiles[[j]], ", ", side_length, ", ", side_length)
       )
-      names(temptiffs)[[counter]] <- paste0(output_prefix,
-                                            "_",
-                                            x_tiles[[i]],
-                                            "_",
-                                            y_tiles[[j]],
-                                            ".raw")
+      names(temptiffs)[[counter]] <- paste0(
+        output_prefix,
+        "_",
+        x_tiles[[i]],
+        "_",
+        y_tiles[[j]],
+        ".raw"
+      )
       counter <- counter + 1
     }
   }

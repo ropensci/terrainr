@@ -1,5 +1,5 @@
 test_that("single coordinate bounding boxes are allowed", {
-  get_coord_bbox(lat = 44.05003, lng = -74.01164)
+  expect_error(get_coord_bbox(lat = 44.05003, lng = -74.01164), NA)
 })
 
 test_that("NA coordinates get a warning", {

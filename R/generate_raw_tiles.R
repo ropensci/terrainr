@@ -30,7 +30,7 @@
 #' @param save_tif Logical: should the DEM raster be saved as a TIF in addition
 #' to .raw tiles?
 #'
-#' @return NULL
+#' @return NULL, invisibly
 #'
 #' @export
 generate_raw_tiles <- function(data = NULL, lat = NULL, lng = NULL,
@@ -54,5 +54,5 @@ generate_raw_tiles <- function(data = NULL, lat = NULL, lng = NULL,
   if (is.null(tif_filename)) stop("Please provide a tif_filename to save TIFF")
   get_heightmap(bbox, tif_filename)
   raster_to_raw_tiles(tif_filename, raw_output_prefix)
-  return(NULL)
+  return(invisible(NULL))
 }

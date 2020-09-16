@@ -43,8 +43,10 @@ get_heightmap <- function(bbox,
   x_tiles <- ceiling(img_width / 8000)
   y_tiles <- ceiling(img_height / 8000)
 
-  tile_boxes <- lapply(vector("list", x_tiles),
-                       function(x) vector("list", y_tiles))
+  tile_boxes <- lapply(
+    vector("list", x_tiles),
+    function(x) vector("list", y_tiles)
+  )
 
   for (i in 1:x_tiles) {
     if (i == x_tiles) {
