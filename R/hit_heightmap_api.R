@@ -8,7 +8,9 @@
 #'
 #' @examples
 #' \dontrun{
-#' # TODO: write examples
+#' hit_heightmap_api(list(c(44.10438, -74.01231), c(44.17633, -73.91224)),
+#'                   8000,
+#'                   8000)
 #' }
 #'
 #' @export

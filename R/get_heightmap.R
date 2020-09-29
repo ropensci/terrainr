@@ -92,10 +92,17 @@ get_heightmap <- function(bbox,
   }
 
   file_counter <- 0
+  if (verbose) message("Retriving heightmap data.")
+  if (any(grepl("progressr", installed.packages()))) {
+    p <- progressr::progressor(steps = x_tiles * y_tiles)
+  }
   for (i in 1:x_tiles) {
     for (j in 1:y_tiles) {
       file_counter <- file_counter + 1
       current_box <- tile_boxes[[i]][[j]]
+      if (any(grepl("progressr", installed.packages()))) {
+        p(message = sprintf("Retriving tile (%d,%d)", i, j))
+      }
       img_bin <- hit_heightmap_api(current_box[["bbox"]],
         current_box[["img_width"]],
         current_box[["img_height"]],
@@ -107,5 +114,5 @@ get_heightmap <- function(bbox,
   }
 
   invisible(merge_rasters(tempfiles, output_file))
-  return(invisible(output_file))
+  return(invisible(bbox))
 }

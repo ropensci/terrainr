@@ -9,3 +9,5 @@
 ^pkgdown$
 ^codecov\.yml$
 TODO.R
+^dev\.Rmd$
+^testing
