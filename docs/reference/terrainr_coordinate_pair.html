@@ -118,7 +118,7 @@
     <p>Construct a terrainr_coordinate_pair object</p>
     </div>
 
-    <pre class="usage"><span class='fu'>terrainr_coordinate_pair</span>(<span class='no'>coords</span>, <span class='kw'>coord_units</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"degrees"</span>, <span class='st'>"radians"</span>))</pre>
+    <pre class="usage"><span class='fu'>terrainr_coordinate_pair</span><span class='op'>(</span><span class='va'>coords</span>, coord_units <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"degrees"</span>, <span class='st'>"radians"</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -150,7 +150,8 @@ radians. Degrees stored in radians will be converted to degrees.</p></td>
 <code><a href='terrainr_coordinate_pair-class.html'>terrainr_coordinate_pair-class</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>terrainr_coordinate_pair</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>44.05003</span>, -<span class='fl'>74.01164</span>))</div><div class='output co'>#&gt; <span class='message'>Note: assuming unnamed coordinate vector is in (lat, lng) format</span></div><div class='output co'>#&gt; An object of class "terrainr_coordinate_pair"
+    <pre class="examples"><div class='input'><span class='fu'>terrainr_coordinate_pair</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>44.05003</span>, <span class='op'>-</span><span class='fl'>74.01164</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Note: assuming unnamed coordinate vector is in (lat, lng) format</span></div><div class='output co'>#&gt; An object of class "terrainr_coordinate_pair"
 #&gt; Slot "lat":
 #&gt; [1] 44.05003
 #&gt; 
@@ -172,7 +173,7 @@ radians. Degrees stored in radians will be converted to degrees.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

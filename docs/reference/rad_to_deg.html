@@ -118,7 +118,7 @@
     <p>Convert radians to degrees</p>
     </div>
 
-    <pre class="usage"><span class='fu'>rad_to_deg</span>(<span class='no'>rad</span>)</pre>
+    <pre class="usage"><span class='fu'>rad_to_deg</span><span class='op'>(</span><span class='va'>rad</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -134,7 +134,9 @@
     <p>A vector of the same length in decimal degrees</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>rad_to_deg</span>(<span class='fl'>2</span> * <span class='kw pkg'>base</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/r/base/Constants.html'>pi</a></span>)</div><div class='output co'>#&gt; [1] 360</div><div class='input'><span class='fu'>rad_to_deg</span>(<span class='fu'><a href='deg_to_rad.html'>deg_to_rad</a></span>(<span class='fl'>360</span>))</div><div class='output co'>#&gt; [1] 360</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>rad_to_deg</span><span class='op'>(</span><span class='fl'>2</span> <span class='op'>*</span> <span class='fu'>base</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/base/Constants.html'>pi</a></span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 360</div><div class='input'><span class='fu'>rad_to_deg</span><span class='op'>(</span><span class='fu'><a href='deg_to_rad.html'>deg_to_rad</a></span><span class='op'>(</span><span class='fl'>360</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 360</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -150,7 +152,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

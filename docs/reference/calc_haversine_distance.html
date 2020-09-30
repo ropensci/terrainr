@@ -120,7 +120,7 @@ coordinate pairs." />
 coordinate pairs.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>calc_haversine_distance</span>(<span class='no'>point_1</span>, <span class='no'>point_2</span>)</pre>
+    <pre class="usage"><span class='fu'>calc_haversine_distance</span><span class='op'>(</span><span class='va'>point_1</span>, <span class='va'>point_2</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -137,10 +137,11 @@ names "lat" and "lng") to calculate distance between.</p></td>
     <p>A vector of length 2 containing object latitude and longitude</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>calc_haversine_distance</span>(
-  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>lat</span> <span class='kw'>=</span> <span class='fl'>44.121268</span>, <span class='kw'>lng</span> <span class='kw'>=</span> -<span class='fl'>73.903734</span>),
-  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>lat</span> <span class='kw'>=</span> <span class='fl'>43.121268</span>, <span class='kw'>lng</span> <span class='kw'>=</span> -<span class='fl'>74.903734</span>)
-)</div><div class='output co'>#&gt; [1] 137270.5</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>calc_haversine_distance</span><span class='op'>(</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>lat <span class='op'>=</span> <span class='fl'>44.121268</span>, lng <span class='op'>=</span> <span class='op'>-</span><span class='fl'>73.903734</span><span class='op'>)</span>,
+  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>lat <span class='op'>=</span> <span class='fl'>43.121268</span>, lng <span class='op'>=</span> <span class='op'>-</span><span class='fl'>74.903734</span><span class='op'>)</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 137270.5</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -156,7 +157,7 @@ names "lat" and "lng") to calculate distance between.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

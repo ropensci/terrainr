@@ -118,7 +118,7 @@
     <p>Construct a terrainr_bounding_box object</p>
     </div>
 
-    <pre class="usage"><span class='fu'>terrainr_bounding_box</span>(<span class='no'>bl</span>, <span class='no'>tr</span>, <span class='kw'>coord_units</span> <span class='kw'>=</span> <span class='st'>"degrees"</span>)</pre>
+    <pre class="usage"><span class='fu'>terrainr_bounding_box</span><span class='op'>(</span><span class='va'>bl</span>, <span class='va'>tr</span>, coord_units <span class='op'>=</span> <span class='st'>"degrees"</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -153,10 +153,11 @@ objects, these arguments are not used.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Create bounding box from coordinates:</span>
-<span class='fu'>terrainr_bounding_box</span>(
-  <span class='kw'>bl</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>44.05003</span>, -<span class='fl'>74.01164</span>),
-  <span class='kw'>tr</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>44.17538</span>, -<span class='fl'>73.83500</span>)
-)</div><div class='output co'>#&gt; <span class='message'>Note: assuming unnamed coordinate vector is in (lat, lng) format</span></div><div class='output co'>#&gt; <span class='message'>Note: assuming unnamed coordinate vector is in (lat, lng) format</span></div><div class='output co'>#&gt; An object of class "terrainr_bounding_box"
+<span class='fu'>terrainr_bounding_box</span><span class='op'>(</span>
+  bl <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>44.05003</span>, <span class='op'>-</span><span class='fl'>74.01164</span><span class='op'>)</span>,
+  tr <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>44.17538</span>, <span class='op'>-</span><span class='fl'>73.83500</span><span class='op'>)</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Note: assuming unnamed coordinate vector is in (lat, lng) format</span></div><div class='output co'>#&gt; <span class='message'>Note: assuming unnamed coordinate vector is in (lat, lng) format</span></div><div class='output co'>#&gt; An object of class "terrainr_bounding_box"
 #&gt; Slot "bl":
 #&gt; An object of class "terrainr_coordinate_pair"
 #&gt; Slot "lat":
@@ -175,10 +176,13 @@ objects, these arguments are not used.</p></td>
 #&gt; [1] -73.835
 #&gt; 
 #&gt; </div><div class='input'><span class='co'># This is identical to:</span>
-<span class='no'>bl_coords</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='terrainr_coordinate_pair.html'>terrainr_coordinate_pair</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>44.05003</span>, -<span class='fl'>74.01164</span>))</div><div class='output co'>#&gt; <span class='message'>Note: assuming unnamed coordinate vector is in (lat, lng) format</span></div><div class='input'><span class='no'>tr_coords</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='terrainr_coordinate_pair.html'>terrainr_coordinate_pair</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>44.17538</span>, -<span class='fl'>73.83500</span>))</div><div class='output co'>#&gt; <span class='message'>Note: assuming unnamed coordinate vector is in (lat, lng) format</span></div><div class='input'><span class='fu'>terrainr_bounding_box</span>(
-  <span class='kw'>bl</span> <span class='kw'>=</span> <span class='no'>bl_coords</span>,
-  <span class='kw'>tr</span> <span class='kw'>=</span> <span class='no'>tr_coords</span>
-)</div><div class='output co'>#&gt; An object of class "terrainr_bounding_box"
+<span class='va'>bl_coords</span> <span class='op'>&lt;-</span> <span class='fu'><a href='terrainr_coordinate_pair.html'>terrainr_coordinate_pair</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>44.05003</span>, <span class='op'>-</span><span class='fl'>74.01164</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Note: assuming unnamed coordinate vector is in (lat, lng) format</span></div><div class='input'><span class='va'>tr_coords</span> <span class='op'>&lt;-</span> <span class='fu'><a href='terrainr_coordinate_pair.html'>terrainr_coordinate_pair</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>44.17538</span>, <span class='op'>-</span><span class='fl'>73.83500</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Note: assuming unnamed coordinate vector is in (lat, lng) format</span></div><div class='input'><span class='fu'>terrainr_bounding_box</span><span class='op'>(</span>
+  bl <span class='op'>=</span> <span class='va'>bl_coords</span>,
+  tr <span class='op'>=</span> <span class='va'>tr_coords</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; An object of class "terrainr_bounding_box"
 #&gt; Slot "bl":
 #&gt; An object of class "terrainr_coordinate_pair"
 #&gt; Slot "lat":
@@ -212,7 +216,7 @@ objects, these arguments are not used.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

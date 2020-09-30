@@ -118,7 +118,7 @@
     <p>Merge multiple raster files into a single raster</p>
     </div>
 
-    <pre class="usage"><span class='fu'>merge_rasters</span>(<span class='no'>input_files</span>, <span class='no'>output_file</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>merge_rasters</span><span class='op'>(</span><span class='va'>input_files</span>, <span class='va'>output_file</span>, overwrite <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -140,25 +140,27 @@ rasters to merge.</p></td>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>tile_1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='terrainr_bounding_box.html'>terrainr_bounding_box</a></span>(
-  <span class='kw'>bl</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>44.10379</span>, -<span class='fl'>74.01177</span>),
-  <span class='kw'>tr</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>44.17573</span>, -<span class='fl'>73.91171</span>)
-)
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>tile_1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='terrainr_bounding_box.html'>terrainr_bounding_box</a></span><span class='op'>(</span>
+  bl <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>44.10379</span>, <span class='op'>-</span><span class='fl'>74.01177</span><span class='op'>)</span>,
+  tr <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>44.17573</span>, <span class='op'>-</span><span class='fl'>73.91171</span><span class='op'>)</span>
+<span class='op'>)</span>
 
-<span class='no'>tile_2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='terrainr_bounding_box.html'>terrainr_bounding_box</a></span>(
-  <span class='kw'>bl</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>44.03184</span>, -<span class='fl'>74.01177</span>),
-  <span class='kw'>tr</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>44.10379</span>, -<span class='fl'>73.91171</span>)
-)
-<span class='no'>raster_files</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(), <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>())
-<span class='no'>img_bin</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(
-  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>tile_1</span>, <span class='no'>tile_2</span>),
-  <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='hit_heightmap_api.html'>hit_heightmap_api</a></span>(<span class='no'>x</span>, <span class='fl'>8000</span>, <span class='fl'>8000</span>)
-)
-<span class='fu'><a href='https://rdrr.io/r/base/readBin.html'>writeBin</a></span>(<span class='no'>img_bin</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='no'>raster_files</span><span class='kw'>[[</span><span class='fl'>1</span>]])
-<span class='fu'><a href='https://rdrr.io/r/base/readBin.html'>writeBin</a></span>(<span class='no'>img_bin</span><span class='kw'>[[</span><span class='fl'>2</span>]], <span class='no'>raster_files</span><span class='kw'>[[</span><span class='fl'>2</span>]])
-<span class='fu'>merge_rasters</span>(<span class='no'>raster_files</span>, <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>())
-}</div></pre>
+<span class='va'>tile_2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='terrainr_bounding_box.html'>terrainr_bounding_box</a></span><span class='op'>(</span>
+  bl <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>44.03184</span>, <span class='op'>-</span><span class='fl'>74.01177</span><span class='op'>)</span>,
+  tr <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>44.10379</span>, <span class='op'>-</span><span class='fl'>73.91171</span><span class='op'>)</span>
+<span class='op'>)</span>
+<span class='va'>raster_files</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>img_bin</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>tile_1</span>, <span class='va'>tile_2</span><span class='op'>)</span>,
+  <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='hit_heightmap_api.html'>hit_heightmap_api</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='fl'>8000</span>, <span class='fl'>8000</span><span class='op'>)</span>
+<span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/readBin.html'>writeBin</a></span><span class='op'>(</span><span class='va'>img_bin</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>, <span class='va'>raster_files</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/readBin.html'>writeBin</a></span><span class='op'>(</span><span class='va'>img_bin</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span>, <span class='va'>raster_files</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
+<span class='fu'>merge_rasters</span><span class='op'>(</span><span class='va'>raster_files</span>, <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -174,7 +176,7 @@ rasters to merge.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
