@@ -124,9 +124,9 @@ interest.</p>
 
     <pre class="usage"><span class='fu'>generate_raw_tiles</span><span class='op'>(</span>
   data <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>raw_output_prefix</span>,
   lat <span class='op'>=</span> <span class='cn'>NULL</span>,
   lng <span class='op'>=</span> <span class='cn'>NULL</span>,
-  <span class='va'>raw_output_prefix</span>,
   bbox <span class='op'>=</span> <span class='cn'>NULL</span>,
   buffer_distance <span class='op'>=</span> <span class='cn'>NULL</span>,
   distance_unit <span class='op'>=</span> <span class='st'>"meters"</span>,
@@ -144,6 +144,13 @@ interest.</p>
 longitude.</p></td>
     </tr>
     <tr>
+      <th>raw_output_prefix</th>
+      <td><p>A string indicating the prefix to label output files
+with. Files are named in the pattern <code>output_prefix_x_y.raw</code> where
+<code>x</code> and <code>y</code> are the x and y position in pixels of the upper left
+corner.</p></td>
+    </tr>
+    <tr>
       <th>lat</th>
       <td><p>If <code>data</code> is not <code>NULL</code>, the name of the column
 containing latitude values. If <code>data</code> is <code>NULL</code>, a vector of
@@ -154,13 +161,6 @@ latitude values.</p></td>
       <td><p>If <code>data</code> is not <code>NULL</code>, the name of the column
 containing longitude values. If <code>data</code> is <code>NULL</code>, a vector of
 longitude values.</p></td>
-    </tr>
-    <tr>
-      <th>raw_output_prefix</th>
-      <td><p>A string indicating the prefix to label output files
-with. Files are named in the pattern <code>output_prefix_x_y.raw</code> where
-<code>x</code> and <code>y</code> are the x and y position in pixels of the upper left
-corner.</p></td>
     </tr>
     <tr>
       <th>bbox</th>

@@ -6,8 +6,10 @@
 #' @param input_file File path to the input GeoTIFF file to convert.
 #' @param output_prefix The file path to prefix output tiles with.
 #' @param side_length The side length, in pixels, for the .raw tiles.
+#' @param raw Logical: Convert the cropped tiles to .raw? Set to FALSE when
+#' you want .png outputs (such as when working with orthoimages).
 #'
-#' @return NULL
+#' @return NULL, invisibly
 #'
 #' @examples
 #' \dontrun{
@@ -26,7 +28,10 @@
 #' }
 #'
 #' @export
-raster_to_raw_tiles <- function(input_file, output_prefix, side_length = 4097) {
+raster_to_raw_tiles <- function(input_file,
+                                output_prefix,
+                                side_length = 4097,
+                                raw = TRUE) {
   input_raster <- raster::raster(input_file)
   max_raster <- raster::cellStats(input_raster, "max")
 
@@ -47,11 +52,10 @@ raster_to_raw_tiles <- function(input_file, output_prefix, side_length = 4097) {
 
   x_tiles <- 0:(x_tiles - 1)
   x_tiles <- (x_tiles * side_length)
-  x_tiles <- x_tiles + (seq_along(x_tiles) - 1)
 
   y_tiles <- 0:(y_tiles - 1)
   y_tiles <- (y_tiles * side_length)
-  y_tiles <- y_tiles + (seq_along(y_tiles) - 1)
+
 
   counter <- 1
 
@@ -69,20 +73,25 @@ raster_to_raw_tiles <- function(input_file, output_prefix, side_length = 4097) {
         x_tiles[[i]],
         "_",
         y_tiles[[j]],
-        ".raw"
+        ifelse(raw, ".raw", ".png")
       )
       counter <- counter + 1
     }
   }
 
   temppngs <- NULL
-  while (length(temppngs) != length(temptiffs)) {
-    temppngs <- unique(vapply(
-      seq_along(temptiffs),
-      function(x) tempfile(fileext = ".png"),
-      character(1)
-    ))
+  if (raw) {
+    while (length(temppngs) != length(temptiffs)) {
+      temppngs <- unique(vapply(
+        seq_along(temptiffs),
+        function(x) tempfile(fileext = ".png"),
+        character(1)
+      ))
+    }
+  } else {
+    temppngs <- names(temptiffs)
   }
+
   names(temppngs) <- names(temptiffs)
 
   mapply(function(x, y) {
@@ -101,20 +110,34 @@ raster_to_raw_tiles <- function(input_file, output_prefix, side_length = 4097) {
   temptiffs,
   temppngs)
 
-  mapply(function(x, y) {
-    if (any(grepl("progressr", installed.packages()))) {
-      p(message = sprintf("Converting tile %s to RAW", x))
-    }
-    processing_image <- magick::image_read(x)
-    processing_image <- magick::image_flop(processing_image)
-    processing_image <- magick::image_convert(processing_image,
-                                              format = "RGB",
-                                              depth = 16,
-                                              interlace = "Plane"
-    )
-    magick::image_write(processing_image, y)
-  },
-  temppngs,
-  names(temppngs))
+    mapply(function(x, y) {
+      processing_image <- magick::image_read(x)
+
+      if (any(grepl("progressr", installed.packages()))) {
+        if (raw) {
+          p(message = sprintf("Converting tile %s to RAW", x))
+        } else {
+          p(message = sprintf("Flipping tile %s for Unity", x))
+        }
+      }
+
+      if (raw) {
+        processing_image <- magick::image_flop(processing_image)
+        processing_image <- magick::image_convert(processing_image,
+                                                  format = "RGB",
+                                                  depth = 16,
+                                                  interlace = "Plane"
+        )
+      } else {
+        processing_image <- magick::image_flip(processing_image)
+        processing_image <- magick::image_flop(processing_image)
+      }
+
+      magick::image_write(processing_image, y)
+    },
+    temppngs,
+    names(temppngs))
+
+  return(invisible(NULL))
 
 }

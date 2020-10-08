@@ -124,9 +124,8 @@ Tiles are downloaded at a resolution of 1 meter per pixel.</p>
 
     <pre class="usage"><span class='fu'>get_tiles</span><span class='op'>(</span>
   <span class='va'>bbox</span>,
-  <span class='va'>output_prefix</span>,
-  <span class='va'>side_length</span>,
-  extend <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  output_prefix <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span>,
+  side_length <span class='op'>=</span> <span class='cn'>NULL</span>,
   elevation <span class='op'>=</span> <span class='cn'>TRUE</span>,
   ortho <span class='op'>=</span> <span class='cn'>FALSE</span>,
   verbose <span class='op'>=</span> <span class='cn'>FALSE</span>
@@ -151,13 +150,12 @@ of the area to retrieve a heightmap for. If not a
 of tiles to download.</p></td>
     </tr>
     <tr>
-      <th>extend</th>
-      <td><p>Logical: if the side length of the bounding box isn't divisible
-by <code>side_length</code>, should it be extended to be divisible?</p></td>
+      <th>elevation</th>
+      <td><p>Logical: download elevation tiles for the specified area?</p></td>
     </tr>
     <tr>
-      <th>elevation</th>
-      <td><p>Logical: download elevation tiles for the</p></td>
+      <th>ortho</th>
+      <td><p>Logical: download orthoimagery tiles for the specified area?</p></td>
     </tr>
     <tr>
       <th>verbose</th>
@@ -167,7 +165,8 @@ by <code>side_length</code>, should it be extended to be divisible?</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The original bounding box, invisibly.</p>
+    <p>A list of length 2 with names `elevation` and `ortho` containing the
+file paths elevation and orthoimagery files were saved to, respectively.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
@@ -179,7 +178,7 @@ by <code>side_length</code>, should it be extended to be divisible?</p></td>
 
 <span class='va'>bbox</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_coord_bbox.html'>get_coord_bbox</a></span><span class='op'>(</span>lat <span class='op'>=</span> <span class='va'>simulated_data</span><span class='op'>$</span><span class='va'>lat</span>, lng <span class='op'>=</span> <span class='va'>simulated_data</span><span class='op'>$</span><span class='va'>lng</span><span class='op'>)</span>
 <span class='va'>bbox</span> <span class='op'>&lt;-</span> <span class='fu'><a href='add_bbox_buffer.html'>add_bbox_buffer</a></span><span class='op'>(</span><span class='va'>bbox</span>, <span class='fl'>100</span><span class='op'>)</span>
-<span class='va'>bbox</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_unity_friendly.html'>make_unity_friendly</a></span><span class='op'>(</span><span class='va'>bbox</span><span class='op'>)</span>
+<span class='va'>bbox</span> <span class='op'>&lt;-</span> <span class='fu'>make_unity_friendly</span><span class='op'>(</span><span class='va'>bbox</span><span class='op'>)</span>
 <span class='fu'>get_tiles</span><span class='op'>(</span><span class='va'>bbox</span>, <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='fl'>4096</span><span class='op'>)</span>
 <span class='op'>}</span>
 

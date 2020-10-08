@@ -4,7 +4,7 @@
 \alias{raster_to_raw_tiles}
 \title{Convert raster file into .raw image tiles}
 \usage{
-raster_to_raw_tiles(input_file, output_prefix, side_length = 4097)
+raster_to_raw_tiles(input_file, output_prefix, side_length = 4097, raw = TRUE)
 }
 \arguments{
 \item{input_file}{File path to the input GeoTIFF file to convert.}
@@ -12,6 +12,12 @@ raster_to_raw_tiles(input_file, output_prefix, side_length = 4097)
 \item{output_prefix}{The file path to prefix output tiles with.}
 
 \item{side_length}{The side length, in pixels, for the .raw tiles.}
+
+\item{raw}{Logical: Convert the cropped tiles to .raw? Set to FALSE when
+you want .png outputs (such as when working with orthoimages).}
+}
+\value{
+NULL, invisibly
 }
 \description{
 This function converts raster objects (stored as GeoTIFF files) into .raw

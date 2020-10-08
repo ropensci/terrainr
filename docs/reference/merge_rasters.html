@@ -118,23 +118,42 @@
     <p>Merge multiple raster files into a single raster</p>
     </div>
 
-    <pre class="usage"><span class='fu'>merge_rasters</span><span class='op'>(</span><span class='va'>input_files</span>, <span class='va'>output_file</span>, overwrite <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>merge_rasters</span><span class='op'>(</span>
+  <span class='va'>input_heightmaps</span>,
+  <span class='va'>output_heightmap</span>,
+  input_orthos <span class='op'>=</span> <span class='cn'>NULL</span>,
+  output_ortho <span class='op'>=</span> <span class='cn'>NULL</span>,
+  overwrite <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>input_files</th>
+      <th>input_heightmaps</th>
       <td><p>A character vector containing the file paths to the
-rasters to merge.</p></td>
+elevation height maps to merge.</p></td>
     </tr>
     <tr>
-      <th>output_file</th>
-      <td><p>The file path to save the merged raster file to.</p></td>
+      <th>output_heightmap</th>
+      <td><p>The file path to save the merged elevation raster to.
+Must be a TIFF file.</p></td>
+    </tr>
+    <tr>
+      <th>input_orthos</th>
+      <td><p>A character vector, the same length as <code>input_heightmaps</code>,
+containing the file paths to the orthoimages to merge. It's assumed that each
+orthoimage in the vector corresponds to the height map in the same position
+in input_heightmaps. If you don't want to merge any orthoimages, set to NULL.</p></td>
+    </tr>
+    <tr>
+      <th>output_ortho</th>
+      <td><p>The file path to save the merged orthoimage to.
+Must be a TIFF file. Set to NULL if you aren't merging orthoimages.</p></td>
     </tr>
     <tr>
       <th>overwrite</th>
-      <td><p>Logical: overwrite output_file if it exists?</p></td>
+      <td><p>Logical: overwrite the output files if they exist?</p></td>
     </tr>
     </table>
 
