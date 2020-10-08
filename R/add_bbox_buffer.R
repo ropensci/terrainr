@@ -5,10 +5,12 @@
 #' to using great circle distance, calculations will not be exact.
 #'
 #' @param bbox The original bounding box to add a buffer around. If not already
-#' a [terrainr::terrainr_bounding_box] object, will be converted.
+#' a [terrainr_bounding_box] object, will be converted.
 #' @param distance The distance to add to the buffer.
 #' @param distance_unit The units of the distance to add to the buffer, passed
-#' to [terrainr::convert_distance].
+#' to [convert_distance].
+#'
+#' @return A \code{\link{terrainr_bounding_box}} object.
 #'
 #' @examples
 #' add_bbox_buffer(
