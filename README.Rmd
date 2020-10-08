@@ -16,47 +16,96 @@ knitr::opts_chunk$set(
 # terrainr
 
 <!-- badges: start -->
-[![R build status](https://github.com/mikemahoney218/terrainr/workflows/R-CMD-check/badge.svg)](https://github.com/mikemahoney218/terrainr/actions)
-[![Codecov test coverage](https://codecov.io/gh/mikemahoney218/terrainr/branch/master/graph/badge.svg)](https://codecov.io/gh/mikemahoney218/terrainr?branch=master)
+
 <!-- badges: end -->
 
-The goal of terrainr is to ...
+## Overview
+
+terrainr makes it easy to identify your area of interest from point data, 
+retrieve data for that area from the National Map API, and then process that 
+data into larger, joined images or crop it into tiles that can be imported into 
+the Unity rendering engine.
+
+At the absolute simplest level, terrainr provides a convenient and consistent 
+API to downloading data from the National Map, currently supporting downloading 
+DEMs from the 3D Elevation Program and orthoimages from the National Agriculture
+Imagery Program.
+
+```{r}
+library(terrainr)
+bbox <- list(c(lat = 44.13926, lng = -74.01099),
+             c(lat = 44.17609, lng = -73.95974))
+bbox <- add_bbox_buffer(bbox, 100)
+             
+output_tiles <- get_tiles(bbox = bbox,
+                          services = c("elevation", "ortho"))
+
+# output_tiles is now a list of two vectors pointing to the elevation and 
+# orthoimagery tiles we just downloaded -- here we're displaying the first
+# of the ortho tiles
+raster::plot(raster::raster(output_tiles[[2]][[1]]))
+```
+
+Once downloaded, these images are in standard GeoTIFF or PNG formats and can be
+used as expected with other utilities:
+
+```{r}
+raster_read <- raster::raster(output_tiles[[1]][[1]])
+raster::plot(raster_read)
+```
+
+Additionally, terrainr provides functions to transform these tiles into RAW 
+images ready to be imported into the Unity rendering engine, allowing you to 
+fly or walk through your downloaded data sets:
+
+```{r, results = FALSE}
+merged_dem <- tempfile(fileext = ".tif")
+merged_ortho <- tempfile(fileext = ".tif")
+merge_rasters(output_tiles[[1]], 
+              merged_dem,
+              output_tiles[[2]],
+              merged_ortho)
+
+mapply(
+  function(x, y) raster_to_raw_tiles(input_file = x, 
+                                     output_prefix = "marcy", 
+                                     side_length = 4096, 
+                                     raw = y),
+  c(merged_dem, merged_ortho),
+  c(TRUE, FALSE)
+  )
+```
+
+
+
+```{r}
+# With about two minutes of movie magic (loading the files into Unity), 
+# we can turn that into:
+
+```
+
+
+terrainr also includes functionality to merge and crop the files you've 
+downloaded, and to resize your area of interest so you're sure to download 
+exactly the area you want. Additionally, the more time intensive processing 
+steps can all be monitored via the [progressr](https://github.com/HenrikBengtsson/progressr)
+package, so you'll be more confident that your computer is still churning along
+and not just hung. For more information, check out 
+[the introductory vignette!](https://mikemahoney218.github.io/terrainr/articles/overview.html)
 
 ## Installation
 
-You can install the released version of terrainr from [CRAN](https://CRAN.R-project.org) with:
-
-``` r
-install.packages("terrainr")
-```
-
-And the development version from [GitHub](https://github.com/) with:
+You can install the development version of terrainr from [GitHub](https://github.com/mikemahoney218/terrainr) 
+with:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("mikemahoney218/terrainr")
 ```
-## Example
 
-This is a basic example which shows you how to solve a common problem:
+If you're planning on using `raster_to_raw_tiles()`, you'll also need to install
+the development version of the `magick` package for the time being:
 
-```{r example}
-library(terrainr)
-## basic example code
+``` r
+devtools::install_github("ropensci/magick")
 ```
-
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
-
-```{r cars}
-summary(cars)
-```
-
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date.
-
-You can also embed plots, for example:
-
-```{r pressure, echo = FALSE}
-plot(pressure)
-```
-
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub!

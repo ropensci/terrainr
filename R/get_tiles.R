@@ -1,21 +1,34 @@
-#' Get USGS elevation and imagery tiles for an area
+#' A user-friendly way to get USGS National Map data tiles for an area
 #'
 #' This function splits the area contained within a bounding box into a set of
-#' tiles, and retrieves USGS 3DEP heightmaps and NAIP orthoimagery for each tile.
-#' Tiles are downloaded at a resolution of 1 meter per pixel.
+#' tiles, and retrieves data from the USGS National map for each tile.
 #'
 #' @param bbox A bounding box representing the lower left and upper right corner
 #' of the area to retrieve a heightmap for. If not a
-#' [terrainr::terrainr_bounding_box] object, it will be coerced to one.
+#' \code{\link{terrainr_bounding_box}} object, it will be coerced to one.
 #' @param output_prefix The file prefix to use when saving tiles.
-#' @param side_length The length, in meters (and therefore pixels), of each side
-#' of tiles to download.
-#' @param elevation Logical: download elevation tiles for the specified area?
-#' @param ortho Logical: download orthoimagery tiles for the specified area?
+#' @param side_length The length, in meters, of each side of tiles to download.
+#' If \code{NULL}, defaults to the maximum side length permitted by the least
+#' permissive service requested.
+#' @param services A character vector of services to download data from. Current
+#' options include "3DEPElevation" and "USGSNAIPPlus". Users can also use short
+#' codes to download a specific type of data without specifying the source;
+#' current options for short codes include "elevation" (equivalent to
+#' "3DEPElevation") and "ortho" (equivalent to "USGSNAIPPlus). Short codes are
+#' not guaranteed to refer to the same source across releases. Short codes are
+#' converted to their service name and then duplicates are removed, so any given
+#' source will only be queried once per tile.
 #' @param verbose Logical: should tile retrieval functions run in verbose mode?
+#' @param ... Additional arguments passed to \code{\link{hit_national_map_api}}.
+#' These can be used to change default query parameters or as additional options
+#' for the National Map services, but are at no point validated, so use at your
+#' own risk!
 #'
-#' @return A list of length 2 with names `elevation` and `ortho` containing the
-#' file paths elevation and orthoimagery files were saved to, respectively.
+#' @family data retrieval functions
+#'
+#' @return A list of the same length as the number of unique services requested,
+#' containing named vectors of where data files were saved to. Returned
+#' invisibly.
 #'
 #' @examples
 #' \dontrun{
@@ -27,8 +40,7 @@
 #'
 #' bbox <- get_coord_bbox(lat = simulated_data$lat, lng = simulated_data$lng)
 #' bbox <- add_bbox_buffer(bbox, 100)
-#' bbox <- make_unity_friendly(bbox)
-#' get_tiles(bbox, tempfile(), 4096)
+#' get_tiles(bbox, tempfile())
 #' }
 #'
 #' @export
@@ -36,7 +48,8 @@ get_tiles <- function(bbox,
                       output_prefix = tempfile(),
                       side_length = NULL,
                       services = "elevation",
-                      verbose = FALSE) {
+                      verbose = FALSE,
+                      ...) {
 
   # short codes are assigned as names; we'll cast them into the full name later
   list_of_services <- c("elevation" = "3DEPElevation",
@@ -142,7 +155,8 @@ get_tiles <- function(bbox,
                                         current_box[["img_width"]],
                                         current_box[["img_height"]],
                                         services[[k]],
-                                        verbose = verbose
+                                        verbose = verbose,
+                                        ...
                                         )
 
         writeBin(img_bin, paste0(output_prefix,

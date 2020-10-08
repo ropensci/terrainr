@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert raster file into .raw image tiles — raster_to_raw_tiles • terrainr</title>
+<title>Crop a raster and convert the output tiles into new formats. — raster_to_raw_tiles • terrainr</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,10 @@
 
 
 
-<meta property="og:title" content="Convert raster file into .raw image tiles — raster_to_raw_tiles" />
-<meta property="og:description" content="This function converts raster objects (stored as GeoTIFF files) into .raw
-image square tiles." />
+<meta property="og:title" content="Crop a raster and convert the output tiles into new formats. — raster_to_raw_tiles" />
+<meta property="og:description" content="This function crops input raster files into smaller square tiles and then
+converts them into either .png or .raw files which are ready to be imported
+into the Unity game engine." />
 
 
 
@@ -73,7 +74,7 @@ image square tiles." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">terrainr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9001</span>
       </span>
     </div>
 
@@ -87,6 +88,18 @@ image square tiles." />
     <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Vignettes
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/overview.html">A Gentle Introduction to terrainr</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -110,14 +123,15 @@ image square tiles." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert raster file into .raw image tiles</h1>
+    <h1>Crop a raster and convert the output tiles into new formats.</h1>
     <small class="dont-index">Source: <a href='https://github.com/mikemahoney218/terrainr/blob/master/R/raster_to_raw_tiles.R'><code>R/raster_to_raw_tiles.R</code></a></small>
     <div class="hidden name"><code>raster_to_raw_tiles.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function converts raster objects (stored as GeoTIFF files) into .raw
-image square tiles.</p>
+    <p>This function crops input raster files into smaller square tiles and then
+converts them into either .png or .raw files which are ready to be imported
+into the Unity game engine.</p>
     </div>
 
     <pre class="usage"><span class='fu'>raster_to_raw_tiles</span><span class='op'>(</span><span class='va'>input_file</span>, <span class='va'>output_prefix</span>, side_length <span class='op'>=</span> <span class='fl'>4097</span>, raw <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
@@ -127,7 +141,7 @@ image square tiles.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>input_file</th>
-      <td><p>File path to the input GeoTIFF file to convert.</p></td>
+      <td><p>File path to the input TIFF file to convert.</p></td>
     </tr>
     <tr>
       <th>output_prefix</th>
@@ -139,14 +153,18 @@ image square tiles.</p>
     </tr>
     <tr>
       <th>raw</th>
-      <td><p>Logical: Convert the cropped tiles to .raw? Set to FALSE when
-you want .png outputs (such as when working with orthoimages).</p></td>
+      <td><p>Logical: Convert the cropped tiles to .raw? When <code>FALSE</code>
+returns a .png.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>NULL, invisibly</p>
+    <p><code>NULL</code>, invisibly</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other data manipulation functions: 
+<code><a href='merge_rasters.html'>merge_rasters</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
@@ -154,13 +172,12 @@ you want .png outputs (such as when working with orthoimages).</p></td>
   id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>100</span>, <span class='fl'>1</span><span class='op'>)</span>,
   lat <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>100</span>, <span class='fl'>44.04905</span>, <span class='fl'>44.17609</span><span class='op'>)</span>,
   lng <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>100</span>, <span class='op'>-</span><span class='fl'>74.01188</span>, <span class='op'>-</span><span class='fl'>73.83493</span><span class='op'>)</span>
-<span class='op'>)</span>
-
+  <span class='op'>)</span>
 <span class='va'>bbox</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_coord_bbox.html'>get_coord_bbox</a></span><span class='op'>(</span>lat <span class='op'>=</span> <span class='va'>simulated_data</span><span class='op'>$</span><span class='va'>lat</span>, lng <span class='op'>=</span> <span class='va'>simulated_data</span><span class='op'>$</span><span class='va'>lng</span><span class='op'>)</span>
 <span class='va'>bbox</span> <span class='op'>&lt;-</span> <span class='fu'><a href='add_bbox_buffer.html'>add_bbox_buffer</a></span><span class='op'>(</span><span class='va'>bbox</span>, <span class='fl'>100</span><span class='op'>)</span>
-<span class='va'>bbox</span> <span class='op'>&lt;-</span> <span class='fu'>make_unity_friendly</span><span class='op'>(</span><span class='va'>bbox</span><span class='op'>)</span>
+<span class='va'>output_files</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_tiles.html'>get_tiles</a></span><span class='op'>(</span><span class='va'>bbox</span><span class='op'>)</span>
 <span class='va'>temptiff</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span>fileext <span class='op'>=</span> <span class='st'>".tif"</span><span class='op'>)</span>
-<span class='fu'>get_heightmap_tiles</span><span class='op'>(</span><span class='va'>temptiff</span><span class='op'>)</span>
+<span class='fu'><a href='merge_rasters.html'>merge_rasters</a></span><span class='op'>(</span><span class='va'>output_files</span><span class='op'>[</span><span class='st'>"3DEPElevation"</span><span class='op'>]</span>, <span class='va'>temptiff</span><span class='op'>)</span>
 <span class='fu'>raster_to_raw_tiles</span><span class='op'>(</span><span class='va'>temptiff</span>, <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>}</span>
 

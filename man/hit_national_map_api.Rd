@@ -22,18 +22,38 @@ hit_national_map_api(
 
 \item{verbose}{Logical: Print out the number of tries required to pull each
 tile? Default \code{FALSE}.}
+
+\item{...}{Additional arguments passed to the National Map API.
+These can be used to change default query parameters or as additional options
+for the National Map services, but are at no point validated, so use at your
+own risk!}
+}
+\value{
+A raw vector.
 }
 \description{
-Hit the USGS 3DEP API and retrieve an elevation heightmap
+This function retrieves a single tile of data from a single National Map
+service and returns the raw response. End users are recommended to use
+\code{\link{get_tiles}} instead, as it does much more validation and provides
+a more friendly interface.
 }
 \examples{
 \dontrun{
 hit_national_map_api(
-                     bbox = list(c(44.10438, -74.01231),
-                                 c(44.17633, -73.91224)),
+                     bbox = list(c(lat = 44.10438, lng = -74.01231),
+                                 c(lat = 44.17633, lng = -73.91224)),
                      img.width = 8000,
                      img.height = 8000,
                      service = "3DEPElevation")
 }
 
 }
+\seealso{
+\code{\link{get_tiles}} for a friendlier interface to the National
+Map API.
+
+Other data retrieval functions: 
+\code{\link{get_tiles}()}
+}
+\concept{data retrieval functions}
+\keyword{internal}

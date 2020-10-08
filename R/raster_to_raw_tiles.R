@@ -1,15 +1,18 @@
-#' Convert raster file into .raw image tiles
+#' Crop a raster and convert the output tiles into new formats.
 #'
-#' This function converts raster objects (stored as GeoTIFF files) into .raw
-#' image square tiles.
+#' This function crops input raster files into smaller square tiles and then
+#' converts them into either .png or .raw files which are ready to be imported
+#' into the Unity game engine.
 #'
-#' @param input_file File path to the input GeoTIFF file to convert.
+#' @param input_file File path to the input TIFF file to convert.
 #' @param output_prefix The file path to prefix output tiles with.
 #' @param side_length The side length, in pixels, for the .raw tiles.
-#' @param raw Logical: Convert the cropped tiles to .raw? Set to FALSE when
-#' you want .png outputs (such as when working with orthoimages).
+#' @param raw Logical: Convert the cropped tiles to .raw? When \code{FALSE}
+#' returns a .png.
 #'
-#' @return NULL, invisibly
+#' @family data manipulation functions
+#'
+#' @return \code{NULL}, invisibly
 #'
 #' @examples
 #' \dontrun{
@@ -17,13 +20,12 @@
 #'   id = seq(1, 100, 1),
 #'   lat = runif(100, 44.04905, 44.17609),
 #'   lng = runif(100, -74.01188, -73.83493)
-#' )
-#'
+#'   )
 #' bbox <- get_coord_bbox(lat = simulated_data$lat, lng = simulated_data$lng)
 #' bbox <- add_bbox_buffer(bbox, 100)
-#' bbox <- make_unity_friendly(bbox)
+#' output_files <- get_tiles(bbox)
 #' temptiff <- tempfile(fileext = ".tif")
-#' get_heightmap_tiles(temptiff)
+#' merge_rasters(output_files["3DEPElevation"], temptiff)
 #' raster_to_raw_tiles(temptiff, tempfile())
 #' }
 #'
@@ -32,6 +34,15 @@ raster_to_raw_tiles <- function(input_file,
                                 output_prefix,
                                 side_length = 4097,
                                 raw = TRUE) {
+
+  if (raw) {
+    if (compareVersion("2.4.0", as.character(packageVersion("magick"))) != -1) {
+      stop("Please install the development version of magick to use raster_to_raw_tiles. ",
+           "\n",
+           "remotes::install_github('ropensci/magick')")
+    }
+  }
+
   input_raster <- raster::raster(input_file)
   max_raster <- raster::cellStats(input_raster, "max")
 

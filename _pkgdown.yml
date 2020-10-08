@@ -10,7 +10,7 @@ navbar:
   structure:
     right:
     - home
-#    - articles
+    - articles
     - reference
 #    - tutorials
 #    - news
@@ -19,11 +19,11 @@ navbar:
     home:
       icon: fas fa-home fa-lg
       href: index.html
-#    articles:
-#      text: Articles
-#      menu:
-#      - text: Introduction to spacey
-#        href: articles/introduction-to-spacey.html
+    articles:
+      text: Vignettes
+      menu:
+      - text: A Gentle Introduction to terrainr
+        href: articles/overview.html
     reference:
       text: Reference
       href: reference/index.html
@@ -33,3 +33,32 @@ navbar:
     github:
       icon: fab fa-github fa-lg
       href: https://github.com/mikemahoney218/terrainr
+reference:
+  - title: Data Retrieval Functions
+  - contents:
+    - get_tiles
+    - hit_national_map_api
+  - title: Data Manipulation Functions
+  - contents:
+    - merge_rasters
+    - raster_to_raw_tiles
+  - title: Utility Functions
+  - contents: 
+    - add_bbox_buffer
+    - convert_distance
+    - deg_to_rad
+    - get_bbox_centroid
+    - get_coord_bbox
+    - point_from_distance
+    - rad_to_deg
+  - title: Classes and Related Functions
+  - contents:
+    - terrainr_coordinate_pair-class
+    - terrainr_bounding_box-class 
+    - terrainr_coordinate_pair
+    - terrainr_bounding_box
+    - export_coord_pair
+    - export_bounding_box
+
+    
+

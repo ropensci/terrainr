@@ -8,41 +8,37 @@ terrainr_bounding_box(bl, tr, coord_units = "degrees")
 }
 \arguments{
 \item{bl, tr}{The bottom left (\code{bl}) and top right (\code{tr}) corners of
-the bounding box, either as a [terrainr::terrainr_coordinate_pair] object or
-a coordinate pair. If the coordinate pair is not named, it is assumed to be
-in (lat, lng) format; if it is named, the function will attempt to properly
-identify coordinates.}
+the bounding box, either as a \code{\link{terrainr_coordinate_pair}} object
+or a coordinate pair. If the coordinate pair is not named, it is assumed to
+be in (lat, lng) format; if it is named, the function will attempt to
+properly identify coordinates.}
 
-\item{coord_units}{Arguments passed to [terrainr::terrainr_coordinate_pair].
-If \code{bl} and \code{tr} are already [terrainr::terrainr_coordinate_pair]
+\item{coord_units}{Arguments passed to \code{\link{terrainr_coordinate_pair}}.
+If \code{bl} and \code{tr} are already \code{\link{terrainr_coordinate_pair}}
 objects, these arguments are not used.}
 }
 \value{
 A terrainr_bounding_box object
+
+classes and related functions
 }
 \description{
-Construct a terrainr_bounding_box object
+In order to simplify code, most \code{terrainr} functions expect a set S4
+class representation of coordinate pairs and bounding boxes. If the provided
+data is not in the expected S4 format, these functions are used to cast the
+data into the target class.
 }
 \examples{
 # Create bounding box from coordinates:
 terrainr_bounding_box(
-  bl = c(44.05003, -74.01164),
-  tr = c(44.17538, -73.83500)
+  bl = c(lat = 44.05003, lng = -74.01164),
+  tr = c(lat = 44.17538, lng = -73.83500)
 )
 # This is identical to:
-bl_coords <- terrainr_coordinate_pair(c(44.05003, -74.01164))
-tr_coords <- terrainr_coordinate_pair(c(44.17538, -73.83500))
+bl_coords <- terrainr_coordinate_pair(c(lat = 44.05003, lng = -74.01164))
+tr_coords <- terrainr_coordinate_pair(c(lat = 44.17538, lng = -73.83500))
 terrainr_bounding_box(
   bl = bl_coords,
   tr = tr_coords
 )
 }
-\seealso{
-Other classes: 
-\code{\link{export_bounding_box}()},
-\code{\link{export_coord_pair}()},
-\code{\link{terrainr_bounding_box-class}},
-\code{\link{terrainr_coordinate_pair-class}},
-\code{\link{terrainr_coordinate_pair}}
-}
-\concept{classes}

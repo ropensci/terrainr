@@ -2,40 +2,52 @@
 % Please edit documentation in R/get_tiles.R
 \name{get_tiles}
 \alias{get_tiles}
-\title{Get USGS elevation and imagery tiles for an area}
+\title{A user-friendly way to get USGS National Map data tiles for an area}
 \usage{
 get_tiles(
   bbox,
   output_prefix = tempfile(),
   side_length = NULL,
   services = "elevation",
-  verbose = FALSE
+  verbose = FALSE,
+  ...
 )
 }
 \arguments{
 \item{bbox}{A bounding box representing the lower left and upper right corner
 of the area to retrieve a heightmap for. If not a
-[terrainr::terrainr_bounding_box] object, it will be coerced to one.}
+\code{\link{terrainr_bounding_box}} object, it will be coerced to one.}
 
 \item{output_prefix}{The file prefix to use when saving tiles.}
 
-\item{side_length}{The length, in meters (and therefore pixels), of each side
-of tiles to download.}
+\item{side_length}{The length, in meters, of each side of tiles to download.
+If \code{NULL}, defaults to the maximum side length permitted by the least
+permissive service requested.}
+
+\item{services}{A character vector of services to download data from. Current
+options include "3DEPElevation" and "USGSNAIPPlus". Users can also use short
+codes to download a specific type of data without specifying the source;
+current options for short codes include "elevation" (equivalent to
+"3DEPElevation") and "ortho" (equivalent to "USGSNAIPPlus). Short codes are
+not guaranteed to refer to the same source across releases. Short codes are
+converted to their service name and then duplicates are removed, so any given
+source will only be queried once per tile.}
 
 \item{verbose}{Logical: should tile retrieval functions run in verbose mode?}
 
-\item{elevation}{Logical: download elevation tiles for the specified area?}
-
-\item{ortho}{Logical: download orthoimagery tiles for the specified area?}
+\item{...}{Additional arguments passed to \code{\link{hit_national_map_api}}.
+These can be used to change default query parameters or as additional options
+for the National Map services, but are at no point validated, so use at your
+own risk!}
 }
 \value{
-A list of length 2 with names `elevation` and `ortho` containing the
-file paths elevation and orthoimagery files were saved to, respectively.
+A list of the same length as the number of unique services requested,
+containing named vectors of where data files were saved to. Returned
+invisibly.
 }
 \description{
 This function splits the area contained within a bounding box into a set of
-tiles, and retrieves USGS 3DEP heightmaps and NAIP orthoimagery for each tile.
-Tiles are downloaded at a resolution of 1 meter per pixel.
+tiles, and retrieves data from the USGS National map for each tile.
 }
 \examples{
 \dontrun{
@@ -47,8 +59,12 @@ simulated_data <- data.frame(
 
 bbox <- get_coord_bbox(lat = simulated_data$lat, lng = simulated_data$lng)
 bbox <- add_bbox_buffer(bbox, 100)
-bbox <- make_unity_friendly(bbox)
-get_tiles(bbox, tempfile(), 4096)
+get_tiles(bbox, tempfile())
 }
 
 }
+\seealso{
+Other data retrieval functions: 
+\code{\link{hit_national_map_api}()}
+}
+\concept{data retrieval functions}

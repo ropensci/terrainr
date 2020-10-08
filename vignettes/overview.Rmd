@@ -1,0 +1,19 @@
+---
+title: "A gentle introduction to terrainr"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{A gentle introduction to terrainr}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(terrainr)
+```

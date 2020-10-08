@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get bounding box for set of coordinate points — get_coord_bbox • terrainr</title>
+<title>Get bounding box for set of coordinate points. — get_coord_bbox • terrainr</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,13 @@
 
 
 
-<meta property="og:title" content="Get bounding box for set of coordinate points — get_coord_bbox" />
-<meta property="og:description" content="Get bounding box for set of coordinate points" />
+<meta property="og:title" content="Get bounding box for set of coordinate points. — get_coord_bbox" />
+<meta property="og:description" content="This function returns a terrainr_bounding_box object
+representing the bottom left and upper right corners of the smallest
+rectangle containing your data. If you only have one data point for either
+latitude or longitude, this function will buffer it in both directions by
+1e-10 in order to return a rectangle with a real &quot;bottom left&quot; and
+&quot;upper right&quot;." />
 
 
 
@@ -72,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">terrainr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9001</span>
       </span>
     </div>
 
@@ -86,6 +91,18 @@
     <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Vignettes
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/overview.html">A Gentle Introduction to terrainr</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -109,16 +126,21 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get bounding box for set of coordinate points</h1>
+    <h1>Get bounding box for set of coordinate points.</h1>
     <small class="dont-index">Source: <a href='https://github.com/mikemahoney218/terrainr/blob/master/R/get_bbox.R'><code>R/get_bbox.R</code></a></small>
     <div class="hidden name"><code>get_coord_bbox.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get bounding box for set of coordinate points</p>
+    <p>This function returns a <code><a href='terrainr_bounding_box.html'>terrainr_bounding_box</a></code> object
+representing the bottom left and upper right corners of the smallest
+rectangle containing your data. If you only have one data point for either
+latitude or longitude, this function will buffer it in both directions by
+1e-10 in order to return a rectangle with a real "bottom left" and
+"upper right".</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_coord_bbox</span><span class='op'>(</span>data <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>lat</span>, <span class='va'>lng</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_coord_bbox</span><span class='op'>(</span>data <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>lat</span>, <span class='va'>lng</span>, na.rm <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -140,12 +162,26 @@ latitude values.</p></td>
 containing longitude values. If <code>data</code> is <code>NULL</code>, a vector of
 longitude values.</p></td>
     </tr>
+    <tr>
+      <th>na.rm</th>
+      <td><p>Logical: Silently remove NA values? If <code>NULL</code>, the default,
+will warn if there are NAs. If <code>FALSE</code>, will raise an error on NA.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list of length 2, containing the bottom-left (named "bl") and
-top-right (named "tr") coordinates of the bounding box.</p>
+    <p>A <code><a href='terrainr_bounding_box.html'>terrainr_bounding_box</a></code> object.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other utilities: 
+<code><a href='add_bbox_buffer.html'>add_bbox_buffer</a>()</code>,
+<code><a href='calc_haversine_distance.html'>calc_haversine_distance</a>()</code>,
+<code><a href='convert_distance.html'>convert_distance</a>()</code>,
+<code><a href='deg_to_rad.html'>deg_to_rad</a>()</code>,
+<code><a href='get_bbox_centroid.html'>get_bbox_centroid</a>()</code>,
+<code><a href='point_from_distance.html'>point_from_distance</a>()</code>,
+<code><a href='rad_to_deg.html'>rad_to_deg</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>

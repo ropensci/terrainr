@@ -2,7 +2,7 @@
 % Please edit documentation in R/classes.R
 \name{terrainr_coordinate_pair}
 \alias{terrainr_coordinate_pair}
-\title{Construct a terrainr_coordinate_pair object}
+\title{Construct a terrainr_coordinate_pair object.}
 \usage{
 terrainr_coordinate_pair(coords, coord_units = c("degrees", "radians"))
 }
@@ -16,20 +16,20 @@ coordinate.}
 radians. Degrees stored in radians will be converted to degrees.}
 }
 \value{
-A [terrainr::terrainr_coordinate_pair] object
+\code{terrainr_coordinate_pair} object
 }
 \description{
-Construct a terrainr_coordinate_pair object
+In order to simplify code, most \code{terrainr} functions expect a set S4
+class representation of coordinate pairs and bounding boxes. If the provided
+data isn't in the expected S4 format, these functions are used to cast the
+data into the target class.
 }
 \examples{
-terrainr_coordinate_pair(c(44.05003, -74.01164))
+terrainr_coordinate_pair(c(lat = 44.05003, lng = -74.01164))
 }
 \seealso{
-Other classes: 
-\code{\link{export_bounding_box}()},
+Other classes and related functions: 
 \code{\link{export_coord_pair}()},
-\code{\link{terrainr_bounding_box-class}},
-\code{\link{terrainr_bounding_box}},
 \code{\link{terrainr_coordinate_pair-class}}
 }
-\concept{classes}
+\concept{classes and related functions}

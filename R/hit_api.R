@@ -1,16 +1,33 @@
 #' Hit the USGS 3DEP API and retrieve an elevation heightmap
 #'
+#' This function retrieves a single tile of data from a single National Map
+#' service and returns the raw response. End users are recommended to use
+#' \code{\link{get_tiles}} instead, as it does much more validation and provides
+#' a more friendly interface.
+#'
 #' @param bbox The bounding box (bottom left and top left coordinate pairs)
 #' @param img.width The number of pixels in the x direction to retrieve
 #' @param img.height The number of pixels in the y direction to retrieve
 #' @param verbose Logical: Print out the number of tries required to pull each
 #' tile? Default \code{FALSE}.
+#' @param ... Additional arguments passed to the National Map API.
+#' These can be used to change default query parameters or as additional options
+#' for the National Map services, but are at no point validated, so use at your
+#' own risk!
+#'
+#' @keywords internal
+#'
+#' @seealso \code{\link{get_tiles}} for a friendlier interface to the National
+#' Map API.
+#' @family data retrieval functions
+#'
+#' @return A raw vector.
 #'
 #' @examples
 #' \dontrun{
 #' hit_national_map_api(
-#'                      bbox = list(c(44.10438, -74.01231),
-#'                                  c(44.17633, -73.91224)),
+#'                      bbox = list(c(lat = 44.10438, lng = -74.01231),
+#'                                  c(lat = 44.17633, lng = -73.91224)),
 #'                      img.width = 8000,
 #'                      img.height = 8000,
 #'                      service = "3DEPElevation")
@@ -69,6 +86,7 @@ hit_national_map_api <- function(bbox,
     }
   }
 
+  # length of dots changes after that last step, so check again
   if (length(dots) > 0) query_arg <- c(query_arg, dots)
 
   res <- httr::GET(url, query = c(bbox_arg, query_arg))

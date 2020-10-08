@@ -7,11 +7,13 @@
 export_bounding_box(bbox)
 }
 \arguments{
-\item{bbox}{A [terrainr::terrainr_bounding_box] object}
+\item{bbox}{A \code{\link{terrainr_bounding_box}} object}
 }
 \value{
 A list with coordinate pairs representing the lower left and upper
 right corners of a bounding box
+
+classes and related functions
 }
 \description{
 Convert a terrainr_bounding_box object to a base list
@@ -19,17 +21,8 @@ Convert a terrainr_bounding_box object to a base list
 \examples{
 # Create bounding box from coordinates:
 bbox <- terrainr_bounding_box(
-  bl = c(44.05003, -74.01164),
-  tr = c(44.17538, -73.83500)
+  bl = c(lat = 44.05003, lng = -74.01164),
+  tr = c(lat = 44.17538, lng = -73.83500)
 )
 export_bounding_box(bbox)
 }
-\seealso{
-Other classes: 
-\code{\link{export_coord_pair}()},
-\code{\link{terrainr_bounding_box-class}},
-\code{\link{terrainr_bounding_box}},
-\code{\link{terrainr_coordinate_pair-class}},
-\code{\link{terrainr_coordinate_pair}}
-}
-\concept{classes}

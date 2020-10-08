@@ -27,6 +27,9 @@ indicating the units of the provided distance.}
 \item{azimuth_unit}{A string (either \code{degrees} or \code{radians})
 indicating the units of the \code{azimuth} argument}
 }
+\value{
+A \code{\link{terrainr_coordinate_pair}} object.
+}
 \description{
 Find latitude and longitude for a certain distance and azimuth from a point.
 }
@@ -34,3 +37,14 @@ Find latitude and longitude for a certain distance and azimuth from a point.
 # Calculate a point 100m straight north of the coordinate pair
 point_from_distance(c(lat = 44.121268, lng = -73.903734), 100, 0)
 }
+\seealso{
+Other utilities: 
+\code{\link{add_bbox_buffer}()},
+\code{\link{calc_haversine_distance}()},
+\code{\link{convert_distance}()},
+\code{\link{deg_to_rad}()},
+\code{\link{get_bbox_centroid}()},
+\code{\link{get_coord_bbox}()},
+\code{\link{rad_to_deg}()}
+}
+\concept{utilities}

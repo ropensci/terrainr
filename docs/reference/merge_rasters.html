@@ -40,7 +40,9 @@
 
 
 <meta property="og:title" content="Merge multiple raster files into a single raster — merge_rasters" />
-<meta property="og:description" content="Merge multiple raster files into a single raster" />
+<meta property="og:description" content="Some functions like get_tiles return multiple separate files
+when it can be useful to have a single larger raster instead. This function
+will collapse those multiple raster files into a single TIFF." />
 
 
 
@@ -72,7 +74,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">terrainr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9001</span>
       </span>
     </div>
 
@@ -86,6 +88,18 @@
     <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Vignettes
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/overview.html">A Gentle Introduction to terrainr</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -115,48 +129,68 @@
     </div>
 
     <div class="ref-description">
-    <p>Merge multiple raster files into a single raster</p>
+    <p>Some functions like <code><a href='get_tiles.html'>get_tiles</a></code> return multiple separate files
+when it can be useful to have a single larger raster instead. This function
+will collapse those multiple raster files into a single TIFF.</p>
     </div>
 
     <pre class="usage"><span class='fu'>merge_rasters</span><span class='op'>(</span>
-  <span class='va'>input_heightmaps</span>,
-  <span class='va'>output_heightmap</span>,
-  input_orthos <span class='op'>=</span> <span class='cn'>NULL</span>,
-  output_ortho <span class='op'>=</span> <span class='cn'>NULL</span>,
-  overwrite <span class='op'>=</span> <span class='cn'>TRUE</span>
+  <span class='va'>input_rasters</span>,
+  output_raster <span class='op'>=</span> <span class='cn'>NULL</span>,
+  input_images <span class='op'>=</span> <span class='cn'>NULL</span>,
+  output_image <span class='op'>=</span> <span class='cn'>NULL</span>,
+  overwrite <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  merge_raster <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>input_heightmaps</th>
+      <th>input_rasters</th>
       <td><p>A character vector containing the file paths to the
-elevation height maps to merge.</p></td>
+georeferenced rasters you want to use.</p></td>
     </tr>
     <tr>
-      <th>output_heightmap</th>
-      <td><p>The file path to save the merged elevation raster to.
-Must be a TIFF file.</p></td>
+      <th>output_raster</th>
+      <td><p>The file path to save the merged georeferenced raster to.
+Must be a TIFF file. Ignored if <code>merge_raster</code> is not <code>TRUE</code>.</p></td>
     </tr>
     <tr>
-      <th>input_orthos</th>
-      <td><p>A character vector, the same length as <code>input_heightmaps</code>,
-containing the file paths to the orthoimages to merge. It's assumed that each
-orthoimage in the vector corresponds to the height map in the same position
-in input_heightmaps. If you don't want to merge any orthoimages, set to NULL.</p></td>
+      <th>input_images</th>
+      <td><p>A character vector, the same length as <code>input_rasters</code>,
+containing the file paths to non-georeferenced images to merge. It's assumed
+that each image in the vector corresponds to the raster in the same position
+in input_rasters, and these images will be assigned the same extent and CRS.
+If you don't want to merge any images, leave as <code>NULL</code>.</p></td>
     </tr>
     <tr>
-      <th>output_ortho</th>
-      <td><p>The file path to save the merged orthoimage to.
-Must be a TIFF file. Set to NULL if you aren't merging orthoimages.</p></td>
+      <th>output_image</th>
+      <td><p>The file path to save the merged images to.
+Must be a TIFF file. Leave as <code>NULL</code> if you aren't merging images.</p></td>
     </tr>
     <tr>
       <th>overwrite</th>
       <td><p>Logical: overwrite the output files if they exist?</p></td>
     </tr>
+    <tr>
+      <th>merge_raster</th>
+      <td><p>Logical: Should the files provided to input_rasters be
+merged? Set to <code>FALSE</code> if you're only providing these input tiles to
+georeference tiles in <code>input_images</code>.</p></td>
+    </tr>
     </table>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Additionally, some outputs from <code><a href='get_tiles.html'>get_tiles</a></code> (such as when
+<code>service = "ortho"</code>) are not georeferenced, making future processing
+with them harder. This function can georeference those images using a
+reference raster, then merge them into a single object for further processing.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other data manipulation functions: 
+<code><a href='raster_to_raw_tiles.html'>raster_to_raw_tiles</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>

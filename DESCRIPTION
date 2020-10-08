@@ -1,7 +1,7 @@
 Package: terrainr
 Type: Package
 Title: Retrieve and Transform 'USGS' Digital Elevation Models
-Version: 0.1.0
+Version: 0.0.0.9001
 Authors@R: 
     person(given = "Michael",
            family = "Mahoney",
@@ -29,6 +29,9 @@ RoxygenNote: 7.1.1
 Suggests: 
     testthat,
     covr,
-    progressr
+    progressr,
+    knitr,
+    rmarkdown
 Config/testthat/parallel: true
 Config/testthat/edition: 3
+VignetteBuilder: knitr

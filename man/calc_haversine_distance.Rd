@@ -22,5 +22,17 @@ calc_haversine_distance(
   c(lat = 44.121268, lng = -73.903734),
   c(lat = 43.121268, lng = -74.903734)
 )
+
 }
+\seealso{
+Other utilities: 
+\code{\link{add_bbox_buffer}()},
+\code{\link{convert_distance}()},
+\code{\link{deg_to_rad}()},
+\code{\link{get_bbox_centroid}()},
+\code{\link{get_coord_bbox}()},
+\code{\link{point_from_distance}()},
+\code{\link{rad_to_deg}()}
+}
+\concept{utilities}
 \keyword{internal}

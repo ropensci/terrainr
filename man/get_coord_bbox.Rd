@@ -2,9 +2,9 @@
 % Please edit documentation in R/get_bbox.R
 \name{get_coord_bbox}
 \alias{get_coord_bbox}
-\title{Get bounding box for set of coordinate points}
+\title{Get bounding box for set of coordinate points.}
 \usage{
-get_coord_bbox(data = NULL, lat, lng)
+get_coord_bbox(data = NULL, lat, lng, na.rm = NULL)
 }
 \arguments{
 \item{data}{Optionally, a dataframe containing vectors of latitude and
@@ -17,13 +17,20 @@ latitude values.}
 \item{lng}{If \code{data} is not \code{NULL}, the name of the column
 containing longitude values. If \code{data} is \code{NULL}, a vector of
 longitude values.}
+
+\item{na.rm}{Logical: Silently remove NA values? If \code{NULL}, the default,
+will warn if there are NAs. If \code{FALSE}, will raise an error on NA.}
 }
 \value{
-A list of length 2, containing the bottom-left (named "bl") and
-top-right (named "tr") coordinates of the bounding box.
+A \code{\link{terrainr_bounding_box}} object.
 }
 \description{
-Get bounding box for set of coordinate points
+This function returns a \code{\link{terrainr_bounding_box}} object
+representing the bottom left and upper right corners of the smallest
+rectangle containing your data. If you only have one data point for either
+latitude or longitude, this function will buffer it in both directions by
+1e-10 in order to return a rectangle with a real "bottom left" and
+"upper right".
 }
 \examples{
 df <- data.frame(
@@ -33,3 +40,14 @@ df <- data.frame(
 get_coord_bbox(df, lat, lng)
 get_coord_bbox(lat = df$lat, lng = df$lng)
 }
+\seealso{
+Other utilities: 
+\code{\link{add_bbox_buffer}()},
+\code{\link{calc_haversine_distance}()},
+\code{\link{convert_distance}()},
+\code{\link{deg_to_rad}()},
+\code{\link{get_bbox_centroid}()},
+\code{\link{point_from_distance}()},
+\code{\link{rad_to_deg}()}
+}
+\concept{utilities}

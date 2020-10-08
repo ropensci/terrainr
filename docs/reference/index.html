@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">terrainr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9001</span>
       </span>
     </div>
 
@@ -85,6 +85,18 @@
     <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Vignettes
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/overview.html">A Gentle Introduction to terrainr</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -122,7 +134,57 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
+          <h2 id="section-data-retrieval-functions" class="hasAnchor"><a href="#section-data-retrieval-functions" class="anchor"></a>Data Retrieval Functions</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="get_tiles.html">get_tiles()</a></code> </p>
+        </td>
+        <td><p>A user-friendly way to get USGS National Map data tiles for an area</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="hit_national_map_api.html">hit_national_map_api()</a></code> </p>
+        </td>
+        <td><p>Hit the USGS 3DEP API and retrieve an elevation heightmap</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-data-manipulation-functions" class="hasAnchor"><a href="#section-data-manipulation-functions" class="anchor"></a>Data Manipulation Functions</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="merge_rasters.html">merge_rasters()</a></code> </p>
+        </td>
+        <td><p>Merge multiple raster files into a single raster</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="raster_to_raw_tiles.html">raster_to_raw_tiles()</a></code> </p>
+        </td>
+        <td><p>Crop a raster and convert the output tiles into new formats.</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-utility-functions" class="hasAnchor"><a href="#section-utility-functions" class="anchor"></a>Utility Functions</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
@@ -152,51 +214,15 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="export_bounding_box.html">export_bounding_box()</a></code> </p>
-        </td>
-        <td><p>Convert a terrainr_bounding_box object to a base list</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="export_coord_pair.html">export_coord_pair()</a></code> </p>
-        </td>
-        <td><p>Convert a terrainr_coordinate_pair object to a base vector</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="generate_raw_tiles.html">generate_raw_tiles()</a></code> </p>
-        </td>
-        <td><p>Generate .RAW image tiles of a heightmap</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="get_bbox_centroid.html">get_bbox_centroid()</a></code> </p>
         </td>
-        <td><p>Get the great-circle centroid for a given bounding box</p></td>
+        <td><p>Get the great-circle centroid for a given bounding box.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="get_coord_bbox.html">get_coord_bbox()</a></code> </p>
         </td>
-        <td><p>Get bounding box for set of coordinate points</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_tiles.html">get_tiles()</a></code> </p>
-        </td>
-        <td><p>Get USGS elevation and imagery tiles for an area</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="hit_national_map_api.html">hit_national_map_api()</a></code> </p>
-        </td>
-        <td><p>Hit the USGS 3DEP API and retrieve an elevation heightmap</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="merge_rasters.html">merge_rasters()</a></code> </p>
-        </td>
-        <td><p>Merge multiple raster files into a single raster</p></td>
+        <td><p>Get bounding box for set of coordinate points.</p></td>
       </tr><tr>
         
         <td>
@@ -209,18 +235,39 @@
           <p><code><a href="rad_to_deg.html">rad_to_deg()</a></code> </p>
         </td>
         <td><p>Convert radians to degrees</p></td>
-      </tr><tr>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-classes-and-related-functions" class="hasAnchor"><a href="#section-classes-and-related-functions" class="anchor"></a>Classes and Related Functions</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
         
         <td>
-          <p><code><a href="raster_to_raw_tiles.html">raster_to_raw_tiles()</a></code> </p>
+          <p><code><a href="terrainr_coordinate_pair-class.html">terrainr_coordinate_pair-class</a></code> </p>
         </td>
-        <td><p>Convert raster file into .raw image tiles</p></td>
+        <td><p>S4 class for coordinate points in the format expected by
+<code>terrainr</code> functions.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="terrainr_bounding_box-class.html">terrainr_bounding_box-class</a></code> </p>
         </td>
-        <td><p>S4 class for bounding boxes in the format expected by [terrainr] functions</p></td>
+        <td><p>S4 class for bounding boxes in the format expected by <code>terrainr</code>
+functions.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="terrainr_coordinate_pair.html">terrainr_coordinate_pair()</a></code> </p>
+        </td>
+        <td><p>Construct a terrainr_coordinate_pair object.</p></td>
       </tr><tr>
         
         <td>
@@ -230,15 +277,15 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="terrainr_coordinate_pair-class.html">terrainr_coordinate_pair-class</a></code> </p>
+          <p><code><a href="export_coord_pair.html">export_coord_pair()</a></code> </p>
         </td>
-        <td><p>S4 class for coordinate points in the format expected by [terrainr] functions</p></td>
+        <td><p>Convert a terrainr_coordinate_pair object to a base vector.</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="terrainr_coordinate_pair.html">terrainr_coordinate_pair()</a></code> </p>
+          <p><code><a href="export_bounding_box.html">export_bounding_box()</a></code> </p>
         </td>
-        <td><p>Construct a terrainr_coordinate_pair object</p></td>
+        <td><p>Convert a terrainr_bounding_box object to a base list</p></td>
       </tr>
     </tbody>
     </table>

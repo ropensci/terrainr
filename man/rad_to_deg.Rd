@@ -19,3 +19,14 @@ Convert radians to degrees
 rad_to_deg(2 * base::pi)
 rad_to_deg(deg_to_rad(360))
 }
+\seealso{
+Other utilities: 
+\code{\link{add_bbox_buffer}()},
+\code{\link{calc_haversine_distance}()},
+\code{\link{convert_distance}()},
+\code{\link{deg_to_rad}()},
+\code{\link{get_bbox_centroid}()},
+\code{\link{get_coord_bbox}()},
+\code{\link{point_from_distance}()}
+}
+\concept{utilities}

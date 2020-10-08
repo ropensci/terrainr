@@ -10,6 +10,10 @@
 #' @param azimuth_unit A string (either \code{degrees} or \code{radians})
 #' indicating the units of the \code{azimuth} argument
 #'
+#' @family utilities
+#'
+#' @return A \code{\link{terrainr_coordinate_pair}} object.
+#'
 #' @examples
 #' # Calculate a point 100m straight north of the coordinate pair
 #' point_from_distance(c(lat = 44.121268, lng = -73.903734), 100, 0)

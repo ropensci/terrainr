@@ -2,16 +2,19 @@
 % Please edit documentation in R/get_bbox_centroid.R
 \name{get_bbox_centroid}
 \alias{get_bbox_centroid}
-\title{Get the great-circle centroid for a given bounding box}
+\title{Get the great-circle centroid for a given bounding box.}
 \usage{
 get_bbox_centroid(bbox)
 }
 \arguments{
 \item{bbox}{The bounding box to find a centroid for. If not already
-a [terrainr::terrainr_bounding_box] object, will be converted.}
+a \code{\link{terrainr_bounding_box}} object, will be converted.}
+}
+\value{
+A \code{\link{terrainr_coordinate_pair}}.
 }
 \description{
-Get the great-circle centroid for a given bounding box
+Get the great-circle centroid for a given bounding box.
 }
 \examples{
 get_bbox_centroid(
@@ -21,3 +24,15 @@ get_bbox_centroid(
   )
 )
 }
+\seealso{
+Other utilities: 
+\code{\link{add_bbox_buffer}()},
+\code{\link{calc_haversine_distance}()},
+\code{\link{convert_distance}()},
+\code{\link{deg_to_rad}()},
+\code{\link{get_coord_bbox}()},
+\code{\link{point_from_distance}()},
+\code{\link{rad_to_deg}()}
+}
+\concept{utilities}
+\keyword{internal}

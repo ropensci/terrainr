@@ -1,7 +1,13 @@
-#' Get the great-circle centroid for a given bounding box
+#' Get the great-circle centroid for a given bounding box.
 #'
 #' @param bbox The bounding box to find a centroid for. If not already
-#' a [terrainr::terrainr_bounding_box] object, will be converted.
+#' a \code{\link{terrainr_bounding_box}} object, will be converted.
+#'
+#' @keywords internal
+#'
+#' @family utilities
+#'
+#' @return A \code{\link{terrainr_coordinate_pair}}.
 #'
 #' @examples
 #' get_bbox_centroid(

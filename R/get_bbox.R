@@ -1,4 +1,11 @@
-#' Get bounding box for set of coordinate points
+#' Get bounding box for set of coordinate points.
+#'
+#' This function returns a \code{\link{terrainr_bounding_box}} object
+#' representing the bottom left and upper right corners of the smallest
+#' rectangle containing your data. If you only have one data point for either
+#' latitude or longitude, this function will buffer it in both directions by
+#' 1e-10 in order to return a rectangle with a real "bottom left" and
+#' "upper right".
 #'
 #' @param data Optionally, a dataframe containing vectors of latitude and
 #' longitude.
@@ -8,9 +15,12 @@
 #' @param lng If \code{data} is not \code{NULL}, the name of the column
 #' containing longitude values. If \code{data} is \code{NULL}, a vector of
 #' longitude values.
+#' @param na.rm Logical: Silently remove NA values? If \code{NULL}, the default,
+#' will warn if there are NAs. If \code{FALSE}, will raise an error on NA.
 #'
-#' @return A list of length 2, containing the bottom-left (named "bl") and
-#' top-right (named "tr") coordinates of the bounding box.
+#' @family utilities
+#'
+#' @return A \code{\link{terrainr_bounding_box}} object.
 #'
 #' @examples
 #' df <- data.frame(
@@ -20,7 +30,7 @@
 #' get_coord_bbox(df, lat, lng)
 #' get_coord_bbox(lat = df$lat, lng = df$lng)
 #' @export
-get_coord_bbox <- function(data = NULL, lat, lng) {
+get_coord_bbox <- function(data = NULL, lat, lng, na.rm = NULL) {
   if (!is.null(data)) {
     lat <- quote(lat)
     lng <- quote(lng)
@@ -32,11 +42,15 @@ get_coord_bbox <- function(data = NULL, lat, lng) {
   }
 
   if (any(is.na(lat_vals) | is.na(lng_vals))) {
-    warning("NAs present in coordinate data will be ignored.")
+    if (is.null(na.rm)) {
+      warning("NAs present in coordinate data will be ignored.")
+    } else if (!na.rm) {
+      stop("NAs present in coordinate data.")
+    }
   }
 
 
-  # let people get bounding boxes
+  # let people get bounding boxes for a single point
   if (length(lat_vals) == 1) {
     lat_vals <- c(lat_vals - 1e-10, lat_vals + 1e-10)
   }

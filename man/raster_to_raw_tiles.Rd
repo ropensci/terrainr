@@ -2,26 +2,27 @@
 % Please edit documentation in R/raster_to_raw_tiles.R
 \name{raster_to_raw_tiles}
 \alias{raster_to_raw_tiles}
-\title{Convert raster file into .raw image tiles}
+\title{Crop a raster and convert the output tiles into new formats.}
 \usage{
 raster_to_raw_tiles(input_file, output_prefix, side_length = 4097, raw = TRUE)
 }
 \arguments{
-\item{input_file}{File path to the input GeoTIFF file to convert.}
+\item{input_file}{File path to the input TIFF file to convert.}
 
 \item{output_prefix}{The file path to prefix output tiles with.}
 
 \item{side_length}{The side length, in pixels, for the .raw tiles.}
 
-\item{raw}{Logical: Convert the cropped tiles to .raw? Set to FALSE when
-you want .png outputs (such as when working with orthoimages).}
+\item{raw}{Logical: Convert the cropped tiles to .raw? When \code{FALSE}
+returns a .png.}
 }
 \value{
-NULL, invisibly
+\code{NULL}, invisibly
 }
 \description{
-This function converts raster objects (stored as GeoTIFF files) into .raw
-image square tiles.
+This function crops input raster files into smaller square tiles and then
+converts them into either .png or .raw files which are ready to be imported
+into the Unity game engine.
 }
 \examples{
 \dontrun{
@@ -29,14 +30,18 @@ simulated_data <- data.frame(
   id = seq(1, 100, 1),
   lat = runif(100, 44.04905, 44.17609),
   lng = runif(100, -74.01188, -73.83493)
-)
-
+  )
 bbox <- get_coord_bbox(lat = simulated_data$lat, lng = simulated_data$lng)
 bbox <- add_bbox_buffer(bbox, 100)
-bbox <- make_unity_friendly(bbox)
+output_files <- get_tiles(bbox)
 temptiff <- tempfile(fileext = ".tif")
-get_heightmap_tiles(temptiff)
+merge_rasters(output_files["3DEPElevation"], temptiff)
 raster_to_raw_tiles(temptiff, tempfile())
 }
 
 }
+\seealso{
+Other data manipulation functions: 
+\code{\link{merge_rasters}()}
+}
+\concept{data manipulation functions}

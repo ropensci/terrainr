@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Construct a terrainr_coordinate_pair object — terrainr_coordinate_pair • terrainr</title>
+<title>Construct a terrainr_coordinate_pair object. — terrainr_coordinate_pair • terrainr</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,11 @@
 
 
 
-<meta property="og:title" content="Construct a terrainr_coordinate_pair object — terrainr_coordinate_pair" />
-<meta property="og:description" content="Construct a terrainr_coordinate_pair object" />
+<meta property="og:title" content="Construct a terrainr_coordinate_pair object. — terrainr_coordinate_pair" />
+<meta property="og:description" content="In order to simplify code, most terrainr functions expect a set S4
+class representation of coordinate pairs and bounding boxes. If the provided
+data isn't in the expected S4 format, these functions are used to cast the
+data into the target class." />
 
 
 
@@ -72,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">terrainr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9001</span>
       </span>
     </div>
 
@@ -86,6 +89,18 @@
     <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Vignettes
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/overview.html">A Gentle Introduction to terrainr</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -109,13 +124,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Construct a terrainr_coordinate_pair object</h1>
+    <h1>Construct a terrainr_coordinate_pair object.</h1>
     <small class="dont-index">Source: <a href='https://github.com/mikemahoney218/terrainr/blob/master/R/classes.R'><code>R/classes.R</code></a></small>
     <div class="hidden name"><code>terrainr_coordinate_pair.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Construct a terrainr_coordinate_pair object</p>
+    <p>In order to simplify code, most <code>terrainr</code> functions expect a set S4
+class representation of coordinate pairs and bounding boxes. If the provided
+data isn't in the expected S4 format, these functions are used to cast the
+data into the target class.</p>
     </div>
 
     <pre class="usage"><span class='fu'>terrainr_coordinate_pair</span><span class='op'>(</span><span class='va'>coords</span>, coord_units <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"degrees"</span>, <span class='st'>"radians"</span><span class='op'>)</span><span class='op'>)</span></pre>
@@ -139,24 +157,23 @@ radians. Degrees stored in radians will be converted to degrees.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A [terrainr::terrainr_coordinate_pair] object</p>
+    <p><code>terrainr_coordinate_pair</code> object</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other classes: 
-<code><a href='export_bounding_box.html'>export_bounding_box</a>()</code>,
+    <div class='dont-index'><p>Other classes and related functions: 
 <code><a href='export_coord_pair.html'>export_coord_pair</a>()</code>,
-<code><a href='terrainr_bounding_box-class.html'>terrainr_bounding_box-class</a></code>,
-<code><a href='terrainr_bounding_box.html'>terrainr_bounding_box</a></code>,
 <code><a href='terrainr_coordinate_pair-class.html'>terrainr_coordinate_pair-class</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>terrainr_coordinate_pair</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>44.05003</span>, <span class='op'>-</span><span class='fl'>74.01164</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Note: assuming unnamed coordinate vector is in (lat, lng) format</span></div><div class='output co'>#&gt; An object of class "terrainr_coordinate_pair"
+    <pre class="examples"><div class='input'><span class='fu'>terrainr_coordinate_pair</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>lat <span class='op'>=</span> <span class='fl'>44.05003</span>, lng <span class='op'>=</span> <span class='op'>-</span><span class='fl'>74.01164</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; An object of class "terrainr_coordinate_pair"
 #&gt; Slot "lat":
-#&gt; [1] 44.05003
+#&gt;      lat 
+#&gt; 44.05003 
 #&gt; 
 #&gt; Slot "lng":
-#&gt; [1] -74.01164
+#&gt;       lng 
+#&gt; -74.01164 
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

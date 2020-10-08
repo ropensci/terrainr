@@ -2,29 +2,27 @@
 % Please edit documentation in R/classes.R
 \name{export_coord_pair}
 \alias{export_coord_pair}
-\title{Convert a terrainr_coordinate_pair object to a base vector}
+\title{Convert a terrainr_coordinate_pair object to a base vector.}
 \usage{
 export_coord_pair(coord_pair)
 }
 \arguments{
-\item{coord_pair}{A [terrainr::terrainr_coordinate_pair] object}
+\item{coord_pair}{A \code{\link{terrainr_coordinate_pair}} object}
 }
 \value{
 A vector with a coordinate pair in (latitude, longitude) format
 }
 \description{
-Convert a terrainr_coordinate_pair object to a base vector
+Convert a terrainr_coordinate_pair object to a base vector.
 }
 \examples{
-coord_pair <- terrainr_coordinate_pair(c(44.05003, -74.01164))
+coord_pair <- terrainr_coordinate_pair(c(lat = 44.05003, lng = -74.01164))
 export_coord_pair(coord_pair)
+
 }
 \seealso{
-Other classes: 
-\code{\link{export_bounding_box}()},
-\code{\link{terrainr_bounding_box-class}},
-\code{\link{terrainr_bounding_box}},
+Other classes and related functions: 
 \code{\link{terrainr_coordinate_pair-class}},
 \code{\link{terrainr_coordinate_pair}}
 }
-\concept{classes}
+\concept{classes and related functions}

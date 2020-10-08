@@ -4,16 +4,20 @@
 \alias{add_bbox_buffer}
 \title{Add a uniform buffer around a bounding box}
 \usage{
-add_bbox_buffer(bbox, distance, distance_unit = "meters")
+add_bbox_buffer(bbox, distance, distance_unit = "meters", divisible = NULL)
 }
 \arguments{
 \item{bbox}{The original bounding box to add a buffer around. If not already
-a [terrainr_bounding_box] object, will be converted.}
+a \code{\link{terrainr_bounding_box}} object, will be converted.}
 
 \item{distance}{The distance to add to the buffer.}
 
 \item{distance_unit}{The units of the distance to add to the buffer, passed
-to [convert_distance].}
+to \code{\link{convert_distance}}.}
+
+\item{divisible}{Numeric: Extend the top right and bottom left corners so
+that each side is divisible by \code{divisible}. Leave set to \code{NULL} to
+not extend. This argument is in the same units as \code{distance_unit}.}
 }
 \value{
 A \code{\link{terrainr_bounding_box}} object.
@@ -21,7 +25,7 @@ A \code{\link{terrainr_bounding_box}} object.
 \description{
 This function calculates the great circle distance both corners of your
 bounding box are from the centroid and extends those by a set distance. Due
-to using great circle distance, calculations will not be exact.
+to using Haversine "great circle" distance, calculations will not be exact.
 }
 \examples{
 add_bbox_buffer(
@@ -31,4 +35,16 @@ add_bbox_buffer(
   ),
   10
 )
+
 }
+\seealso{
+Other utilities: 
+\code{\link{calc_haversine_distance}()},
+\code{\link{convert_distance}()},
+\code{\link{deg_to_rad}()},
+\code{\link{get_bbox_centroid}()},
+\code{\link{get_coord_bbox}()},
+\code{\link{point_from_distance}()},
+\code{\link{rad_to_deg}()}
+}
+\concept{utilities}

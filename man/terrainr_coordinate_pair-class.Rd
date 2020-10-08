@@ -3,9 +3,11 @@
 \docType{class}
 \name{terrainr_coordinate_pair-class}
 \alias{terrainr_coordinate_pair-class}
-\title{S4 class for coordinate points in the format expected by [terrainr] functions}
+\title{S4 class for coordinate points in the format expected by
+\code{\link{terrainr}} functions.}
 \description{
-S4 class for coordinate points in the format expected by [terrainr] functions
+S4 class for coordinate points in the format expected by
+\code{\link{terrainr}} functions.
 }
 \section{Slots}{
 
@@ -16,11 +18,8 @@ S4 class for coordinate points in the format expected by [terrainr] functions
 }}
 
 \seealso{
-Other classes: 
-\code{\link{export_bounding_box}()},
+Other classes and related functions: 
 \code{\link{export_coord_pair}()},
-\code{\link{terrainr_bounding_box-class}},
-\code{\link{terrainr_bounding_box}},
 \code{\link{terrainr_coordinate_pair}}
 }
-\concept{classes}
+\concept{classes and related functions}

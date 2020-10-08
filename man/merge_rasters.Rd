@@ -5,32 +5,46 @@
 \title{Merge multiple raster files into a single raster}
 \usage{
 merge_rasters(
-  input_heightmaps,
-  output_heightmap,
-  input_orthos = NULL,
-  output_ortho = NULL,
-  overwrite = TRUE
+  input_rasters,
+  output_raster = NULL,
+  input_images = NULL,
+  output_image = NULL,
+  overwrite = TRUE,
+  merge_raster = TRUE
 )
 }
 \arguments{
-\item{input_heightmaps}{A character vector containing the file paths to the
-elevation height maps to merge.}
+\item{input_rasters}{A character vector containing the file paths to the
+georeferenced rasters you want to use.}
 
-\item{output_heightmap}{The file path to save the merged elevation raster to.
-Must be a TIFF file.}
+\item{output_raster}{The file path to save the merged georeferenced raster to.
+Must be a TIFF file. Ignored if \code{merge_raster} is not \code{TRUE}.}
 
-\item{input_orthos}{A character vector, the same length as \code{input_heightmaps},
-containing the file paths to the orthoimages to merge. It's assumed that each
-orthoimage in the vector corresponds to the height map in the same position
-in input_heightmaps. If you don't want to merge any orthoimages, set to NULL.}
+\item{input_images}{A character vector, the same length as \code{input_rasters},
+containing the file paths to non-georeferenced images to merge. It's assumed
+that each image in the vector corresponds to the raster in the same position
+in input_rasters, and these images will be assigned the same extent and CRS.
+If you don't want to merge any images, leave as \code{NULL}.}
 
-\item{output_ortho}{The file path to save the merged orthoimage to.
-Must be a TIFF file. Set to NULL if you aren't merging orthoimages.}
+\item{output_image}{The file path to save the merged images to.
+Must be a TIFF file. Leave as \code{NULL} if you aren't merging images.}
 
 \item{overwrite}{Logical: overwrite the output files if they exist?}
+
+\item{merge_raster}{Logical: Should the files provided to input_rasters be
+merged? Set to \code{FALSE} if you're only providing these input tiles to
+georeference tiles in \code{input_images}.}
 }
 \description{
-Merge multiple raster files into a single raster
+Some functions like \code{\link{get_tiles}} return multiple separate files
+when it can be useful to have a single larger raster instead. This function
+will collapse those multiple raster files into a single TIFF.
+}
+\details{
+Additionally, some outputs from \code{\link{get_tiles}} (such as when
+\code{service = "ortho"}) are not georeferenced, making future processing
+with them harder. This function can georeference those images using a
+reference raster, then merge them into a single object for further processing.
 }
 \examples{
 \dontrun{
@@ -54,3 +68,8 @@ merge_rasters(raster_files, tempfile())
 }
 
 }
+\seealso{
+Other data manipulation functions: 
+\code{\link{raster_to_raw_tiles}()}
+}
+\concept{data manipulation functions}

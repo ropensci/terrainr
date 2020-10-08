@@ -2,6 +2,8 @@
 #'
 #' @param deg A vector of values, in decimal degrees, to convert to radians
 #'
+#' @family utilities
+#'
 #' @return A vector of the same length in radians
 #'
 #' @examples
@@ -16,6 +18,8 @@ deg_to_rad <- function(deg) {
 #' Convert radians to degrees
 #'
 #' @param rad A vector of values, in radians, to convert to decimal degrees
+#'
+#' @family utilities
 #'
 #' @return A vector of the same length in decimal degrees
 #'
@@ -32,6 +36,10 @@ rad_to_deg <- function(rad) {
 #'
 #' @param distance The numeric distance to be converted to meters
 #' @param distance_unit A string indicating the units to convert distance from
+#'
+#' @family utilities
+#'
+#' @return A numeric vector of distances, converted into meters.
 #'
 #' @examples
 #' convert_distance(100, "miles")

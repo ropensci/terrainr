@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get USGS elevation and imagery tiles for an area — get_tiles • terrainr</title>
+<title>A user-friendly way to get USGS National Map data tiles for an area — get_tiles • terrainr</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,9 @@
 
 
 
-<meta property="og:title" content="Get USGS elevation and imagery tiles for an area — get_tiles" />
+<meta property="og:title" content="A user-friendly way to get USGS National Map data tiles for an area — get_tiles" />
 <meta property="og:description" content="This function splits the area contained within a bounding box into a set of
-tiles, and retrieves USGS 3DEP heightmaps and NAIP orthoimagery for each tile.
-Tiles are downloaded at a resolution of 1 meter per pixel." />
+tiles, and retrieves data from the USGS National map for each tile." />
 
 
 
@@ -74,7 +73,7 @@ Tiles are downloaded at a resolution of 1 meter per pixel." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">terrainr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9001</span>
       </span>
     </div>
 
@@ -88,6 +87,18 @@ Tiles are downloaded at a resolution of 1 meter per pixel." />
     <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Vignettes
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/overview.html">A Gentle Introduction to terrainr</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -111,15 +122,14 @@ Tiles are downloaded at a resolution of 1 meter per pixel." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get USGS elevation and imagery tiles for an area</h1>
+    <h1>A user-friendly way to get USGS National Map data tiles for an area</h1>
     <small class="dont-index">Source: <a href='https://github.com/mikemahoney218/terrainr/blob/master/R/get_tiles.R'><code>R/get_tiles.R</code></a></small>
     <div class="hidden name"><code>get_tiles.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>This function splits the area contained within a bounding box into a set of
-tiles, and retrieves USGS 3DEP heightmaps and NAIP orthoimagery for each tile.
-Tiles are downloaded at a resolution of 1 meter per pixel.</p>
+tiles, and retrieves data from the USGS National map for each tile.</p>
     </div>
 
     <pre class="usage"><span class='fu'>get_tiles</span><span class='op'>(</span>
@@ -127,7 +137,8 @@ Tiles are downloaded at a resolution of 1 meter per pixel.</p>
   output_prefix <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span>,
   side_length <span class='op'>=</span> <span class='cn'>NULL</span>,
   services <span class='op'>=</span> <span class='st'>"elevation"</span>,
-  verbose <span class='op'>=</span> <span class='cn'>FALSE</span>
+  verbose <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -137,7 +148,7 @@ Tiles are downloaded at a resolution of 1 meter per pixel.</p>
       <th>bbox</th>
       <td><p>A bounding box representing the lower left and upper right corner
 of the area to retrieve a heightmap for. If not a
-[terrainr::terrainr_bounding_box] object, it will be coerced to one.</p></td>
+<code><a href='terrainr_bounding_box.html'>terrainr_bounding_box</a></code> object, it will be coerced to one.</p></td>
     </tr>
     <tr>
       <th>output_prefix</th>
@@ -145,27 +156,43 @@ of the area to retrieve a heightmap for. If not a
     </tr>
     <tr>
       <th>side_length</th>
-      <td><p>The length, in meters (and therefore pixels), of each side
-of tiles to download.</p></td>
+      <td><p>The length, in meters, of each side of tiles to download.
+If <code>NULL</code>, defaults to the maximum side length permitted by the least
+permissive service requested.</p></td>
+    </tr>
+    <tr>
+      <th>services</th>
+      <td><p>A character vector of services to download data from. Current
+options include "3DEPElevation" and "USGSNAIPPlus". Users can also use short
+codes to download a specific type of data without specifying the source;
+current options for short codes include "elevation" (equivalent to
+"3DEPElevation") and "ortho" (equivalent to "USGSNAIPPlus). Short codes are
+not guaranteed to refer to the same source across releases. Short codes are
+converted to their service name and then duplicates are removed, so any given
+source will only be queried once per tile.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
       <td><p>Logical: should tile retrieval functions run in verbose mode?</p></td>
     </tr>
     <tr>
-      <th>elevation</th>
-      <td><p>Logical: download elevation tiles for the specified area?</p></td>
-    </tr>
-    <tr>
-      <th>ortho</th>
-      <td><p>Logical: download orthoimagery tiles for the specified area?</p></td>
+      <th>...</th>
+      <td><p>Additional arguments passed to <code><a href='hit_national_map_api.html'>hit_national_map_api</a></code>.
+These can be used to change default query parameters or as additional options
+for the National Map services, but are at no point validated, so use at your
+own risk!</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list of length 2 with names `elevation` and `ortho` containing the
-file paths elevation and orthoimagery files were saved to, respectively.</p>
+    <p>A list of the same length as the number of unique services requested,
+containing named vectors of where data files were saved to. Returned
+invisibly.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other data retrieval functions: 
+<code><a href='hit_national_map_api.html'>hit_national_map_api</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
@@ -177,8 +204,7 @@ file paths elevation and orthoimagery files were saved to, respectively.</p>
 
 <span class='va'>bbox</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_coord_bbox.html'>get_coord_bbox</a></span><span class='op'>(</span>lat <span class='op'>=</span> <span class='va'>simulated_data</span><span class='op'>$</span><span class='va'>lat</span>, lng <span class='op'>=</span> <span class='va'>simulated_data</span><span class='op'>$</span><span class='va'>lng</span><span class='op'>)</span>
 <span class='va'>bbox</span> <span class='op'>&lt;-</span> <span class='fu'><a href='add_bbox_buffer.html'>add_bbox_buffer</a></span><span class='op'>(</span><span class='va'>bbox</span>, <span class='fl'>100</span><span class='op'>)</span>
-<span class='va'>bbox</span> <span class='op'>&lt;-</span> <span class='fu'>make_unity_friendly</span><span class='op'>(</span><span class='va'>bbox</span><span class='op'>)</span>
-<span class='fu'>get_tiles</span><span class='op'>(</span><span class='va'>bbox</span>, <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='fl'>4096</span><span class='op'>)</span>
+<span class='fu'>get_tiles</span><span class='op'>(</span><span class='va'>bbox</span>, <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>}</span>
 
 </div></pre>

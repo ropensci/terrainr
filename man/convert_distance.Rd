@@ -14,9 +14,23 @@ convert_distance(
 
 \item{distance_unit}{A string indicating the units to convert distance from}
 }
+\value{
+A numeric vector of distances, converted into meters.
+}
 \description{
 Convert distance into meters
 }
 \examples{
 convert_distance(100, "miles")
 }
+\seealso{
+Other utilities: 
+\code{\link{add_bbox_buffer}()},
+\code{\link{calc_haversine_distance}()},
+\code{\link{deg_to_rad}()},
+\code{\link{get_bbox_centroid}()},
+\code{\link{get_coord_bbox}()},
+\code{\link{point_from_distance}()},
+\code{\link{rad_to_deg}()}
+}
+\concept{utilities}

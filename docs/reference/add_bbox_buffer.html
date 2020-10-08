@@ -42,7 +42,7 @@
 <meta property="og:title" content="Add a uniform buffer around a bounding box — add_bbox_buffer" />
 <meta property="og:description" content="This function calculates the great circle distance both corners of your
 bounding box are from the centroid and extends those by a set distance. Due
-to using great circle distance, calculations will not be exact." />
+to using Haversine &quot;great circle&quot; distance, calculations will not be exact." />
 
 
 
@@ -74,7 +74,7 @@ to using great circle distance, calculations will not be exact." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">terrainr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9001</span>
       </span>
     </div>
 
@@ -88,6 +88,18 @@ to using great circle distance, calculations will not be exact." />
     <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Vignettes
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/overview.html">A Gentle Introduction to terrainr</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -119,10 +131,10 @@ to using great circle distance, calculations will not be exact." />
     <div class="ref-description">
     <p>This function calculates the great circle distance both corners of your
 bounding box are from the centroid and extends those by a set distance. Due
-to using great circle distance, calculations will not be exact.</p>
+to using Haversine "great circle" distance, calculations will not be exact.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>add_bbox_buffer</span><span class='op'>(</span><span class='va'>bbox</span>, <span class='va'>distance</span>, distance_unit <span class='op'>=</span> <span class='st'>"meters"</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>add_bbox_buffer</span><span class='op'>(</span><span class='va'>bbox</span>, <span class='va'>distance</span>, distance_unit <span class='op'>=</span> <span class='st'>"meters"</span>, divisible <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -130,7 +142,7 @@ to using great circle distance, calculations will not be exact.</p>
     <tr>
       <th>bbox</th>
       <td><p>The original bounding box to add a buffer around. If not already
-a [terrainr_bounding_box] object, will be converted.</p></td>
+a <code><a href='terrainr_bounding_box.html'>terrainr_bounding_box</a></code> object, will be converted.</p></td>
     </tr>
     <tr>
       <th>distance</th>
@@ -139,13 +151,29 @@ a [terrainr_bounding_box] object, will be converted.</p></td>
     <tr>
       <th>distance_unit</th>
       <td><p>The units of the distance to add to the buffer, passed
-to [convert_distance].</p></td>
+to <code><a href='convert_distance.html'>convert_distance</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>divisible</th>
+      <td><p>Numeric: Extend the top right and bottom left corners so
+that each side is divisible by <code>divisible</code>. Leave set to <code>NULL</code> to
+not extend. This argument is in the same units as <code>distance_unit</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A <code><a href='terrainr_bounding_box.html'>terrainr_bounding_box</a></code> object.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other utilities: 
+<code><a href='calc_haversine_distance.html'>calc_haversine_distance</a>()</code>,
+<code><a href='convert_distance.html'>convert_distance</a>()</code>,
+<code><a href='deg_to_rad.html'>deg_to_rad</a>()</code>,
+<code><a href='get_bbox_centroid.html'>get_bbox_centroid</a>()</code>,
+<code><a href='get_coord_bbox.html'>get_coord_bbox</a>()</code>,
+<code><a href='point_from_distance.html'>point_from_distance</a>()</code>,
+<code><a href='rad_to_deg.html'>rad_to_deg</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>add_bbox_buffer</span><span class='op'>(</span>
@@ -177,7 +205,8 @@ to [convert_distance].</p></td>
 #&gt;       lng 
 #&gt; -73.83484 
 #&gt; 
-#&gt; </div></pre>
+#&gt; </div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -3,26 +3,21 @@
 \docType{class}
 \name{terrainr_bounding_box-class}
 \alias{terrainr_bounding_box-class}
-\title{S4 class for bounding boxes in the format expected by [terrainr] functions}
+\title{S4 class for bounding boxes in the format expected by \code{terrainr}
+functions.}
 \description{
-S4 class for bounding boxes in the format expected by [terrainr] functions
+S4 class for bounding boxes in the format expected by \code{terrainr}
+functions.
 }
 \section{Slots}{
 
 \describe{
-\item{\code{bl}}{A [terrainr::terrainr_coordinate_pair] representing the bottom left
-corner of the bounding box}
+\item{\code{bl}}{A \code{\link{terrainr_coordinate_pair}} representing the bottom
+left corner of the bounding box}
 
-\item{\code{tr}}{A [terrainr::terrainr_coordinate_pair] representing the top right
-corner of the bounding box}
+\item{\code{tr}}{A \code{\link{terrainr_coordinate_pair}} representing the top right
+corner of the bounding box
+
+classes and related functions}
 }}
 
-\seealso{
-Other classes: 
-\code{\link{export_bounding_box}()},
-\code{\link{export_coord_pair}()},
-\code{\link{terrainr_bounding_box}},
-\code{\link{terrainr_coordinate_pair-class}},
-\code{\link{terrainr_coordinate_pair}}
-}
-\concept{classes}
