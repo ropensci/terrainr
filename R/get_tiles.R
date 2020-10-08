@@ -10,12 +10,12 @@
 #' @param output_prefix The file prefix to use when saving tiles.
 #' @param side_length The length, in meters (and therefore pixels), of each side
 #' of tiles to download.
-#' @param extend Logical: if the side length of the bounding box isn't divisible
-#' by \code{side_length}, should it be extended to be divisible?
-#' @param elevation Logical: download elevation tiles for the
+#' @param elevation Logical: download elevation tiles for the specified area?
+#' @param ortho Logical: download orthoimagery tiles for the specified area?
 #' @param verbose Logical: should tile retrieval functions run in verbose mode?
 #'
-#' @return The original bounding box, invisibly.
+#' @return A list of length 2 with names `elevation` and `ortho` containing the
+#' file paths elevation and orthoimagery files were saved to, respectively.
 #'
 #' @examples
 #' \dontrun{
@@ -33,14 +33,17 @@
 #'
 #' @export
 get_tiles <- function(bbox,
-                      output_prefix,
-                      side_length,
-                      extend = FALSE,
+                      output_prefix = tempfile(),
+                      side_length = NULL,
                       elevation = TRUE,
                       ortho = FALSE,
                       verbose = FALSE) {
   if (!methods::is(bbox, "terrainr_bounding_box")) {
     bbox <- terrainr_bounding_box(bbox[[1]], bbox[[2]])
+  }
+
+  if (is.null(side_length)) {
+    if (ortho) side_length <- 4096  else side_length <- 8000
   }
 
   if (ortho && side_length > 4096) {
@@ -98,7 +101,7 @@ get_tiles <- function(bbox,
   }
 
   if (any(grepl("progressr", installed.packages()))) {
-    p <- progressr::progressor(steps = x_tiles * y_tiles)
+    p <- progressr::progressor(steps = x_tiles * y_tiles * (elevation + ortho))
   }
 
   for (i in 1:x_tiles) {
@@ -134,6 +137,17 @@ get_tiles <- function(bbox,
     }
   }
 
-  return(invisible(bbox))
+  res <- vector("list")
+  res$elevation <- paste0(output_prefix, "_",
+                          outer(1:x_tiles, 1:y_tiles, paste, sep = "_"),
+                          ".tiff")
+  res$ortho <- NULL
+  if (ortho) {
+    res$ortho <- paste0(output_prefix, "_",
+                        outer(1:x_tiles, 1:y_tiles, paste, sep = "_"),
+                        ".png")
+  }
+
+  return(invisible(res))
 
 }

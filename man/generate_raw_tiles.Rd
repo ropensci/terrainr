@@ -6,9 +6,9 @@
 \usage{
 generate_raw_tiles(
   data = NULL,
+  raw_output_prefix,
   lat = NULL,
   lng = NULL,
-  raw_output_prefix,
   bbox = NULL,
   buffer_distance = NULL,
   distance_unit = "meters",
@@ -21,6 +21,11 @@ generate_raw_tiles(
 \item{data}{Optionally, a dataframe containing vectors of latitude and
 longitude.}
 
+\item{raw_output_prefix}{A string indicating the prefix to label output files
+with. Files are named in the pattern \code{output_prefix_x_y.raw} where
+\code{x} and \code{y} are the x and y position in pixels of the upper left
+corner.}
+
 \item{lat}{If \code{data} is not \code{NULL}, the name of the column
 containing latitude values. If \code{data} is \code{NULL}, a vector of
 latitude values.}
@@ -28,11 +33,6 @@ latitude values.}
 \item{lng}{If \code{data} is not \code{NULL}, the name of the column
 containing longitude values. If \code{data} is \code{NULL}, a vector of
 longitude values.}
-
-\item{raw_output_prefix}{A string indicating the prefix to label output files
-with. Files are named in the pattern \code{output_prefix_x_y.raw} where
-\code{x} and \code{y} are the x and y position in pixels of the upper left
-corner.}
 
 \item{bbox}{Optionally, a bounding box representing the area to pull a DEM
 for. If provided, arguments to \code{data}, \code{lat}, and \code{lng} are

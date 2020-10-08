@@ -6,9 +6,8 @@
 \usage{
 get_tiles(
   bbox,
-  output_prefix,
-  side_length,
-  extend = FALSE,
+  output_prefix = tempfile(),
+  side_length = NULL,
   elevation = TRUE,
   ortho = FALSE,
   verbose = FALSE
@@ -24,15 +23,15 @@ of the area to retrieve a heightmap for. If not a
 \item{side_length}{The length, in meters (and therefore pixels), of each side
 of tiles to download.}
 
-\item{extend}{Logical: if the side length of the bounding box isn't divisible
-by \code{side_length}, should it be extended to be divisible?}
+\item{elevation}{Logical: download elevation tiles for the specified area?}
 
-\item{elevation}{Logical: download elevation tiles for the}
+\item{ortho}{Logical: download orthoimagery tiles for the specified area?}
 
 \item{verbose}{Logical: should tile retrieval functions run in verbose mode?}
 }
 \value{
-The original bounding box, invisibly.
+A list of length 2 with names `elevation` and `ortho` containing the
+file paths elevation and orthoimagery files were saved to, respectively.
 }
 \description{
 This function splits the area contained within a bounding box into a set of

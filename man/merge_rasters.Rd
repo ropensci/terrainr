@@ -4,15 +4,30 @@
 \alias{merge_rasters}
 \title{Merge multiple raster files into a single raster}
 \usage{
-merge_rasters(input_files, output_file, overwrite = TRUE)
+merge_rasters(
+  input_heightmaps,
+  output_heightmap,
+  input_orthos = NULL,
+  output_ortho = NULL,
+  overwrite = TRUE
+)
 }
 \arguments{
-\item{input_files}{A character vector containing the file paths to the
-rasters to merge.}
+\item{input_heightmaps}{A character vector containing the file paths to the
+elevation height maps to merge.}
 
-\item{output_file}{The file path to save the merged raster file to.}
+\item{output_heightmap}{The file path to save the merged elevation raster to.
+Must be a TIFF file.}
 
-\item{overwrite}{Logical: overwrite output_file if it exists?}
+\item{input_orthos}{A character vector, the same length as \code{input_heightmaps},
+containing the file paths to the orthoimages to merge. It's assumed that each
+orthoimage in the vector corresponds to the height map in the same position
+in input_heightmaps. If you don't want to merge any orthoimages, set to NULL.}
+
+\item{output_ortho}{The file path to save the merged orthoimage to.
+Must be a TIFF file. Set to NULL if you aren't merging orthoimages.}
+
+\item{overwrite}{Logical: overwrite the output files if they exist?}
 }
 \description{
 Merge multiple raster files into a single raster

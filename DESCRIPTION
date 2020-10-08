@@ -23,7 +23,8 @@ Imports:
     magick,
     gdalUtilities,
     gdalUtils,
-    methods
+    methods,
+    png
 RoxygenNote: 7.1.1
 Suggests: 
     testthat,
