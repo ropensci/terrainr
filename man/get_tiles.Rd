@@ -8,8 +8,7 @@ get_tiles(
   bbox,
   output_prefix = tempfile(),
   side_length = NULL,
-  elevation = TRUE,
-  ortho = FALSE,
+  services = "elevation",
   verbose = FALSE
 )
 }
@@ -23,11 +22,11 @@ of the area to retrieve a heightmap for. If not a
 \item{side_length}{The length, in meters (and therefore pixels), of each side
 of tiles to download.}
 
+\item{verbose}{Logical: should tile retrieval functions run in verbose mode?}
+
 \item{elevation}{Logical: download elevation tiles for the specified area?}
 
 \item{ortho}{Logical: download orthoimagery tiles for the specified area?}
-
-\item{verbose}{Logical: should tile retrieval functions run in verbose mode?}
 }
 \value{
 A list of length 2 with names `elevation` and `ortho` containing the

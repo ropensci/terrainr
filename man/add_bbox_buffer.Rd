@@ -8,12 +8,15 @@ add_bbox_buffer(bbox, distance, distance_unit = "meters")
 }
 \arguments{
 \item{bbox}{The original bounding box to add a buffer around. If not already
-a [terrainr::terrainr_bounding_box] object, will be converted.}
+a [terrainr_bounding_box] object, will be converted.}
 
 \item{distance}{The distance to add to the buffer.}
 
 \item{distance_unit}{The units of the distance to add to the buffer, passed
-to [terrainr::convert_distance].}
+to [convert_distance].}
+}
+\value{
+A \code{\link{terrainr_bounding_box}} object.
 }
 \description{
 This function calculates the great circle distance both corners of your

@@ -70,9 +70,9 @@ raster_to_raw_tiles <- function(input_file,
       names(temptiffs)[[counter]] <- paste0(
         output_prefix,
         "_",
-        x_tiles[[i]],
+        i,
         "_",
-        y_tiles[[j]],
+        j,
         ifelse(raw, ".raw", ".png")
       )
       counter <- counter + 1

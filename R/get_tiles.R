@@ -35,23 +35,39 @@
 get_tiles <- function(bbox,
                       output_prefix = tempfile(),
                       side_length = NULL,
-                      elevation = TRUE,
-                      ortho = FALSE,
+                      services = "elevation",
                       verbose = FALSE) {
+
+  # short codes are assigned as names; we'll cast them into the full name later
+  list_of_services <- c("elevation" = "3DEPElevation",
+                        "ortho" = "USGSNAIPPlus")
+
+  stopifnot(all(services %in% list_of_services |
+                  services %in% names(list_of_services)))
+
+  tif_files <- "3DEPElevation"
+  png_files <- "USGSNAIPPlus"
+
+  if (any(services %in% names(list_of_services))) { # cast short codes now
+    replacements <- which(services %in% names(list_of_services))
+    services[replacements] <- as.vector(list_of_services[services[replacements]])
+  }
+
+  services <- unique(services)
+
   if (!methods::is(bbox, "terrainr_bounding_box")) {
     bbox <- terrainr_bounding_box(bbox[[1]], bbox[[2]])
   }
 
   if (is.null(side_length)) {
-    if (ortho) side_length <- 4096  else side_length <- 8000
+    if ("USGSNAIPPlus" %in% services) side_length <- 4096 else side_length <- 8000
   }
 
-  if (ortho && side_length > 4096) {
-    stop("Orthoimagery tiles have a maximum side length of 4097. ",
-         "Set ortho to FALSE or change your maximum side length.")
+  if (("USGSNAIPPlus" %in% services) && side_length > 4096) {
+    stop("USGSNAIPPlus tiles have a maximum side length of 4097.")
   }
-  if (elevation && side_length > 8000) {
-    stop("Elevation tiles have a maximum side length of 8000.")
+  if (("3DEPElevation" %in% services) && side_length > 8000) {
+    stop("3DEPElevation tiles have a maximum side length of 8000.")
   }
 
   tl <- terrainr_coordinate_pair(c(bbox@tr@lat, bbox@bl@lng))
@@ -101,51 +117,62 @@ get_tiles <- function(bbox,
   }
 
   if (any(grepl("progressr", installed.packages()))) {
-    p <- progressr::progressor(steps = x_tiles * y_tiles * (elevation + ortho))
+    p <- progressr::progressor(steps = x_tiles * y_tiles * length(services))
   }
 
-  for (i in 1:x_tiles) {
-    for (j in 1:y_tiles) {
+  for (i in seq_len(x_tiles)) {
+    for (j in seq_len(y_tiles)) {
       current_box <- tile_boxes[[i]][[j]]
-
-      if (elevation) {
+      for (k in seq_along(services)) {
         if (any(grepl("progressr", installed.packages()))) {
-          p(message = sprintf("Retriving elevation tile (%d,%d)", i, j))
+          p(message = sprintf("Retriving %s tile (%d, %d)",
+                              services[[k]],
+                              i,
+                              j)
+            )
         }
-        img_bin <- hit_heightmap_api(current_box[["bbox"]],
-                                     current_box[["img_width"]],
-                                     current_box[["img_height"]],
-                                     verbose = verbose
-        )
 
-        writeBin(img_bin, paste0(output_prefix, "_", i, "_", j, ".tiff"))
+        if (services[[k]] %in% tif_files) {
+          fileext <- ".tiff"
+        } else if (services[[k]] %in% png_files) {
+          fileext <- ".png"
+        }
+
+        img_bin <- hit_national_map_api(current_box[["bbox"]],
+                                        current_box[["img_width"]],
+                                        current_box[["img_height"]],
+                                        services[[k]],
+                                        verbose = verbose
+                                        )
+
+        writeBin(img_bin, paste0(output_prefix,
+                                 "_",
+                                 services[[k]],
+                                 "_",
+                                 i,
+                                 "_",
+                                 j,
+                                 fileext))
       }
 
-      if (ortho) {
-        if (any(grepl("progressr", installed.packages()))) {
-          p(message = sprintf("Retriving orthoimage tile (%d,%d)", i, j))
-        }
-        img_bin <- hit_ortho_api(current_box[["bbox"]],
-                                 overlay,
-                                 current_box[["img_width"]],
-                                 current_box[["img_height"]],
-                                 verbose = verbose
-        )
-        writeBin(img_bin, paste0(output_prefix, "_", i, "_", j, ".png"))
-      }
 
     }
   }
 
   res <- vector("list")
-  res$elevation <- paste0(output_prefix, "_",
-                          outer(1:x_tiles, 1:y_tiles, paste, sep = "_"),
-                          ".tiff")
-  res$ortho <- NULL
-  if (ortho) {
-    res$ortho <- paste0(output_prefix, "_",
-                        outer(1:x_tiles, 1:y_tiles, paste, sep = "_"),
-                        ".png")
+  for (i in seq_along(services)) {
+    if (services[[i]] %in% tif_files) {
+      fileext <- ".tiff"
+    } else if (services[[i]] %in% png_files) {
+      fileext <- ".png"
+    }
+    res[[i]] <- paste0(output_prefix,
+                       "_",
+                       services[[i]],
+                       "_",
+                       outer(1:x_tiles, 1:y_tiles, paste, sep = "_"),
+                       fileext)
+    names(res)[[i]] <- services[[i]]
   }
 
   return(invisible(res))
