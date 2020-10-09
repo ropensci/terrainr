@@ -1,6 +1,8 @@
 # terrainr 0.0.0.9001
 
 * First development version
+* Supports retrieval from 3DEP and NAIP data sources
+* Supports export to Unity-friendly format
 * Functions in this version:
     * Utility functions: 
         * add_bbox_buffer
@@ -14,7 +16,6 @@
     * Data retrieval functions:
       * get_tiles 
       * hit_national_map_api
-      * Supports 3DEP and NAIP data sources
     * Data processing functions:
       * merge_rasters
       * raster_to_raw_tiles

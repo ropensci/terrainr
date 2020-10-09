@@ -12,7 +12,7 @@ navbar:
     - articles
     - reference
 #    - tutorials
-#    - news
+    - news
     - github
   components:
     home:
@@ -26,9 +26,9 @@ navbar:
     reference:
       text: Reference
       href: reference/index.html
-#    news:
-#      text: News
-#      href: news/index.html
+    news:
+      text: News
+      href: news/index.html
     github:
       icon: fab fa-github fa-lg
       href: https://github.com/mikemahoney218/terrainr
@@ -42,7 +42,7 @@ reference:
     - merge_rasters
     - raster_to_raw_tiles
   - title: Utility Functions
-  - contents: 
+  - contents:
     - add_bbox_buffer
     - convert_distance
     - deg_to_rad
@@ -53,11 +53,11 @@ reference:
   - title: Classes and Related Functions
   - contents:
     - terrainr_coordinate_pair-class
-    - terrainr_bounding_box-class 
+    - terrainr_bounding_box-class
     - terrainr_coordinate_pair
     - terrainr_bounding_box
     - export_coord_pair
     - export_bounding_box
 
-    
+
 
