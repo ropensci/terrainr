@@ -28,24 +28,25 @@ simulated_data <-  data.frame(id = seq(1, 100, 1),
 bbox <- get_coord_bbox(lat = simulated_data$lat, lng = simulated_data$lng) 
 output_tiles <- get_tiles(bbox = bbox,
                           services = c("elevation", "ortho"))
+```
 
+``` r
 # output_tiles is now a list of two vectors pointing to the elevation and 
 # orthoimagery tiles we just downloaded -- here we're displaying the first
 # of the ortho tiles
 raster::plot(raster::raster(output_tiles[[2]][[1]]))
 ```
 
-<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" /><img src="man/figures/README-unnamed-chunk-2-2.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-2-2.png" width="100%" />
 
 Once downloaded, these images are in standard GeoTIFF or PNG formats and
 can be used as expected with other utilities:
 
 ``` r
-raster_read <- raster::raster(output_tiles[[1]][[1]])
-raster::plot(raster_read)
+raster::plot(raster::raster(output_tiles[[1]][[1]]))
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
 
 Additionally, terrainr provides functions to transform these tiles into
 RAW images ready to be imported into the Unity rendering engine,
