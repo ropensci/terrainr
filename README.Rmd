@@ -40,19 +40,25 @@ simulated_data <-  data.frame(id = seq(1, 100, 1),
 bbox <- get_coord_bbox(lat = simulated_data$lat, lng = simulated_data$lng) 
 output_tiles <- get_tiles(bbox = bbox,
                           services = c("elevation", "ortho"))
-
+```
+```{r, eval = FALSE}
 # output_tiles is now a list of two vectors pointing to the elevation and 
 # orthoimagery tiles we just downloaded -- here we're displaying the first
 # of the ortho tiles
 raster::plot(raster::raster(output_tiles[[2]][[1]]))
 ```
 
+```{r, echo = FALSE}
+# that above plot leaves rmarkdown looking for a tempfile
+# toss the actual image into man
+knitr::include_graphics("man/figures/README-unnamed-chunk-2-2.png")
+```
+
 Once downloaded, these images are in standard GeoTIFF or PNG formats and can be
 used as expected with other utilities:
 
 ```{r}
-raster_read <- raster::raster(output_tiles[[1]][[1]])
-raster::plot(raster_read)
+raster::plot(raster::raster(output_tiles[[1]][[1]]))
 ```
 
 Additionally, terrainr provides functions to transform these tiles into RAW 

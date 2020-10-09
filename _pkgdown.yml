@@ -5,7 +5,6 @@ authors:
 template:
   params:
     bootswatch: flatly
-#    ganalytics: UA-127971769-2
 navbar:
   structure:
     right:
