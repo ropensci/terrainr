@@ -33,10 +33,11 @@ Imagery Program.
 
 ```{r}
 library(terrainr)
-bbox <- list(c(lat = 44.13926, lng = -74.01099),
-             c(lat = 44.17609, lng = -73.95974))
-bbox <- add_bbox_buffer(bbox, 100)
-             
+simulated_data <-  data.frame(id = seq(1, 100, 1),
+                              lat = runif(100, 44.04905, 44.17609), 
+                              lng = runif(100, -74.01188, -73.83493))
+
+bbox <- get_coord_bbox(lat = simulated_data$lat, lng = simulated_data$lng) 
 output_tiles <- get_tiles(bbox = bbox,
                           services = c("elevation", "ortho"))
 
@@ -56,34 +57,31 @@ raster::plot(raster_read)
 
 Additionally, terrainr provides functions to transform these tiles into RAW 
 images ready to be imported into the Unity rendering engine, allowing you to 
-fly or walk through your downloaded data sets:
+fly or walk through your downloaded data sets in 3D or VR:
 
-```{r, results = FALSE}
+```{r, results = FALSE, eval=FALSE}
 merged_dem <- tempfile(fileext = ".tif")
 merged_ortho <- tempfile(fileext = ".tif")
-merge_rasters(output_tiles[[1]], 
-              merged_dem,
-              output_tiles[[2]],
+# we can call these vectors by name instead of position, too
+merge_rasters(output_tiles$`3DEPElevation`, 
+              merged_dem, 
+              output_tiles$USGSNAIPPlus, 
               merged_ortho)
 
-mapply(
-  function(x, y) raster_to_raw_tiles(input_file = x, 
-                                     output_prefix = "marcy", 
-                                     side_length = 4096, 
-                                     raw = y),
-  c(merged_dem, merged_ortho),
-  c(TRUE, FALSE)
-  )
-```
+mapply(function(x, y) raster_to_raw_tiles(input_file = x, 
+                                          output_prefix = tempfile(), 
+                                          side_length = 4097, 
+                                          raw = y),
+       c(merged_dem, merged_ortho),
+       c(TRUE, FALSE))
 
-
-
-```{r}
-# With about two minutes of movie magic (loading the files into Unity), 
+# With about ten minutes of movie magic (loading the files into Unity), 
 # we can turn that into:
-
 ```
 
+```{r echo=FALSE}
+knitr::include_graphics("man/figures/unity-lakeside.jpg")
+```
 
 terrainr also includes functionality to merge and crop the files you've 
 downloaded, and to resize your area of interest so you're sure to download 
