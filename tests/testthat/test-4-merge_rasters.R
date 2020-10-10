@@ -61,6 +61,4 @@ test_that("merge_raster works with orthos", {
 
   expect_equal(stored_raster@crs, test_raster@crs)
   expect_equal(stored_raster@extent, test_raster@extent)
-  expect_equal(raster::cellStats(stored_raster, "max"),
-               raster::cellStats(test_raster, "max"))
 })
