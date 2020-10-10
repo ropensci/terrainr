@@ -6,6 +6,8 @@
 \alias{terrainr-package}
 \title{terrainr: Retrieve and Transform Data From The 'USGS' National Map}
 \description{
+\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
+
 Functions for the retrieval and manipulation of 'USGS' National Map 
     data, enabling users to download elevation and image data for areas of 
     interest. Functions are also provided to transform these data sources into 
