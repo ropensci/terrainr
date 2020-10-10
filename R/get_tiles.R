@@ -52,11 +52,13 @@ get_tiles <- function(bbox,
                       ...) {
 
   # short codes are assigned as names; we'll cast them into the full name later
-  list_of_services <- c("elevation" = "3DEPElevation",
-                        "ortho" = "USGSNAIPPlus")
+  list_of_services <- c(
+    "elevation" = "3DEPElevation",
+    "ortho" = "USGSNAIPPlus"
+  )
 
   stopifnot(all(services %in% list_of_services |
-                  services %in% names(list_of_services)))
+    services %in% names(list_of_services)))
 
   tif_files <- "3DEPElevation"
 
@@ -123,12 +125,12 @@ get_tiles <- function(bbox,
           tr = terrainr_coordinate_pair(c(top_lat, right_lng))
         ),
         img_width = ifelse(((img_width - (i * side_length)) < 0),
-                           img_width - ((i - 1) * side_length),
-                           side_length
+          img_width - ((i - 1) * side_length),
+          side_length
         ),
         img_height = ifelse((img_height - (j * side_length) < 0),
-                            img_height - ((j - 1) * side_length),
-                            side_length
+          img_height - ((j - 1) * side_length),
+          side_length
         )
       )
     }
@@ -143,11 +145,12 @@ get_tiles <- function(bbox,
       current_box <- tile_boxes[[i]][[j]]
       for (k in seq_along(services)) {
         if (any(grepl("progressr", utils::installed.packages()))) {
-          p(message = sprintf("Retriving %s tile (%d, %d)",
-                              services[[k]],
-                              i,
-                              j)
-            )
+          p(message = sprintf(
+            "Retriving %s tile (%d, %d)",
+            services[[k]],
+            i,
+            j
+          ))
         }
 
         if (services[[k]] %in% tif_files) {
@@ -157,24 +160,24 @@ get_tiles <- function(bbox,
         }
 
         img_bin <- hit_national_map_api(current_box[["bbox"]],
-                                        current_box[["img_width"]],
-                                        current_box[["img_height"]],
-                                        services[[k]],
-                                        verbose = verbose,
-                                        ...
-                                        )
+          current_box[["img_width"]],
+          current_box[["img_height"]],
+          services[[k]],
+          verbose = verbose,
+          ...
+        )
 
-        writeBin(img_bin, paste0(output_prefix,
-                                 "_",
-                                 services[[k]],
-                                 "_",
-                                 i,
-                                 "_",
-                                 j,
-                                 fileext))
+        writeBin(img_bin, paste0(
+          output_prefix,
+          "_",
+          services[[k]],
+          "_",
+          i,
+          "_",
+          j,
+          fileext
+        ))
       }
-
-
     }
   }
 
@@ -185,15 +188,16 @@ get_tiles <- function(bbox,
     } else if (services[[i]] %in% png_files) {
       fileext <- ".png"
     }
-    res[[i]] <- paste0(output_prefix,
-                       "_",
-                       services[[i]],
-                       "_",
-                       outer(1:x_tiles, 1:y_tiles, paste, sep = "_"),
-                       fileext)
+    res[[i]] <- paste0(
+      output_prefix,
+      "_",
+      services[[i]],
+      "_",
+      outer(1:x_tiles, 1:y_tiles, paste, sep = "_"),
+      fileext
+    )
     names(res)[[i]] <- services[[i]]
   }
 
   return(invisible(res))
-
 }

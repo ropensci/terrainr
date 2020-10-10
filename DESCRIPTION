@@ -33,7 +33,8 @@ Suggests:
     covr,
     progressr,
     knitr,
-    rmarkdown
+    rmarkdown,
+    progress
 Config/testthat/parallel: true
 Config/testthat/edition: 3
 VignetteBuilder: knitr

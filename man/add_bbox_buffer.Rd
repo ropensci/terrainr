@@ -35,7 +35,6 @@ add_bbox_buffer(
   ),
   10
 )
-
 }
 \seealso{
 Other utilities: 

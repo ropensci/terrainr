@@ -30,8 +30,10 @@ test_that("export functions are stable", {
   expect_warning(export_bounding_box("not a bounding box"))
 
   expect_equal(
-    export_coord_pair(terrainr_coordinate_pair(c(lat = 44.04905,
-                                                 lng = -74.01188))),
+    export_coord_pair(terrainr_coordinate_pair(c(
+      lat = 44.04905,
+      lng = -74.01188
+    ))),
     c(lat = 44.04905, lng = -74.01188)
   )
 
@@ -46,4 +48,3 @@ test_that("export functions are stable", {
     )
   )
 })
-

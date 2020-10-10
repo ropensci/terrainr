@@ -16,3 +16,5 @@ tests/testthat/testdata/test_ortho.tif
 testdata/test_final_1_1.png
 .covrignore
 ^\.travis\.yml$
+^doc$
+^Meta$

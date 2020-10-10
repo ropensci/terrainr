@@ -40,11 +40,14 @@ a more friendly interface.
 \examples{
 \dontrun{
 hit_national_map_api(
-                     bbox = list(c(lat = 44.10438, lng = -74.01231),
-                                 c(lat = 44.17633, lng = -73.91224)),
-                     img.width = 8000,
-                     img.height = 8000,
-                     service = "3DEPElevation")
+  bbox = list(
+    c(lat = 44.10438, lng = -74.01231),
+    c(lat = 44.17633, lng = -73.91224)
+  ),
+  img.width = 8000,
+  img.height = 8000,
+  service = "3DEPElevation"
+)
 }
 
 }

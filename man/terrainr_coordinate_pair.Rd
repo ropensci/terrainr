@@ -10,7 +10,8 @@ terrainr_coordinate_pair(coords, coord_units = c("degrees", "radians"))
 \item{coords}{A vector of length 2 containing a latitude and longitude. If
 unnamed, coordinates are assumed to be in (latitude, longitude) format; if
 named, the function will attempt to figure out which value represents which
-coordinate.}
+coordinate. Currently this function understands "lat", "latitude", and "y" as
+names for latitude and "lng", "long", "longitude", and "x" for longitude.}
 
 \item{coord_units}{String indicating whether coordinates are in degrees or
 radians. Degrees stored in radians will be converted to degrees.}

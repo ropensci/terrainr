@@ -15,6 +15,7 @@ maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www
 status](https://travis-ci.com/mikemahoney218/terrainr.svg?branch=master)](https://travis-ci.com/mikemahoney218/terrainr)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/mikemahoney218/terrainr?branch=master&svg=true)](https://ci.appveyor.com/project/mikemahoney218/terrainr)
+[![codecov](https://codecov.io/gh/mikemahoney218/terrainr/branch/master/graph/badge.svg)](https://codecov.io/gh/mikemahoney218/terrainr)
 <!-- badges: end -->
 
 ## Overview

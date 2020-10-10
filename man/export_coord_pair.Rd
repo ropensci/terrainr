@@ -18,7 +18,6 @@ Convert a terrainr_coordinate_pair object to a base vector.
 \examples{
 coord_pair <- terrainr_coordinate_pair(c(lat = 44.05003, lng = -74.01164))
 export_coord_pair(coord_pair)
-
 }
 \seealso{
 Other classes and related functions: 

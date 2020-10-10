@@ -91,8 +91,162 @@
 
     
     
+<p>The goal of the terrainr package is to make it easy for users to download geospatial data from the USGS National Map API and then process that data for further analysis, or to produce tiles that can then be imported into the Unity 3D rendering engine to be used as physics objects. This vignette will walk through the core functions available in terrainr and talk about a few quirks of the National Map service and how to work around them.</p>
+<p>Let’s load the terrainr package to get started:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit">
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mikemahoney218/terrainr">terrainr</a></span><span class="op">)</span></pre></div>
+<p>We’re going to work with data for Mount Elbert today, the highest point in the Rocky Mountain range. I’m just choosing this location for the dramatic scenery; the National Map can be used to retrieve data for the entire United States and much of Canada. Let’s simulate some data for the area right around Mt. Elbert, such as the point data we might get from field data:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="va">mt_elbert_points</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
+  lat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">100</span>, min <span class="op">=</span> <span class="fl">39.11144</span>, max <span class="op">=</span> <span class="fl">39.12416</span><span class="op">)</span>,
+  lng <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">100</span>, min <span class="op">=</span> <span class="op">-</span><span class="fl">106.4534</span>, max <span class="op">=</span> <span class="op">-</span><span class="fl">106.437</span><span class="op">)</span>
+<span class="op">)</span></pre></div>
+<p>Let’s also assign the coordinates for the peak to <code>mt_elbert</code>:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="va">mt_elbert</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">39.1178</span>, <span class="op">-</span><span class="fl">106.4452</span><span class="op">)</span></pre></div>
+<p>Our first step is to get the bounding box that contains our data. This is where our first terrainr function, <code>get_coord_bbox</code>, comes in:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="va">mt_elbert_bbox</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_coord_bbox.html">get_coord_bbox</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">mt_elbert_points</span>, 
+                                 lat <span class="op">=</span> <span class="st">"lat"</span>, 
+                                 lng <span class="op">=</span> <span class="st">"lng"</span><span class="op">)</span>
+<span class="va">mt_elbert_bbox</span>
+<span class="co">#&gt; An object of class "terrainr_bounding_box"</span>
+<span class="co">#&gt; Slot "bl":</span>
+<span class="co">#&gt; An object of class "terrainr_coordinate_pair"</span>
+<span class="co">#&gt; Slot "lat":</span>
+<span class="co">#&gt;      lat </span>
+<span class="co">#&gt; 39.11147 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Slot "lng":</span>
+<span class="co">#&gt;       lng </span>
+<span class="co">#&gt; -106.4533 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Slot "tr":</span>
+<span class="co">#&gt; An object of class "terrainr_coordinate_pair"</span>
+<span class="co">#&gt; Slot "lat":</span>
+<span class="co">#&gt;      lat </span>
+<span class="co">#&gt; 39.12409 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Slot "lng":</span>
+<span class="co">#&gt;       lng </span>
+<span class="co">#&gt; -106.4371</span></pre></div>
+<p><code>get_coord_bbox</code> returns an S4 class (<code>terrainr_bounding_box</code>) that indicates the “bottom left” and “top right” points of the box containing all your points, which is guaranteed to work with all the functions in terrainr. However, there’s no requirement for you to go out of your way to make a <code>terrainr_bounding_box</code> object; any list object that contains the same information will work just as well with all of terrainr’s processing and data retrieval functions.</p>
+<p>We can also calculate a bounding box for our single point:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="va">peak_bbox</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_coord_bbox.html">get_coord_bbox</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="va">mt_elbert</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, 
+                            lng <span class="op">=</span> <span class="va">mt_elbert</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
+<span class="va">peak_bbox</span>
+<span class="co">#&gt; An object of class "terrainr_bounding_box"</span>
+<span class="co">#&gt; Slot "bl":</span>
+<span class="co">#&gt; An object of class "terrainr_coordinate_pair"</span>
+<span class="co">#&gt; Slot "lat":</span>
+<span class="co">#&gt;     lat </span>
+<span class="co">#&gt; 39.1178 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Slot "lng":</span>
+<span class="co">#&gt;       lng </span>
+<span class="co">#&gt; -106.4452 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Slot "tr":</span>
+<span class="co">#&gt; An object of class "terrainr_coordinate_pair"</span>
+<span class="co">#&gt; Slot "lat":</span>
+<span class="co">#&gt;     lat </span>
+<span class="co">#&gt; 39.1178 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Slot "lng":</span>
+<span class="co">#&gt;       lng </span>
+<span class="co">#&gt; -106.4452</span></pre></div>
+<p>But of course, this bounding box doesn’t contain anything other than our single point!</p>
+<p>If we want, we can extend the bounding box by a set distance using <code><a href="../reference/add_bbox_buffer.html">add_bbox_buffer()</a></code>:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="fu"><a href="../reference/add_bbox_buffer.html">add_bbox_buffer</a></span><span class="op">(</span>bbox <span class="op">=</span> <span class="va">peak_bbox</span>, 
+                distance <span class="op">=</span> <span class="fl">1000</span>,
+                distance_unit <span class="op">=</span> <span class="st">"meters"</span><span class="op">)</span>
+<span class="co">#&gt; An object of class "terrainr_bounding_box"</span>
+<span class="co">#&gt; Slot "bl":</span>
+<span class="co">#&gt; An object of class "terrainr_coordinate_pair"</span>
+<span class="co">#&gt; Slot "lat":</span>
+<span class="co">#&gt;      lat </span>
+<span class="co">#&gt; 39.11144 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Slot "lng":</span>
+<span class="co">#&gt;       lng </span>
+<span class="co">#&gt; -106.4534 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Slot "tr":</span>
+<span class="co">#&gt; An object of class "terrainr_coordinate_pair"</span>
+<span class="co">#&gt; Slot "lat":</span>
+<span class="co">#&gt;      lat </span>
+<span class="co">#&gt; 39.12416 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Slot "lng":</span>
+<span class="co">#&gt;      lng </span>
+<span class="co">#&gt; -106.437</span></pre></div>
+<p>Which, if we only have a single point, can be equivalent to simulating data as we did above!</p>
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span><span class="op">(</span><span class="fu"><a href="../reference/add_bbox_buffer.html">add_bbox_buffer</a></span><span class="op">(</span>bbox <span class="op">=</span> <span class="va">peak_bbox</span>, 
+                distance <span class="op">=</span> <span class="fl">1000</span>,
+                distance_unit <span class="op">=</span> <span class="st">"meters"</span><span class="op">)</span>,
+          <span class="va">mt_elbert_bbox</span>,
+          tolerance <span class="op">=</span> <span class="fl">0.00001</span><span class="op">)</span>
+<span class="co">#&gt; [1] TRUE</span></pre></div>
+<p>Now that we’ve got our bounding box, it’s time to retrieve our data. terrainr currently supports downloading DEMs from the USGS 3D Elevation Program and orthoimages from the National Agricultural Imagery Program. These programs have slightly different APIs and different restrictions on file types and the size of image you can download at once. Rather than make you think about this, terrainr handles all the weird edges of the API requests for you, including splitting your bounding box into tiles and downloading each separately. To make multi-step processing easier, terrainr functions which deal with these tiles typically return lists of the file paths they saved your data to.</p>
+<p>For this vignette, we’ll retrieve both elevation and orthoimagery using the <code>get_tiles</code> function. We can either use the generic “elevation” and “ortho” shorthands to get our data, or we can specify “3DEPElevation” and “USGSNAIPPlus” to make sure we’re using the same specific service – the short codes aren’t guaranteed to download data from the same service between releases!</p>
+<p>One last note – all the longer-running terrainr functions can print out progress bars, if the user requests them via the <a href="https://cran.r-project.org/web/packages/progressr/vignettes/progressr-intro.html">progressr</a> package. We’ll demonstrate that syntax here:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/HenrikBengtsson/progressr">progressr</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/progressr/man/handlers.html">handlers</a></span><span class="op">(</span><span class="st">"progress"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/progressr/man/with_progress.html">with_progress</a></span><span class="op">(</span>
+  <span class="va">output_files</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_tiles.html">get_tiles</a></span><span class="op">(</span>bbox <span class="op">=</span> <span class="va">mt_elbert_bbox</span>,
+                            output_prefix <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span><span class="op">(</span><span class="op">)</span>,
+                            services <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"elevation"</span>, <span class="st">"ortho"</span><span class="op">)</span><span class="op">)</span>
+  <span class="op">)</span></pre></div>
+<p>And just like that, we have our data tiles!</p>
+<div class="sourceCode" id="cb9"><pre class="downlit">
+<span class="va">output_files</span></pre></div>
+<pre><code>#&gt; $`3DEPElevation`
+#&gt; [1] "/tmp/RtmpzuCNgk/file40de6193a909a_3DEPElevation_1_1.tiff"
+#&gt; 
+#&gt; $USGSNAIPPlus
+#&gt; [1] "/tmp/RtmpzuCNgk/file40de6193a909a_USGSNAIPPlus_1_1.png"</code></pre>
+<div class="sourceCode" id="cb11"><pre class="downlit">
+<span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html">raster</a></span><span class="op">(</span><span class="va">output_files</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></pre></div>
+<p><img src="example_dem.png" width="240"></p>
+<div class="sourceCode" id="cb12"><pre class="downlit">
+<span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html">raster</a></span><span class="op">(</span><span class="va">output_files</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></pre></div>
+<p><img src="example_ortho.png" width="240"></p>
+<p><code>output_files</code> is now a named list with all of our downloaded files! If we were requesting more data than we can download at once, each element of the list would be a character vector containing the file paths for all of our downloaded tiles. Since we’re sticking with a relatively small area for this example, we only have one tile for each service.</p>
+<p>Now, a weird quirk of this API is that orthoimages are not georeferenced when you first download them. However, the image tiles produced by terrainr do precisely align with the DEM files that we downloaded for the same tile. A second weird quirk is that the USGS does not necessarily respect the bounding boxes that we ask for, and will download tiles with overlapping edges.</p>
+<p>We can fix both of these problems at the same time using <code>merge_rasters</code>, which will take the vectors of output files from <code>get_tiles</code> and merge them while georeferencing the output orthoimage:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit">
+<span class="va">output_merged</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/merge_rasters.html">merge_rasters</a></span><span class="op">(</span>input_rasters <span class="op">=</span> <span class="va">output_files</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,
+                               output_raster <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".tif"</span><span class="op">)</span>,
+                               input_images <span class="op">=</span> <span class="va">output_files</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,
+                               output_image <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".tif"</span><span class="op">)</span><span class="op">)</span></pre></div>
+<p>This produces two tiles: one merged elevation map and one merged orthoimage, both written out as georeferenced TIFFs. <code>merge_rasters</code> doesn’t actually care if you want to merge files, though – as we saw here, if our goal is just to georeference an image file, we can provide length 1 vectors to both input arguments. This can be combined with <code>mapply</code> to georeference all the tiles downloaded by <code>get_tiles</code> without merging any.</p>
+<p>The last major function provided by terrainr is <code>raster_to_raw_tiles</code>, which is designed to turn these larger rasters into tiles that can be imported into the Unity 3D rendering engine. The specifics of working with Unity is outside of the scope of this overview vignette, other than to demonstrate the main way I call <code>raster_to_raw_tiles</code>:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit">
+<span class="va">side_length</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">vapply</a></span><span class="op">(</span><span class="va">output_merged</span>, 
+                      <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html">raster</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, 
+                      <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">numeric</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/mapply.html">mapply</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">z</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/progressr/man/with_progress.html">with_progress</a></span><span class="op">(</span>
+    <span class="fu"><a href="../reference/raster_to_raw_tiles.html">raster_to_raw_tiles</a></span><span class="op">(</span>input_file <span class="op">=</span> <span class="va">x</span>, 
+                        output_prefix <span class="op">=</span> <span class="st">"mt_ebert"</span>, 
+                        side_length <span class="op">=</span> <span class="va">y</span>, 
+                        raw <span class="op">=</span> <span class="va">z</span><span class="op">)</span>
+    <span class="op">)</span>
+<span class="op">}</span>,
+  <span class="va">output_merged</span>, <span class="co"># our list pointing to the merged images</span>
+  <span class="va">side_length</span>, <span class="co"># What's the longer edge of our image file?</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># we don't want to convert our orthoimages to .raw;</span>
+<span class="op">)</span>                <span class="co"># Unity takes the textures as .pngs</span></pre></div>
+<p>And after that function runs, it’s a matter of minutes to create beautiful – and fully physically-simulated – landscape visualizations of your area of interest:</p>
+<p><img src="ebert_unity.png" width="860"></p>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

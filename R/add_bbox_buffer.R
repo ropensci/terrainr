@@ -25,13 +25,11 @@
 #'   ),
 #'   10
 #' )
-#'
 #' @export
 add_bbox_buffer <- function(bbox,
                             distance,
                             distance_unit = "meters",
                             divisible = NULL) {
-
   if (!methods::is(bbox, "terrainr_bounding_box")) {
     bbox <- terrainr_bounding_box(bbox[[1]], bbox[[2]])
   }
@@ -55,7 +53,6 @@ add_bbox_buffer <- function(bbox,
 
     y <- ceiling(calc_haversine_distance(tl, tr) / divisible)
     bl <- point_from_distance(tl, divisible * y, 180)
-
   }
 
   return(terrainr_bounding_box(bl, tr))

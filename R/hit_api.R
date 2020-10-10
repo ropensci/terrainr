@@ -26,11 +26,14 @@
 #' @examples
 #' \dontrun{
 #' hit_national_map_api(
-#'                      bbox = list(c(lat = 44.10438, lng = -74.01231),
-#'                                  c(lat = 44.17633, lng = -73.91224)),
-#'                      img.width = 8000,
-#'                      img.height = 8000,
-#'                      service = "3DEPElevation")
+#'   bbox = list(
+#'     c(lat = 44.10438, lng = -74.01231),
+#'     c(lat = 44.17633, lng = -73.91224)
+#'   ),
+#'   img.width = 8000,
+#'   img.height = 8000,
+#'   service = "3DEPElevation"
+#' )
 #' }
 #'
 #' @export
@@ -40,7 +43,6 @@ hit_national_map_api <- function(bbox,
                                  service,
                                  verbose = FALSE,
                                  ...) {
-
   dots <- list(...)
 
   if (!methods::is(bbox, "terrainr_bounding_box")) {
@@ -52,31 +54,37 @@ hit_national_map_api <- function(bbox,
 
   # API endpoint for elevation mapping:
   url <- httr::parse_url(switch(service,
-                                "3DEPElevation" = "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer/exportImage",
-                                "USGSNAIPPlus" = "https://services.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/MapServer/export"))
+    "3DEPElevation" = "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer/exportImage",
+    "USGSNAIPPlus" = "https://services.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/MapServer/export"
+  ))
 
   bbox_arg <- list(bbox = paste(
     min(first_corner@lng, second_corner@lng),
     min(first_corner@lat, second_corner@lat),
     max(second_corner@lng, first_corner@lng),
     max(second_corner@lat, first_corner@lat),
-    sep = ",")
-    )
+    sep = ","
+  ))
 
   query_arg <- switch(service,
-                      "3DEPElevation" = list(bboxSR = 4326,
-                                             imageSR = 4326,
-                                             size = paste(img.width, img.height, sep = ","),
-                                             format = "tiff",
-                                             pixelType = "F32",
-                                             noDataInterpretation = "esriNoDataMatchAny",
-                                             interpolation = "+RSP_BilinearInterpolation",
-                                             f = "json"),
-                      "USGSNAIPPlus" = list(bboxSR = 4326,
-                                            imageSR = 4326,
-                                            size = paste(img.width, img.height, sep = ","),
-                                            format = "png",
-                                            f = "json"))
+    "3DEPElevation" = list(
+      bboxSR = 4326,
+      imageSR = 4326,
+      size = paste(img.width, img.height, sep = ","),
+      format = "tiff",
+      pixelType = "F32",
+      noDataInterpretation = "esriNoDataMatchAny",
+      interpolation = "+RSP_BilinearInterpolation",
+      f = "json"
+    ),
+    "USGSNAIPPlus" = list(
+      bboxSR = 4326,
+      imageSR = 4326,
+      size = paste(img.width, img.height, sep = ","),
+      format = "png",
+      f = "json"
+    )
+  )
 
   if (length(dots) > 0) {
     if (any(names(dots) %in% names(query_arg))) {
@@ -95,16 +103,21 @@ hit_national_map_api <- function(bbox,
   # But it's non-deterministic, so we can just retry
   get_href <- function(url, query, counter = 0) {
     if (counter < 15) {
-      backoff <- stats::runif(n=1, min=0, max=2^counter - 1)
-      if (verbose) message(sprintf("Attempt %d, retrying after %d seconds",
-                                   counter + 1,
-                                   backoff))
+      backoff <- stats::runif(n = 1, min = 0, max = 2^counter - 1)
+      if (verbose) {
+        message(sprintf(
+          "Attempt %d, retrying after %d seconds",
+          counter + 1,
+          backoff
+        ))
+      }
       Sys.sleep(backoff)
       res <- httr::GET(url, query = query)
       tryCatch(httr::content(res, type = "application/json"),
-               error = function(e) {
-                 get_href(url, query, counter = counter + 1) # nocov
-               })
+        error = function(e) {
+          get_href(url, query, counter = counter + 1) # nocov
+        }
+      )
     } else {
       stop("Server returned malformed JSON") # nocov
     }

@@ -25,7 +25,8 @@
 #' merged? Set to \code{FALSE} if you're only providing these input tiles to
 #' georeference tiles in \code{input_images}.
 #'
-#' @return NULL
+#' @return A named list of length 2 with the original inputs to output_raster
+#' and output_image
 #'
 #' @family data manipulation functions
 #'
@@ -57,6 +58,10 @@ merge_rasters <- function(input_rasters,
                           output_image = NULL,
                           overwrite = TRUE,
                           merge_raster = TRUE) {
+  output_list <- list(
+    output_raster = output_raster,
+    output_image = output_image
+  )
 
   if (!is.null(input_images)) {
     stopifnot(length(input_images) == length(input_rasters))
@@ -73,7 +78,7 @@ merge_rasters <- function(input_rasters,
   # so, we'll work around it if necessary -- do our work in a .tif then rename
   # it at the end
   if ((!grepl("\\.tif", output_raster)) ||
-      (!is.null(output_image) && !grepl("\\.tif?f$", output_image))) {
+    (!is.null(output_image) && !grepl("\\.tif?f$", output_image))) {
     stop("Output files must be TIFFs.")
   }
   fix_height <- 0
@@ -90,9 +95,11 @@ merge_rasters <- function(input_rasters,
   input_raster_objects <- lapply(input_rasters, function(x) raster::raster(x))
 
   if (!is.null(input_images)) {
-    tmp_orthos <- vapply(seq_len(length(input_images)),
-                         function(x) tempfile(fileext = ".tif"),
-                         character(1))
+    tmp_orthos <- vapply(
+      seq_len(length(input_images)),
+      function(x) tempfile(fileext = ".tif"),
+      character(1)
+    )
     for (i in 1:length(input_images)) {
       current_ortho <- raster::brick(png::readPNG(input_images[[i]]))
       raster::crs(current_ortho) <- input_raster_objects[[i]]@crs
@@ -115,8 +122,8 @@ merge_rasters <- function(input_rasters,
     # attempts to warn us about this silly thing we're doing
     # but we're doing it on purpose, so suppress those warnings
     suppressWarnings(raster::writeRaster(total_extent,
-                                         output_raster,
-                                         overwrite = overwrite
+      output_raster,
+      overwrite = overwrite
     ))
 
     invisible(
@@ -132,8 +139,8 @@ merge_rasters <- function(input_rasters,
   if (!is.null(input_images)) {
     # same as above for input_rasters
     suppressWarnings(raster::writeRaster(total_extent,
-                                         output_image,
-                                         overwrite = overwrite
+      output_image,
+      overwrite = overwrite
     ))
     invisible(
       utils::capture.output(
@@ -152,5 +159,5 @@ merge_rasters <- function(input_rasters,
     file.rename(output_image, paste0(output_image, "f"))
   }
 
-  return(NULL)
+  return(output_list)
 }

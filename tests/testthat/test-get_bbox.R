@@ -31,6 +31,8 @@ test_that("tidy framework bounding boxes work", {
     pt1 = c(44.04905, 44.17609),
     pt2 = c(-74.01188, -73.83493)
   )
-  expect_equal(get_coord_bbox(tidy_df, "pt1", "pt2"),
-               get_coord_bbox(lat = tidy_df$pt1, lng = tidy_df$pt2))
+  expect_equal(
+    get_coord_bbox(tidy_df, "pt1", "pt2"),
+    get_coord_bbox(lat = tidy_df$pt1, lng = tidy_df$pt2)
+  )
 })

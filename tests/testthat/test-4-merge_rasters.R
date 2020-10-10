@@ -1,23 +1,29 @@
 test_that("merge_raster expected errors error expectedly", {
   expect_error(merge_rasters("dummy_input.tif", "dummy_output.R"))
-  expect_error(merge_rasters("dummy_input.tif",
-                             "dummy_output.tif",
-                             "dummy_input.png"))
-  expect_error(merge_rasters("dummy_input.tif",
-                             "dummy_output.tif",
-                             c("dummy_input.png", "dummy_input.png"),
-                             "dummy_output.tif"))
+  expect_error(merge_rasters(
+    "dummy_input.tif",
+    "dummy_output.tif",
+    "dummy_input.png"
+  ))
+  expect_error(merge_rasters(
+    "dummy_input.tif",
+    "dummy_output.tif",
+    c("dummy_input.png", "dummy_input.png"),
+    "dummy_output.tif"
+  ))
 
   expect_error(merge_rasters("dummy_input.tif",
-                             NULL,
-                             "dummy_input.png",
-                             "dummy_output.png",
-                             merge_raster = FALSE))
-  expect_error(merge_rasters("dummy_input.tif",
-                             "dummy_output.png",
-                             "dummy_input.png",
-                             "dummy_output.tif"))
-
+    NULL,
+    "dummy_input.png",
+    "dummy_output.png",
+    merge_raster = FALSE
+  ))
+  expect_error(merge_rasters(
+    "dummy_input.tif",
+    "dummy_output.png",
+    "dummy_input.png",
+    "dummy_output.tif"
+  ))
 })
 
 test_that("merge_raster files are identical no matter the filename", {
@@ -50,9 +56,12 @@ test_that("merge_raster files are identical no matter the filename", {
 
 test_that("merge_raster works with orthos", {
   skip_on_cran()
-  tmpf <- get_tiles(add_bbox_buffer(get_coord_bbox(lat = 44.05003,
-                                                   lng = -74.01164), 10),
-                    services = c("elevation", "ortho"))
+  tmpf <- get_tiles(add_bbox_buffer(get_coord_bbox(
+    lat = 44.05003,
+    lng = -74.01164
+  ), 10),
+  services = c("elevation", "ortho")
+  )
   merge_orth <- tempfile(fileext = ".tiff")
   merge_rasters(tmpf[[1]], NULL, tmpf[[2]], merge_orth, merge_raster = FALSE)
 

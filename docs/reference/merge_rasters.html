@@ -184,6 +184,10 @@ georeference tiles in <code>input_images</code>.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A named list of length 2 with the original inputs to output_raster
+and output_image</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Additionally, some outputs from <code><a href='get_tiles.html'>get_tiles</a></code> (such as when
@@ -198,18 +202,18 @@ reference raster, then merge them into a single object for further processing.</
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='va'>tile_1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='terrainr_bounding_box.html'>terrainr_bounding_box</a></span><span class='op'>(</span>
-  bl <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>44.10379</span>, <span class='op'>-</span><span class='fl'>74.01177</span><span class='op'>)</span>,
-  tr <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>44.17573</span>, <span class='op'>-</span><span class='fl'>73.91171</span><span class='op'>)</span>
+  bl <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>lat <span class='op'>=</span> <span class='fl'>44.10379</span>, lng <span class='op'>=</span> <span class='op'>-</span><span class='fl'>74.01177</span><span class='op'>)</span>,
+  tr <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>lat <span class='op'>=</span> <span class='fl'>44.17573</span>, lng <span class='op'>=</span> <span class='op'>-</span><span class='fl'>73.91171</span><span class='op'>)</span>
 <span class='op'>)</span>
 
 <span class='va'>tile_2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='terrainr_bounding_box.html'>terrainr_bounding_box</a></span><span class='op'>(</span>
-  bl <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>44.03184</span>, <span class='op'>-</span><span class='fl'>74.01177</span><span class='op'>)</span>,
-  tr <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>44.10379</span>, <span class='op'>-</span><span class='fl'>73.91171</span><span class='op'>)</span>
+  bl <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>lat <span class='op'>=</span> <span class='fl'>44.03184</span>, lng <span class='op'>=</span> <span class='op'>-</span><span class='fl'>74.01177</span><span class='op'>)</span>,
+  tr <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>lat <span class='op'>=</span> <span class='fl'>44.10379</span>, lng <span class='op'>=</span> <span class='op'>-</span><span class='fl'>73.91171</span><span class='op'>)</span>
 <span class='op'>)</span>
 <span class='va'>raster_files</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>img_bin</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span>
   <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>tile_1</span>, <span class='va'>tile_2</span><span class='op'>)</span>,
-  <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'>hit_heightmap_api</span><span class='op'>(</span><span class='va'>x</span>, <span class='fl'>8000</span>, <span class='fl'>8000</span><span class='op'>)</span>
+  <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='hit_national_map_api.html'>hit_national_map_api</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='fl'>8000</span>, <span class='fl'>8000</span>, <span class='st'>"3DEPElevation"</span><span class='op'>)</span>
 <span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/readBin.html'>writeBin</a></span><span class='op'>(</span><span class='va'>img_bin</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>, <span class='va'>raster_files</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/readBin.html'>writeBin</a></span><span class='op'>(</span><span class='va'>img_bin</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span>, <span class='va'>raster_files</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>

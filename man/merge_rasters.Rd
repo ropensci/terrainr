@@ -35,6 +35,10 @@ Must be a TIFF file. Leave as \code{NULL} if you aren't merging images.}
 merged? Set to \code{FALSE} if you're only providing these input tiles to
 georeference tiles in \code{input_images}.}
 }
+\value{
+A named list of length 2 with the original inputs to output_raster
+and output_image
+}
 \description{
 Some functions like \code{\link{get_tiles}} return multiple separate files
 when it can be useful to have a single larger raster instead. This function

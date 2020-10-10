@@ -163,7 +163,8 @@ returns a .png.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>NULL</code>, invisibly</p>
+    <p>Invisibly, a character vector containing the file paths that were
+written to.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other data manipulation functions: 
@@ -175,12 +176,12 @@ returns a .png.</p></td>
   id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>100</span>, <span class='fl'>1</span><span class='op'>)</span>,
   lat <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>100</span>, <span class='fl'>44.04905</span>, <span class='fl'>44.17609</span><span class='op'>)</span>,
   lng <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>100</span>, <span class='op'>-</span><span class='fl'>74.01188</span>, <span class='op'>-</span><span class='fl'>73.83493</span><span class='op'>)</span>
-  <span class='op'>)</span>
+<span class='op'>)</span>
 <span class='va'>bbox</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_coord_bbox.html'>get_coord_bbox</a></span><span class='op'>(</span>lat <span class='op'>=</span> <span class='va'>simulated_data</span><span class='op'>$</span><span class='va'>lat</span>, lng <span class='op'>=</span> <span class='va'>simulated_data</span><span class='op'>$</span><span class='va'>lng</span><span class='op'>)</span>
 <span class='va'>bbox</span> <span class='op'>&lt;-</span> <span class='fu'><a href='add_bbox_buffer.html'>add_bbox_buffer</a></span><span class='op'>(</span><span class='va'>bbox</span>, <span class='fl'>100</span><span class='op'>)</span>
 <span class='va'>output_files</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_tiles.html'>get_tiles</a></span><span class='op'>(</span><span class='va'>bbox</span><span class='op'>)</span>
 <span class='va'>temptiff</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span>fileext <span class='op'>=</span> <span class='st'>".tif"</span><span class='op'>)</span>
-<span class='fu'><a href='merge_rasters.html'>merge_rasters</a></span><span class='op'>(</span><span class='va'>output_files</span><span class='op'>[</span><span class='st'>"3DEPElevation"</span><span class='op'>]</span>, <span class='va'>temptiff</span><span class='op'>)</span>
+<span class='fu'><a href='merge_rasters.html'>merge_rasters</a></span><span class='op'>(</span><span class='va'>output_files</span><span class='op'>[</span><span class='st'>"3DEPElevation"</span><span class='op'>]</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>, <span class='va'>temptiff</span><span class='op'>)</span>
 <span class='fu'>raster_to_raw_tiles</span><span class='op'>(</span><span class='va'>temptiff</span>, <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>}</span>
 

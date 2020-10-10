@@ -1,8 +1,11 @@
 test_that("get_tiles gets the same tiles twice", {
   skip_on_cran()
-  output_tif <- get_tiles(list(c(lat = 44.04905, lng = -74.01188),
-                               c(lat = 44.04911, lng = -74.01179)),
-                          services = c("elevation", "ortho", "USGSNAIPPlus"))
+  output_tif <- get_tiles(list(
+    c(lat = 44.04905, lng = -74.01188),
+    c(lat = 44.04911, lng = -74.01179)
+  ),
+  services = c("elevation", "ortho", "USGSNAIPPlus")
+  )
 
   expect_equal(length(output_tif), 2)
   expect_equal(length(output_tif[[1]]), 1)
@@ -12,21 +15,31 @@ test_that("get_tiles gets the same tiles twice", {
 
   expect_equal(stored_raster@crs, test_raster@crs)
   expect_equal(stored_raster@extent, test_raster@extent)
-  expect_equal(raster::cellStats(stored_raster, "max"),
-               raster::cellStats(test_raster, "max"))
+  expect_equal(
+    raster::cellStats(stored_raster, "max"),
+    raster::cellStats(test_raster, "max")
+  )
 
-  expect_equal(png::readPNG(output_tif[[2]]),
-               png::readPNG("testdata/NAIPPlus.png"))
+  expect_equal(
+    png::readPNG(output_tif[[2]]),
+    png::readPNG("testdata/NAIPPlus.png")
+  )
 })
 
 test_that("get_tiles fails as expected", {
-  expect_error(get_tiles(list(c(lat = 44.04905, lng = -74.01188),
-                              c(lat = 44.04911, lng = -74.01179)),
-                         services = c("elevation", "ortho", "USGSNAIPPlus"),
-                         side_length = 4097))
+  expect_error(get_tiles(list(
+    c(lat = 44.04905, lng = -74.01188),
+    c(lat = 44.04911, lng = -74.01179)
+  ),
+  services = c("elevation", "ortho", "USGSNAIPPlus"),
+  side_length = 4097
+  ))
 
-  expect_error(get_tiles(list(c(lat = 44.04905, lng = -74.01188),
-                              c(lat = 44.04911, lng = -74.01179)),
-                         services = c("elevation"),
-                         side_length = 8001))
+  expect_error(get_tiles(list(
+    c(lat = 44.04905, lng = -74.01188),
+    c(lat = 44.04911, lng = -74.01179)
+  ),
+  services = c("elevation"),
+  side_length = 8001
+  ))
 })

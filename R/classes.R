@@ -28,7 +28,8 @@ methods::setClass("terrainr_coordinate_pair",
 #' @param coords A vector of length 2 containing a latitude and longitude. If
 #' unnamed, coordinates are assumed to be in (latitude, longitude) format; if
 #' named, the function will attempt to figure out which value represents which
-#' coordinate.
+#' coordinate. Currently this function understands "lat", "latitude", and "y" as
+#' names for latitude and "lng", "long", "longitude", and "x" for longitude.
 #' @param coord_units String indicating whether coordinates are in degrees or
 #' radians. Degrees stored in radians will be converted to degrees.
 #'
@@ -55,6 +56,7 @@ terrainr_coordinate_pair <- function(coords, coord_units = c(
     "latitude",
     "y"
   )
+
   if (is.null(names(coords))) {
     # If we have no names to go by,
     # assume that provided data is ISO 6709 compliant.
@@ -90,7 +92,6 @@ terrainr_coordinate_pair <- function(coords, coord_units = c(
 #' @examples
 #' coord_pair <- terrainr_coordinate_pair(c(lat = 44.05003, lng = -74.01164))
 #' export_coord_pair(coord_pair)
-#'
 #' @export
 export_coord_pair <- function(coord_pair) {
   if (!methods::is(coord_pair, "terrainr_coordinate_pair")) {

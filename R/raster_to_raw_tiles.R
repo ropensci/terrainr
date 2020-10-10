@@ -21,7 +21,7 @@
 #'   id = seq(1, 100, 1),
 #'   lat = runif(100, 44.04905, 44.17609),
 #'   lng = runif(100, -74.01188, -73.83493)
-#'   )
+#' )
 #' bbox <- get_coord_bbox(lat = simulated_data$lat, lng = simulated_data$lng)
 #' bbox <- add_bbox_buffer(bbox, 100)
 #' output_files <- get_tiles(bbox)
@@ -35,12 +35,13 @@ raster_to_raw_tiles <- function(input_file,
                                 output_prefix,
                                 side_length = 4097,
                                 raw = TRUE) {
-
   if (raw) {
     if (utils::compareVersion("2.4.0", as.character(utils::packageVersion("magick"))) != -1) {
-      stop("Please install the development version of magick to use raster_to_raw_tiles. ",
-           "\n",
-           "remotes::install_github('ropensci/magick')")
+      stop(
+        "Please install the development version of magick to use raster_to_raw_tiles. ",
+        "\n",
+        "remotes::install_github('ropensci/magick')"
+      )
     }
   }
 
@@ -106,23 +107,26 @@ raster_to_raw_tiles <- function(input_file,
 
   names(temppngs) <- names(temptiffs)
 
-  mapply(function(x, y) {
-    if (any(grepl("progressr", utils::installed.packages()))) {
-      p(message = sprintf("Converting tile %s to PNG", x))
-    }
-    gdalUtilities::gdal_translate(
-      src_dataset = x,
-      dst_dataset = y,
-      ot = "UInt16",
-      strict = FALSE,
-      scale = c(0, max_raster, 0, (2^16) - 1),
-      of = "png"
-    )
-  },
-  temptiffs,
-  temppngs)
+  mapply(
+    function(x, y) {
+      if (any(grepl("progressr", utils::installed.packages()))) {
+        p(message = sprintf("Converting tile %s to PNG", x))
+      }
+      gdalUtilities::gdal_translate(
+        src_dataset = x,
+        dst_dataset = y,
+        ot = "UInt16",
+        strict = FALSE,
+        scale = c(0, max_raster, 0, (2^16) - 1),
+        of = "png"
+      )
+    },
+    temptiffs,
+    temppngs
+  )
 
-    mapply(function(x, y) {
+  mapply(
+    function(x, y) {
       processing_image <- magick::image_read(x)
 
       if (any(grepl("progressr", utils::installed.packages()))) {
@@ -136,9 +140,9 @@ raster_to_raw_tiles <- function(input_file,
       if (raw) {
         processing_image <- magick::image_flop(processing_image)
         processing_image <- magick::image_convert(processing_image,
-                                                  format = "RGB",
-                                                  depth = 16,
-                                                  interlace = "Plane"
+          format = "RGB",
+          depth = 16,
+          interlace = "Plane"
         )
       } else {
         processing_image <- magick::image_flip(processing_image)
@@ -148,8 +152,8 @@ raster_to_raw_tiles <- function(input_file,
       magick::image_write(processing_image, y)
     },
     temppngs,
-    names(temppngs))
+    names(temppngs)
+  )
 
   return(names(temppngs))
-
 }

@@ -17,7 +17,6 @@
 #'   c(lat = 44.121268, lng = -73.903734),
 #'   c(lat = 43.121268, lng = -74.903734)
 #' )
-#'
 #' @export
 calc_haversine_distance <- function(point_1, point_2) {
   if (!methods::is(point_1, "terrainr_coordinate_pair")) {
