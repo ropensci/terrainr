@@ -48,16 +48,16 @@ output_tiles <- get_tiles(bbox = bbox,
 raster::plot(raster::raster(output_tiles[[2]][[1]]))
 ```
 
-<img src="man/figures/README-unnamed-chunk-2-2.png" width="100%" />
+<img src="man/figures/naip.png" width="100%" />
 
 Once downloaded, these images are in standard GeoTIFF or PNG formats and
 can be used as expected with other utilities:
 
 ``` r
-raster::plot(raster::raster(output_tiles[[1]][[1]]))
+raster::plot(raster::raster(output_tiles[[1]][[1]]))elev
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+<img src="man/figures/elevation.png" width="100%" />
 
 Additionally, terrainr provides functions to transform these tiles into
 RAW images ready to be imported into the Unity rendering engine,

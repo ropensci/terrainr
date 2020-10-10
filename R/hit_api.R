@@ -125,7 +125,19 @@ hit_national_map_api <- function(bbox,
 
   body <- get_href(url, query = c(bbox_arg, query_arg))
 
-  img_res <- httr::RETRY("GET", url = body$href, times = 15, quiet = !verbose)
+  img_res <- tryCatch(httr::RETRY("GET",
+    url = body$href,
+    times = 7,
+    quiet = !verbose
+  ),
+  error = function(e) {
+    httr::RETRY("GET",
+      url = body$href,
+      times = 15,
+      quiet = !verbose
+    )
+  }
+  )
 
   if (httr::status_code(img_res) != 200) {
     # nocov start

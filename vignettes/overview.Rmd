@@ -110,7 +110,8 @@ to make sure we're using the same specific service -- the short codes aren't
 guaranteed to download data from the same service between releases!
 
 One last note -- all the longer-running terrainr functions can print out 
-progress bars, if the user requests them via the [progressr](https://cran.r-project.org/web/packages/progressr/vignettes/progressr-intro.html) 
+progress bars, if the user requests them via the 
+[progressr](https://CRAN.R-project.org/package=progressr) 
 package. We'll demonstrate that syntax here:
 
 ```{r eval = FALSE}
@@ -214,6 +215,6 @@ and fully physically-simulated -- landscape visualizations of your area of
 interest:
 
 ```{r echo = FALSE}
-knitr::include_graphics("ebert_unity.png")
+knitr::include_graphics("ebert_unity.jpg")
 ```
 

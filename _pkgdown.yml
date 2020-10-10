@@ -23,6 +23,8 @@ navbar:
       menu:
       - text: A Gentle Introduction to terrainr
         href: articles/overview.html
+      - text: Importing terrainr tiles into Unity
+        href: articles/unity_instructions.html
     reference:
       text: Reference
       href: reference/index.html

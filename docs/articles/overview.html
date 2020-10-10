@@ -61,6 +61,9 @@
 <li>
       <a href="../articles/overview.html">A Gentle Introduction to terrainr</a>
     </li>
+    <li>
+      <a href="../articles/unity_instructions.html">Importing terrainr tiles into Unity</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -85,7 +88,7 @@
 
       
 
-      </header><script src="overview_files/header-attrs-2.4/header-attrs.js"></script><script src="overview_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>A gentle introduction to terrainr</h1>
@@ -122,22 +125,22 @@
 <span class="co">#&gt; An object of class "terrainr_coordinate_pair"</span>
 <span class="co">#&gt; Slot "lat":</span>
 <span class="co">#&gt;      lat </span>
-<span class="co">#&gt; 39.11145 </span>
+<span class="co">#&gt; 39.11156 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Slot "lng":</span>
 <span class="co">#&gt;       lng </span>
-<span class="co">#&gt; -106.4532 </span>
+<span class="co">#&gt; -106.4531 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Slot "tr":</span>
 <span class="co">#&gt; An object of class "terrainr_coordinate_pair"</span>
 <span class="co">#&gt; Slot "lat":</span>
 <span class="co">#&gt;      lat </span>
-<span class="co">#&gt; 39.12413 </span>
+<span class="co">#&gt; 39.12391 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Slot "lng":</span>
-<span class="co">#&gt;      lng </span>
-<span class="co">#&gt; -106.437</span></pre></div>
+<span class="co">#&gt;       lng </span>
+<span class="co">#&gt; -106.4371</span></pre></div>
 <p><code>get_coord_bbox</code> returns an S4 class (<code>terrainr_bounding_box</code>) that indicates the “bottom left” and “top right” points of the box containing all your points, which is guaranteed to work with all the functions in terrainr. However, there’s no requirement for you to go out of your way to make a <code>terrainr_bounding_box</code> object; any list object that contains the same information will work just as well with all of terrainr’s processing and data retrieval functions.</p>
 <p>We can also calculate a bounding box for our single point:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit">
@@ -202,7 +205,7 @@
 <span class="co">#&gt; [1] TRUE</span></pre></div>
 <p>Now that we’ve got our bounding box, it’s time to retrieve our data. terrainr currently supports downloading DEMs from the USGS 3D Elevation Program and orthoimages from the National Agricultural Imagery Program. These programs have slightly different APIs and different restrictions on file types and the size of image you can download at once. Rather than make you think about this, terrainr handles all the weird edges of the API requests for you, including splitting your bounding box into tiles and downloading each separately. To make multi-step processing easier, terrainr functions which deal with these tiles typically return lists of the file paths they saved your data to.</p>
 <p>For this vignette, we’ll retrieve both elevation and orthoimagery using the <code>get_tiles</code> function. We can either use the generic “elevation” and “ortho” shorthands to get our data, or we can specify “3DEPElevation” and “USGSNAIPPlus” to make sure we’re using the same specific service – the short codes aren’t guaranteed to download data from the same service between releases!</p>
-<p>One last note – all the longer-running terrainr functions can print out progress bars, if the user requests them via the <a href="https://cran.r-project.org/web/packages/progressr/vignettes/progressr-intro.html">progressr</a> package. We’ll demonstrate that syntax here:</p>
+<p>One last note – all the longer-running terrainr functions can print out progress bars, if the user requests them via the <a href="https://CRAN.R-project.org/package=progressr">progressr</a> package. We’ll demonstrate that syntax here:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit">
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/HenrikBengtsson/progressr">progressr</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/progressr/man/handlers.html">handlers</a></span><span class="op">(</span><span class="st">"progress"</span><span class="op">)</span>
@@ -253,7 +256,7 @@
   <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># we don't want to convert our orthoimages to .raw;</span>
 <span class="op">)</span>                <span class="co"># Unity takes the textures as .pngs</span></pre></div>
 <p>And after that function runs, it’s a matter of minutes to create beautiful – and fully physically-simulated – landscape visualizations of your area of interest:</p>
-<p><img src="ebert_unity.png" width="860"></p>
+<p><img src="ebert_unity.jpg" width="860"></p>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

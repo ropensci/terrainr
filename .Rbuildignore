@@ -8,7 +8,7 @@
 ^docs$
 ^pkgdown$
 ^codecov\.yml$
-TODO.R
+precommit.sh
 ^dev\.Rmd$
 ^testing
 tests/testthat/testdata/test_merge.tif
@@ -18,3 +18,4 @@ testdata/test_final_1_1.png
 ^\.travis\.yml$
 ^doc$
 ^Meta$
+^codemeta\.json$
