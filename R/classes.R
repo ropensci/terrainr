@@ -58,7 +58,7 @@ terrainr_coordinate_pair <- function(coords, coord_units = c(
   if (is.null(names(coords))) {
     # If we have no names to go by,
     # assume that provided data is ISO 6709 compliant.
-    warning("Note: assuming unnamed coordinate vector is in (lat, lng) format")
+    warning("Assuming unnamed coordinate vector is in (lat, lng) format")
     lat <- coords[[1]]
     lng <- coords[[2]]
   } else if (all(names(coords) %in% c(latitude_names, longitude_names))) {

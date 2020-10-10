@@ -32,18 +32,18 @@
 #' @examples
 #' \dontrun{
 #' tile_1 <- terrainr_bounding_box(
-#'   bl = c(44.10379, -74.01177),
-#'   tr = c(44.17573, -73.91171)
+#'   bl = c(lat = 44.10379, lng = -74.01177),
+#'   tr = c(lat = 44.17573, lng = -73.91171)
 #' )
 #'
 #' tile_2 <- terrainr_bounding_box(
-#'   bl = c(44.03184, -74.01177),
-#'   tr = c(44.10379, -73.91171)
+#'   bl = c(lat = 44.03184, lng = -74.01177),
+#'   tr = c(lat = 44.10379, lng = -73.91171)
 #' )
 #' raster_files <- c(tempfile(), tempfile())
 #' img_bin <- lapply(
 #'   c(tile_1, tile_2),
-#'   function(x) hit_heightmap_api(x, 8000, 8000)
+#'   function(x) hit_national_map_api(x, 8000, 8000, "3DEPElevation")
 #' )
 #' writeBin(img_bin[[1]], raster_files[[1]])
 #' writeBin(img_bin[[2]], raster_files[[2]])
@@ -72,8 +72,8 @@ merge_rasters <- function(input_rasters,
   # this is silly.
   # so, we'll work around it if necessary -- do our work in a .tif then rename
   # it at the end
-  if ((!is.null(output_image) && !grepl("\\.tif", output_raster)) ||
-      (!is.null(output_image) && !grepl("\\.tif", output_image))) {
+  if ((!grepl("\\.tif", output_raster)) ||
+      (!is.null(output_image) && !grepl("\\.tif?f$", output_image))) {
     stop("Output files must be TIFFs.")
   }
   fix_height <- 0

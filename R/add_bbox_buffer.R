@@ -47,7 +47,7 @@ add_bbox_buffer <- function(bbox,
   tr <- point_from_distance(centroid, add_distance, 45)
 
   if (!is.null(divisible)) {
-    tl <- terrainr_coordinate_pair(tr@lat, bl@lng)
+    tl <- c(tr@lat, bl@lng)
     divisible <- convert_distance(divisible, distance_unit)
 
     x <- ceiling(calc_haversine_distance(tl, tr) / divisible)

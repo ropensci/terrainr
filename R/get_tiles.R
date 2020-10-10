@@ -59,6 +59,11 @@ get_tiles <- function(bbox,
                   services %in% names(list_of_services)))
 
   tif_files <- "3DEPElevation"
+
+  # these tiles CAN be downloaded as .tif
+  # but they aren't georeferrenced anyway
+  # so it is conceptually useful to store all non-georeferrenced images as PNG
+  # and all georeferrenced images as .tif
   png_files <- "USGSNAIPPlus"
 
   if (any(services %in% names(list_of_services))) { # cast short codes now
@@ -77,7 +82,7 @@ get_tiles <- function(bbox,
   }
 
   if (("USGSNAIPPlus" %in% services) && side_length > 4096) {
-    stop("USGSNAIPPlus tiles have a maximum side length of 4097.")
+    stop("USGSNAIPPlus tiles have a maximum side length of 4096.")
   }
   if (("3DEPElevation" %in% services) && side_length > 8000) {
     stop("3DEPElevation tiles have a maximum side length of 8000.")
@@ -129,7 +134,7 @@ get_tiles <- function(bbox,
     }
   }
 
-  if (any(grepl("progressr", installed.packages()))) {
+  if (any(grepl("progressr", utils::installed.packages()))) {
     p <- progressr::progressor(steps = x_tiles * y_tiles * length(services))
   }
 
@@ -137,7 +142,7 @@ get_tiles <- function(bbox,
     for (j in seq_len(y_tiles)) {
       current_box <- tile_boxes[[i]][[j]]
       for (k in seq_along(services)) {
-        if (any(grepl("progressr", installed.packages()))) {
+        if (any(grepl("progressr", utils::installed.packages()))) {
           p(message = sprintf("Retriving %s tile (%d, %d)",
                               services[[k]],
                               i,

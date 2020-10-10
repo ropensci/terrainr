@@ -27,13 +27,11 @@
 #'   lat = c(44.05771, 44.18475),
 #'   lng = c(-73.99212, -73.81515)
 #' )
-#' get_coord_bbox(df, lat, lng)
+#' get_coord_bbox(df, "lat", "lng")
 #' get_coord_bbox(lat = df$lat, lng = df$lng)
 #' @export
 get_coord_bbox <- function(data = NULL, lat, lng, na.rm = NULL) {
   if (!is.null(data)) {
-    lat <- quote(lat)
-    lng <- quote(lng)
     lat_vals <- data[[lat]]
     lng_vals <- data[[lng]]
   } else {

@@ -17,7 +17,8 @@ raster_to_raw_tiles(input_file, output_prefix, side_length = 4097, raw = TRUE)
 returns a .png.}
 }
 \value{
-\code{NULL}, invisibly
+Invisibly, a character vector containing the file paths that were
+written to.
 }
 \description{
 This function crops input raster files into smaller square tiles and then
@@ -35,7 +36,7 @@ bbox <- get_coord_bbox(lat = simulated_data$lat, lng = simulated_data$lng)
 bbox <- add_bbox_buffer(bbox, 100)
 output_files <- get_tiles(bbox)
 temptiff <- tempfile(fileext = ".tif")
-merge_rasters(output_files["3DEPElevation"], temptiff)
+merge_rasters(output_files["3DEPElevation"][[1]], temptiff)
 raster_to_raw_tiles(temptiff, tempfile())
 }
 

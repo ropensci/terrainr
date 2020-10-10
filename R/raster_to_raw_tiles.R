@@ -12,7 +12,8 @@
 #'
 #' @family data manipulation functions
 #'
-#' @return \code{NULL}, invisibly
+#' @return Invisibly, a character vector containing the file paths that were
+#' written to.
 #'
 #' @examples
 #' \dontrun{
@@ -25,7 +26,7 @@
 #' bbox <- add_bbox_buffer(bbox, 100)
 #' output_files <- get_tiles(bbox)
 #' temptiff <- tempfile(fileext = ".tif")
-#' merge_rasters(output_files["3DEPElevation"], temptiff)
+#' merge_rasters(output_files["3DEPElevation"][[1]], temptiff)
 #' raster_to_raw_tiles(temptiff, tempfile())
 #' }
 #'
@@ -36,7 +37,7 @@ raster_to_raw_tiles <- function(input_file,
                                 raw = TRUE) {
 
   if (raw) {
-    if (compareVersion("2.4.0", as.character(packageVersion("magick"))) != -1) {
+    if (utils::compareVersion("2.4.0", as.character(utils::packageVersion("magick"))) != -1) {
       stop("Please install the development version of magick to use raster_to_raw_tiles. ",
            "\n",
            "remotes::install_github('ropensci/magick')")
@@ -48,7 +49,7 @@ raster_to_raw_tiles <- function(input_file,
 
   x_tiles <- ceiling(input_raster@nrows / side_length)
   y_tiles <- ceiling(input_raster@ncols / side_length)
-  if (any(grepl("progressr", installed.packages()))) {
+  if (any(grepl("progressr", utils::installed.packages()))) {
     p <- progressr::progressor(steps = x_tiles * y_tiles * 3)
   }
 
@@ -72,7 +73,7 @@ raster_to_raw_tiles <- function(input_file,
 
   for (i in seq_along(x_tiles)) {
     for (j in seq_along(y_tiles)) {
-      if (any(grepl("progressr", installed.packages()))) {
+      if (any(grepl("progressr", utils::installed.packages()))) {
         p(message = sprintf("Cropping tile (%d,%d)", x_tiles[[i]], y_tiles[[j]]))
       }
       gdalUtils::gdal_translate(input_file, temptiffs[[counter]],
@@ -106,7 +107,7 @@ raster_to_raw_tiles <- function(input_file,
   names(temppngs) <- names(temptiffs)
 
   mapply(function(x, y) {
-    if (any(grepl("progressr", installed.packages()))) {
+    if (any(grepl("progressr", utils::installed.packages()))) {
       p(message = sprintf("Converting tile %s to PNG", x))
     }
     gdalUtilities::gdal_translate(
@@ -124,7 +125,7 @@ raster_to_raw_tiles <- function(input_file,
     mapply(function(x, y) {
       processing_image <- magick::image_read(x)
 
-      if (any(grepl("progressr", installed.packages()))) {
+      if (any(grepl("progressr", utils::installed.packages()))) {
         if (raw) {
           p(message = sprintf("Converting tile %s to RAW", x))
         } else {
@@ -149,6 +150,6 @@ raster_to_raw_tiles <- function(input_file,
     temppngs,
     names(temppngs))
 
-  return(invisible(NULL))
+  return(names(temppngs))
 
 }

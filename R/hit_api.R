@@ -87,11 +87,31 @@ hit_national_map_api <- function(bbox,
   }
 
   # length of dots changes after that last step, so check again
-  if (length(dots) > 0) query_arg <- c(query_arg, dots)
+  if (length(dots) > 0) query_arg <- c(query_arg, dots) # nocov
 
-  res <- httr::GET(url, query = c(bbox_arg, query_arg))
+  # periodically res is a HTML file instead of the JSON
+  # I haven't been able to capture this happening, it just crashes something
+  # like 3% of the time
+  # But it's non-deterministic, so we can just retry
+  get_href <- function(url, query, counter = 0) {
+    if (counter < 15) {
+      backoff <- stats::runif(n=1, min=0, max=2^counter - 1)
+      if (verbose) message(sprintf("Attempt %d, retrying after %d seconds",
+                                   counter + 1,
+                                   backoff))
+      Sys.sleep(backoff)
+      res <- httr::GET(url, query = query)
+      tryCatch(httr::content(res, type = "application/json"),
+               error = function(e) {
+                 get_href(url, query, counter = counter + 1) # nocov
+               })
+    } else {
+      stop("Server returned malformed JSON") # nocov
+    }
+  }
 
-  body <- httr::content(res, type = "application/json")
+  body <- get_href(url, query = c(bbox_arg, query_arg))
+
   img_res <- httr::RETRY("GET", url = body$href, times = 15, quiet = !verbose)
 
   if (httr::status_code(img_res) != 200) {

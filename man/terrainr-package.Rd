@@ -4,12 +4,13 @@
 \name{terrainr-package}
 \alias{terrainr}
 \alias{terrainr-package}
-\title{terrainr: Retrieve and Transform 'USGS' Digital Elevation Models}
+\title{terrainr: Retrieve and Transform Data From The 'USGS' National Map}
 \description{
-Functions for the retrieval and manipulation of 'USGS' digital 
-    elevation models, making it much easier for users to produce tiled images of 
-    areas of interest which can then be imported into 3D rendering programs such 
-    as Unity.
+Functions for the retrieval and manipulation of 'USGS' National Map 
+    data, enabling users to download elevation and image data for areas of 
+    interest. Functions are also provided to transform these data sources into 
+    formats that can be used to create 3D elevation models in the Unity 
+    rendering engine.
 }
 \seealso{
 Useful links:

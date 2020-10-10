@@ -16,7 +16,9 @@ knitr::opts_chunk$set(
 # terrainr
 
 <!-- badges: start -->
-
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](http://choosealicense.com/licenses/mit/)
+[![CRAN status](https://www.r-pkg.org/badges/version/terrainr)](https://CRAN.R-project.org/package=terrainr)
+[![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 <!-- badges: end -->
 
 ## Overview
