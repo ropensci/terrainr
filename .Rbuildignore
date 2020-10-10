@@ -14,5 +14,5 @@ TODO.R
 tests/testthat/testdata/test_merge.tif
 tests/testthat/testdata/test_ortho.tif
 testdata/test_final_1_1.png
-
+.covrignore
 ^\.travis\.yml$

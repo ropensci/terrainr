@@ -20,6 +20,8 @@ addons:
     - libglu1-mesa-dev
     - libgdal1-dev
     - libudunits2-dev
+    - libmagick++-dev
+before_install:
+  - R -e 'install.packages("Rcpp"); install.packages("sf", configure.args = "--with-gdal-config=/usr/local/bin/gdal-config --with-geos-config=/usr/local/bin/geos-config --with-proj-include=/usr/local/include/ --with-proj-lib=/usr/local/lib/", configure.vars = "GDAL_DATA=/usr/local/opt/gdal/share/gdal/")'
 after_success:
     - Rscript -e 'covr::codecov()'
-
