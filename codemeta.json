@@ -5,7 +5,7 @@
   ],
   "@type": "SoftwareSourceCode",
   "identifier": "terrainr",
-  "description": "Functions for the retrieval and manipulation of 'USGS' National Map \n    data ('https://viewer.nationalmap.gov/services/), enabling users to download \n    elevation and image data for areas of interest. Functions are also provided \n    to transform these data sources into formats that can be used to create 3D \n    elevation models in the Unity rendering engine.",
+  "description": "Functions for the retrieval and manipulation of 'USGS' National Map \n    data ('https://viewer.nationalmap.gov/services/'), enabling users to download \n    elevation and image data for areas of interest. Functions are also provided \n    to transform these data sources into formats that can be used to create 3D \n    elevation models in the Unity rendering engine.",
   "name": "terrainr: Retrieve and Transform Data from the 'USGS' National Map",
   "codeRepository": "https://github.com/mikemahoney218/terrainr",
   "issueTracker": "https://github.com/mikemahoney218/terrainr/issues",
@@ -115,6 +115,18 @@
   "softwareRequirements": [
     {
       "@type": "SoftwareApplication",
+      "identifier": "base64enc",
+      "name": "base64enc",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=base64enc"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "httr",
       "name": "httr",
       "provider": {
@@ -198,9 +210,9 @@
   ],
   "releaseNotes": "https://github.com/mikemahoney218/terrainr/blob/master/NEWS.md",
   "readme": "https://github.com/mikemahoney218/terrainr/blob/master/README.md",
-  "fileSize": "10684.209KB",
+  "fileSize": "10680.613KB",
   "contIntegration": ["https://travis-ci.com/mikemahoney218/terrainr", "https://ci.appveyor.com/project/mikemahoney218/terrainr", "https://codecov.io/gh/mikemahoney218/terrainr"],
-  "developmentStatus": "https://www.tidyverse.org/lifecycle/#maturing",
+  "developmentStatus": ["https://www.tidyverse.org/lifecycle/#maturing", "https://www.repostatus.org/#active"],
   "keywords": [
     "r",
     "r-package",

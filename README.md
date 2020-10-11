@@ -1,12 +1,12 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# terrainr <a href='https://mikemahoney218.github.io/terrainr'><img src='man/figures/logo.png' align="right" height="138.5" /></a>
+# terrainr <a href='https://mikemahoney218.github.io/terrainr/'><img src='man/figures/logo.png' align="right" height="138.5" /></a>
 
 <!-- badges: start -->
 
 [![License:
-MIT](https://img.shields.io/badge/license-MIT-green)](http://choosealicense.com/licenses/mit/)
+MIT](https://img.shields.io/badge/license-MIT-green)](https://choosealicense.com/licenses/mit/)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/terrainr)](https://CRAN.R-project.org/package=terrainr)
 [![Lifecycle:
@@ -16,6 +16,9 @@ status](https://travis-ci.com/mikemahoney218/terrainr.svg?branch=master)](https:
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/mikemahoney218/terrainr?branch=master&svg=true)](https://ci.appveyor.com/project/mikemahoney218/terrainr)
 [![codecov](https://codecov.io/gh/mikemahoney218/terrainr/branch/master/graph/badge.svg)](https://codecov.io/gh/mikemahoney218/terrainr)
+[![Project Status: Active – The project has reached a stable, usable
+state and is being actively
+developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 <!-- badges: end -->
 
 ## Overview
