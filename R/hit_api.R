@@ -11,6 +11,9 @@
 #' @param img.height The number of pixels in the y direction to retrieve
 #' @param verbose Logical: Print out the number of tries required to pull each
 #' tile? Default \code{FALSE}.
+#' @param service A string indicating what service API to use. For a full list
+#' of available services, see [get_tiles]. Short codes are not accepted by this
+#' function.
 #' @param ... Additional arguments passed to the National Map API.
 #' These can be used to change default query parameters or as additional options
 #' for the National Map services. See below for more information.
@@ -84,7 +87,8 @@ hit_national_map_api <- function(bbox,
   url <- httr::parse_url(switch(service,
     "3DEPElevation" = "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer/exportImage",
     "USGSNAIPPlus" = "https://services.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/MapServer/export",
-    "nhd" = "https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer/export"
+    "nhd" = "https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer/export",
+    "govunits" = "https://carto.nationalmap.gov/arcgis/rest/services/govunits/MapServer/export"
   ))
 
   bbox_arg <- list(bbox = paste(
@@ -114,6 +118,14 @@ hit_national_map_api <- function(bbox,
       f = "json"
     ),
     "nhd" = list(
+      bboxSR = 4326,
+      imageSR = 4326,
+      layers = 0,
+      size = paste(img.width, img.height, sep = ","),
+      format = "png",
+      f = "json"
+    ),
+    "govunits" = list(
       bboxSR = 4326,
       imageSR = 4326,
       layers = 0,
