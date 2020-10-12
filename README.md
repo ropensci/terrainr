@@ -13,13 +13,12 @@ status](https://www.r-pkg.org/badges/version/terrainr)](https://CRAN.R-project.o
 maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![Travis build
 status](https://travis-ci.com/mikemahoney218/terrainr.svg?branch=master)](https://travis-ci.com/mikemahoney218/terrainr)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/mikemahoney218/terrainr?branch=master&svg=true)](https://ci.appveyor.com/project/mikemahoney218/terrainr)
 [![codecov](https://codecov.io/gh/mikemahoney218/terrainr/branch/master/graph/badge.svg)](https://codecov.io/gh/mikemahoney218/terrainr)
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-
+[![R build
+status](https://github.com/mikemahoney218/terrainr/workflows/R-CMD-check/badge.svg)](https://github.com/mikemahoney218/terrainr/actions)
 <!-- badges: end -->
 
 ## Overview

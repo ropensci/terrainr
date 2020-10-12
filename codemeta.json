@@ -16,7 +16,7 @@
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.0.2 (2020-06-22)",
+  "runtimePlatform": "R version 4.0.3 (2020-10-10)",
   "author": [
     {
       "@type": "Person",
@@ -210,8 +210,8 @@
   ],
   "releaseNotes": "https://github.com/mikemahoney218/terrainr/blob/master/NEWS.md",
   "readme": "https://github.com/mikemahoney218/terrainr/blob/master/README.md",
-  "fileSize": "10772.281KB",
-  "contIntegration": ["https://travis-ci.com/mikemahoney218/terrainr", "https://ci.appveyor.com/project/mikemahoney218/terrainr", "https://codecov.io/gh/mikemahoney218/terrainr"],
+  "fileSize": "10770.447KB",
+  "contIntegration": ["https://travis-ci.com/mikemahoney218/terrainr", "https://codecov.io/gh/mikemahoney218/terrainr"],
   "developmentStatus": ["https://www.tidyverse.org/lifecycle/#maturing", "https://www.repostatus.org/#active"],
   "keywords": [
     "r",
