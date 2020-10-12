@@ -2,7 +2,6 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^README\.Rmd$
-^appveyor\.yml$
 ^\.github$
 ^_pkgdown\.yml$
 ^docs$
@@ -15,7 +14,6 @@ tests/testthat/testdata/test_merge.tif
 tests/testthat/testdata/test_ortho.tif
 testdata/test_final_1_1.png
 .covrignore
-^\.travis\.yml$
 ^doc$
 ^Meta$
 ^codemeta\.json$
