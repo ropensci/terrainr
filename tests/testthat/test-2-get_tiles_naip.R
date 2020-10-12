@@ -19,6 +19,7 @@ test_that("get_tiles gets the same ortho tiles twice", {
 
 test_that("get_tiles gets the same georeferenced ortho tiles twice", {
   skip_on_cran()
+  skip_on_travis() # for now
   output_tif <- get_tiles(list(
     c(lat = 44.04905, lng = -74.01188),
     c(lat = 44.04911, lng = -74.01179)

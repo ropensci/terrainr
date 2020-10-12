@@ -32,7 +32,7 @@
 #' (with short codes in parentheses where applicable). See links for API
 #' documentation.
 #'
-#' * [3DEPElevation](https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer) \
+#' * [3DEPElevation](https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer)
 #'   (short code: elevation)
 #' * [USGSNAIPPlus](https://services.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/MapServer)
 #'   (short code: ortho)

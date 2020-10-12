@@ -60,7 +60,7 @@ The following services are currently available
 (with short codes in parentheses where applicable). See links for API
 documentation.
 \itemize{
-\item \href{https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer}{3DEPElevation} \
+\item \href{https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer}{3DEPElevation}
 (short code: elevation)
 \item \href{https://services.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/MapServer}{USGSNAIPPlus}
 (short code: ortho)

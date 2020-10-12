@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# terrainr <a href='https://mikemahoney218.github.io/terrainr/'><img src='man/figures/logo.png' align="right" height="138.5" /></a>
+# terrainr <a href='https://mikemahoney218.github.io/terrainr/'><img src="man/figures/logo.png" align="right" height="138.5"/></a>
 
 <!-- badges: start -->
 
@@ -19,6 +19,7 @@ status](https://ci.appveyor.com/api/projects/status/github/mikemahoney218/terrai
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+
 <!-- badges: end -->
 
 ## Overview
@@ -95,6 +96,22 @@ intensive processing steps can all be monitored via the
 you’ll be more confident that your computer is still churning along and
 not just hung. For more information, check out [the introductory
 vignette\!](https://mikemahoney218.github.io/terrainr/articles/overview.html)
+
+## Available Datasets
+
+The following datasets can currently be downloaded using `get_tiles` or
+`hit_national_map_api`:
+
+  - [3DEPElevation](https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer)
+  - [USGSNAIPPlus](https://services.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/MapServer)
+  - [nhd](https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer)
+  - [govunits](https://carto.nationalmap.gov/arcgis/rest/services/govunits/MapServer)
+  - [contours](https://carto.nationalmap.gov/arcgis/rest/services/contours/MapServer)
+  - [geonames](https://carto.nationalmap.gov/arcgis/rest/services/geonames/MapServer)
+  - [NHDPlus\_HR](https://hydro.nationalmap.gov/arcgis/rest/services/NHDPlus_HR/MapServer)
+  - [structures](https://carto.nationalmap.gov/arcgis/rest/services/structures/MapServer)
+  - [transportation](https://carto.nationalmap.gov/arcgis/rest/services/transportation/MapServer)
+  - [wbd](https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer)
 
 ## Installation
 
