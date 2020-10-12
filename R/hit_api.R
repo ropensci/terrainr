@@ -78,7 +78,6 @@ hit_national_map_api <- function(bbox,
 
   method <- vector("list")
   method$href <- c("3DEPElevation", "USGSNAIPPlus")
-  method$img <- c("nhd")
 
   first_corner <- bbox@bl
   second_corner <- bbox@tr
@@ -88,16 +87,22 @@ hit_national_map_api <- function(bbox,
     "3DEPElevation" = "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer/exportImage",
     "USGSNAIPPlus" = "https://services.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/MapServer/export",
     "nhd" = "https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer/export",
-    "govunits" = "https://carto.nationalmap.gov/arcgis/rest/services/govunits/MapServer/export"
+    "govunits" = "https://carto.nationalmap.gov/arcgis/rest/services/govunits/MapServer/export",
+    "contours" = "https://carto.nationalmap.gov/arcgis/rest/services/contours/MapServer/export",
+    "geonames" = "https://carto.nationalmap.gov/arcgis/rest/services/geonames/MapServer/export",
+    "NHDPlus_HR" = "https://hydro.nationalmap.gov/arcgis/rest/services/NHDPlus_HR/MapServer/export",
+    "structures" = "https://carto.nationalmap.gov/arcgis/rest/services/structures/MapServer/export",
+    "transportation" = "https://carto.nationalmap.gov/arcgis/rest/services/transportation/MapServer/export",
+    "wbd" = "https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer/export"
   ))
 
-  bbox_arg <- list(bbox = paste(
-    min(first_corner@lng, second_corner@lng),
-    min(first_corner@lat, second_corner@lat),
-    max(second_corner@lng, first_corner@lng),
-    max(second_corner@lat, first_corner@lat),
-    sep = ","
-  ))
+  standard_png_args <- list(
+    bboxSR = 4326,
+    imageSR = 4326,
+    size = paste(img.width, img.height, sep = ","),
+    format = "png",
+    f = "json"
+  )
 
   query_arg <- switch(service,
     "3DEPElevation" = list(
@@ -110,30 +115,20 @@ hit_national_map_api <- function(bbox,
       interpolation = "+RSP_BilinearInterpolation",
       f = "json"
     ),
-    "USGSNAIPPlus" = list(
-      bboxSR = 4326,
-      imageSR = 4326,
-      size = paste(img.width, img.height, sep = ","),
-      format = "png",
-      f = "json"
-    ),
-    "nhd" = list(
-      bboxSR = 4326,
-      imageSR = 4326,
-      layers = 0,
-      size = paste(img.width, img.height, sep = ","),
-      format = "png",
-      f = "json"
-    ),
-    "govunits" = list(
-      bboxSR = 4326,
-      imageSR = 4326,
-      layers = 0,
-      size = paste(img.width, img.height, sep = ","),
-      format = "png",
-      f = "json"
-    )
+    "nhd" = c(layers = 0, standard_png_args),
+    "structures" = c(layers = 0, standard_png_args),
+    "transportation" = c(layers = 0, standard_png_args),
+    "wbd" = c(layers = 0, standard_png_args),
+    standard_png_args
   )
+
+  bbox_arg <- list(bbox = paste(
+    min(first_corner@lng, second_corner@lng),
+    min(first_corner@lat, second_corner@lat),
+    max(second_corner@lng, first_corner@lng),
+    max(second_corner@lat, first_corner@lat),
+    sep = ","
+  ))
 
   if (length(dots) > 0) {
     if (any(names(dots) %in% names(query_arg))) {
@@ -192,7 +187,7 @@ hit_national_map_api <- function(bbox,
       imageData = httr::content(img_res, "raw"),
       extent = body$extent
     ))
-  } else if (service %in% method$img) {
+  } else {
     return(body)
   }
 }

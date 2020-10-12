@@ -21,7 +21,8 @@ hit_national_map_api(
 \item{img.height}{The number of pixels in the y direction to retrieve}
 
 \item{service}{A string indicating what service API to use. For a full list
-of available services, see \link{get_tiles}.}
+of available services, see \link{get_tiles}. Short codes are not accepted by this
+function.}
 
 \item{verbose}{Logical: Print out the number of tries required to pull each
 tile? Default \code{FALSE}.}

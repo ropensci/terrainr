@@ -210,6 +210,29 @@ for the National Map services. See below for more details.</p></td>
     <p>A list of the same length as the number of unique services requested,
 containing named vectors of where data files were saved to. Returned
 invisibly.</p>
+    <h2 class="hasAnchor" id="available-datasources"><a class="anchor" href="#available-datasources"></a>Available Datasources</h2>
+
+    
+
+<p>The following services are currently available
+(with short codes in parentheses where applicable). See links for API
+documentation.</p><ul>
+<li><p><a href='https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer'>3DEPElevation</a> \
+(short code: elevation)</p></li>
+<li><p><a href='https://services.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/MapServer'>USGSNAIPPlus</a>
+(short code: ortho)</p></li>
+<li><p><a href='https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer'>nhd</a>
+(short code: hydro)</p></li>
+<li><p><a href='https://carto.nationalmap.gov/arcgis/rest/services/govunits/MapServer'>govunits</a></p></li>
+<li><p><a href='https://carto.nationalmap.gov/arcgis/rest/services/contours/MapServer'>contours</a></p></li>
+<li><p><a href='https://carto.nationalmap.gov/arcgis/rest/services/geonames/MapServer'>geonames</a></p></li>
+<li><p><a href='https://hydro.nationalmap.gov/arcgis/rest/services/NHDPlus_HR/MapServer'>NHDPlus_HR</a></p></li>
+<li><p><a href='https://carto.nationalmap.gov/arcgis/rest/services/structures/MapServer'>structures</a></p></li>
+<li><p><a href='https://carto.nationalmap.gov/arcgis/rest/services/transportation/MapServer'>transportation</a></p></li>
+<li><p><a href='https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer'>wbd</a>
+("short code": watersheds)</p></li>
+</ul>
+
     <h2 class="hasAnchor" id="additional-arguments"><a class="anchor" href="#additional-arguments"></a>Additional Arguments</h2>
 
     
@@ -217,10 +240,10 @@ invisibly.</p>
 <p>The <code>...</code> argument can be used to pass additional arguments to the
 National Map API or to edit the hard-coded defaults used by this function.
 More information on common arguments to change can be found in
-[hit_national_map_api]. Note that <code>...</code> can also be used to change
+<a href='hit_national_map_api.html'>hit_national_map_api</a>. Note that <code>...</code> can also be used to change
 the formats returned by the server, but that doing so while using this
 function will likely cause the function to error (or corrupt the output
-data). To download files in different formats, use [hit_national_map_api].</p>
+data). To download files in different formats, use <a href='hit_national_map_api.html'>hit_national_map_api</a>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other data retrieval functions: 

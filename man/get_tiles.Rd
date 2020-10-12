@@ -54,15 +54,38 @@ invisibly.
 This function splits the area contained within a bounding box into a set of
 tiles, and retrieves data from the USGS National map for each tile.
 }
+\section{Available Datasources}{
+
+The following services are currently available
+(with short codes in parentheses where applicable). See links for API
+documentation.
+\itemize{
+\item \href{https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer}{3DEPElevation} \
+(short code: elevation)
+\item \href{https://services.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/MapServer}{USGSNAIPPlus}
+(short code: ortho)
+\item \href{https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer}{nhd}
+(short code: hydro)
+\item \href{https://carto.nationalmap.gov/arcgis/rest/services/govunits/MapServer}{govunits}
+\item \href{https://carto.nationalmap.gov/arcgis/rest/services/contours/MapServer}{contours}
+\item \href{https://carto.nationalmap.gov/arcgis/rest/services/geonames/MapServer}{geonames}
+\item \href{https://hydro.nationalmap.gov/arcgis/rest/services/NHDPlus_HR/MapServer}{NHDPlus_HR}
+\item \href{https://carto.nationalmap.gov/arcgis/rest/services/structures/MapServer}{structures}
+\item \href{https://carto.nationalmap.gov/arcgis/rest/services/transportation/MapServer}{transportation}
+\item \href{https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer}{wbd}
+("short code": watersheds)
+}
+}
+
 \section{Additional Arguments}{
 
 The \code{...} argument can be used to pass additional arguments to the
 National Map API or to edit the hard-coded defaults used by this function.
 More information on common arguments to change can be found in
-[hit_national_map_api]. Note that \code{...} can also be used to change
+\link{hit_national_map_api}. Note that \code{...} can also be used to change
 the formats returned by the server, but that doing so while using this
 function will likely cause the function to error (or corrupt the output
-data). To download files in different formats, use [hit_national_map_api].
+data). To download files in different formats, use \link{hit_national_map_api}.
 }
 
 \examples{

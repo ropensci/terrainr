@@ -27,6 +27,25 @@
 #' These can be used to change default query parameters or as additional options
 #' for the National Map services. See below for more details.
 #'
+#' @section Available Datasources:
+#' The following services are currently available
+#' (with short codes in parentheses where applicable). See links for API
+#' documentation.
+#'
+#' * [3DEPElevation](https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer) \
+#'   (short code: elevation)
+#' * [USGSNAIPPlus](https://services.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/MapServer)
+#'   (short code: ortho)
+#' * [nhd](https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer)
+#'   (short code: hydro)
+#' * [govunits](https://carto.nationalmap.gov/arcgis/rest/services/govunits/MapServer)
+#' * [contours](https://carto.nationalmap.gov/arcgis/rest/services/contours/MapServer)
+#' * [geonames](https://carto.nationalmap.gov/arcgis/rest/services/geonames/MapServer)
+#' * [NHDPlus_HR](https://hydro.nationalmap.gov/arcgis/rest/services/NHDPlus_HR/MapServer)
+#' * [structures](https://carto.nationalmap.gov/arcgis/rest/services/structures/MapServer)
+#' * [transportation](https://carto.nationalmap.gov/arcgis/rest/services/transportation/MapServer)
+#' * [wbd](https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer)
+#'   ("short code": watersheds)
 #'
 #' @section Additional Arguments:
 #' The \code{...} argument can be used to pass additional arguments to the
@@ -57,6 +76,7 @@
 #' }
 #'
 #' @export
+#' @md
 get_tiles <- function(bbox,
                       output_prefix = tempfile(),
                       side_length = NULL,
@@ -69,23 +89,28 @@ get_tiles <- function(bbox,
   list_of_services <- c(
     "elevation" = "3DEPElevation",
     "ortho" = "USGSNAIPPlus",
-    "hydro" = "nhd"
+    "hydro" = "nhd",
+    "govunits",
+    "contours",
+    "geonames",
+    "NHDPlus_HR",
+    "structures",
+    "transportation",
+    "watersheds" = "wbd"
   )
-
-  method <- vector("list")
-  method$href <- c("3DEPElevation", "USGSNAIPPlus")
-  method$img <- c("nhd")
 
   stopifnot(all(services %in% list_of_services |
     services %in% names(list_of_services)))
 
-  tif_files <- c("3DEPElevation")
+  method <- vector("list")
+  method$href <- c("3DEPElevation", "USGSNAIPPlus")
+  method$img <- list_of_services[!(list_of_services %in% method$href)]
 
-  # these tiles CAN be downloaded as .tif
-  # but they aren't georeferrenced anyway
-  # so it is conceptually useful to store all non-georeferrenced images as PNG
-  # and all georeferrenced images as .tif
-  png_files <- c("USGSNAIPPlus", "nhd")
+  tif_files <- c("3DEPElevation")
+  png_files <- list_of_services[!(list_of_services %in% tif_files)]
+
+
+
 
   if (any(services %in% names(list_of_services))) { # cast short codes now
     replacements <- which(services %in% names(list_of_services))
@@ -99,16 +124,14 @@ get_tiles <- function(bbox,
   }
 
   if (is.null(side_length)) {
-    if (("USGSNAIPPlus" %in% services) |
-      ("nhd" %in% services)) {
+    if (any(services %in% png_files)) {
       side_length <- 4096
     } else {
       side_length <- 8000
     }
   }
 
-  if ((("USGSNAIPPlus" %in% services) |
-    ("nhd" %in% services)) && side_length > 4096) {
+  if (any(services %in% png_files) && side_length > 4096) {
     stop("USGSNAIPPlus tiles have a maximum side length of 4096.")
   }
   if (("3DEPElevation" %in% services) && side_length > 8000) {
