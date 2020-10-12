@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">terrainr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9002</span>
       </span>
     </div>
 
@@ -125,22 +125,22 @@
 <span class="co">#&gt; An object of class "terrainr_coordinate_pair"</span>
 <span class="co">#&gt; Slot "lat":</span>
 <span class="co">#&gt;      lat </span>
-<span class="co">#&gt; 39.11151 </span>
+<span class="co">#&gt; 39.11148 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Slot "lng":</span>
 <span class="co">#&gt;       lng </span>
-<span class="co">#&gt; -106.4534 </span>
+<span class="co">#&gt; -106.4532 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Slot "tr":</span>
 <span class="co">#&gt; An object of class "terrainr_coordinate_pair"</span>
 <span class="co">#&gt; Slot "lat":</span>
-<span class="co">#&gt;     lat </span>
-<span class="co">#&gt; 39.1239 </span>
+<span class="co">#&gt;      lat </span>
+<span class="co">#&gt; 39.12399 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Slot "lng":</span>
 <span class="co">#&gt;       lng </span>
-<span class="co">#&gt; -106.4372</span></pre></div>
+<span class="co">#&gt; -106.4371</span></pre></div>
 <p><code>get_coord_bbox</code> returns an S4 class (<code>terrainr_bounding_box</code>) that indicates the “bottom left” and “top right” points of the box containing all your points, which is guaranteed to work with all the functions in terrainr. However, there’s no requirement for you to go out of your way to make a <code>terrainr_bounding_box</code> object; any list object that contains the same information will work just as well with all of terrainr’s processing and data retrieval functions.</p>
 <p>We can also calculate a bounding box for our single point:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit">

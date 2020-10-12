@@ -101,6 +101,7 @@ hit_national_map_api <- function(bbox,
     imageSR = 4326,
     size = paste(img.width, img.height, sep = ","),
     format = "png",
+    transparent = "true",
     f = "json"
   )
 
@@ -116,9 +117,6 @@ hit_national_map_api <- function(bbox,
       f = "json"
     ),
     "nhd" = c(layers = 0, standard_png_args),
-    "structures" = c(layers = 0, standard_png_args),
-    "transportation" = c(layers = 0, standard_png_args),
-    "wbd" = c(layers = 0, standard_png_args),
     standard_png_args
   )
 
@@ -168,12 +166,12 @@ hit_national_map_api <- function(bbox,
       times = 7,
       quiet = !verbose
     ),
-    error = function(e) {
+    error = function(e) { # nocov start
       httr::RETRY("GET",
         url = body$href,
         times = 15,
         quiet = !verbose
-      )
+      ) # nocov end
     }
     )
 

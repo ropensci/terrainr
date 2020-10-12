@@ -1,7 +1,7 @@
 Package: terrainr
 Type: Package
 Title: Retrieve and Transform Data from the 'USGS' National Map
-Version: 0.0.0.9001
+Version: 0.0.0.9002
 Authors@R: 
     person(given = "Michael",
            family = "Mahoney",

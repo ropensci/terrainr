@@ -1,7 +1,7 @@
 test_that("raster_to_raw runs without errors", {
   # These files aren't included in the repo or package, so can't run these tests
   # But important to validate they pass locally!
-  skip("Not running raster_to_raw tests")
+  skip("raster_to_raw tests must be run manually")
 
   outputs <- raster_to_raw_tiles(
     input_file = "testdata/test_ortho.tif",
