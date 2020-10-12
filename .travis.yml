@@ -9,6 +9,7 @@ r:
 os:
   - linux
   - osx
+dist: focal
 jobs:
   exclude:
   - r: devel
