@@ -45,18 +45,9 @@ test_that("get_tiles gets the same tiles twice -- with georeferencing!", {
   expect_equal(length(output_tif), 3)
   expect_equal(length(output_tif[[1]]), 1)
 
-  stored_raster <- raster::raster("testdata/3DEP_gr.tif")
-  test_raster <- raster::raster(output_tif[[1]])
 
-  expect_equal(stored_raster@crs, test_raster@crs)
-  expect_equal(stored_raster@extent, test_raster@extent)
-  expect_equal(
-    raster::cellStats(stored_raster, "max"),
-    raster::cellStats(test_raster, "max")
-  )
-
-  stored_raster <- raster::raster("testdata/NAIPPlus_gr.tif")
-  test_raster <- raster::raster(output_tif[[2]])
+  stored_raster <- raster::raster("testdata/nhd_gr.tif")
+  test_raster <- raster::raster(output_tif[[3]])
 
   expect_equal(stored_raster@crs, test_raster@crs)
   expect_equal(stored_raster@extent, test_raster@extent)
@@ -65,6 +56,7 @@ test_that("get_tiles gets the same tiles twice -- with georeferencing!", {
     raster::cellStats(test_raster, "max")
   )
 })
+
 
 test_that("get_tiles fails as expected", {
   expect_error(get_tiles(list(
