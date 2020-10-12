@@ -132,8 +132,8 @@ output_files
 
 ```{r echo = FALSE}
 output_files <- list(
-  `3DEPElevation` = "/tmp/RtmpzuCNgk/file40de6193a909a_3DEPElevation_1_1.tiff",
-  USGSNAIPPlus = "/tmp/RtmpzuCNgk/file40de6193a909a_USGSNAIPPlus_1_1.png"
+  `3DEPElevation` = "/tmp/RtmphTFQvZ/file65e5d859e628_3DEPElevation_1_1.tif",
+  USGSNAIPPlus = "/tmp/RtmphTFQvZ/file65e5d859e628_USGSNAIPPlus_1_1.tif"
 )
 output_files
 ```
@@ -147,7 +147,7 @@ knitr::include_graphics("example_dem.png")
 ```
 
 ```{r eval=FALSE}
-raster::plot(raster::raster(output_files[[2]]))
+raster::plotRGB(raster::brick(output_files[[2]]), scale = 1)
 ```
 
 ```{r echo = FALSE}
@@ -160,23 +160,22 @@ would be a character vector containing the file paths for all of our downloaded
 tiles. Since we're sticking with a relatively small area for this example, we 
 only have one tile for each service.
 
-Now, a weird quirk of this API is that orthoimages are not 
-georeferenced when you first download them. However, the image tiles produced 
-by terrainr do precisely align with the DEM files that we downloaded for the 
-same tile. A second weird quirk is that the USGS does not necessarily respect 
+A weird quirk of this API is that the USGS does not necessarily respect 
 the bounding boxes that we ask for, and will download tiles with overlapping
-edges. 
-
-We can fix both of these problems at the same time using `merge_rasters`,
-which will take the vectors of output files from `get_tiles` and merge them 
-while georeferencing the output orthoimage:
+edges. We can fix this using `merge_rasters`:
 
 ```{r eval = FALSE}
-output_merged <- merge_rasters(input_rasters = output_files[1],
-                               output_raster = tempfile(fileext = ".tif"),
-                               input_images = output_files[2],
-                               output_image = tempfile(fileext = ".tif"))
+elevation_merged <- merge_rasters(input_rasters = output_files[1],
+                                  output_raster = tempfile(fileext = ".tif"))
+ortho_merged <- merge_rasters(input_rasters = output_files[2],
+                              output_raster = tempfile(fileext = ".tif"))
 ```
+
+Now, one other feature of `merge_rasters` is the ability to create georeferenced
+rasters from non-georeferenced images. This means that you can turn any image 
+into an overlay for your output maps, so long as you've stored it as a PNG -- 
+just pass a vector of image files that correspond to the vector of rasters 
+you're merging to `input_images` and specify an output file.
 
 This produces two tiles: one merged elevation map and one merged orthoimage, 
 both written out as georeferenced TIFFs. `merge_rasters` doesn't actually care
@@ -192,7 +191,7 @@ of the scope of this overview vignette, other than to demonstrate the main
 way I call `raster_to_raw_tiles`:
 
 ```{r eval = FALSE}
-side_length <- vapply(output_merged, 
+side_length <- vapply(c(elevation_merged, ortho_merged), 
                       function(x) max(dim(raster::raster(x))), 
                       numeric(1))
 
@@ -204,7 +203,7 @@ mapply(function(x, y, z) {
                         raw = z)
     )
 },
-  output_merged, # our list pointing to the merged images
+  c(elevation_merged, ortho_merged),
   side_length, # What's the longer edge of our image file?
   c(TRUE, FALSE) # we don't want to convert our orthoimages to .raw;
 )                # Unity takes the textures as .pngs

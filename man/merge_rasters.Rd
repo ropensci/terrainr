@@ -36,8 +36,7 @@ merged? Set to \code{FALSE} if you're only providing these input tiles to
 georeference tiles in \code{input_images}.}
 }
 \value{
-A named list of length 2 with the original inputs to output_raster
-and output_image
+A named list containing the file paths outputs were written to.
 }
 \description{
 Some functions like \code{\link{get_tiles}} return multiple separate files

@@ -11,18 +11,31 @@
 #' If \code{NULL}, defaults to the maximum side length permitted by the least
 #' permissive service requested.
 #' @param services A character vector of services to download data from. Current
-#' options include "3DEPElevation" and "USGSNAIPPlus". Users can also use short
-#' codes to download a specific type of data without specifying the source;
-#' current options for short codes include "elevation" (equivalent to
-#' "3DEPElevation") and "ortho" (equivalent to "USGSNAIPPlus). Short codes are
+#' options include "3DEPElevation", "USGSNAIPPlus", and "nhd". Users can also
+#' use short codes to download a specific type of data without specifying the
+#' source; current options for short codes include "elevation" (equivalent to
+#' "3DEPElevation"), "ortho" (equivalent to "USGSNAIPPlus), and "hydro" ("nhd").
+#' Short codes are
 #' not guaranteed to refer to the same source across releases. Short codes are
 #' converted to their service name and then duplicates are removed, so any given
 #' source will only be queried once per tile.
 #' @param verbose Logical: should tile retrieval functions run in verbose mode?
+#' @param georeference Logical: should tiles be downloaded as PNGs without
+#' georeferencing, or should they be downloaded as georeferenced TIFF files?
+#' This option does nothing when only elevation data is being downloaded.
 #' @param ... Additional arguments passed to \code{\link{hit_national_map_api}}.
 #' These can be used to change default query parameters or as additional options
-#' for the National Map services, but are at no point validated, so use at your
-#' own risk!
+#' for the National Map services. See below for more details.
+#'
+#'
+#' @section Additional Arguments:
+#' The \code{...} argument can be used to pass additional arguments to the
+#' National Map API or to edit the hard-coded defaults used by this function.
+#' More information on common arguments to change can be found in
+#' [hit_national_map_api]. Note that \code{...} can also be used to change
+#' the formats returned by the server, but that doing so while using this
+#' function will likely cause the function to error (or corrupt the output
+#' data). To download files in different formats, use [hit_national_map_api].
 #'
 #' @family data retrieval functions
 #'
@@ -49,24 +62,30 @@ get_tiles <- function(bbox,
                       side_length = NULL,
                       services = "elevation",
                       verbose = FALSE,
+                      georeference = TRUE,
                       ...) {
 
   # short codes are assigned as names; we'll cast them into the full name later
   list_of_services <- c(
     "elevation" = "3DEPElevation",
-    "ortho" = "USGSNAIPPlus"
+    "ortho" = "USGSNAIPPlus",
+    "hydro" = "nhd"
   )
+
+  method <- vector("list")
+  method$href <- c("3DEPElevation", "USGSNAIPPlus")
+  method$img <- c("nhd")
 
   stopifnot(all(services %in% list_of_services |
     services %in% names(list_of_services)))
 
-  tif_files <- "3DEPElevation"
+  tif_files <- c("3DEPElevation")
 
   # these tiles CAN be downloaded as .tif
   # but they aren't georeferrenced anyway
   # so it is conceptually useful to store all non-georeferrenced images as PNG
   # and all georeferrenced images as .tif
-  png_files <- "USGSNAIPPlus"
+  png_files <- c("USGSNAIPPlus", "nhd")
 
   if (any(services %in% names(list_of_services))) { # cast short codes now
     replacements <- which(services %in% names(list_of_services))
@@ -80,10 +99,16 @@ get_tiles <- function(bbox,
   }
 
   if (is.null(side_length)) {
-    if ("USGSNAIPPlus" %in% services) side_length <- 4096 else side_length <- 8000
+    if (("USGSNAIPPlus" %in% services) |
+      ("nhd" %in% services)) {
+      side_length <- 4096
+    } else {
+      side_length <- 8000
+    }
   }
 
-  if (("USGSNAIPPlus" %in% services) && side_length > 4096) {
+  if ((("USGSNAIPPlus" %in% services) |
+    ("nhd" %in% services)) && side_length > 4096) {
     stop("USGSNAIPPlus tiles have a maximum side length of 4096.")
   }
   if (("3DEPElevation" %in% services) && side_length > 8000) {
@@ -153,10 +178,27 @@ get_tiles <- function(bbox,
           ))
         }
 
-        if (services[[k]] %in% tif_files) {
-          fileext <- ".tiff"
+        if (services[[k]] %in% tif_files | georeference) {
+          fileext <- ".tif"
         } else if (services[[k]] %in% png_files) {
           fileext <- ".png"
+        }
+
+        final_path <- paste0(
+          output_prefix,
+          "_",
+          services[[k]],
+          "_",
+          i,
+          "_",
+          j,
+          fileext
+        )
+
+        if (georeference && services[[k]] != "3DEPElevation") {
+          cur_path <- tempfile(fileext = ".png")
+        } else {
+          cur_path <- final_path
         }
 
         img_bin <- hit_national_map_api(current_box[["bbox"]],
@@ -167,24 +209,42 @@ get_tiles <- function(bbox,
           ...
         )
 
-        writeBin(img_bin, paste0(
-          output_prefix,
-          "_",
-          services[[k]],
-          "_",
-          i,
-          "_",
-          j,
-          fileext
-        ))
+        if (services[[k]] %in% method$href) {
+          writeBin(img_bin$imageData, cur_path)
+        } else if (services[[k]] %in% method$img) {
+          outconn <- file(cur_path, "wb")
+          base64enc::base64decode(
+            what = img_bin$imageData,
+            output = outconn
+          )
+          close(outconn)
+        }
+
+        if (georeference && services[[k]] != "3DEPElevation") {
+          cur_raster <- raster::brick(png::readPNG(cur_path))
+          cur_raster@crs <- raster::crs(paste0(
+            "+init=EPSG:",
+            img_bin$extent$spatialReference$wkid
+          ))
+          cur_raster@extent <- raster::extent(
+            img_bin$extent$xmin,
+            img_bin$extent$xmax,
+            img_bin$extent$ymin,
+            img_bin$extent$ymax
+          )
+          raster::writeRaster(cur_raster,
+            final_path,
+            overwrite = TRUE
+          )
+        }
       }
     }
   }
 
   res <- vector("list")
   for (i in seq_along(services)) {
-    if (services[[i]] %in% tif_files) {
-      fileext <- ".tiff"
+    if (services[[i]] %in% tif_files || georeference) {
+      fileext <- ".tif"
     } else if (services[[i]] %in% png_files) {
       fileext <- ".png"
     }

@@ -3,7 +3,8 @@
 #' This function retrieves a single tile of data from a single National Map
 #' service and returns the raw response. End users are recommended to use
 #' \code{\link{get_tiles}} instead, as it does much more validation and provides
-#' a more friendly interface.
+#' a more friendly interface. For a description of the datasets provided by the
+#' National Map, see \url{https://viewer.nationalmap.gov/services/}
 #'
 #' @param bbox The bounding box (bottom left and top left coordinate pairs)
 #' @param img.width The number of pixels in the x direction to retrieve
@@ -12,10 +13,32 @@
 #' tile? Default \code{FALSE}.
 #' @param ... Additional arguments passed to the National Map API.
 #' These can be used to change default query parameters or as additional options
-#' for the National Map services, but are at no point validated, so use at your
-#' own risk!
+#' for the National Map services. See below for more information.
 #'
 #' @keywords internal
+#'
+#' @section Additional Arguments:
+#' The \code{...} argument can be used to pass additional arguments to the
+#' National Map API or to edit the hard-coded defaults used by this function.
+#' Some of the most useful options that can be changed include:
+#'
+#' * bboxSR: The spatial reference of the bounding box given to this function.
+#'   If not specified, assumed to be [4326](https://spatialreference.org/ref/epsg/wgs-84/).
+#'
+#' * imageSR: The spatial reference of the image downloaded.
+#'   If not specified, assumed to be [4326](https://spatialreference.org/ref/epsg/wgs-84/).
+#'
+#' * layers: Which data layers to download. If the National Map API returns data
+#'   without specifying layers, this argument isn't used by default. When the
+#'   National Map requires this argument, the default value is 0.
+#'
+#' * format: The image format to be downloaded. Defaults depend on the service
+#'   being used and are set to be compatible with [get_tiles].
+#'
+#' Pass these arguments to \code{hit_national_map_api} like you would any other
+#' argument to substitute new values. Note that \code{...} values are never
+#' validated before being used; passing invalid parameters to \code{...} will
+#' cause data retrieval to fail.
 #'
 #' @seealso \code{\link{get_tiles}} for a friendlier interface to the National
 #' Map API.
@@ -37,6 +60,7 @@
 #' }
 #'
 #' @export
+#' @md
 hit_national_map_api <- function(bbox,
                                  img.width,
                                  img.height,
@@ -49,13 +73,18 @@ hit_national_map_api <- function(bbox,
     bbox <- terrainr_bounding_box(bbox[[1]], bbox[[2]])
   }
 
+  method <- vector("list")
+  method$href <- c("3DEPElevation", "USGSNAIPPlus")
+  method$img <- c("nhd")
+
   first_corner <- bbox@bl
   second_corner <- bbox@tr
 
   # API endpoint for elevation mapping:
   url <- httr::parse_url(switch(service,
     "3DEPElevation" = "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer/exportImage",
-    "USGSNAIPPlus" = "https://services.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/MapServer/export"
+    "USGSNAIPPlus" = "https://services.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/MapServer/export",
+    "nhd" = "https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer/export"
   ))
 
   bbox_arg <- list(bbox = paste(
@@ -83,6 +112,14 @@ hit_national_map_api <- function(bbox,
       size = paste(img.width, img.height, sep = ","),
       format = "png",
       f = "json"
+    ),
+    "nhd" = list(
+      bboxSR = 4326,
+      imageSR = 4326,
+      layers = 0,
+      size = paste(img.width, img.height, sep = ","),
+      format = "png",
+      f = "json"
     )
   )
 
@@ -104,13 +141,6 @@ hit_national_map_api <- function(bbox,
   get_href <- function(url, query, counter = 0) {
     if (counter < 15) {
       backoff <- stats::runif(n = 1, min = 0, max = 2^counter - 1)
-      if (verbose) {
-        message(sprintf(
-          "Attempt %d, retrying after %d seconds",
-          counter + 1,
-          backoff
-        ))
-      }
       Sys.sleep(backoff)
       res <- httr::GET(url, query = query)
       tryCatch(httr::content(res, type = "application/json"),
@@ -125,25 +155,32 @@ hit_national_map_api <- function(bbox,
 
   body <- get_href(url, query = c(bbox_arg, query_arg))
 
-  img_res <- tryCatch(httr::RETRY("GET",
-    url = body$href,
-    times = 7,
-    quiet = !verbose
-  ),
-  error = function(e) {
-    httr::RETRY("GET",
+  if (service %in% method$href) {
+    img_res <- tryCatch(httr::RETRY("GET",
       url = body$href,
-      times = 15,
+      times = 7,
       quiet = !verbose
+    ),
+    error = function(e) {
+      httr::RETRY("GET",
+        url = body$href,
+        times = 15,
+        quiet = !verbose
+      )
+    }
     )
-  }
-  )
 
-  if (httr::status_code(img_res) != 200) {
-    # nocov start
-    stop("Map server returned error code ", httr::status_code(img_res))
-    # nocov end
-  }
+    if (httr::status_code(img_res) != 200) {
+      # nocov start
+      stop("Map server returned error code ", httr::status_code(img_res))
+      # nocov end
+    }
 
-  httr::content(img_res, "raw")
+    return(list(
+      imageData = httr::content(img_res, "raw"),
+      extent = body$extent
+    ))
+  } else if (service %in% method$img) {
+    return(body)
+  }
 }

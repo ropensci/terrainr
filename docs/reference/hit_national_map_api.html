@@ -50,7 +50,8 @@
 <meta property="og:description" content="This function retrieves a single tile of data from a single National Map
 service and returns the raw response. End users are recommended to use
 get_tiles instead, as it does much more validation and provides
-a more friendly interface." />
+a more friendly interface. For a description of the datasets provided by the
+National Map, see https://viewer.nationalmap.gov/services/" />
 <meta property="og:image" content="https://mikemahoney218.github.io/terrainr/logo.png" />
 
 
@@ -147,7 +148,8 @@ a more friendly interface." />
     <p>This function retrieves a single tile of data from a single National Map
 service and returns the raw response. End users are recommended to use
 <code><a href='get_tiles.html'>get_tiles</a></code> instead, as it does much more validation and provides
-a more friendly interface.</p>
+a more friendly interface. For a description of the datasets provided by the
+National Map, see <a href='https://viewer.nationalmap.gov/services/'>https://viewer.nationalmap.gov/services/</a></p>
     </div>
 
     <pre class="usage"><span class='fu'>hit_national_map_api</span><span class='op'>(</span>
@@ -183,14 +185,35 @@ tile? Default <code>FALSE</code>.</p></td>
       <th>...</th>
       <td><p>Additional arguments passed to the National Map API.
 These can be used to change default query parameters or as additional options
-for the National Map services, but are at no point validated, so use at your
-own risk!</p></td>
+for the National Map services. See below for more information.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A raw vector.</p>
+    <h2 class="hasAnchor" id="additional-arguments"><a class="anchor" href="#additional-arguments"></a>Additional Arguments</h2>
+
+    
+
+<p>The <code>...</code> argument can be used to pass additional arguments to the
+National Map API or to edit the hard-coded defaults used by this function.
+Some of the most useful options that can be changed include:</p><ul>
+<li><p>bboxSR: The spatial reference of the bounding box given to this function.
+If not specified, assumed to be <a href='https://spatialreference.org/ref/epsg/wgs-84/'>4326</a>.</p></li>
+<li><p>imageSR: The spatial reference of the image downloaded.
+If not specified, assumed to be <a href='https://spatialreference.org/ref/epsg/wgs-84/'>4326</a>.</p></li>
+<li><p>layers: Which data layers to download. If the National Map API returns data
+without specifying layers, this argument isn't used by default. When the
+National Map requires this argument, the default value is 0.</p></li>
+<li><p>format: The image format to be downloaded. Defaults depend on the service
+being used and are set to be compatible with <a href='get_tiles.html'>get_tiles</a>.</p></li>
+</ul>
+
+<p>Pass these arguments to <code>hit_national_map_api</code> like you would any other
+argument to substitute new values. Note that <code>...</code> values are never
+validated before being used; passing invalid parameters to <code>...</code> will
+cause data retrieval to fail.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='get_tiles.html'>get_tiles</a></code> for a friendlier interface to the National

@@ -60,7 +60,8 @@ test_that("merge_raster works with orthos", {
     lat = 44.05003,
     lng = -74.01164
   ), 10),
-  services = c("elevation", "ortho")
+  services = c("elevation", "ortho"),
+  georeference = FALSE
   )
   merge_orth <- tempfile(fileext = ".tiff")
   merge_rasters(tmpf[[1]], NULL, tmpf[[2]], merge_orth, merge_raster = FALSE)

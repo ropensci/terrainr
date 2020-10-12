@@ -129,7 +129,7 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Slot "lng":</span>
 <span class="co">#&gt;       lng </span>
-<span class="co">#&gt; -106.4534 </span>
+<span class="co">#&gt; -106.4532 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Slot "tr":</span>
@@ -218,28 +218,28 @@
 <div class="sourceCode" id="cb9"><pre class="downlit">
 <span class="va">output_files</span></pre></div>
 <pre><code>#&gt; $`3DEPElevation`
-#&gt; [1] "/tmp/RtmpzuCNgk/file40de6193a909a_3DEPElevation_1_1.tiff"
+#&gt; [1] "/tmp/RtmphTFQvZ/file65e5d859e628_3DEPElevation_1_1.tif"
 #&gt; 
 #&gt; $USGSNAIPPlus
-#&gt; [1] "/tmp/RtmpzuCNgk/file40de6193a909a_USGSNAIPPlus_1_1.png"</code></pre>
+#&gt; [1] "/tmp/RtmphTFQvZ/file65e5d859e628_USGSNAIPPlus_1_1.tif"</code></pre>
 <div class="sourceCode" id="cb11"><pre class="downlit">
 <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html">raster</a></span><span class="op">(</span><span class="va">output_files</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></pre></div>
 <p><img src="example_dem.png" width="240"></p>
 <div class="sourceCode" id="cb12"><pre class="downlit">
-<span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html">raster</a></span><span class="op">(</span><span class="va">output_files</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></pre></div>
+<span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/plotRGB.html">plotRGB</a></span><span class="op">(</span><span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/brick.html">brick</a></span><span class="op">(</span><span class="va">output_files</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>, scale <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></pre></div>
 <p><img src="example_ortho.png" width="240"></p>
 <p><code>output_files</code> is now a named list with all of our downloaded files! If we were requesting more data than we can download at once, each element of the list would be a character vector containing the file paths for all of our downloaded tiles. Since we’re sticking with a relatively small area for this example, we only have one tile for each service.</p>
-<p>Now, a weird quirk of this API is that orthoimages are not georeferenced when you first download them. However, the image tiles produced by terrainr do precisely align with the DEM files that we downloaded for the same tile. A second weird quirk is that the USGS does not necessarily respect the bounding boxes that we ask for, and will download tiles with overlapping edges.</p>
-<p>We can fix both of these problems at the same time using <code>merge_rasters</code>, which will take the vectors of output files from <code>get_tiles</code> and merge them while georeferencing the output orthoimage:</p>
+<p>A weird quirk of this API is that the USGS does not necessarily respect the bounding boxes that we ask for, and will download tiles with overlapping edges. We can fix this using <code>merge_rasters</code>:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit">
-<span class="va">output_merged</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/merge_rasters.html">merge_rasters</a></span><span class="op">(</span>input_rasters <span class="op">=</span> <span class="va">output_files</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,
-                               output_raster <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".tif"</span><span class="op">)</span>,
-                               input_images <span class="op">=</span> <span class="va">output_files</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,
-                               output_image <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".tif"</span><span class="op">)</span><span class="op">)</span></pre></div>
+<span class="va">elevation_merged</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/merge_rasters.html">merge_rasters</a></span><span class="op">(</span>input_rasters <span class="op">=</span> <span class="va">output_files</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,
+                                  output_raster <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".tif"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">ortho_merged</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/merge_rasters.html">merge_rasters</a></span><span class="op">(</span>input_rasters <span class="op">=</span> <span class="va">output_files</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,
+                              output_raster <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".tif"</span><span class="op">)</span><span class="op">)</span></pre></div>
+<p>Now, one other feature of <code>merge_rasters</code> is the ability to create georeferenced rasters from non-georeferenced images. This means that you can turn any image into an overlay for your output maps, so long as you’ve stored it as a PNG – just pass a vector of image files that correspond to the vector of rasters you’re merging to <code>input_images</code> and specify an output file.</p>
 <p>This produces two tiles: one merged elevation map and one merged orthoimage, both written out as georeferenced TIFFs. <code>merge_rasters</code> doesn’t actually care if you want to merge files, though – as we saw here, if our goal is just to georeference an image file, we can provide length 1 vectors to both input arguments. This can be combined with <code>mapply</code> to georeference all the tiles downloaded by <code>get_tiles</code> without merging any.</p>
 <p>The last major function provided by terrainr is <code>raster_to_raw_tiles</code>, which is designed to turn these larger rasters into tiles that can be imported into the Unity 3D rendering engine. The specifics of working with Unity is outside of the scope of this overview vignette, other than to demonstrate the main way I call <code>raster_to_raw_tiles</code>:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit">
-<span class="va">side_length</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">vapply</a></span><span class="op">(</span><span class="va">output_merged</span>, 
+<span class="va">side_length</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">vapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">elevation_merged</span>, <span class="va">ortho_merged</span><span class="op">)</span>, 
                       <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html">raster</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, 
                       <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">numeric</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span>
 
@@ -251,7 +251,7 @@
                         raw <span class="op">=</span> <span class="va">z</span><span class="op">)</span>
     <span class="op">)</span>
 <span class="op">}</span>,
-  <span class="va">output_merged</span>, <span class="co"># our list pointing to the merged images</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">elevation_merged</span>, <span class="va">ortho_merged</span><span class="op">)</span>,
   <span class="va">side_length</span>, <span class="co"># What's the longer edge of our image file?</span>
   <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># we don't want to convert our orthoimages to .raw;</span>
 <span class="op">)</span>                <span class="co"># Unity takes the textures as .pngs</span></pre></div>

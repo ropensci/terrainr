@@ -25,8 +25,7 @@
 #' merged? Set to \code{FALSE} if you're only providing these input tiles to
 #' georeference tiles in \code{input_images}.
 #'
-#' @return A named list of length 2 with the original inputs to output_raster
-#' and output_image
+#' @return A named list containing the file paths outputs were written to.
 #'
 #' @family data manipulation functions
 #'
@@ -58,10 +57,9 @@ merge_rasters <- function(input_rasters,
                           output_image = NULL,
                           overwrite = TRUE,
                           merge_raster = TRUE) {
-  output_list <- list(
-    output_raster = output_raster,
-    output_image = output_image
-  )
+  output_list <- vector("list")
+  if (!is.null(output_raster)) output_list$output_raster <- output_raster
+  if (!is.null(output_image)) output_list$output_image <- output_image
 
   if (!is.null(input_images)) {
     stopifnot(length(input_images) == length(input_rasters))

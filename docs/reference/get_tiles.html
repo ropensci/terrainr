@@ -152,6 +152,7 @@ tiles, and retrieves data from the USGS National map for each tile.</p>
   side_length <span class='op'>=</span> <span class='cn'>NULL</span>,
   services <span class='op'>=</span> <span class='st'>"elevation"</span>,
   verbose <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  georeference <span class='op'>=</span> <span class='cn'>TRUE</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -177,10 +178,11 @@ permissive service requested.</p></td>
     <tr>
       <th>services</th>
       <td><p>A character vector of services to download data from. Current
-options include "3DEPElevation" and "USGSNAIPPlus". Users can also use short
-codes to download a specific type of data without specifying the source;
-current options for short codes include "elevation" (equivalent to
-"3DEPElevation") and "ortho" (equivalent to "USGSNAIPPlus). Short codes are
+options include "3DEPElevation", "USGSNAIPPlus", and "nhd". Users can also
+use short codes to download a specific type of data without specifying the
+source; current options for short codes include "elevation" (equivalent to
+"3DEPElevation"), "ortho" (equivalent to "USGSNAIPPlus), and "hydro" ("nhd").
+Short codes are
 not guaranteed to refer to the same source across releases. Short codes are
 converted to their service name and then duplicates are removed, so any given
 source will only be queried once per tile.</p></td>
@@ -190,11 +192,16 @@ source will only be queried once per tile.</p></td>
       <td><p>Logical: should tile retrieval functions run in verbose mode?</p></td>
     </tr>
     <tr>
+      <th>georeference</th>
+      <td><p>Logical: should tiles be downloaded as PNGs without
+georeferencing, or should they be downloaded as georeferenced TIFF files?
+This option does nothing when only elevation data is being downloaded.</p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>Additional arguments passed to <code><a href='hit_national_map_api.html'>hit_national_map_api</a></code>.
 These can be used to change default query parameters or as additional options
-for the National Map services, but are at no point validated, so use at your
-own risk!</p></td>
+for the National Map services. See below for more details.</p></td>
     </tr>
     </table>
 
@@ -203,6 +210,17 @@ own risk!</p></td>
     <p>A list of the same length as the number of unique services requested,
 containing named vectors of where data files were saved to. Returned
 invisibly.</p>
+    <h2 class="hasAnchor" id="additional-arguments"><a class="anchor" href="#additional-arguments"></a>Additional Arguments</h2>
+
+    
+
+<p>The <code>...</code> argument can be used to pass additional arguments to the
+National Map API or to edit the hard-coded defaults used by this function.
+More information on common arguments to change can be found in
+[hit_national_map_api]. Note that <code>...</code> can also be used to change
+the formats returned by the server, but that doing so while using this
+function will likely cause the function to error (or corrupt the output
+data). To download files in different formats, use [hit_national_map_api].</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other data retrieval functions: 

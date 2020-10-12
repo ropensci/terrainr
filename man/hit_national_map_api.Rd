@@ -25,8 +25,7 @@ tile? Default \code{FALSE}.}
 
 \item{...}{Additional arguments passed to the National Map API.
 These can be used to change default query parameters or as additional options
-for the National Map services, but are at no point validated, so use at your
-own risk!}
+for the National Map services. See below for more information.}
 }
 \value{
 A raw vector.
@@ -35,8 +34,32 @@ A raw vector.
 This function retrieves a single tile of data from a single National Map
 service and returns the raw response. End users are recommended to use
 \code{\link{get_tiles}} instead, as it does much more validation and provides
-a more friendly interface.
+a more friendly interface. For a description of the datasets provided by the
+National Map, see \url{https://viewer.nationalmap.gov/services/}
 }
+\section{Additional Arguments}{
+
+The \code{...} argument can be used to pass additional arguments to the
+National Map API or to edit the hard-coded defaults used by this function.
+Some of the most useful options that can be changed include:
+\itemize{
+\item bboxSR: The spatial reference of the bounding box given to this function.
+If not specified, assumed to be \href{https://spatialreference.org/ref/epsg/wgs-84/}{4326}.
+\item imageSR: The spatial reference of the image downloaded.
+If not specified, assumed to be \href{https://spatialreference.org/ref/epsg/wgs-84/}{4326}.
+\item layers: Which data layers to download. If the National Map API returns data
+without specifying layers, this argument isn't used by default. When the
+National Map requires this argument, the default value is 0.
+\item format: The image format to be downloaded. Defaults depend on the service
+being used and are set to be compatible with \link{get_tiles}.
+}
+
+Pass these arguments to \code{hit_national_map_api} like you would any other
+argument to substitute new values. Note that \code{...} values are never
+validated before being used; passing invalid parameters to \code{...} will
+cause data retrieval to fail.
+}
+
 \examples{
 \dontrun{
 hit_national_map_api(
