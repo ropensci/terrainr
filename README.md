@@ -29,9 +29,7 @@ process that data into larger, joined images or crop it into tiles that
 can be imported into the Unity rendering engine.
 
 At the absolute simplest level, terrainr provides a convenient and
-consistent API to downloading data from the National Map, currently
-supporting downloading DEMs from the 3D Elevation Program and
-orthoimages from the National Agriculture Imagery Program.
+consistent API to downloading data from the National Map.
 
 ``` r
 library(terrainr)

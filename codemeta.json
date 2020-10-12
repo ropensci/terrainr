@@ -210,7 +210,7 @@
   ],
   "releaseNotes": "https://github.com/mikemahoney218/terrainr/blob/master/NEWS.md",
   "readme": "https://github.com/mikemahoney218/terrainr/blob/master/README.md",
-  "fileSize": "10760.977KB",
+  "fileSize": "10760.256KB",
   "contIntegration": ["https://travis-ci.com/mikemahoney218/terrainr", "https://ci.appveyor.com/project/mikemahoney218/terrainr", "https://codecov.io/gh/mikemahoney218/terrainr"],
   "developmentStatus": ["https://www.tidyverse.org/lifecycle/#maturing", "https://www.repostatus.org/#active"],
   "keywords": [
