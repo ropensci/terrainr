@@ -9,10 +9,10 @@
 \if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
 
 Functions for the retrieval and manipulation of 'USGS' National Map 
-    data ('https://viewer.nationalmap.gov/services/'), enabling users to download 
-    elevation and image data for areas of interest. Functions are also provided 
-    to transform these data sources into formats that can be used to create 3D 
-    elevation models in the Unity rendering engine.
+    data ('<https://viewer.nationalmap.gov/services/>'), enabling users to 
+    download elevation and image data for areas of interest. Functions are also 
+    provided to transform these data sources into formats that can be used to 
+    create 3D elevation models in the Unity rendering engine.
 }
 \seealso{
 Useful links:
