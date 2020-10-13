@@ -56,6 +56,16 @@ terrainr_coordinate_pair <- function(coords, coord_units = c(
     "latitude",
     "y"
   )
+  # the components of coord pairs are named
+  # so if someone passes them to try and construct a new bbox and names the
+  # vectors (to avoid the warning), they get an error
+  #
+  # build in a control for that
+  longitude_names <- c(longitude_names,
+                       paste0(longitude_names, ".lng"))
+  latitude_names <- c(latitude_names,
+                       paste0(latitude_names, ".lat"))
+
 
   if (is.null(names(coords))) {
     # If we have no names to go by,
