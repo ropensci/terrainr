@@ -1,5 +1,4 @@
 #' @name addbuff
-#' @rdname addbuff
 #' @title Add a uniform buffer around a bounding box
 #'
 #' @description
@@ -23,7 +22,9 @@
 #' @return A [terrainr_bounding_box] object.
 #'
 #' @family utilities
-#'
+NULL
+
+#' @rdname addbuff
 #' @examples
 #' add_bbox_buffer(
 #'   list(
