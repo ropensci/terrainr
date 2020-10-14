@@ -21,7 +21,7 @@ rad_to_deg(deg_to_rad(360))
 }
 \seealso{
 Other utilities: 
-\code{\link{add_bbox_buffer}()},
+\code{\link{addbuff}},
 \code{\link{calc_haversine_distance}()},
 \code{\link{convert_distance}()},
 \code{\link{deg_to_rad}()},

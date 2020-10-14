@@ -25,7 +25,7 @@ convert_distance(100, "miles")
 }
 \seealso{
 Other utilities: 
-\code{\link{add_bbox_buffer}()},
+\code{\link{addbuff}},
 \code{\link{calc_haversine_distance}()},
 \code{\link{deg_to_rad}()},
 \code{\link{get_bbox_centroid}()},

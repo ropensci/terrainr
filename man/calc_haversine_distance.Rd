@@ -25,7 +25,7 @@ calc_haversine_distance(
 }
 \seealso{
 Other utilities: 
-\code{\link{add_bbox_buffer}()},
+\code{\link{addbuff}},
 \code{\link{convert_distance}()},
 \code{\link{deg_to_rad}()},
 \code{\link{get_bbox_centroid}()},

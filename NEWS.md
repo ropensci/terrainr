@@ -1,3 +1,9 @@
+# terrainr 0.1.0
+* First version (to be) submitted to ROpenSci
+* New features:
+    * set_bbox_side_length wraps add_bbox_buffer to set each side of the 
+      bounding box to an equal length (within ~1% accuracy)
+
 # terrainr 0.0.0.9001
 
 * First development version

@@ -86,6 +86,7 @@ get_tiles <- function(bbox,
                       ...) {
 
   # short codes are assigned as names; we'll cast them into the full name later
+  # full names are from the API URL, hence capitalization woes
   list_of_services <- c(
     "elevation" = "3DEPElevation",
     "ortho" = "USGSNAIPPlus",

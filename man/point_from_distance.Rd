@@ -39,7 +39,7 @@ point_from_distance(c(lat = 44.121268, lng = -73.903734), 100, 0)
 }
 \seealso{
 Other utilities: 
-\code{\link{add_bbox_buffer}()},
+\code{\link{addbuff}},
 \code{\link{calc_haversine_distance}()},
 \code{\link{convert_distance}()},
 \code{\link{deg_to_rad}()},

@@ -1,8 +1,15 @@
-#' Add a uniform buffer around a bounding box
+#' @name addbuff
+#' @rdname addbuff
+#' @title Add a uniform buffer around a bounding box
 #'
-#' This function calculates the great circle distance both corners of your
-#' bounding box are from the centroid and extends those by a set distance. Due
-#' to using Haversine "great circle" distance, calculations will not be exact.
+#' @description
+#' [add_bbox_buffer] calculates the great circle distance both corners of
+#' your bounding box are from the centroid and extends those by a set distance.
+#' Due to using Haversine "great circle" distance, calculations will not be
+#' exact.
+#'
+#' [set_bbox_side_length] is a thin wrapper around [add_bbox_buffer] which sets
+#' all sides of the bounding box to (approximately) a specified length.
 #'
 #' @param bbox The original bounding box to add a buffer around. If not already
 #' a \code{\link{terrainr_bounding_box}} object, will be converted.
@@ -13,7 +20,7 @@
 #' that each side is divisible by \code{divisible}. Leave set to \code{NULL} to
 #' not extend. This argument is in the same units as \code{distance_unit}.
 #'
-#' @return A \code{\link{terrainr_bounding_box}} object.
+#' @return A [terrainr_bounding_box] object.
 #'
 #' @family utilities
 #'
@@ -26,6 +33,7 @@
 #'   10
 #' )
 #' @export
+#' @md
 add_bbox_buffer <- function(bbox,
                             distance,
                             distance_unit = "meters",
@@ -56,4 +64,25 @@ add_bbox_buffer <- function(bbox,
   }
 
   return(terrainr_bounding_box(bl, tr))
+}
+
+#' @rdname addbuff
+#' @examples
+#' set_bbox_side_length(
+#'   list(
+#'     c(lat = 44.04905, lng = -74.01188),
+#'     c(lat = 44.17609, lng = -73.83493)
+#'   ),
+#'   4000
+#' )
+#' @export
+set_bbox_side_length <- function(bbox,
+                                 distance,
+                                 distance_unit = "meters") {
+
+  bbox <- export_coord_pair(get_bbox_centroid(bbox))
+  add_bbox_buffer(get_coord_bbox(lat = bbox["lat"], lng = bbox["lng"]),
+                  distance = sqrt((distance^2) * 2) / 2,
+                  distance_unit = distance_unit)
+
 }
