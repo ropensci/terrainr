@@ -16,6 +16,9 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v1
 
+      - name: Install pkgdown dependencies
+        run: sudo apt install -y libharfbuzz-dev libfribidi-dev
+
       - name: Query dependencies
         run: |
           install.packages('remotes')
@@ -35,7 +38,7 @@ jobs:
           while read -r cmd
           do
             eval sudo $cmd
-          done < <(Rscript -e 'writeLines(c(remotes::system_requirements("ubuntu", "20.04")), "libharfbuzz-dev", "libfribidi-dev")')
+          done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
 
       - name: Install dependencies
         run: |
