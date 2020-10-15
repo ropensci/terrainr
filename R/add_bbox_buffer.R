@@ -40,31 +40,31 @@ add_bbox_buffer <- function(bbox,
                             distance_unit = "meters",
                             divisible = NULL) {
   if (!methods::is(bbox, "terrainr_bounding_box")) {
-    bbox <- terrainr_bounding_box(bbox[[1]], bbox[[2]])
+    bbox <- terrainr::terrainr_bounding_box(bbox[[1]], bbox[[2]])
   }
 
-  centroid <- get_bbox_centroid(bbox)
-  corner_distance <- calc_haversine_distance(
+  centroid <- terrainr::get_bbox_centroid(bbox)
+  corner_distance <- terrainr::calc_haversine_distance(
     centroid,
     bbox@bl
   )
-  distance <- convert_distance(distance, distance_unit)
+  distance <- terrainr::convert_distance(distance, distance_unit)
   add_distance <- corner_distance + distance
-  bl <- point_from_distance(centroid, add_distance, 225)
-  tr <- point_from_distance(centroid, add_distance, 45)
+  bl <- terrainr::point_from_distance(centroid, add_distance, 225)
+  tr <- terrainr::point_from_distance(centroid, add_distance, 45)
 
   if (!is.null(divisible)) {
     tl <- c(tr@lat, bl@lng)
-    divisible <- convert_distance(divisible, distance_unit)
+    divisible <- terrainr::convert_distance(divisible, distance_unit)
 
-    x <- ceiling(calc_haversine_distance(tl, tr) / divisible)
-    tr <- point_from_distance(tl, divisible * x, 90)
+    x <- ceiling(terrainr::calc_haversine_distance(tl, tr) / divisible)
+    tr <- terrainr::point_from_distance(tl, divisible * x, 90)
 
-    y <- ceiling(calc_haversine_distance(tl, tr) / divisible)
-    bl <- point_from_distance(tl, divisible * y, 180)
+    y <- ceiling(terrainr::calc_haversine_distance(tl, tr) / divisible)
+    bl <- terrainr::point_from_distance(tl, divisible * y, 180)
   }
 
-  return(terrainr_bounding_box(bl, tr))
+  return(terrainr::terrainr_bounding_box(bl, tr))
 }
 
 #' @rdname addbuff
@@ -80,8 +80,9 @@ add_bbox_buffer <- function(bbox,
 set_bbox_side_length <- function(bbox,
                                  distance,
                                  distance_unit = "meters") {
-  bbox <- export_coord_pair(get_bbox_centroid(bbox))
-  add_bbox_buffer(get_coord_bbox(lat = bbox["lat"], lng = bbox["lng"]),
+  bbox <- terrainr::export_coord_pair(terrainr::get_bbox_centroid(bbox))
+  terrainr::add_bbox_buffer(
+    terrainr::get_coord_bbox(lat = bbox["lat"], lng = bbox["lng"]),
     distance = sqrt((distance^2) * 2) / 2,
     distance_unit = distance_unit
   )

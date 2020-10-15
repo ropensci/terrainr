@@ -36,9 +36,13 @@ raster_to_raw_tiles <- function(input_file,
                                 side_length = 4097,
                                 raw = TRUE) {
   if (raw) {
-    if (utils::compareVersion("2.4.0", as.character(utils::packageVersion("magick"))) != -1) {
+    if (utils::compareVersion("2.4.0",
+                              as.character(utils::packageVersion("magick"))
+                              ) != -1) {
       stop(
-        "Please install the development version of magick to use raster_to_raw_tiles. ",
+        "raster_to_raw_tiles requires magick > 2.4.0.",
+        "\n",
+        "Please install the development version of magick.",
         "\n",
         "remotes::install_github('ropensci/magick')"
       )
@@ -75,10 +79,18 @@ raster_to_raw_tiles <- function(input_file,
   for (i in seq_along(x_tiles)) {
     for (j in seq_along(y_tiles)) {
       if (any(grepl("progressr", utils::installed.packages()))) {
-        p(message = sprintf("Cropping tile (%d,%d)", x_tiles[[i]], y_tiles[[j]]))
+        p(message = sprintf("Cropping tile (%d,%d)",
+                            x_tiles[[i]],
+                            y_tiles[[j]]))
       }
       gdalUtils::gdal_translate(input_file, temptiffs[[counter]],
-        srcwin = paste0(x_tiles[[i]], ", ", y_tiles[[j]], ", ", side_length, ", ", side_length)
+        srcwin = paste0(x_tiles[[i]],
+                        ", ",
+                        y_tiles[[j]],
+                        ", ",
+                        side_length,
+                        ", ",
+                        side_length)
       )
       names(temptiffs)[[counter]] <- paste0(
         output_prefix,

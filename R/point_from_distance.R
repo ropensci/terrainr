@@ -26,12 +26,12 @@ point_from_distance <- function(coord_pair,
   distance_unit <- distance_unit[[1]]
   azimuth_unit <- azimuth_unit[[1]]
 
-  distance <- convert_distance(distance, distance_unit)
+  distance <- terrainr::convert_distance(distance, distance_unit)
 
   R <- 6371e3 # Radius of the earth in m
 
   if (!methods::is(coord_pair, "terrainr_coordinate_pair")) {
-    coord_pair <- terrainr_coordinate_pair(coord_pair)
+    coord_pair <- terrainr::terrainr_coordinate_pair(coord_pair)
   }
 
   lat <- coord_pair@lat
@@ -56,7 +56,7 @@ point_from_distance <- function(coord_pair,
     cos(angular_distance) - sin(lat) * sin(new_lat)
   )
 
-  return(terrainr_coordinate_pair(c(
+  return(terrainr::terrainr_coordinate_pair(c(
     rad_to_deg(new_lat),
     rad_to_deg(new_lng)
   )))

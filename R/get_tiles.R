@@ -115,13 +115,15 @@ get_tiles <- function(bbox,
 
   if (any(services %in% names(list_of_services))) { # cast short codes now
     replacements <- which(services %in% names(list_of_services))
-    services[replacements] <- as.vector(list_of_services[services[replacements]])
+    services[replacements] <- as.vector(
+      list_of_services[services[replacements]]
+      )
   }
 
   services <- unique(services)
 
   if (!methods::is(bbox, "terrainr_bounding_box")) {
-    bbox <- terrainr_bounding_box(bbox[[1]], bbox[[2]])
+    bbox <- terrainr::terrainr_bounding_box(bbox[[1]], bbox[[2]])
   }
 
   if (is.null(side_length)) {
@@ -139,9 +141,11 @@ get_tiles <- function(bbox,
     stop("3DEPElevation tiles have a maximum side length of 8000.")
   }
 
-  tl <- terrainr_coordinate_pair(c(bbox@tr@lat, bbox@bl@lng))
-  img_width <- round(calc_haversine_distance(tl, bbox@tr), digits = 0)
-  img_height <- round(calc_haversine_distance(tl, bbox@bl), digits = 0)
+  tl <- terrainr::terrainr_coordinate_pair(c(bbox@tr@lat, bbox@bl@lng))
+  img_width <- round(terrainr::calc_haversine_distance(tl, bbox@tr),
+                     digits = 0)
+  img_height <- round(terrainr::calc_haversine_distance(tl, bbox@bl),
+                      digits = 0)
 
   x_tiles <- ceiling(img_width / side_length)
   y_tiles <- ceiling(img_height / side_length)
@@ -153,25 +157,37 @@ get_tiles <- function(bbox,
 
   for (i in 1:x_tiles) {
     if (i == x_tiles) {
-      left_lng <- point_from_distance(bbox@bl, side_length * (i - 1), 90)@lng
+      left_lng <- terrainr::point_from_distance(bbox@bl,
+                                                side_length * (i - 1),
+                                                90)@lng
       right_lng <- bbox@tr@lng
     } else {
-      left_lng <- point_from_distance(bbox@bl, side_length * (i - 1), 90)@lng
-      right_lng <- point_from_distance(bbox@bl, side_length * i, 90)@lng
+      left_lng <- terrainr::point_from_distance(bbox@bl,
+                                                side_length * (i - 1),
+                                                90)@lng
+      right_lng <- terrainr::point_from_distance(bbox@bl,
+                                                 side_length * i,
+                                                 90)@lng
     }
     for (j in 1:y_tiles) {
       if (j == y_tiles) {
-        top_lat <- point_from_distance(bbox@tr, side_length * (j - 1), 180)@lat
+        top_lat <- terrainr::point_from_distance(bbox@tr,
+                                                 side_length * (j - 1),
+                                                 180)@lat
         bot_lat <- bbox@bl@lat
       } else {
-        top_lat <- point_from_distance(bbox@tr, side_length * (j - 1), 180)@lat
-        bot_lat <- point_from_distance(bbox@tr, side_length * j, 180)@lat
+        top_lat <- terrainr::point_from_distance(bbox@tr,
+                                                 side_length * (j - 1),
+                                                 180)@lat
+        bot_lat <- terrainr::point_from_distance(bbox@tr,
+                                                 side_length * j,
+                                                 180)@lat
       }
 
       tile_boxes[[i]][[j]] <- list(
-        bbox = terrainr_bounding_box(
-          bl = terrainr_coordinate_pair(c(bot_lat, left_lng)),
-          tr = terrainr_coordinate_pair(c(top_lat, right_lng))
+        bbox = terrainr::terrainr_bounding_box(
+          bl = terrainr::terrainr_coordinate_pair(c(bot_lat, left_lng)),
+          tr = terrainr::terrainr_coordinate_pair(c(top_lat, right_lng))
         ),
         img_width = ifelse(((img_width - (i * side_length)) < 0),
           img_width - ((i - 1) * side_length),
@@ -225,7 +241,7 @@ get_tiles <- function(bbox,
           cur_path <- final_path
         }
 
-        img_bin <- hit_national_map_api(current_box[["bbox"]],
+        img_bin <- terrainr::hit_national_map_api(current_box[["bbox"]],
           current_box[["img_width"]],
           current_box[["img_height"]],
           services[[k]],

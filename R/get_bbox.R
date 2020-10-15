@@ -63,7 +63,7 @@ get_coord_bbox <- function(data = NULL, lat, lng, na.rm = NULL) {
   maxlng <- max(lng_vals, na.rm = TRUE)
 
   return(
-    terrainr_bounding_box(
+    terrainr::terrainr_bounding_box(
       c("lat" = minlat, "lng" = minlng),
       c("lat" = maxlat, "lng" = maxlng)
     )

@@ -4,7 +4,7 @@
 \name{terrainr-package}
 \alias{terrainr}
 \alias{terrainr-package}
-\title{terrainr: Retrieve and Transform Data from the 'USGS' National Map}
+\title{terrainr: Retrieve Data from the 'USGS' National Map and Transform it for '3D' Landscape Visualizations}
 \description{
 \if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
 

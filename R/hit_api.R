@@ -73,7 +73,7 @@ hit_national_map_api <- function(bbox,
   dots <- list(...)
 
   if (!methods::is(bbox, "terrainr_bounding_box")) {
-    bbox <- terrainr_bounding_box(bbox[[1]], bbox[[2]])
+    bbox <- terrainr::terrainr_bounding_box(bbox[[1]], bbox[[2]])
   }
 
   method <- vector("list")

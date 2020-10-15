@@ -174,10 +174,10 @@ methods::setClass("terrainr_bounding_box",
 #' @export
 terrainr_bounding_box <- function(bl, tr, coord_units = "degrees") {
   if (!methods::is(bl, "terrainr_coordinate_pair")) {
-    bl <- terrainr_coordinate_pair(bl, coord_units)
+    bl <- terrainr::terrainr_coordinate_pair(bl, coord_units)
   }
   if (!methods::is(tr, "terrainr_coordinate_pair")) {
-    tr <- terrainr_coordinate_pair(tr, coord_units)
+    tr <- terrainr::terrainr_coordinate_pair(tr, coord_units)
   }
   if ((bl@lat < tr@lat) && (bl@lng < tr@lng)) {
 
