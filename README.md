@@ -23,9 +23,10 @@ status](https://github.com/mikemahoney218/terrainr/workflows/R-CMD-check/badge.s
 ## Overview
 
 terrainr makes it easy to identify your area of interest from point
-data, retrieve data for that area from the [National Map
-APIs](https://viewer.nationalmap.gov/services/), and then process that
-data into larger, joined images or crop it into tiles that can be
+data, retrieve geospatial data (including orthoimagery and DEMs) for
+areas of interest within the United States from the [National Map family
+of APIs](https://viewer.nationalmap.gov/services/), and then process
+that data into larger, joined images or crop it into tiles that can be
 imported into the Unity rendering engine.
 
 At the absolute simplest level, terrainr provides a convenient and
@@ -94,7 +95,9 @@ intensive processing steps can all be monitored via the
 [progressr](https://github.com/HenrikBengtsson/progressr) package, so
 you’ll be more confident that your computer is still churning along and
 not just hung. For more information, check out [the introductory
-vignette\!](https://mikemahoney218.github.io/terrainr/articles/overview.html)
+vignette](https://mikemahoney218.github.io/terrainr/articles/overview.html)
+and [the guide to importing your data into
+Unity.](https://mikemahoney218.github.io/terrainr/articles/unity_instructions.html)
 
 ## Available Datasets
 
@@ -111,7 +114,7 @@ The following datasets can currently be downloaded using `get_tiles` or
     about naturally occurring and constructed bodies of surface water
     (lakes, ponds, and reservoirs), paths through which water flows
     (canals, ditches, streams, and rivers), and related entities such as
-    point features (springs, wells, stream gages, and dams).
+    point features (springs, wells, stream gauges, and dams).
   - [govunits](https://carto.nationalmap.gov/arcgis/rest/services/govunits/MapServer):
     Major civil areas for the Nation, including States or Territories,
     counties (or equivalents), Federal and Native American areas,
@@ -157,3 +160,9 @@ being:
 ``` r
 devtools::install_github("ropensci/magick")
 ```
+
+## Code of Conduct
+
+Please note that this package is released with a [Contributor Code of
+Conduct](https://ropensci.org/code-of-conduct/). By contributing to this
+project, you agree to abide by its terms.
