@@ -15,7 +15,8 @@ knitr::opts_chunk$set(
 ```
 
 The goal of the terrainr package is to make it easy for users to download 
-geospatial data from the USGS National Map API and then process that data for 
+geospatial data for points within the United States from the USGS National Map 
+API and then process that data for 
 further analysis, or to produce tiles that can then be imported into the 
 Unity 3D rendering engine to be used as physics objects. This vignette will 
 walk through the core functions available in terrainr and talk about a few 
@@ -59,7 +60,8 @@ mt_elbert_bbox
 `get_coord_bbox` returns an S4 class (`terrainr_bounding_box`) that indicates 
 the "bottom left" and "top right" points of the box containing all your points, 
 which is guaranteed to work with all the functions in terrainr. However, there's 
-no requirement for you to go out of your way to make a `terrainr_bounding_box` object; any list object that contains the same information will work just as 
+no requirement for you to go out of your way to make a `terrainr_bounding_box` 
+object; any list object that contains the same information will work just as 
 well with all of terrainr's processing and data retrieval functions.
 
 We can also calculate a bounding box for our single point:

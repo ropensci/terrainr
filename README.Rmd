@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-terrainr makes it easy to identify your area of interest from point data, retrieve data for that area from the [National Map APIs](https://viewer.nationalmap.gov/services/), and then process that data into larger, joined images or crop it into tiles that can be imported into the Unity rendering engine.
+terrainr makes it easy to identify your area of interest from point data, retrieve geospatial data (including orthoimagery and DEMs) for areas of interest within the United States from the [National Map family of APIs](https://viewer.nationalmap.gov/services/), and then process that data into larger, joined images or crop it into tiles that can be imported into the Unity rendering engine.
 
 At the absolute simplest level, terrainr provides a convenient and consistent API to downloading data from the National Map.
 
@@ -87,7 +87,7 @@ mapply(function(x, y) raster_to_raw_tiles(input_file = x,
 knitr::include_graphics("man/figures/unity-lakeside.jpg")
 ```
 
-terrainr also includes functionality to merge and crop the files you've downloaded, and to resize your area of interest so you're sure to download exactly the area you want. Additionally, the more time intensive processing steps can all be monitored via the [progressr](https://github.com/HenrikBengtsson/progressr) package, so you'll be more confident that your computer is still churning along and not just hung. For more information, check out [the introductory vignette!](https://mikemahoney218.github.io/terrainr/articles/overview.html)
+terrainr also includes functionality to merge and crop the files you've downloaded, and to resize your area of interest so you're sure to download exactly the area you want. Additionally, the more time intensive processing steps can all be monitored via the [progressr](https://github.com/HenrikBengtsson/progressr) package, so you'll be more confident that your computer is still churning along and not just hung. For more information, check out [the introductory vignette](https://mikemahoney218.github.io/terrainr/articles/overview.html) and [the guide to importing your data into Unity.](https://mikemahoney218.github.io/terrainr/articles/unity_instructions.html)
 
 ## Available Datasets
 
@@ -95,7 +95,7 @@ The following datasets can currently be downloaded using `get_tiles` or `hit_nat
 
 -   [3DEPElevation](https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer): The USGS 3D Elevation Program (3DEP) Bare Earth DEM.
 -   [USGSNAIPPlus](https://services.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/MapServer): National Agriculture Imagery Program (NAIP) and high resolution orthoimagery (HRO).
--   [nhd](https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer): A comprehensive set of digital spatial data that encodes information about naturally occurring and constructed bodies of surface water (lakes, ponds, and reservoirs), paths through which water flows (canals, ditches, streams, and rivers), and related entities such as point features (springs, wells, stream gages, and dams).
+-   [nhd](https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer): A comprehensive set of digital spatial data that encodes information about naturally occurring and constructed bodies of surface water (lakes, ponds, and reservoirs), paths through which water flows (canals, ditches, streams, and rivers), and related entities such as point features (springs, wells, stream gauges, and dams).
 -   [govunits](https://carto.nationalmap.gov/arcgis/rest/services/govunits/MapServer): Major civil areas for the Nation, including States or Territories, counties (or equivalents), Federal and Native American areas, congressional districts, minor civil divisions, incorporated places (such as cities and towns), and unincorporated places.
 -   [contours](https://carto.nationalmap.gov/arcgis/rest/services/contours/MapServer): The USGS Elevation Contours service.
 -   [geonames](https://carto.nationalmap.gov/arcgis/rest/services/geonames/MapServer): Information about physical and cultural geographic features, geographic areas, and locational entities that are generally recognizable and locatable by name.
@@ -120,3 +120,10 @@ If you're planning on using `raster_to_raw_tiles()`, you'll also need to install
 ``` r
 devtools::install_github("ropensci/magick")
 ```
+
+## Code of Conduct
+
+Please note that this package is released with a [Contributor
+Code of Conduct](https://ropensci.org/code-of-conduct/). 
+By
+contributing to this project, you agree to abide by its terms.

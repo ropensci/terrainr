@@ -80,10 +80,9 @@ add_bbox_buffer <- function(bbox,
 set_bbox_side_length <- function(bbox,
                                  distance,
                                  distance_unit = "meters") {
-
   bbox <- export_coord_pair(get_bbox_centroid(bbox))
   add_bbox_buffer(get_coord_bbox(lat = bbox["lat"], lng = bbox["lng"]),
-                  distance = sqrt((distance^2) * 2) / 2,
-                  distance_unit = distance_unit)
-
+    distance = sqrt((distance^2) * 2) / 2,
+    distance_unit = distance_unit
+  )
 }
