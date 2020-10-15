@@ -1,5 +1,5 @@
 #' S4 class for coordinate points in the format expected by
-#' \code{\link{terrainr}} functions.
+#' \code{terrainr} functions.
 #'
 #' @slot lat Numeric latitude, in decimal degrees
 #' @slot lng Numeric longitude, in decimal degrees
@@ -97,7 +97,7 @@ terrainr_coordinate_pair <- function(coords, coord_units = c(
 
 #' Convert a terrainr_coordinate_pair object to a base vector.
 #'
-#' @param coord_pair A \code{\link{terrainr_coordinate_pair}} object
+#' @param coord_pair A [terrainr_coordinate_pair] object
 #'
 #' @return A vector with a coordinate pair in (latitude, longitude) format
 #'
@@ -107,6 +107,7 @@ terrainr_coordinate_pair <- function(coords, coord_units = c(
 #' coord_pair <- terrainr_coordinate_pair(c(lat = 44.05003, lng = -74.01164))
 #' export_coord_pair(coord_pair)
 #' @export
+#' @md
 export_coord_pair <- function(coord_pair) {
   if (!methods::is(coord_pair, "terrainr_coordinate_pair")) {
     warning("coord_pair is not terrainr_coordinate_pair object, doing nothing.")
@@ -146,12 +147,12 @@ methods::setClass("terrainr_bounding_box",
 #' data into the target class.
 #'
 #' @param bl,tr The bottom left (\code{bl}) and top right (\code{tr}) corners of
-#' the bounding box, either as a \code{\link{terrainr_coordinate_pair}} object
+#' the bounding box, either as a [terrainr_coordinate_pair] object
 #' or a coordinate pair. If the coordinate pair is not named, it is assumed to
 #' be in (lat, lng) format; if it is named, the function will attempt to
 #' properly identify coordinates.
-#' @param coord_units Arguments passed to \code{\link{terrainr_coordinate_pair}}.
-#' If \code{bl} and \code{tr} are already \code{\link{terrainr_coordinate_pair}}
+#' @param coord_units Arguments passed to [terrainr_coordinate_pair].
+#' If \code{bl} and \code{tr} are already [terrainr_coordinate_pair]
 #' objects, these arguments are not used.
 #'
 #' @return A terrainr_bounding_box object
@@ -172,6 +173,7 @@ methods::setClass("terrainr_bounding_box",
 #'   tr = tr_coords
 #' )
 #' @export
+#' @md
 terrainr_bounding_box <- function(bl, tr, coord_units = "degrees") {
   if (!methods::is(bl, "terrainr_coordinate_pair")) {
     bl <- terrainr::terrainr_coordinate_pair(bl, coord_units)
@@ -186,7 +188,8 @@ terrainr_bounding_box <- function(bl, tr, coord_units = "degrees") {
     bl <- tr
     tr <- swap
   } else {
-    stop("The given coordinates don't seem to be the bottom left and upper right corners.")
+    stop("The given coordinates don't seem to be ",
+         "the bottom left and upper right corners.")
   }
   methods::new("terrainr_bounding_box",
     bl = bl,
@@ -196,7 +199,7 @@ terrainr_bounding_box <- function(bl, tr, coord_units = "degrees") {
 
 #' Convert a terrainr_bounding_box object to a base list
 #'
-#' @param bbox A \code{\link{terrainr_bounding_box}} object
+#' @param bbox A [terrainr_bounding_box] object
 #'
 #' @return A list with coordinate pairs representing the lower left and upper
 #' right corners of a bounding box
@@ -211,6 +214,7 @@ terrainr_bounding_box <- function(bl, tr, coord_units = "degrees") {
 #' )
 #' export_bounding_box(bbox)
 #' @export
+#' @md
 export_bounding_box <- function(bbox) {
   if (!methods::is(bbox, "terrainr_bounding_box")) {
     warning("bbox is not terrainr_bounding_box object, doing nothing.")

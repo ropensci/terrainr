@@ -7,7 +7,7 @@
 export_coord_pair(coord_pair)
 }
 \arguments{
-\item{coord_pair}{A \code{\link{terrainr_coordinate_pair}} object}
+\item{coord_pair}{A \link{terrainr_coordinate_pair} object}
 }
 \value{
 A vector with a coordinate pair in (latitude, longitude) format

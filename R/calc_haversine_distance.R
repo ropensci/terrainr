@@ -26,7 +26,7 @@ calc_haversine_distance <- function(point_1, point_2) {
     point_2 <- terrainr::terrainr_coordinate_pair(point_2)
   }
 
-  R <- 6371e3 # Radius of the earth in m
+  r <- 6371e3 # Radius of the earth in m
 
   lat1_rad <- terrainr::deg_to_rad(point_1@lat)
   lat2_rad <- terrainr::deg_to_rad(point_2@lat)
@@ -42,5 +42,5 @@ calc_haversine_distance <- function(point_1, point_2) {
   # so we'll get rid of that
   names(c) <- NULL
 
-  return(R * c)
+  return(r * c)
 }

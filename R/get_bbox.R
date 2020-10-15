@@ -30,7 +30,10 @@
 #' get_coord_bbox(df, "lat", "lng")
 #' get_coord_bbox(lat = df$lat, lng = df$lng)
 #' @export
+# nolint start
 get_coord_bbox <- function(data = NULL, lat, lng, na.rm = NULL) {
+  # lintr complains about na.rm but I want to mimic base R
+  # nolint end
   if (!is.null(data)) {
     lat_vals <- data[[lat]]
     lng_vals <- data[[lng]]

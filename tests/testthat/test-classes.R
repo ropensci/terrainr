@@ -2,7 +2,8 @@ test_that("classes are stable", {
   expect_warning(terrainr_coordinate_pair(c(44.04905, -74.01188)))
   expect_equal(
     terrainr_coordinate_pair(c(lat = 44.04905, lng = -74.01188)),
-    terrainr_coordinate_pair(deg_to_rad(c(lat = 44.04905, lng = -74.01188)), "radians")
+    terrainr_coordinate_pair(deg_to_rad(c(lat = 44.04905, lng = -74.01188)),
+                             "radians")
   )
 
   expect_equal(

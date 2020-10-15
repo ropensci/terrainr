@@ -98,7 +98,7 @@ merge_rasters <- function(input_rasters,
       function(x) tempfile(fileext = ".tif"),
       character(1)
     )
-    for (i in 1:length(input_images)) {
+    for (i in seq_len(length(input_images))) {
       current_ortho <- raster::brick(png::readPNG(input_images[[i]]))
       raster::crs(current_ortho) <- input_raster_objects[[i]]@crs
       raster::extent(current_ortho) <- input_raster_objects[[i]]@extent
@@ -112,7 +112,7 @@ merge_rasters <- function(input_rasters,
     min(sapply(input_raster_objects, function(x) raster::extent(x)@ymin)),
     max(sapply(input_raster_objects, function(x) raster::extent(x)@ymax))
   ))
-  raster::projection(total_extent) <- raster::projection(input_raster_objects[[1]])
+  raster::projection(total_extent) <- raster::projection(input_raster_objects[[1]]) # nolint
 
   if (merge_raster) {
     # we're writing an entirely NA raster to file

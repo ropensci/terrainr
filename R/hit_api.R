@@ -7,8 +7,8 @@
 #' National Map, see \url{https://viewer.nationalmap.gov/services/}
 #'
 #' @param bbox The bounding box (bottom left and top left coordinate pairs)
-#' @param img.width The number of pixels in the x direction to retrieve
-#' @param img.height The number of pixels in the y direction to retrieve
+#' @param img_width The number of pixels in the x direction to retrieve
+#' @param img_height The number of pixels in the y direction to retrieve
 #' @param verbose Logical: Print out the number of tries required to pull each
 #' tile? Default \code{FALSE}.
 #' @param service A string indicating what service API to use. For a full list
@@ -56,8 +56,8 @@
 #'     c(lat = 44.10438, lng = -74.01231),
 #'     c(lat = 44.17633, lng = -73.91224)
 #'   ),
-#'   img.width = 8000,
-#'   img.height = 8000,
+#'   img_width = 8000,
+#'   img_height = 8000,
 #'   service = "3DEPElevation"
 #' )
 #' }
@@ -65,8 +65,8 @@
 #' @export
 #' @md
 hit_national_map_api <- function(bbox,
-                                 img.width,
-                                 img.height,
+                                 img_width,
+                                 img_height,
                                  service,
                                  verbose = FALSE,
                                  ...) {
@@ -82,6 +82,7 @@ hit_national_map_api <- function(bbox,
   first_corner <- bbox@bl
   second_corner <- bbox@tr
 
+  # nolint start
   # API endpoint for elevation mapping:
   url <- httr::parse_url(switch(service,
     "3DEPElevation" = "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer/exportImage",
@@ -95,11 +96,12 @@ hit_national_map_api <- function(bbox,
     "transportation" = "https://carto.nationalmap.gov/arcgis/rest/services/transportation/MapServer/export",
     "wbd" = "https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer/export"
   ))
+  # nolint end
 
   standard_png_args <- list(
     bboxSR = 4326,
     imageSR = 4326,
-    size = paste(img.width, img.height, sep = ","),
+    size = paste(img_width, img_height, sep = ","),
     format = "png",
     transparent = "true",
     f = "json"
@@ -109,7 +111,7 @@ hit_national_map_api <- function(bbox,
     "3DEPElevation" = list(
       bboxSR = 4326,
       imageSR = 4326,
-      size = paste(img.width, img.height, sep = ","),
+      size = paste(img_width, img_height, sep = ","),
       format = "tiff",
       pixelType = "F32",
       noDataInterpretation = "esriNoDataMatchAny",

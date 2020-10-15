@@ -7,7 +7,7 @@
 export_bounding_box(bbox)
 }
 \arguments{
-\item{bbox}{A \code{\link{terrainr_bounding_box}} object}
+\item{bbox}{A \link{terrainr_bounding_box} object}
 }
 \value{
 A list with coordinate pairs representing the lower left and upper

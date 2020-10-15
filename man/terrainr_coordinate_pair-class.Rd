@@ -4,10 +4,10 @@
 \name{terrainr_coordinate_pair-class}
 \alias{terrainr_coordinate_pair-class}
 \title{S4 class for coordinate points in the format expected by
-\code{\link{terrainr}} functions.}
+\code{terrainr} functions.}
 \description{
 S4 class for coordinate points in the format expected by
-\code{\link{terrainr}} functions.
+\code{terrainr} functions.
 }
 \section{Slots}{
 

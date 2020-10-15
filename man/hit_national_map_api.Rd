@@ -6,8 +6,8 @@
 \usage{
 hit_national_map_api(
   bbox,
-  img.width,
-  img.height,
+  img_width,
+  img_height,
   service,
   verbose = FALSE,
   ...
@@ -16,9 +16,9 @@ hit_national_map_api(
 \arguments{
 \item{bbox}{The bounding box (bottom left and top left coordinate pairs)}
 
-\item{img.width}{The number of pixels in the x direction to retrieve}
+\item{img_width}{The number of pixels in the x direction to retrieve}
 
-\item{img.height}{The number of pixels in the y direction to retrieve}
+\item{img_height}{The number of pixels in the y direction to retrieve}
 
 \item{service}{A string indicating what service API to use. For a full list
 of available services, see \link{get_tiles}. Short codes are not accepted by this
@@ -71,8 +71,8 @@ hit_national_map_api(
     c(lat = 44.10438, lng = -74.01231),
     c(lat = 44.17633, lng = -73.91224)
   ),
-  img.width = 8000,
-  img.height = 8000,
+  img_width = 8000,
+  img_height = 8000,
   service = "3DEPElevation"
 )
 }
