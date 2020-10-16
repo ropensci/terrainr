@@ -35,19 +35,6 @@ raster_to_raw_tiles <- function(input_file,
                                 output_prefix,
                                 side_length = 4097,
                                 raw = TRUE) {
-  if (raw) {
-    if (utils::compareVersion("2.4.0",
-                              as.character(utils::packageVersion("magick"))
-                              ) != -1) {
-      stop(
-        "raster_to_raw_tiles requires magick > 2.4.0.",
-        "\n",
-        "Please install the development version of magick.",
-        "\n",
-        "remotes::install_github('ropensci/magick')"
-      )
-    }
-  }
 
   input_raster <- raster::raster(input_file)
   max_raster <- raster::cellStats(input_raster, "max")

@@ -7,17 +7,19 @@
 #' Additionally, some outputs from \code{\link{get_tiles}} (such as when
 #' \code{service = "ortho"}) are not georeferenced, making future processing
 #' with them harder. This function can georeference those images using a
-#' reference raster, then merge them into a single object for further processing.
+#' reference raster, then merge them into a single object for further
+#' processing.
 #'
 #' @param input_rasters A character vector containing the file paths to the
 #' georeferenced rasters you want to use.
-#' @param output_raster The file path to save the merged georeferenced raster to.
-#' Must be a TIFF file. Ignored if \code{merge_raster} is not \code{TRUE}.
-#' @param input_images A character vector, the same length as \code{input_rasters},
-#' containing the file paths to non-georeferenced images to merge. It's assumed
-#' that each image in the vector corresponds to the raster in the same position
-#' in input_rasters, and these images will be assigned the same extent and CRS.
-#' If you don't want to merge any images, leave as \code{NULL}.
+#' @param output_raster The file path to save the merged georeferenced raster
+#' to. Must be a TIFF file. Ignored if \code{merge_raster} is not \code{TRUE}.
+#' @param input_images A character vector, the same length as
+#' \code{input_rasters}, containing the file paths to non-georeferenced images
+#' to merge. It's assumed that each image in the vector corresponds to the
+#' raster in the same position in input_rasters, and these images will be
+#' assigned the same extent and CRS. If you don't want to merge any images,
+#' leave as \code{NULL}.
 #' @param output_image The file path to save the merged images to.
 #' Must be a TIFF file. Leave as \code{NULL} if you aren't merging images.
 #' @param overwrite Logical: overwrite the output files if they exist?
@@ -107,10 +109,18 @@ merge_rasters <- function(input_rasters,
   }
 
   total_extent <- raster::raster(raster::extent(
-    min(sapply(input_raster_objects, function(x) raster::extent(x)@xmin)),
-    max(sapply(input_raster_objects, function(x) raster::extent(x)@xmax)),
-    min(sapply(input_raster_objects, function(x) raster::extent(x)@ymin)),
-    max(sapply(input_raster_objects, function(x) raster::extent(x)@ymax))
+    min(vapply(input_raster_objects,
+               function(x) raster::extent(x)@xmin,
+               numeric(1))),
+    max(vapply(input_raster_objects,
+               function(x) raster::extent(x)@xmax,
+               numeric(1))),
+    min(vapply(input_raster_objects,
+               function(x) raster::extent(x)@ymin,
+               numeric(1))),
+    max(vapply(input_raster_objects,
+               function(x) raster::extent(x)@ymax,
+               numeric(1)))
   ))
   raster::projection(total_extent) <- raster::projection(input_raster_objects[[1]]) # nolint
 

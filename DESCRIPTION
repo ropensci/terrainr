@@ -22,7 +22,7 @@ Imports:
     base64enc,
     httr,
     raster,
-    magick,
+    magick (>= 2.5.0),
     gdalUtils,
     methods,
     png,

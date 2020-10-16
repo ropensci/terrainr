@@ -1,3 +1,4 @@
+# nolint start
 #' A user-friendly way to get USGS National Map data tiles for an area
 #'
 #' This function splits the area contained within a bounding box into a set of
@@ -84,7 +85,8 @@ get_tiles <- function(bbox,
                       verbose = FALSE,
                       georeference = TRUE,
                       ...) {
-
+  # Don't lint documentation to not flag URLs
+  # nolint end
   # short codes are assigned as names; we'll cast them into the full name later
   # full names are from the API URL, hence capitalization woes
   list_of_services <- c(

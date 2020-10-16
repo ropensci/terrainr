@@ -17,14 +17,15 @@ merge_rasters(
 \item{input_rasters}{A character vector containing the file paths to the
 georeferenced rasters you want to use.}
 
-\item{output_raster}{The file path to save the merged georeferenced raster to.
-Must be a TIFF file. Ignored if \code{merge_raster} is not \code{TRUE}.}
+\item{output_raster}{The file path to save the merged georeferenced raster
+to. Must be a TIFF file. Ignored if \code{merge_raster} is not \code{TRUE}.}
 
-\item{input_images}{A character vector, the same length as \code{input_rasters},
-containing the file paths to non-georeferenced images to merge. It's assumed
-that each image in the vector corresponds to the raster in the same position
-in input_rasters, and these images will be assigned the same extent and CRS.
-If you don't want to merge any images, leave as \code{NULL}.}
+\item{input_images}{A character vector, the same length as
+\code{input_rasters}, containing the file paths to non-georeferenced images
+to merge. It's assumed that each image in the vector corresponds to the
+raster in the same position in input_rasters, and these images will be
+assigned the same extent and CRS. If you don't want to merge any images,
+leave as \code{NULL}.}
 
 \item{output_image}{The file path to save the merged images to.
 Must be a TIFF file. Leave as \code{NULL} if you aren't merging images.}
@@ -47,7 +48,8 @@ will collapse those multiple raster files into a single TIFF.
 Additionally, some outputs from \code{\link{get_tiles}} (such as when
 \code{service = "ortho"}) are not georeferenced, making future processing
 with them harder. This function can georeference those images using a
-reference raster, then merge them into a single object for further processing.
+reference raster, then merge them into a single object for further
+processing.
 }
 \examples{
 \dontrun{

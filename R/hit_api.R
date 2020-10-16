@@ -26,10 +26,12 @@
 #' Some of the most useful options that can be changed include:
 #'
 #' * bboxSR: The spatial reference of the bounding box given to this function.
-#'   If not specified, assumed to be [4326](https://spatialreference.org/ref/epsg/wgs-84/).
+#'   If not specified, assumed to be
+#'   [4326](https://spatialreference.org/ref/epsg/wgs-84/).
 #'
 #' * imageSR: The spatial reference of the image downloaded.
-#'   If not specified, assumed to be [4326](https://spatialreference.org/ref/epsg/wgs-84/).
+#'   If not specified, assumed to be
+#'   [4326](https://spatialreference.org/ref/epsg/wgs-84/).
 #'
 #' * layers: Which data layers to download. If the National Map API returns data
 #'   without specifying layers, this argument isn't used by default. When the
