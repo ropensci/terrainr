@@ -153,14 +153,6 @@ You can install the development version of terrainr from
 devtools::install_github("mikemahoney218/terrainr")
 ```
 
-If you’re planning on using `raster_to_raw_tiles()`, you’ll also need to
-install the development version of the `magick` package for the time
-being:
-
-``` r
-devtools::install_github("ropensci/magick")
-```
-
 ## Code of Conduct
 
 Please note that this package is released with a [Contributor Code of
