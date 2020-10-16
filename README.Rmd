@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# terrainr <a href='https://mikemahoney218.github.io/terrainr/'><img src="man/figures/logo.png" align="right" height="138.5"/></a>
+# terrainr: Retrieve Data from the USGS National Map and Transform it for 3D Landscape Visualizations <a href='https://mikemahoney218.github.io/terrainr/'><img src="man/figures/logo.png" align="right" height="138.5"/></a>
 
 <!-- badges: start -->
 
