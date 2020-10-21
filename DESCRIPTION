@@ -1,7 +1,7 @@
 Package: terrainr
 Type: Package
 Title: Retrieve Data from the 'USGS' National Map and Transform it for '3D' Landscape Visualizations
-Version: 0.1.0
+Version: 0.1.0.9001
 Authors@R: 
     person(given = "Michael",
            family = "Mahoney",
@@ -27,7 +27,8 @@ Imports:
     methods,
     png,
     utils,
-    gdalUtilities
+    gdalUtilities,
+    sf
 RoxygenNote: 7.1.1
 Suggests: 
     testthat,
@@ -35,7 +36,8 @@ Suggests:
     progressr,
     knitr,
     rmarkdown,
-    progress
+    progress,
+    ggplot2
 Config/testthat/parallel: true
 Config/testthat/edition: 3
 VignetteBuilder: knitr

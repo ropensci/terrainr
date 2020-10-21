@@ -112,9 +112,6 @@ get_tiles <- function(bbox,
   tif_files <- c("3DEPElevation")
   png_files <- list_of_services[!(list_of_services %in% tif_files)]
 
-
-
-
   if (any(services %in% names(list_of_services))) { # cast short codes now
     replacements <- which(services %in% names(list_of_services))
     services[replacements] <- as.vector(

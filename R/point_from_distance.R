@@ -39,9 +39,9 @@ point_from_distance <- function(coord_pair,
 
   azimuth_unit <- azimuth_unit[[1]]
   if (azimuth_unit == "degrees") {
-    azimuth <- deg_to_rad(azimuth)
-    lat <- deg_to_rad(lat)
-    lng <- deg_to_rad(lng)
+    azimuth <- terrainr::deg_to_rad(azimuth)
+    lat <- terrainr::deg_to_rad(lat)
+    lng <- terrainr::deg_to_rad(lng)
   }
 
   angular_distance <- distance / r

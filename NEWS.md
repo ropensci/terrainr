@@ -1,8 +1,16 @@
+# terrainr 0.1.0.9001
+* New features:
+    * vector_to_overlay lets users quickly produce image overlays from vector 
+      data
+* Internal changes:
+    * All terrainr-provided functions now explicitly use the terrainr:: 
+      namespace
+
 # terrainr 0.1.0
-* First version (to be) submitted to ROpenSci
 * New features:
     * set_bbox_side_length wraps add_bbox_buffer to set each side of the 
       bounding box to an equal length (within ~1% accuracy)
+* First version released on GitHub 
 
 # terrainr 0.0.0.9001
 

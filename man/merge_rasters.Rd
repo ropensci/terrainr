@@ -75,6 +75,7 @@ merge_rasters(raster_files, tempfile())
 }
 \seealso{
 Other data manipulation functions: 
-\code{\link{raster_to_raw_tiles}()}
+\code{\link{raster_to_raw_tiles}()},
+\code{\link{vector_to_overlay}()}
 }
 \concept{data manipulation functions}

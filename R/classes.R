@@ -88,8 +88,8 @@ terrainr_coordinate_pair <- function(coords, coord_units = c(
 
   coord_units <- coord_units[[1]]
   if (coord_units == "radians") {
-    lat <- rad_to_deg(lat)
-    lng <- rad_to_deg(lng)
+    lat <- terrainr::rad_to_deg(lat)
+    lng <- terrainr::rad_to_deg(lng)
   }
 
   return(methods::new("terrainr_coordinate_pair", lat = lat, lng = lng))
