@@ -1,5 +1,4 @@
 test_that("raster_to_raw runs without errors", {
-
   outputs <- raster_to_raw_tiles(
     input_file = "testdata/merge_rasters_test.tif",
     output_prefix = tempfile(),
@@ -7,8 +6,10 @@ test_that("raster_to_raw runs without errors", {
     raw = FALSE
   )
 
-  expect_equal(png::readPNG(outputs[[1]]),
-               png::readPNG("testdata/raster_to_raw_1.png"))
+  expect_equal(
+    png::readPNG(outputs[[1]]),
+    png::readPNG("testdata/raster_to_raw_1.png")
+  )
 
   expect_error(
     raster_to_raw_tiles(

@@ -188,8 +188,10 @@ terrainr_bounding_box <- function(bl, tr, coord_units = "degrees") {
     bl <- tr
     tr <- swap
   } else {
-    stop("The given coordinates don't seem to be ",
-         "the bottom left and upper right corners.")
+    stop(
+      "The given coordinates don't seem to be ",
+      "the bottom left and upper right corners."
+    )
   }
   methods::new("terrainr_bounding_box",
     bl = bl,

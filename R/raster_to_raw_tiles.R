@@ -35,7 +35,6 @@ raster_to_raw_tiles <- function(input_file,
                                 output_prefix,
                                 side_length = 4097,
                                 raw = TRUE) {
-
   input_raster <- raster::raster(input_file)
   max_raster <- raster::cellStats(input_raster, "max")
 
@@ -66,18 +65,22 @@ raster_to_raw_tiles <- function(input_file,
   for (i in seq_along(x_tiles)) {
     for (j in seq_along(y_tiles)) {
       if (any(grepl("progressr", utils::installed.packages()))) {
-        p(message = sprintf("Cropping tile (%d,%d)",
-                            x_tiles[[i]],
-                            y_tiles[[j]]))
+        p(message = sprintf(
+          "Cropping tile (%d,%d)",
+          x_tiles[[i]],
+          y_tiles[[j]]
+        ))
       }
       gdalUtils::gdal_translate(input_file, temptiffs[[counter]],
-        srcwin = paste0(x_tiles[[i]],
-                        ", ",
-                        y_tiles[[j]],
-                        ", ",
-                        side_length,
-                        ", ",
-                        side_length)
+        srcwin = paste0(
+          x_tiles[[i]],
+          ", ",
+          y_tiles[[j]],
+          ", ",
+          side_length,
+          ", ",
+          side_length
+        )
       )
       names(temptiffs)[[counter]] <- paste0(
         output_prefix,

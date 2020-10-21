@@ -109,18 +109,26 @@ merge_rasters <- function(input_rasters,
   }
 
   total_extent <- raster::raster(raster::extent(
-    min(vapply(input_raster_objects,
-               function(x) raster::extent(x)@xmin,
-               numeric(1))),
-    max(vapply(input_raster_objects,
-               function(x) raster::extent(x)@xmax,
-               numeric(1))),
-    min(vapply(input_raster_objects,
-               function(x) raster::extent(x)@ymin,
-               numeric(1))),
-    max(vapply(input_raster_objects,
-               function(x) raster::extent(x)@ymax,
-               numeric(1)))
+    min(vapply(
+      input_raster_objects,
+      function(x) raster::extent(x)@xmin,
+      numeric(1)
+    )),
+    max(vapply(
+      input_raster_objects,
+      function(x) raster::extent(x)@xmax,
+      numeric(1)
+    )),
+    min(vapply(
+      input_raster_objects,
+      function(x) raster::extent(x)@ymin,
+      numeric(1)
+    )),
+    max(vapply(
+      input_raster_objects,
+      function(x) raster::extent(x)@ymax,
+      numeric(1)
+    ))
   ))
   raster::projection(total_extent) <- raster::projection(input_raster_objects[[1]]) # nolint
 

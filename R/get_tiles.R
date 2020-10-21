@@ -119,7 +119,7 @@ get_tiles <- function(bbox,
     replacements <- which(services %in% names(list_of_services))
     services[replacements] <- as.vector(
       list_of_services[services[replacements]]
-      )
+    )
   }
 
   services <- unique(services)
@@ -145,9 +145,11 @@ get_tiles <- function(bbox,
 
   tl <- terrainr::terrainr_coordinate_pair(c(bbox@tr@lat, bbox@bl@lng))
   img_width <- round(terrainr::calc_haversine_distance(tl, bbox@tr),
-                     digits = 0)
+    digits = 0
+  )
   img_height <- round(terrainr::calc_haversine_distance(tl, bbox@bl),
-                      digits = 0)
+    digits = 0
+  )
 
   x_tiles <- ceiling(img_width / side_length)
   y_tiles <- ceiling(img_height / side_length)
@@ -159,31 +161,43 @@ get_tiles <- function(bbox,
 
   for (i in 1:x_tiles) {
     if (i == x_tiles) {
-      left_lng <- terrainr::point_from_distance(bbox@bl,
-                                                side_length * (i - 1),
-                                                90)@lng
+      left_lng <- terrainr::point_from_distance(
+        bbox@bl,
+        side_length * (i - 1),
+        90
+      )@lng
       right_lng <- bbox@tr@lng
     } else {
-      left_lng <- terrainr::point_from_distance(bbox@bl,
-                                                side_length * (i - 1),
-                                                90)@lng
-      right_lng <- terrainr::point_from_distance(bbox@bl,
-                                                 side_length * i,
-                                                 90)@lng
+      left_lng <- terrainr::point_from_distance(
+        bbox@bl,
+        side_length * (i - 1),
+        90
+      )@lng
+      right_lng <- terrainr::point_from_distance(
+        bbox@bl,
+        side_length * i,
+        90
+      )@lng
     }
     for (j in 1:y_tiles) {
       if (j == y_tiles) {
-        top_lat <- terrainr::point_from_distance(bbox@tr,
-                                                 side_length * (j - 1),
-                                                 180)@lat
+        top_lat <- terrainr::point_from_distance(
+          bbox@tr,
+          side_length * (j - 1),
+          180
+        )@lat
         bot_lat <- bbox@bl@lat
       } else {
-        top_lat <- terrainr::point_from_distance(bbox@tr,
-                                                 side_length * (j - 1),
-                                                 180)@lat
-        bot_lat <- terrainr::point_from_distance(bbox@tr,
-                                                 side_length * j,
-                                                 180)@lat
+        top_lat <- terrainr::point_from_distance(
+          bbox@tr,
+          side_length * (j - 1),
+          180
+        )@lat
+        bot_lat <- terrainr::point_from_distance(
+          bbox@tr,
+          side_length * j,
+          180
+        )@lat
       }
 
       tile_boxes[[i]][[j]] <- list(
