@@ -90,9 +90,12 @@ vector_to_overlay <- function(vector_data,
     plot_fun <- ggplot2::geom_point
   }
 
+  # quiet R CMD check not appreciating ggplot's NSE...
+  X <- Y <- NULL
+
   output_ggplot <- ggplot2::ggplot(
     vector_data,
-    ggplot2::aes(X, Y, group = grouping)
+    ggplot2::aes(x = X, y = Y, group = grouping)
     ) +
     plot_fun(...) +
     ggplot2::scale_x_continuous(expand = c(0, 0),

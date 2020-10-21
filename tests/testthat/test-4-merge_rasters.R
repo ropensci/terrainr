@@ -64,7 +64,7 @@ test_that("merge_raster works with orthos", {
   georeference = FALSE
   )
   merge_orth <- tempfile(fileext = ".tiff")
-  merge_rasters(tmpf[[1]], NULL, tmpf[[2]], merge_orth, merge_raster = FALSE)
+  merge_rasters(tmpf[[1]], tempfile(fileext = ".tif"), tmpf[[2]], merge_orth)
 
   stored_raster <- raster::raster("testdata/merge_rasters_test.tif")
   test_raster <- raster::raster(merge_orth)

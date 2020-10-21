@@ -23,9 +23,6 @@
 #' @param output_image The file path to save the merged images to.
 #' Must be a TIFF file. Leave as \code{NULL} if you aren't merging images.
 #' @param overwrite Logical: overwrite the output files if they exist?
-#' @param merge_raster Logical: Should the files provided to input_rasters be
-#' merged? Set to \code{FALSE} if you're only providing these input tiles to
-#' georeference tiles in \code{input_images}.
 #'
 #' @return A named list containing the file paths outputs were written to.
 #'
@@ -54,22 +51,12 @@
 #'
 #' @export
 merge_rasters <- function(input_rasters,
-                          output_raster = NULL,
+                          output_raster = tempfile(fileext = ".tif"),
                           input_images = NULL,
                           output_image = NULL,
-                          overwrite = TRUE,
-                          merge_raster = TRUE) {
+                          overwrite = TRUE) {
   output_list <- vector("list")
-  if (!is.null(output_raster)) output_list$output_raster <- output_raster
-  if (!is.null(output_image)) output_list$output_image <- output_image
-
-  if (!is.null(input_images)) {
-    stopifnot(length(input_images) == length(input_rasters))
-    stopifnot(!is.null(output_image))
-  }
-
-  # rather than fence all our code with merge_raster, just fake an output file
-  if (!merge_raster) output_raster <- tempfile(fileext = ".tif")
+  output_list$output_raster <- output_raster
 
   # writeRaster seems to write a .tif if a .tiff is specified, which means
   # mosaic_rasters does nothing and you get a useless blank .tif output unless
@@ -81,31 +68,40 @@ merge_rasters <- function(input_rasters,
     (!is.null(output_image) && !grepl("\\.tif?f$", output_image))) {
     stop("Output files must be TIFFs.")
   }
+
   fix_height <- 0
   fix_ortho <- 0
+
   if (grepl("\\.tiff$", output_raster)) {
     fix_height <- 1
     output_raster <- substr(output_raster, 1, nchar(output_raster) - 1)
-  }
-  if (!is.null(input_images) && grepl("\\.tiff$", output_image)) {
-    fix_ortho <- 1
-    output_image <- substr(output_image, 1, nchar(output_image) - 1)
   }
 
   input_raster_objects <- lapply(input_rasters, function(x) raster::raster(x))
 
   if (!is.null(input_images)) {
+
+    stopifnot(length(input_images) == length(input_rasters))
+    stopifnot(!is.null(output_image))
+
+    output_list$output_image <- output_image
+
+    if (grepl("\\.tiff$", output_image)) {
+      fix_ortho <- 1
+      output_image <- substr(output_image, 1, nchar(output_image) - 1)
+      }
+
     tmp_orthos <- vapply(
       seq_len(length(input_images)),
       function(x) tempfile(fileext = ".tif"),
       character(1)
     )
-    for (i in seq_len(length(input_images))) {
-      current_ortho <- raster::brick(png::readPNG(input_images[[i]]))
-      raster::crs(current_ortho) <- input_raster_objects[[i]]@crs
-      raster::extent(current_ortho) <- input_raster_objects[[i]]@extent
-      raster::writeRaster(current_ortho, tmp_orthos[[i]])
-    }
+    mapply(function(img, out, rst) terrainr::georeference_overlay(img,
+                                                                  out,
+                                                                  rst),
+           img = input_images,
+           out = tmp_orthos,
+           rst = input_raster_objects)
   }
 
   total_extent <- raster::raster(raster::extent(
@@ -132,25 +128,23 @@ merge_rasters <- function(input_rasters,
   ))
   raster::projection(total_extent) <- raster::projection(input_raster_objects[[1]]) # nolint
 
-  if (merge_raster) {
     # we're writing an entirely NA raster to file
     # raster, like a good package should
     # attempts to warn us about this silly thing we're doing
     # but we're doing it on purpose, so suppress those warnings
-    suppressWarnings(raster::writeRaster(total_extent,
-      output_raster,
-      overwrite = overwrite
-    ))
+  suppressWarnings(raster::writeRaster(total_extent,
+                                       output_raster,
+                                       overwrite = overwrite
+                                       ))
 
-    invisible(
-      utils::capture.output(
-        gdalUtils::mosaic_rasters(
-          gdalfile = input_rasters,
-          dst_dataset = output_raster
+  invisible(
+    utils::capture.output(
+      gdalUtils::mosaic_rasters(
+        gdalfile = input_rasters,
+        dst_dataset = output_raster
         )
       )
     )
-  }
 
   if (!is.null(input_images)) {
     # same as above for input_rasters

@@ -6,11 +6,10 @@
 \usage{
 merge_rasters(
   input_rasters,
-  output_raster = NULL,
+  output_raster = tempfile(fileext = ".tif"),
   input_images = NULL,
   output_image = NULL,
-  overwrite = TRUE,
-  merge_raster = TRUE
+  overwrite = TRUE
 )
 }
 \arguments{
@@ -31,10 +30,6 @@ leave as \code{NULL}.}
 Must be a TIFF file. Leave as \code{NULL} if you aren't merging images.}
 
 \item{overwrite}{Logical: overwrite the output files if they exist?}
-
-\item{merge_raster}{Logical: Should the files provided to input_rasters be
-merged? Set to \code{FALSE} if you're only providing these input tiles to
-georeference tiles in \code{input_images}.}
 }
 \value{
 A named list containing the file paths outputs were written to.
@@ -75,6 +70,7 @@ merge_rasters(raster_files, tempfile())
 }
 \seealso{
 Other data manipulation functions: 
+\code{\link{georeference_overlay}()},
 \code{\link{raster_to_raw_tiles}()},
 \code{\link{vector_to_overlay}()}
 }
