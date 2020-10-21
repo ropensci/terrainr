@@ -48,23 +48,13 @@ processing.
 }
 \examples{
 \dontrun{
-tile_1 <- terrainr_bounding_box(
+tiles <- terrainr_bounding_box(
   bl = c(lat = 44.10379, lng = -74.01177),
   tr = c(lat = 44.17573, lng = -73.91171)
 )
 
-tile_2 <- terrainr_bounding_box(
-  bl = c(lat = 44.03184, lng = -74.01177),
-  tr = c(lat = 44.10379, lng = -73.91171)
-)
-raster_files <- c(tempfile(), tempfile())
-img_bin <- lapply(
-  c(tile_1, tile_2),
-  function(x) hit_national_map_api(x, 8000, 8000, "3DEPElevation")
-)
-writeBin(img_bin[[1]], raster_files[[1]])
-writeBin(img_bin[[2]], raster_files[[2]])
-merge_rasters(raster_files, tempfile())
+img_files <- get_tiles(tiles)
+merge_rasters(img_files[[1]])
 }
 
 }

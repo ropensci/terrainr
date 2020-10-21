@@ -48,25 +48,27 @@ image overlay, which may then be imported as a texture into Unity.
 \dontrun{
 
 # Generate points to download raster tiles for
+set.seed(123)
 simulated_data <- data.frame(
   id = seq(1, 100, 1),
-  lat = runif(100, 44.04905, 44.17609),
-  lng = runif(100, -74.01188, -73.83493)
-)
-
+  lat = runif(100, 44.1114, 44.1123),
+  lng = runif(100, -73.92273, -73.92147)
+  )
 # Download raster tiles and merge them into a single raster
 bbox <- get_coord_bbox(lat = simulated_data$lat, lng = simulated_data$lng)
-bbox <- add_bbox_buffer(bbox, 100)
+
 downloaded_tiles <- get_tiles(bbox, tempfile())
+
 merged_file <- merge_rasters(downloaded_tiles[[1]],
                              tempfile(fileext = ".tif"))
 
 # Create an sf object from our original simulated data
+
 simulated_data_sf <- sf::st_as_sf(simulated_data, coords = c("lng", "lat"))
 sf::st_crs(simulated_data_sf) <- sf::st_crs(4326)
 
 # Create an overlay image
-vector_to_overlay(simulated_data_sf, merged_file[[1]])
+vector_to_overlay(simulated_data_sf, merged_file[[1]], na.rm = TRUE)
 }
 
 

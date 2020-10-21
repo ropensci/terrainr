@@ -1,4 +1,4 @@
-test_that("multiplication works", {
+test_that("vector_to_overlay generates the same tiles", {
   # Generate points to download raster tiles for
   set.seed(123)
   simulated_data <- data.frame(
