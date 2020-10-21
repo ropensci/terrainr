@@ -91,7 +91,7 @@ vector_to_overlay <- function(vector_data,
   }
 
   # quiet R CMD check not appreciating ggplot's NSE...
-  X <- Y <- NULL
+  X <- Y <- NULL # nolint
 
   output_ggplot <- ggplot2::ggplot(
     vector_data,

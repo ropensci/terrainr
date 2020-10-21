@@ -129,7 +129,7 @@ raster_to_raw_tiles <- function(input_file,
 
   mapply(
     function(x, y) {
-      processing_image <- magick::image_read(x)
+      processing_image <- magick::image_read(png::readPNG(x))
 
       if (any(grepl("progressr", utils::installed.packages()))) {
         if (raw) {

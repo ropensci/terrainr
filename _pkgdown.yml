@@ -43,6 +43,8 @@ reference:
   - contents:
     - merge_rasters
     - raster_to_raw_tiles
+    - georeference_overlay
+    - vector_to_overlay
   - title: Utility Functions
   - contents:
     - add_bbox_buffer
