@@ -63,10 +63,12 @@ vector_to_overlay <- function(vector_data,
                               transparent = "#ffffff",
                               ...) {
 
+  # nocov start
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
     stop("vector_to_overlay requires the ggplot2 package be installed.\n",
          "Please install ggplot2 via install.packages('ggplot2') to continue.")
   }
+  # nocov end
 
   if (is.character(vector_data) && length(vector_data) == 1) {
     vector_data <- sf::read_sf(vector_data)

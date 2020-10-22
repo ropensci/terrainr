@@ -1,5 +1,5 @@
 test_that("raster_to_raw runs without errors", {
-  skip_on_ci()
+  skip_on_os(c("windows", "mac"))
   expect_error(
     raster_to_raw_tiles(
       input_file = "testdata/merge_rasters_test.tif",

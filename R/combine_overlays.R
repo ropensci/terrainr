@@ -71,11 +71,11 @@ combine_overlays <- function(..., output_file = NULL, transparency = 0) {
     file_type <- regmatches(dots[[i]], regexpr("\\w*$", dots[[i]]))
 
     if (file_type %in% c("tif", "tiff")) {
-
+      # nocov start
       if (!requireNamespace("tiff", quietly = TRUE)) {
         stop("Please install the tiff package via",
              "install.packages('tiff') to continue.")
-      } else {
+      } else { # nocov end
         current_image <- magick::image_read(
           # geoTIFF contain headers that readTIFF ignores with a warning
           #
