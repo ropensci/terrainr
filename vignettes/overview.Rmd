@@ -204,13 +204,38 @@ the `combine_overlays` function:
 
 ```{r, eval=FALSE}
 ortho_with_points <- combine_overlays(ortho_merged[[1]],
-                                      mt_elbert_overlay)
-ortho_with_points
+                                      mt_elbert_overlay,
+                                      output_file = tempfile(fileext = ".png"))
+png::readPNG(ortho_with_points)
 ```
 
 ```{r, echo = FALSE}
-knitr::include_graphics("combined_overlay.png")
+knitr::include_graphics("combined_overlay.jpg")
 ```
+
+Attempting to combine particularly large images may result in R using too much 
+memory, possibly even crashing the R session. As a result, it is often helpful 
+to instead create an overlay for each image tile and then merge the resuling 
+images using `merge_rasters`:
+
+```{r, eval = FALSE}
+tile_overlays <- lapply(elevation_merged[[1]],
+                        function(x) vector_to_overlay(mt_elbert_sf, 
+                                                      x, 
+                                                      size = 15, 
+                                                      color = "red", 
+                                                      na.rm = TRUE))
+
+combined_tiles <- mapply(function(x, y) {
+  combine_overlays(x, y, output_file = tempfile(fileext = ".png"))
+  },                            
+  output_files[[2]],
+  tile_overlays)
+
+merge_rasters(input_rasters = output_files[[1]],
+              input_images = combined_tiles)
+```
+
 
 The last major function provided by terrainr is `raster_to_raw_tiles`, which 
 is designed to turn these larger rasters into tiles that can be imported into 
