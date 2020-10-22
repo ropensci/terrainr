@@ -22,6 +22,7 @@
 #' or [ggplot2::geom_polygon] (for all other data types).
 #'
 #' @family data manipulation functions
+#' @family overlay creation functions
 #'
 #' @return `output_file`, invisibly.
 #'

@@ -60,6 +60,7 @@ merge_rasters(img_files[[1]])
 }
 \seealso{
 Other data manipulation functions: 
+\code{\link{combine_overlays}()},
 \code{\link{georeference_overlay}()},
 \code{\link{raster_to_raw_tiles}()},
 \code{\link{vector_to_overlay}()}

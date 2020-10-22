@@ -43,6 +43,7 @@ raster_to_raw_tiles(temptiff, tempfile())
 }
 \seealso{
 Other data manipulation functions: 
+\code{\link{combine_overlays}()},
 \code{\link{georeference_overlay}()},
 \code{\link{merge_rasters}()},
 \code{\link{vector_to_overlay}()}

@@ -3,10 +3,13 @@
     * `merge_rasters` loses the argument `merge_raster`. For the "georeference 
       a single image" use case, see the new `georeference_overlay` function.
 * New features:
-    * `vector_to_overlay` lets users quickly produce image overlays from vector 
-      data.
-    * `georeference_overlay` replaces the use of merge_raster for creating 
-      single-file georeferenced overlay files.
+    * A new family of functions for dealing with overlay creation:
+        * `vector_to_overlay` lets users quickly produce image overlays from 
+          vector data.
+        * `georeference_overlay` replaces the use of merge_raster for creating 
+          single-file georeferenced overlay files.
+        * `combine_overlays` lets users, well, combine overlays into a single 
+          image
 * Internal changes:
     * All terrainr-provided functions now explicitly use the terrainr:: 
       namespace.

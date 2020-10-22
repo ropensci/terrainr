@@ -173,18 +173,44 @@ ortho_merged <- merge_rasters(input_rasters = output_files[2],
                               output_raster = tempfile(fileext = ".tif"))
 ```
 
-Now, one other feature of `merge_rasters` is the ability to create georeferenced
-rasters from non-georeferenced images. This means that you can turn any image 
-into an overlay for your output maps, so long as you've stored it as a PNG -- 
-just pass a vector of image files that correspond to the vector of rasters 
-you're merging to `input_images` and specify an output file.
+`merge_rasters` can also be used to georeference multiple images based on 
+reference rasters -- so if you produce overlays for each tile you download, you
+can quickly and easily turn them into a single merged overlay. If you only have
+a single file to georeference (or don't want to merge the outputs), check out 
+the `terrainr` function `georeference_overlay`.
 
-This produces two tiles: one merged elevation map and one merged orthoimage, 
-both written out as georeferenced TIFFs. `merge_rasters` doesn't actually care
-if you want to merge files, though -- as we saw here, if our goal is just to 
-georeference an image file, we can provide length 1 vectors to both input 
-arguments. This can be combined with `mapply` to georeference all the tiles 
-downloaded by `get_tiles` without merging any.
+This can be particularly useful when producing overlay images from external 
+data. Users are able to provide their own imagery (given it is of the same 
+extent and resolution as the raster map) to be georeferenced and used as an 
+overlay, or quickly produce images from vector data (in any format that can be 
+read by the `sf` package) using the `vector_to_overlay` function:
+
+```{r, eval = FALSE}
+mt_elbert_sf <- sf::st_as_sf(mt_elbert_points, coords = c("lng", "lat"))
+sf::st_crs(mt_elbert_sf) <- sf::st_crs(4326)
+mt_elbert_overlay <- vector_to_overlay(mt_elbert_sf,
+                                       elevation_merged[[1]],
+                                       size = 15,
+                                       color = "red")
+knitr::include_graphics(mt_elbert_overlay)
+```
+
+```{r, echo = FALSE}
+knitr::include_graphics("mt_elbert_overlay.png")
+```
+
+These overlays may be stacked on top of one another or downloaded imagery using
+the `combine_overlays` function:
+
+```{r, eval=FALSE}
+ortho_with_points <- combine_overlays(ortho_merged[[1]],
+                                      mt_elbert_overlay)
+ortho_with_points
+```
+
+```{r, echo = FALSE}
+knitr::include_graphics("combined_overlay.png")
+```
 
 The last major function provided by terrainr is `raster_to_raw_tiles`, which 
 is designed to turn these larger rasters into tiles that can be imported into 

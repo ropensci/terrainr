@@ -48,8 +48,14 @@ georeference_overlay(downloaded_tiles[[2]],
 }
 \seealso{
 Other data manipulation functions: 
+\code{\link{combine_overlays}()},
 \code{\link{merge_rasters}()},
 \code{\link{raster_to_raw_tiles}()},
 \code{\link{vector_to_overlay}()}
+
+Other overlay creation functions: 
+\code{\link{combine_overlays}()},
+\code{\link{vector_to_overlay}()}
 }
 \concept{data manipulation functions}
+\concept{overlay creation functions}

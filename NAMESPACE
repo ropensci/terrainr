@@ -2,6 +2,7 @@
 
 export(add_bbox_buffer)
 export(calc_haversine_distance)
+export(combine_overlays)
 export(convert_distance)
 export(deg_to_rad)
 export(export_bounding_box)

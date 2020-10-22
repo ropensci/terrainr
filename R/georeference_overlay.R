@@ -18,6 +18,7 @@
 #' @return The file path written to, invisibly.
 #'
 #' @family data manipulation functions
+#' @family overlay creation functions
 #'
 #' @examples
 #' \dontrun{

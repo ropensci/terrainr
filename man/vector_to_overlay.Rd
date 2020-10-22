@@ -75,8 +75,14 @@ vector_to_overlay(simulated_data_sf, merged_file[[1]], na.rm = TRUE)
 }
 \seealso{
 Other data manipulation functions: 
+\code{\link{combine_overlays}()},
 \code{\link{georeference_overlay}()},
 \code{\link{merge_rasters}()},
 \code{\link{raster_to_raw_tiles}()}
+
+Other overlay creation functions: 
+\code{\link{combine_overlays}()},
+\code{\link{georeference_overlay}()}
 }
 \concept{data manipulation functions}
+\concept{overlay creation functions}
