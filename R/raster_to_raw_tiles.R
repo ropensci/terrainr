@@ -71,6 +71,7 @@ raster_to_raw_tiles <- function(input_file,
           y_tiles[[j]]
         ))
       }
+      # changing this to gdalUtilities causes my computer to crash
       gdalUtils::gdal_translate(input_file, temptiffs[[counter]],
         srcwin = paste0(
           x_tiles[[i]],
@@ -114,6 +115,7 @@ raster_to_raw_tiles <- function(input_file,
       if (any(grepl("progressr", utils::installed.packages()))) {
         p(message = sprintf("Converting tile %s to PNG", x))
       }
+      # changing this to gdalUtils causes errors
       gdalUtilities::gdal_translate(
         src_dataset = x,
         dst_dataset = y,

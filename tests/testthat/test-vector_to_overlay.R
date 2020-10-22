@@ -1,5 +1,7 @@
 test_that("vector_to_overlay generates the same tiles", {
   skip_on_cran()
+  # need to generate these images on other OS
+  skip_on_os(c("windows", "mac"))
   # Generate points to download raster tiles for
   load("testdata/sim_dat.rds")
 
