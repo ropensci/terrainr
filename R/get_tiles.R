@@ -214,7 +214,7 @@ get_tiles <- function(bbox,
     }
   }
 
-  if (any(grepl("progressr", utils::installed.packages()))) {
+  if (!requireNamespace("progressr", quietly = TRUE)) {
     p <- progressr::progressor(steps = x_tiles * y_tiles * length(services))
   }
 
@@ -222,7 +222,7 @@ get_tiles <- function(bbox,
     for (j in seq_len(y_tiles)) {
       current_box <- tile_boxes[[i]][[j]]
       for (k in seq_along(services)) {
-        if (any(grepl("progressr", utils::installed.packages()))) {
+        if (!requireNamespace("progressr", quietly = TRUE)) {
           p(message = sprintf(
             "Retriving %s tile (%d, %d)",
             services[[k]],

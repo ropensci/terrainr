@@ -40,7 +40,7 @@ raster_to_raw_tiles <- function(input_file,
 
   x_tiles <- ceiling(input_raster@nrows / side_length)
   y_tiles <- ceiling(input_raster@ncols / side_length)
-  if (any(grepl("progressr", utils::installed.packages()))) {
+  if (!requireNamespace("progressr", quietly = TRUE)) {
     p <- progressr::progressor(steps = x_tiles * y_tiles * 3)
   }
 
@@ -64,7 +64,7 @@ raster_to_raw_tiles <- function(input_file,
 
   for (i in seq_along(x_tiles)) {
     for (j in seq_along(y_tiles)) {
-      if (any(grepl("progressr", utils::installed.packages()))) {
+      if (!requireNamespace("progressr", quietly = TRUE)) {
         p(message = sprintf(
           "Cropping tile (%d,%d)",
           x_tiles[[i]],
@@ -112,7 +112,7 @@ raster_to_raw_tiles <- function(input_file,
 
   mapply(
     function(x, y) {
-      if (any(grepl("progressr", utils::installed.packages()))) {
+      if (!requireNamespace("progressr", quietly = TRUE)) {
         p(message = sprintf("Converting tile %s to PNG", x))
       }
       # changing this to gdalUtils causes errors
@@ -133,7 +133,7 @@ raster_to_raw_tiles <- function(input_file,
     function(x, y) {
       processing_image <- magick::image_read(x)
 
-      if (any(grepl("progressr", utils::installed.packages()))) {
+      if (!requireNamespace("progressr", quietly = TRUE)) {
         if (raw) {
           p(message = sprintf("Converting tile %s to RAW", x))
         } else {
