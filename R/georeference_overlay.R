@@ -32,9 +32,11 @@
 #'
 #' downloaded_tiles <- get_tiles(bbox, services = c("elevation", "ortho"))
 #'
-#' georeference_overlay(downloaded_tiles[[2]],
-#'                      tempfile(fileext = ".tif"),
-#'                      downloaded_tiles[[1]])
+#' georeference_overlay(
+#'   downloaded_tiles[[2]],
+#'   tempfile(fileext = ".tif"),
+#'   downloaded_tiles[[1]]
+#' )
 #' }
 #'
 #' @export
@@ -42,37 +44,42 @@
 georeference_overlay <- function(overlay_file,
                                  output_file,
                                  reference_raster) {
-
   stopifnot(is.character(overlay_file) && length(overlay_file) == 1)
   stopifnot(grepl("tiff?$", output_file))
   file_type <- regmatches(overlay_file, regexpr("\\w*$", overlay_file))
 
-  official_names <- c("jpeg" = "jpg",
-                      "tiff" = "tif")
+  official_names <- c(
+    "jpeg" = "jpg",
+    "tiff" = "tif"
+  )
   if (file_type %in% official_names) {
     file_type <- names(official_names)[which((official_names) %in% file_type)]
   }
 
   if (!requireNamespace(file_type, quietly = TRUE)) { # nocov start
-    stop("Package ", file_type, " is required to load ", file_type,
-         " images.\n", "Please install ", file_type,
-         " via install.packages('", file_type, "') to continue.")
+    stop(
+      "Package ", file_type, " is required to load ", file_type,
+      " images.\n", "Please install ", file_type,
+      " via install.packages('", file_type, "') to continue."
+    )
   } # nocov end
 
   image_read <- switch(file_type,
-                       "png" = png::readPNG,
-                       "tiff" = tiff::readTIFF,
-                       "jpeg" = jpeg::readJPEG)
+    "png" = png::readPNG,
+    "tiff" = tiff::readTIFF,
+    "jpeg" = jpeg::readJPEG
+  )
 
   if (is.character(reference_raster) && length(reference_raster) == 1) {
     reference_raster <- raster::raster(reference_raster)
-  } else stopifnot(any(grepl("^Raster", class(reference_raster))))
+  } else {
+    stopifnot(any(grepl("^Raster", class(reference_raster))))
+  }
 
-    overlay_file <- raster::brick(image_read(overlay_file))
-    raster::crs(overlay_file) <- reference_raster@crs
-    raster::extent(overlay_file) <- reference_raster@extent
-    raster::writeRaster(overlay_file, output_file)
+  overlay_file <- raster::brick(image_read(overlay_file))
+  raster::crs(overlay_file) <- reference_raster@crs
+  raster::extent(overlay_file) <- reference_raster@extent
+  raster::writeRaster(overlay_file, output_file)
 
-    return(invisible(output_file))
-
+  return(invisible(output_file))
 }

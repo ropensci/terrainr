@@ -69,8 +69,42 @@ merge_rasters <- function(input_rasters,
 
   input_raster_objects <- lapply(input_rasters, function(x) raster::raster(x))
 
-  if (!is.null(input_images)) {
+  # if some files were downloaded as RGBA and some RGB, mosaic_rasters will fail
+  #
+  # so drop the alpha channel if we need to, but only if we need to, because
+  # this takes a while
+  if (any(vapply(
+    input_raster_objects,
+    function(x) x@file@nbands == 4,
+    logical(1)
+  )) &&
+    !all(vapply(
+      input_raster_objects,
+      function(x) x@file@nbands == 4,
+      logical(1)
+    ))) {
+    tmprst <- vapply(
+      seq_along(input_rasters),
+      function(x) tempfile(fileext = ".tif"),
+      character(1)
+    )
+    mapply(
+      function(x, y) {
+        raster::writeRaster(
+          raster::stack(x[[1]],
+            bands = 1:3
+          ),
+          y
+        )
+      },
+      input_rasters,
+      tmprst
+    )
+    input_raster_objects <- lapply(tmprst, function(x) raster::raster(x))
+    input_rasters <- tmprst
+  }
 
+  if (!is.null(input_images)) {
     stopifnot(length(input_images) == length(input_rasters))
     stopifnot(!is.null(output_image))
 
@@ -79,19 +113,24 @@ merge_rasters <- function(input_rasters,
     if (grepl("\\.tiff$", output_image)) {
       fix_ortho <- 1
       output_image <- substr(output_image, 1, nchar(output_image) - 1)
-      }
+    }
 
     tmp_orthos <- vapply(
       seq_len(length(input_images)),
       function(x) tempfile(fileext = ".tif"),
       character(1)
     )
-    mapply(function(img, out, rst) terrainr::georeference_overlay(img,
-                                                                  out,
-                                                                  rst),
-           img = input_images,
-           out = tmp_orthos,
-           rst = input_raster_objects)
+    mapply(function(img, out, rst) {
+      terrainr::georeference_overlay(
+        img,
+        out,
+        rst
+      )
+    },
+    img = input_images,
+    out = tmp_orthos,
+    rst = input_raster_objects
+    )
   }
 
   total_extent <- raster::raster(raster::extent(
@@ -118,23 +157,23 @@ merge_rasters <- function(input_rasters,
   ))
   raster::projection(total_extent) <- raster::projection(input_raster_objects[[1]]) # nolint
 
-    # we're writing an entirely NA raster to file
-    # raster, like a good package should
-    # attempts to warn us about this silly thing we're doing
-    # but we're doing it on purpose, so suppress those warnings
+  # we're writing an entirely NA raster to file
+  # raster, like a good package should
+  # attempts to warn us about this silly thing we're doing
+  # but we're doing it on purpose, so suppress those warnings
   suppressWarnings(raster::writeRaster(total_extent,
-                                       output_raster,
-                                       overwrite = overwrite
-                                       ))
+    output_raster,
+    overwrite = overwrite
+  ))
 
   invisible(
     utils::capture.output(
       gdalUtils::mosaic_rasters(
         gdalfile = input_rasters,
         dst_dataset = output_raster
-        )
       )
     )
+  )
 
   if (!is.null(input_images)) {
     # same as above for input_rasters
@@ -158,6 +197,9 @@ merge_rasters <- function(input_rasters,
   if (fix_ortho) {
     file.rename(output_image, paste0(output_image, "f"))
   }
+
+  if (exists("tmprst")) lapply(tmprst, unlink)
+  if (exists("tmp_orthos")) lapply(tmp_orthos, unlink)
 
   return(output_list)
 }

@@ -249,8 +249,10 @@ get_tiles <- function(bbox,
         )
 
         if (georeference && services[[k]] != "3DEPElevation") {
+          rm_path <- TRUE
           cur_path <- tempfile(fileext = ".png")
         } else {
+          rm_path <- FALSE
           cur_path <- final_path
         }
 
@@ -285,10 +287,12 @@ get_tiles <- function(bbox,
             img_bin$extent$ymin,
             img_bin$extent$ymax
           )
+
           raster::writeRaster(cur_raster,
             final_path,
             overwrite = TRUE
           )
+          if (rm_path) unlink(rm_path)
         }
       }
     }

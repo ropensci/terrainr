@@ -35,14 +35,16 @@
 #'   id = seq(1, 100, 1),
 #'   lat = runif(100, 44.1114, 44.1123),
 #'   lng = runif(100, -73.92273, -73.92147)
-#'   )
+#' )
 #' # Download raster tiles and merge them into a single raster
 #' bbox <- get_coord_bbox(lat = simulated_data$lat, lng = simulated_data$lng)
 #'
 #' downloaded_tiles <- get_tiles(bbox, tempfile())
 #'
-#' merged_file <- merge_rasters(downloaded_tiles[[1]],
-#'                              tempfile(fileext = ".tif"))
+#' merged_file <- merge_rasters(
+#'   downloaded_tiles[[1]],
+#'   tempfile(fileext = ".tif")
+#' )
 #'
 #' # Create an sf object from our original simulated data
 #'
@@ -52,7 +54,6 @@
 #' # Create an overlay image
 #' vector_to_overlay(simulated_data_sf, merged_file[[1]], na.rm = TRUE)
 #' }
-#'
 #'
 #' @export
 #' @md
@@ -65,26 +66,36 @@ vector_to_overlay <- function(vector_data,
 
   # nocov start
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
-    stop("vector_to_overlay requires the ggplot2 package be installed.\n",
-         "Please install ggplot2 via install.packages('ggplot2') to continue.")
+    stop(
+      "vector_to_overlay requires the ggplot2 package be installed.\n",
+      "Please install ggplot2 via install.packages('ggplot2') to continue."
+    )
   }
   # nocov end
 
   if (is.character(vector_data) && length(vector_data) == 1) {
     vector_data <- sf::read_sf(vector_data)
-  } else stopifnot(any(grepl("^sf", class(vector_data))))
+  } else {
+    stopifnot(any(grepl("^sf", class(vector_data))))
+  }
 
   if (is.character(reference_raster) && length(reference_raster) == 1) {
     reference_raster <- raster::raster(reference_raster)
-  } else stopifnot(any(grepl("^Raster", class(reference_raster))))
+  } else {
+    stopifnot(any(grepl("^Raster", class(reference_raster))))
+  }
 
   vector_data <- sf::st_transform(vector_data, target_crs)
   vector_data <- as.data.frame(sf::st_coordinates(vector_data))
 
   if (any(grepl("L", names(vector_data)))) {
-    vector_data$grouping <- do.call(paste,
-                                    lapply(grep("L", names(vector_data)),
-                                           function(x) vector_data[[x]]))
+    vector_data$grouping <- do.call(
+      paste,
+      lapply(
+        grep("L", names(vector_data)),
+        function(x) vector_data[[x]]
+      )
+    )
     if (any(grepl("L2", names(vector_data)))) {
       plot_fun <- ggplot2::geom_polygon
     } else {
@@ -101,30 +112,44 @@ vector_to_overlay <- function(vector_data,
   output_ggplot <- ggplot2::ggplot(
     vector_data,
     ggplot2::aes(x = X, y = Y, group = grouping)
-    ) +
+  ) +
     plot_fun(...) +
-    ggplot2::scale_x_continuous(expand = c(0, 0),
-                                limits = c(reference_raster@extent@xmin,
-                                           reference_raster@extent@xmax)) +
-    ggplot2::scale_y_continuous(expand = c(0, 0),
-                                limits = c(reference_raster@extent@ymin,
-                                           reference_raster@extent@ymax)) +
+    ggplot2::scale_x_continuous(
+      expand = c(0, 0),
+      limits = c(
+        reference_raster@extent@xmin,
+        reference_raster@extent@xmax
+      )
+    ) +
+    ggplot2::scale_y_continuous(
+      expand = c(0, 0),
+      limits = c(
+        reference_raster@extent@ymin,
+        reference_raster@extent@ymax
+      )
+    ) +
     ggplot2::theme_void() +
-    ggplot2::theme(panel.background = ggplot2::element_rect(fill = NA,
-                                                            color = NA),
-                   panel.border = ggplot2::element_blank(),
-                   panel.spacing = ggplot2::unit(0, "cm"),
-                   plot.margin = ggplot2::margin(0, 0, 0, 0, "cm"))
+    ggplot2::theme(
+      panel.background = ggplot2::element_rect(
+        fill = NA,
+        color = NA
+      ),
+      panel.border = ggplot2::element_blank(),
+      panel.spacing = ggplot2::unit(0, "cm"),
+      plot.margin = ggplot2::margin(0, 0, 0, 0, "cm")
+    )
 
   if (is.null(output_file)) output_file <- tempfile(fileext = ".png")
 
-  ggplot2::ggsave(filename = output_file,
-                  plot = output_ggplot,
-                  width = reference_raster@ncols / 72,
-                  height = reference_raster@nrows / 72,
-                  units = "in",
-                  dpi = "screen",
-                  limitsize = FALSE)
+  ggplot2::ggsave(
+    filename = output_file,
+    plot = output_ggplot,
+    width = reference_raster@ncols / 72,
+    height = reference_raster@nrows / 72,
+    units = "in",
+    dpi = "screen",
+    limitsize = FALSE
+  )
 
   if (transparent != FALSE) {
     img <- magick::image_read(output_file)
@@ -133,5 +158,4 @@ vector_to_overlay <- function(vector_data,
   }
 
   return(invisible(output_file))
-
 }
