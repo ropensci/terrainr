@@ -258,6 +258,8 @@ get_tiles <- function(bbox,
 #' @param bbox The bounding box to split into tiles.
 #' @param side_length The length of each side of the output tiles.
 #'
+#' @keywords internal
+#'
 #' @return A list containing the split tiles in position 1, the number of tiles
 #' in the x direction in position 2, and the number of tiles in the y direction
 #' in position 3.

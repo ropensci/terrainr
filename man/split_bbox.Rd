@@ -21,3 +21,4 @@ d
 This function splits the area contained within a bounding box into a set of
 tiles.
 }
+\keyword{internal}
