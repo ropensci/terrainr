@@ -10,9 +10,23 @@
           single-file georeferenced overlay files.
         * `combine_overlays` lets users, well, combine overlays into a single 
           image
+* Improvements and bug fixes:
+    * `get_tiles`, `raster_to_raw_tiles`, and `merge_rasters` are now much more 
+      conscientious about deleting tempfiles when they're done with them.
+    * `merge_rasters` no longer fails when handed a mix of 3- and 4-band raster
+      files. The current implementation will cast all 4 band rasters to 3 band
+      images and then return a 3 band raster image.
 * Internal changes:
     * All terrainr-provided functions now explicitly use the terrainr:: 
       namespace.
+* Changes in dependencies:
+    * `sf` has been added as an explicit import due to `vector_to_overlay`. `sf`
+      is required by `gdalUtilities`, also imported by this package, so this 
+      change should have no impact on users.
+    * `ggplot2` has been added to `Suggests` due to `vector_to_overlay`. 
+    * `jpeg` and `tiff` have been added to `Suggests` due to 
+      `georeference_overlay`. I'd expect more image libraries to join this list
+      over time. 
 
 # terrainr 0.1.0
 * New features:
