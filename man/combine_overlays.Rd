@@ -31,21 +31,27 @@ then be further processed as an image or transformed into an image overlay.
 \dontrun{
 # Generate points and download orthoimagery
 mt_elbert_points <- data.frame(
-lat = runif(100, min = 39.11144, max = 39.12416),
-lng = runif(100, min = -106.4534, max = -106.437)
+  lat = runif(100, min = 39.11144, max = 39.12416),
+  lng = runif(100, min = -106.4534, max = -106.437)
 )
 
-mt_elbert_bbox <- get_coord_bbox(data = mt_elbert_points,
-                                 lat = "lat",
-                                 lng = "lng")
+mt_elbert_bbox <- get_coord_bbox(
+  data = mt_elbert_points,
+  lat = "lat",
+  lng = "lng"
+)
 
-output_files <- get_tiles(bbox = mt_elbert_bbox,
-                          output_prefix = tempfile(),
-                          services = c("ortho"))
+output_files <- get_tiles(
+  bbox = mt_elbert_bbox,
+  output_prefix = tempfile(),
+  services = c("ortho")
+)
 
 # Merge orthoimagery into a single file
-ortho_merged <- merge_rasters(input_rasters = output_files[1],
-                              output_raster = tempfile(fileext = ".tif"))
+ortho_merged <- merge_rasters(
+  input_rasters = output_files[1],
+  output_raster = tempfile(fileext = ".tif")
+)
 
 # Create an sf dataset from our points
 mt_elbert_sf <- sf::st_as_sf(mt_elbert_points, coords = c("lng", "lat"))
@@ -53,14 +59,17 @@ sf::st_crs(mt_elbert_sf) <- sf::st_crs(4326)
 
 # Convert our points into an overlay
 mt_elbert_overlay <- vector_to_overlay(mt_elbert_sf,
-                                       ortho_merged[[1]],
-                                       size = 15,
-                                       color = "red",
-                                       na.rm = TRUE)
+  ortho_merged[[1]],
+  size = 15,
+  color = "red",
+  na.rm = TRUE
+)
 
 # Combine the overlay with our orthoimage
-ortho_with_points <- combine_overlays(ortho_merged[[1]],
-                                      mt_elbert_overlay)
+ortho_with_points <- combine_overlays(
+  ortho_merged[[1]],
+  mt_elbert_overlay
+)
 }
 
 }

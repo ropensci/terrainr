@@ -40,9 +40,9 @@ raster_to_raw_tiles <- function(input_file,
 
   x_tiles <- ceiling(input_raster@nrows / side_length)
   y_tiles <- ceiling(input_raster@ncols / side_length)
-  if (!requireNamespace("progressr", quietly = TRUE)) {
+  if (!requireNamespace("progressr", quietly = TRUE)) { # nocov start
     p <- progressr::progressor(steps = x_tiles * y_tiles * 3)
-  }
+  } # nocov end
 
   temptiffs <- NULL
   while (length(temptiffs) != x_tiles * y_tiles) {
@@ -64,13 +64,13 @@ raster_to_raw_tiles <- function(input_file,
 
   for (i in seq_along(x_tiles)) {
     for (j in seq_along(y_tiles)) {
-      if (!requireNamespace("progressr", quietly = TRUE)) {
+      if (!requireNamespace("progressr", quietly = TRUE)) { # nocov start
         p(message = sprintf(
           "Cropping tile (%d,%d)",
           x_tiles[[i]],
           y_tiles[[j]]
         ))
-      }
+      } # nocov end
       # changing this to gdalUtilities causes my computer to crash
       gdalUtils::gdal_translate(input_file, temptiffs[[counter]],
         srcwin = paste0(
@@ -112,9 +112,9 @@ raster_to_raw_tiles <- function(input_file,
 
   mapply(
     function(x, y) {
-      if (!requireNamespace("progressr", quietly = TRUE)) {
+      if (!requireNamespace("progressr", quietly = TRUE)) { # nocov start
         p(message = sprintf("Converting tile %s to PNG", x))
-      }
+      } # nocov end
       # changing this to gdalUtils causes errors
       gdalUtilities::gdal_translate(
         src_dataset = x,
@@ -135,13 +135,13 @@ raster_to_raw_tiles <- function(input_file,
     function(x, y) {
       processing_image <- magick::image_read(x)
 
-      if (!requireNamespace("progressr", quietly = TRUE)) {
+      if (!requireNamespace("progressr", quietly = TRUE)) { # nocov start
         if (raw) {
           p(message = sprintf("Converting tile %s to RAW", x))
         } else {
           p(message = sprintf("Flipping tile %s for Unity", x))
         }
-      }
+      } # nocov end
 
       if (raw) {
         processing_image <- magick::image_flop(processing_image)
