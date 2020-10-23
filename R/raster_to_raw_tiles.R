@@ -129,6 +129,8 @@ raster_to_raw_tiles <- function(input_file,
     temppngs
   )
 
+  unlink(temptiffs)
+
   mapply(
     function(x, y) {
       processing_image <- magick::image_read(x)
@@ -159,5 +161,7 @@ raster_to_raw_tiles <- function(input_file,
     names(temppngs)
   )
 
-  return(names(temppngs))
+  if (raw) unlink(temppngs)
+
+  return(invisible(names(temppngs)))
 }
