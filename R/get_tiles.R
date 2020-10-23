@@ -261,18 +261,7 @@ get_tiles <- function(bbox,
 #' @return A list containing the split tiles in position 1, the number of tiles
 #' in the x direction in position 2, and the number of tiles in the y direction
 #' in position 3.
-#'
-#' @examples
-#' simulated_data <- data.frame(
-#'   id = seq(1, 100, 1),
-#'   lat = runif(100, 44.04905, 44.17609),
-#'   lng = runif(100, -74.01188, -73.83493)
-#' )
-#'
-#' bbox <- get_coord_bbox(lat = simulated_data$lat, lng = simulated_data$lng)
-#' bbox <- add_bbox_buffer(bbox, 100)
-#' split_bbox(bbox, 4096)
-#'
+#'d
 #' @md
 split_bbox <- function(bbox, side_length) {
   tl <- terrainr::terrainr_coordinate_pair(c(bbox@tr@lat, bbox@bl@lng))
