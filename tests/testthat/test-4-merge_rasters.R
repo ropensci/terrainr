@@ -72,36 +72,3 @@ test_that("merge_raster works with orthos", {
   expect_equal(stored_raster@crs, test_raster@crs)
   expect_equal(stored_raster@extent, test_raster@extent)
 })
-
-test_that("merging rasters with different nbands works", {
-  skip_on_cran()
-
-  tile1 <- tempfile(fileext = ".tif")
-  tile2 <- tempfile(fileext = ".tif")
-  merged <- tempfile(fileext = ".tif")
-
-  download.file(
-    "https://github.com/mikemahoney218/common-files/releases/download/rasters-different-bands/tile1.tif", # nolint
-    tile1
-    )
-  download.file(
-    "https://github.com/mikemahoney218/common-files/releases/download/rasters-different-bands/tile2.tif", # nolint
-    tile2
-  )
-  download.file(
-    "https://github.com/mikemahoney218/common-files/releases/download/rasters-different-bands/merged.tif", # nolint
-    merged
-  )
-
-  out_merge <- merge_rasters(c(tile1, tile2))
-  out_merge <- raster::raster(out_merge[[1]])
-  out_merge@file@name <- ""
-  out_merge@data@names <- ""
-
-  ref_rst <- raster::raster(merged)
-  ref_rst@file@name <- ""
-  ref_rst@data@names <- ""
-
-  expect_equal(out_merge, ref_rst)
-
-})
