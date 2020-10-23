@@ -263,8 +263,8 @@ get_tiles <- function(bbox,
 #' @return A list containing the split tiles in position 1, the number of tiles
 #' in the x direction in position 2, and the number of tiles in the y direction
 #' in position 3.
-#'d
-#' @md
+#'
+#' @noRd
 split_bbox <- function(bbox, side_length) {
   tl <- terrainr::terrainr_coordinate_pair(c(bbox@tr@lat, bbox@bl@lng))
   img_width <- round(terrainr::calc_haversine_distance(tl, bbox@tr),
