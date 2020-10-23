@@ -140,7 +140,7 @@ get_tiles <- function(bbox,
     stop("3DEPElevation tiles have a maximum side length of 8000.")
   }
 
-  bbox_splits <- terrainr::split_bbox(bbox, side_length)
+  bbox_splits <- split_bbox(bbox, side_length)
   tile_boxes <- bbox_splits[[1]]
   x_tiles <- bbox_splits[[2]]
   y_tiles <- bbox_splits[[3]]
