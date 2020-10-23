@@ -27,3 +27,6 @@ Figure_2.png
 methods-in-ecology-and-evolution.csl
 ^paper\.cls$
 ^\.lintr$
+^tile1.tif$
+^tile2.tif$
+^merged.tif$

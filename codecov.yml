@@ -1,4 +1,7 @@
-comment: false
+comment:
+  layout: "reach, diff, flags, files"
+  behavior: default
+  require_changes: false  # if true: only post the comment if coverage changes
 
 coverage:
   status:
@@ -6,9 +9,7 @@ coverage:
       default:
         target: auto
         threshold: 1%
-        informational: true
     patch:
       default:
         target: auto
         threshold: 1%
-        informational: true
