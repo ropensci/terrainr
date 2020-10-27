@@ -16,6 +16,8 @@
     * `merge_rasters` no longer fails when handed a mix of 3- and 4-band raster
       files. The current implementation will cast all 4 band rasters to 3 band
       images and then return a 3 band raster image.
+    * The `output_image` argument to `merge_rasters` now has a default value of 
+      `tempfile(fileext = ".tif")` to be a little more friendly to users.
 * Internal changes:
     * All terrainr-provided functions now explicitly use the terrainr:: 
       namespace.

@@ -43,7 +43,7 @@
 merge_rasters <- function(input_rasters,
                           output_raster = tempfile(fileext = ".tif"),
                           input_images = NULL,
-                          output_image = NULL,
+                          output_image = tempfile(fileext = ".tif"),
                           overwrite = TRUE) {
   output_list <- vector("list")
   output_list$output_raster <- output_raster
