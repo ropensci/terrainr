@@ -37,4 +37,32 @@ test_that("split_bbox works consistently", {
                side_length,
                tolerance = side_length * 0.005)
 
+  secondary_splits <- split_bbox(bbox, side_length, resolution = 2)
+  tertiary_splits <- split_bbox(bbox, side_length, resolution = 3)
+
+  secondary_bbox_tiles <- secondary_splits[[1]]
+  x_dir <- length(secondary_bbox_tiles)
+  y_dir <- length(secondary_bbox_tiles[[x_dir]])
+  secondary_img_width <- (4096 * (x_dir - 1)) +
+    secondary_bbox_tiles[[x_dir]][[y_dir]]$img_width
+
+  x_dir <- length(bbox_tiles)
+  y_dir <- length(bbox_tiles[[x_dir]])
+  img_width <- (4096 * (x_dir - 1)) +
+    bbox_tiles[[x_dir]][[y_dir]]$img_width
+
+  expect_equal(secondary_img_width * 2,
+               img_width,
+               tolerance = 1)
+
+  tertiary_bbox_tiles <- tertiary_splits[[1]]
+  x_dir <- length(tertiary_bbox_tiles)
+  y_dir <- length(tertiary_bbox_tiles[[x_dir]])
+  tertiary_img_width <- (4096 * (x_dir - 1)) +
+    tertiary_bbox_tiles[[x_dir]][[y_dir]]$img_width
+
+  expect_equal(tertiary_img_width * 2,
+               img_width,
+               tolerance = 1)
+
 })

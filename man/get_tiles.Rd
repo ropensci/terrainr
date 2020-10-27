@@ -8,6 +8,7 @@ get_tiles(
   bbox,
   output_prefix = tempfile(),
   side_length = NULL,
+  resolution = 1,
   services = "elevation",
   verbose = FALSE,
   georeference = TRUE,
@@ -24,6 +25,10 @@ of the area to retrieve a heightmap for. If not a
 \item{side_length}{The length, in meters, of each side of tiles to download.
 If \code{NULL}, defaults to the maximum side length permitted by the least
 permissive service requested.}
+
+\item{resolution}{How many meters are represented by each pixel? The default
+value of 1 means that 1 pixel = 1 meter, while a value of 2 means that
+1 pixel = 2 meters, and so on.}
 
 \item{services}{A character vector of services to download data from. Current
 options include "3DEPElevation", "USGSNAIPPlus", and "nhd". Users can also

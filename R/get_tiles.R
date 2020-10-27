@@ -10,6 +10,9 @@
 #' @param side_length The length, in meters, of each side of tiles to download.
 #' If \code{NULL}, defaults to the maximum side length permitted by the least
 #' permissive service requested.
+#' @param resolution How many meters are represented by each pixel? The default
+#' value of 1 means that 1 pixel = 1 meter, while a value of 2 means that
+#' 1 pixel = 2 meters, and so on.
 #' @param services A character vector of services to download data from. Current
 #' options include "3DEPElevation", "USGSNAIPPlus", and "nhd". Users can also
 #' use short codes to download a specific type of data without specifying the
@@ -82,6 +85,7 @@
 get_tiles <- function(bbox,
                       output_prefix = tempfile(),
                       side_length = NULL,
+                      resolution = 1,
                       services = "elevation",
                       verbose = FALSE,
                       georeference = TRUE,
@@ -140,7 +144,7 @@ get_tiles <- function(bbox,
     stop("3DEPElevation tiles have a maximum side length of 8000.")
   }
 
-  bbox_splits <- split_bbox(bbox, side_length)
+  bbox_splits <- split_bbox(bbox, side_length, resolution)
   tile_boxes <- bbox_splits[[1]]
   x_tiles <- bbox_splits[[2]]
   y_tiles <- bbox_splits[[3]]
@@ -257,6 +261,9 @@ get_tiles <- function(bbox,
 #'
 #' @param bbox The bounding box to split into tiles.
 #' @param side_length The length of each side of the output tiles.
+#' @param resolution How many meters are represented by each pixel? The default
+#' value of 1 means that 1 pixel = 1 meter, while a value of 2 means that
+#' 1 pixel = 2 meters, and so on.
 #'
 #' @keywords internal
 #'
@@ -265,12 +272,13 @@ get_tiles <- function(bbox,
 #' in position 3.
 #'
 #' @noRd
-split_bbox <- function(bbox, side_length) {
+split_bbox <- function(bbox, side_length, resolution = 1) {
   tl <- terrainr::terrainr_coordinate_pair(c(bbox@tr@lat, bbox@bl@lng))
-  img_width <- round(terrainr::calc_haversine_distance(tl, bbox@tr),
+
+  img_width <- round(terrainr::calc_haversine_distance(tl, bbox@tr) / resolution,
                      digits = 0
   )
-  img_height <- round(terrainr::calc_haversine_distance(tl, bbox@bl),
+  img_height <- round(terrainr::calc_haversine_distance(tl, bbox@bl) / resolution,
                       digits = 0
   )
 
@@ -286,19 +294,19 @@ split_bbox <- function(bbox, side_length) {
     if (i == x_tiles) {
       left_lng <- terrainr::point_from_distance(
         bbox@bl,
-        side_length * (i - 1),
+        side_length * (i - 1) * resolution,
         90
       )@lng
       right_lng <- bbox@tr@lng
     } else {
       left_lng <- terrainr::point_from_distance(
         bbox@bl,
-        side_length * (i - 1),
+        side_length * (i - 1) * resolution,
         90
       )@lng
       right_lng <- terrainr::point_from_distance(
         bbox@bl,
-        side_length * i,
+        side_length * i * resolution,
         90
       )@lng
     }
@@ -306,19 +314,19 @@ split_bbox <- function(bbox, side_length) {
       if (j == y_tiles) {
         top_lat <- terrainr::point_from_distance(
           bbox@tr,
-          side_length * (j - 1),
+          side_length * (j - 1) * resolution,
           180
         )@lat
         bot_lat <- bbox@bl@lat
       } else {
         top_lat <- terrainr::point_from_distance(
           bbox@tr,
-          side_length * (j - 1),
+          side_length * (j - 1) * resolution,
           180
         )@lat
         bot_lat <- terrainr::point_from_distance(
           bbox@tr,
-          side_length * j,
+          side_length * j * resolution,
           180
         )@lat
       }

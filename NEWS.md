@@ -2,6 +2,10 @@
 * Breaking changes:
     * `merge_rasters` loses the argument `merge_raster`. For the "georeference 
       a single image" use case, see the new `georeference_overlay` function.
+    * `get_tiles` gains an argument `resolution` (details below) between 
+      `side_length` and `services`. No functionality should be changed, but code 
+      with unnamed arguments to `services`, `verbose`, or `georeference` may be 
+      impacted.
 * New features:
     * A new family of functions for dealing with overlay creation:
         * `vector_to_overlay` lets users quickly produce image overlays from 
@@ -10,6 +14,9 @@
           single-file georeferenced overlay files.
         * `combine_overlays` lets users, well, combine overlays into a single 
           image
+    * `get_tiles` gains an argument, `resolution`, specifying the number of 
+      meters each pixel should represent (so higher images result in smaller 
+      downloads). 
 * Improvements and bug fixes:
     * `get_tiles`, `raster_to_raw_tiles`, and `merge_rasters` are now much more 
       conscientious about deleting tempfiles when they're done with them.
