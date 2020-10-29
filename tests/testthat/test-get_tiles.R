@@ -22,20 +22,24 @@ test_that("split_bbox works consistently", {
 
   tl <- c(first_tile@tr@lat, first_tile@bl@lng)
   expect_equal(terrainr::calc_haversine_distance(tl, first_tile@bl),
-               side_length,
-               tolerance = side_length * 0.005)
+    side_length,
+    tolerance = side_length * 0.005
+  )
   expect_equal(terrainr::calc_haversine_distance(tl, first_tile@tr),
-               side_length,
-               tolerance = side_length * 0.005)
+    side_length,
+    tolerance = side_length * 0.005
+  )
 
   middle_tile <- bbox_tiles[[2]][[3]][[1]]
   tl <- c(middle_tile@tr@lat, middle_tile@bl@lng)
   expect_equal(terrainr::calc_haversine_distance(tl, middle_tile@bl),
-               side_length,
-               tolerance = side_length * 0.005)
+    side_length,
+    tolerance = side_length * 0.005
+  )
   expect_equal(terrainr::calc_haversine_distance(tl, middle_tile@tr),
-               side_length,
-               tolerance = side_length * 0.005)
+    side_length,
+    tolerance = side_length * 0.005
+  )
 
   secondary_splits <- split_bbox(bbox, side_length, resolution = 2)
   tertiary_splits <- split_bbox(bbox, side_length, resolution = 3)
@@ -52,8 +56,9 @@ test_that("split_bbox works consistently", {
     bbox_tiles[[x_dir]][[y_dir]]$img_width
 
   expect_equal(secondary_img_width * 2,
-               img_width,
-               tolerance = 1)
+    img_width,
+    tolerance = 1
+  )
 
   tertiary_bbox_tiles <- tertiary_splits[[1]]
   x_dir <- length(tertiary_bbox_tiles)
@@ -62,7 +67,7 @@ test_that("split_bbox works consistently", {
     tertiary_bbox_tiles[[x_dir]][[y_dir]]$img_width
 
   expect_equal(tertiary_img_width * 2,
-               img_width,
-               tolerance = 1)
-
+    img_width,
+    tolerance = 1
+  )
 })

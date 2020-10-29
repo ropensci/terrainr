@@ -275,11 +275,13 @@ get_tiles <- function(bbox,
 split_bbox <- function(bbox, side_length, resolution = 1) {
   tl <- terrainr::terrainr_coordinate_pair(c(bbox@tr@lat, bbox@bl@lng))
 
-  img_width <- round(terrainr::calc_haversine_distance(tl, bbox@tr) / resolution,
-                     digits = 0
+  img_width <- round(
+    terrainr::calc_haversine_distance(tl, bbox@tr) / resolution,
+    digits = 0
   )
-  img_height <- round(terrainr::calc_haversine_distance(tl, bbox@bl) / resolution,
-                      digits = 0
+  img_height <- round(
+    terrainr::calc_haversine_distance(tl, bbox@bl) / resolution,
+    digits = 0
   )
 
   x_tiles <- ceiling(img_width / side_length)
@@ -337,19 +339,20 @@ split_bbox <- function(bbox, side_length, resolution = 1) {
           tr = terrainr::terrainr_coordinate_pair(c(top_lat, right_lng))
         ),
         img_width = ifelse(((img_width - (i * side_length)) < 0),
-                           img_width - ((i - 1) * side_length),
-                           side_length
+          img_width - ((i - 1) * side_length),
+          side_length
         ),
         img_height = ifelse((img_height - (j * side_length) < 0),
-                            img_height - ((j - 1) * side_length),
-                            side_length
+          img_height - ((j - 1) * side_length),
+          side_length
         )
       )
     }
   }
 
-  return(list(tile_boxes,
-              x_tiles,
-              y_tiles))
-
+  return(list(
+    tile_boxes,
+    x_tiles,
+    y_tiles
+  ))
 }
