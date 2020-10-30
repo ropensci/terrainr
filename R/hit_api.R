@@ -166,24 +166,11 @@ hit_national_map_api <- function(bbox,
   body <- vector("list")
   counter <- 0
 
-  if (counter < 10 && is.null(body$href)) {
-    backoff <- floor(c(stats::runif(n = 1, min = 0, max = 2^counter - 1), 30))
-    Sys.sleep(backoff)
-    body <- get_href(url, query = c(bbox_arg, query_arg))
-  }
-
-
+  body <- get_href(url, query = c(bbox_arg, query_arg))
 
   if (service %in% method$href) {
-    img_res <- tryCatch({
-      httr::RETRY("GET",
-                  url = body$href,
-                  times = 20,
-                  quiet = !verbose,
-                  pause_cap = 60
-      )
-    },
-    error = function(e) {
+
+    href_method <- function(counter = 0) {
       tryCatch({
         body <- get_href(url, query = c(bbox_arg, query_arg))
         httr::RETRY("GET",
@@ -193,27 +180,17 @@ hit_national_map_api <- function(bbox,
                     pause_cap = 60
         )
       },
-      error = function(e) {
-        tryCatch({
-          body <- get_href(url, query = c(bbox_arg, query_arg))
-          httr::RETRY("GET",
-                      url = body$href,
-                      times = 20,
-                      quiet = !verbose,
-                      pause_cap = 60
-          )
-        },
         error = function(e) {
-          body <- get_href(url, query = c(bbox_arg, query_arg))
-          httr::RETRY("GET",
-                      url = body$href,
-                      times = 20,
-                      quiet = !verbose,
-                      pause_cap = 60
-          )
-        })
-      })
-    })
+          if (counter < 10) {
+            href_method(counter = counter + 1)
+          } else {
+            stop("Error: Must specify at least one of url or handle")
+          }
+        }
+      )
+    }
+
+    img_res <- href_method()
 
     if (httr::status_code(img_res) != 200) {
       # nocov start
