@@ -191,17 +191,31 @@ get_tiles <- function(bbox,
           cur_path <- final_path
         }
 
-        img_bin <- terrainr::hit_national_map_api(current_box[["bbox"]],
-          current_box[["img_width"]],
-          current_box[["img_height"]],
-          services[[k]],
-          verbose = verbose,
-          ...
-        )
-
         if (services[[k]] %in% method$href) {
-          writeBin(img_bin$imageData, cur_path)
+          counter <- 0
+
+          while ((!file.exists(cur_path) ||
+            file.size(cur_path) == 0) &&
+            counter < 5) {
+            img_bin <- terrainr::hit_national_map_api(
+              current_box[["bbox"]],
+              current_box[["img_width"]],
+              current_box[["img_height"]],
+              services[[k]],
+              verbose = verbose,
+              ...
+            )
+            writeBin(img_bin$imageData, cur_path)
+          }
         } else if (services[[k]] %in% method$img) {
+          img_bin <- terrainr::hit_national_map_api(current_box[["bbox"]],
+            current_box[["img_width"]],
+            current_box[["img_height"]],
+            services[[k]],
+            verbose = verbose,
+            ...
+          )
+
           outconn <- file(cur_path, "wb")
           base64enc::base64decode(
             what = img_bin$imageData,
@@ -227,7 +241,7 @@ get_tiles <- function(bbox,
             final_path,
             overwrite = TRUE
           )
-#          if (rm_path) unlink(cur_path)
+          if (rm_path) unlink(cur_path)
         }
       }
     }

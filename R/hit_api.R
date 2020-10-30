@@ -149,8 +149,8 @@ hit_national_map_api <- function(bbox,
   # like 3% of the time
   # But it's non-deterministic, so we can just retry
   get_href <- function(url, query, counter = 0) {
-    if (counter < 15) {
-      backoff <- stats::runif(n = 1, min = 0, max = 2^counter - 1)
+    if (counter < 7) {
+      backoff <- floor(c(stats::runif(n = 1, min = 0, max = 2^counter - 1), 30))
       Sys.sleep(backoff)
       res <- httr::GET(url, query = query)
       tryCatch(httr::content(res, type = "application/json"),
@@ -163,13 +163,21 @@ hit_national_map_api <- function(bbox,
     }
   }
 
-  body <- get_href(url, query = c(bbox_arg, query_arg))
+  body <- vector("list")
+  counter <- 0
+
+  if (counter < 10 && is.null(body$href)) {
+    backoff <- floor(c(stats::runif(n = 1, min = 0, max = 2^counter - 1), 30))
+    Sys.sleep(backoff)
+    body <- get_href(url, query = c(bbox_arg, query_arg))
+  }
 
   if (service %in% method$href) {
     img_res <- httr::RETRY("GET",
       url = body$href,
-      times = 25,
-      quiet = !verbose
+      times = 15,
+      quiet = !verbose,
+      pause_cap = 30
     )
 
     if (httr::status_code(img_res) != 200) {
