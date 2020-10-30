@@ -172,6 +172,8 @@ hit_national_map_api <- function(bbox,
     body <- get_href(url, query = c(bbox_arg, query_arg))
   }
 
+
+
   if (service %in% method$href) {
     img_res <- tryCatch({
       httr::RETRY("GET",
@@ -182,13 +184,35 @@ hit_national_map_api <- function(bbox,
       )
     },
     error = function(e) {
-      body <- get_href(url, query = c(bbox_arg, query_arg))
-      httr::RETRY("GET",
-                  url = body$href,
-                  times = 20,
-                  quiet = !verbose,
-                  pause_cap = 60
-      )
+      tryCatch({
+        body <- get_href(url, query = c(bbox_arg, query_arg))
+        httr::RETRY("GET",
+                    url = body$href,
+                    times = 20,
+                    quiet = !verbose,
+                    pause_cap = 60
+        )
+      },
+      error = function(e) {
+        tryCatch({
+          body <- get_href(url, query = c(bbox_arg, query_arg))
+          httr::RETRY("GET",
+                      url = body$href,
+                      times = 20,
+                      quiet = !verbose,
+                      pause_cap = 60
+          )
+        },
+        error = function(e) {
+          body <- get_href(url, query = c(bbox_arg, query_arg))
+          httr::RETRY("GET",
+                      url = body$href,
+                      times = 20,
+                      quiet = !verbose,
+                      pause_cap = 60
+          )
+        })
+      })
     })
 
     if (httr::status_code(img_res) != 200) {
