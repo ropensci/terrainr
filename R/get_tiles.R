@@ -227,7 +227,7 @@ get_tiles <- function(bbox,
             final_path,
             overwrite = TRUE
           )
-          if (rm_path) unlink(cur_path)
+#          if (rm_path) unlink(cur_path)
         }
       }
     }
