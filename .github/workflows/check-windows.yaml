@@ -8,7 +8,7 @@ on:
       - main
       - master
 
-name: R-CMD-check
+name: R-CMD-check-Windows
 
 jobs:
   R-CMD-check-Windows:

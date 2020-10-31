@@ -8,7 +8,7 @@ on:
       - main
       - master
 
-name: R-CMD-check
+name: R-CMD-check-Ubuntu-devel
 
 jobs:
   R-CMD-check-Ubuntu-devel:
