@@ -4,7 +4,11 @@
 \alias{combine_overlays}
 \title{Combine multiple image overlays into a single file}
 \usage{
-combine_overlays(..., output_file = NULL, transparency = 0)
+combine_overlays(
+  ...,
+  output_file = tempfile(fileext = ".png"),
+  transparency = 0
+)
 }
 \arguments{
 \item{...}{File paths for images to be combined. Note that combining TIFF
@@ -21,7 +25,8 @@ becoming 10\% more transparent.) A value of 0 is equivalent to no
 additional transparency.}
 }
 \value{
-\code{output_file}, invisibly.
+If \code{output_file} is not null, \code{output_file}, invisibly. If
+\code{output_file} is null, a \code{magick} image object.
 }
 \description{
 This function combines any number of images into a single file, which may

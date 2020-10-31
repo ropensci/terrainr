@@ -1,4 +1,4 @@
-#' Get bounding box for set of coordinate points.
+#' Get bounding box for spatial vector data.
 #'
 #' This function returns a \code{\link{terrainr_bounding_box}} object
 #' representing the bottom left and upper right corners of the smallest
@@ -7,14 +7,14 @@
 #' 1e-10 in order to return a rectangle with a real "bottom left" and
 #' "upper right".
 #'
-#' @param data Optionally, a dataframe containing vectors of latitude and
-#' longitude.
-#' @param lat If \code{data} is not \code{NULL}, the name of the column
-#' containing latitude values. If \code{data} is \code{NULL}, a vector of
-#' latitude values.
-#' @param lng If \code{data} is not \code{NULL}, the name of the column
-#' containing longitude values. If \code{data} is \code{NULL}, a vector of
-#' longitude values.
+#' @param data An object of class `sf` (see [sf::st_sf]), a dataframe containing
+#' latitude and longitude values, or \code{NULL}.
+#' @param lat If \code{data} is not \code{NULL} or an `sf` object, the name of
+#' the column containing latitude values. If \code{data} is \code{NULL}, a
+#' vector of latitude values.
+#' @param lng If \code{data} is not \code{NULL} or an `sf` object, the name of
+#' the column containing longitude values. If \code{data} is \code{NULL}, a
+#' vector of longitude values.
 #' @param na.rm Logical: Silently remove NA values? If \code{NULL}, the default,
 #' will warn if there are NAs. If \code{FALSE}, will raise an error on NA.
 #'
@@ -27,13 +27,32 @@
 #'   lat = c(44.05771, 44.18475),
 #'   lng = c(-73.99212, -73.81515)
 #' )
-#' get_coord_bbox(df, "lat", "lng")
-#' get_coord_bbox(lat = df$lat, lng = df$lng)
+#' get_bbox(df, "lat", "lng")
+#' get_bbox(lat = df$lat, lng = df$lng)
+#' @name get_bbox
+#' @export
+#' @md
+# nolint start
+get_bbox <- function(data = NULL, lat = NULL, lng = NULL, na.rm = NULL) {
+# lintr complains about na.rm but I want to mimic base R
+# nolint end
+  UseMethod("get_bbox")
+}
+
+#' @rdname get_bbox
+#' @export
+# nolint start
+get_bbox.sf <- function(data, lat, lng, na.rm) {
+# nolint end
+  coords <- as.data.frame(sf::st_coordinates(data))
+  terrainr::get_coord_bbox(lat = coords$Y, lng = coords$X, na.rm = na.rm)
+}
+
+#' @rdname get_bbox
 #' @export
 # nolint start
 get_coord_bbox <- function(data = NULL, lat, lng, na.rm = NULL) {
-  # lintr complains about na.rm but I want to mimic base R
-  # nolint end
+# nolint end
   if (!is.null(data)) {
     lat_vals <- data[[lat]]
     lng_vals <- data[[lng]]
@@ -72,3 +91,7 @@ get_coord_bbox <- function(data = NULL, lat, lng, na.rm = NULL) {
     )
   )
 }
+
+#' @rdname get_bbox
+#' @export
+get_bbox.default <- get_coord_bbox

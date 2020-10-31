@@ -151,15 +151,22 @@ hit_national_map_api <- function(bbox,
   get_href <- function(counter = 0) {
     res <- httr::GET(url, query = c(bbox_arg, query_arg))
     body <- tryCatch(httr::content(res, type = "application/json"),
-                     error = function(e) {
-                       res <- httr::GET(url, query = c(bbox_arg, query_arg))
-                       httr::content(res, type = "application/json")
-                     }
+      error = function(e) {
+        tryCatch({
+            res <- httr::GET(url, query = c(bbox_arg, query_arg))
+            httr::content(res, type = "application/json")
+          },
+          error = function(e) {
+            res <- httr::GET(url, query = c(bbox_arg, query_arg))
+            httr::content(res, type = "application/json")
+          }
+        )
+      }
     )
 
     if (!is.null(body$error) &&
-        counter < 15 &&
-        (is.null(body$href) && service %in% method$href)) {
+      counter < 15 &&
+      (is.null(body$href) && service %in% method$href)) {
       Sys.sleep(1)
       get_href(counter = counter + 1)
     } else {
@@ -170,12 +177,13 @@ hit_national_map_api <- function(bbox,
   body <- get_href()
 
   if (service %in% method$href) {
-
     img_res <- httr::GET(url = body$href)
     counter <- 0
     while (counter < 15 && httr::status_code(img_res) != 200) {
-      backoff <- stats::runif(n = 1, min = 0, max = floor(c(2^counter - 1,
-                                                            30)))
+      backoff <- stats::runif(n = 1, min = 0, max = floor(c(
+        2^counter - 1,
+        30
+      )))
       Sys.sleep(backoff)
       img_res <- httr::GET(body$href)
     }

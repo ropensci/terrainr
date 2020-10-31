@@ -62,11 +62,14 @@
 #' @family data manipulation functions
 #' @family overlay creation functions
 #'
-#' @return `output_file`, invisibly.
+#' @return If `output_file` is not null, `output_file`, invisibly. If
+#' `output_file` is null, a `magick` image object.
 #'
 #' @export
 #' @md
-combine_overlays <- function(..., output_file = NULL, transparency = 0) {
+combine_overlays <- function(...,
+                             output_file = tempfile(fileext = ".png"),
+                             transparency = 0) {
   dots <- list(...)
 
   stopifnot(transparency >= 0)
@@ -112,8 +115,9 @@ combine_overlays <- function(..., output_file = NULL, transparency = 0) {
   }
 
   img_out <- magick::image_mosaic(image_storage)
-  if (!is.null(output_file)) {
-    magick::image_write(img_out, output_file)
+  if (is.null(output_file)) {
+    return(img_out)
   }
+  magick::image_write(img_out, output_file)
   return(invisible(output_file))
 }
