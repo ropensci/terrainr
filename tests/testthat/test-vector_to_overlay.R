@@ -1,3 +1,18 @@
+test_that("vector_to_overlay fails as expected", {
+  expect_error(
+    vector_to_overlay(
+      system.file("shape/nc.shp", package = "sf"),
+      100
+    ),
+    "Raster"
+  )
+
+  expect_error(
+    vector_to_overlay(100),
+    "sf"
+  )
+})
+
 test_that("vector_to_overlay generates the same tiles", {
   skip_on_cran()
   # need to generate these images on other OS
@@ -55,17 +70,3 @@ test_that("vector_to_overlay generates the same tiles", {
   )
 })
 
-test_that("vector_to_overlay fails as expected", {
-  expect_error(
-    vector_to_overlay(
-      system.file("shape/nc.shp", package = "sf"),
-      100
-    ),
-    "Raster"
-  )
-
-  expect_error(
-    vector_to_overlay(100),
-    "sf"
-  )
-})

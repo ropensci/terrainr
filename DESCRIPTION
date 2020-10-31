@@ -28,7 +28,8 @@ Imports:
     png,
     utils,
     gdalUtilities,
-    sf
+    sf,
+    rlang
 RoxygenNote: 7.1.1
 Suggests: 
     testthat,

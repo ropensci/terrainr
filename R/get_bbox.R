@@ -54,6 +54,8 @@ get_bbox.sf <- function(data, lat, lng, na.rm) {
 get_coord_bbox <- function(data = NULL, lat, lng, na.rm = NULL) {
 # nolint end
   if (!is.null(data)) {
+    lat <- tryCatch(lat, error = function(e) rlang::ensym(lat))
+    lng <- tryCatch(lng, error = function(e) rlang::ensym(lng))
     lat_vals <- data[[lat]]
     lng_vals <- data[[lng]]
   } else {

@@ -17,6 +17,11 @@
     * `get_tiles` gains an argument, `resolution`, specifying the number of 
       meters each pixel should represent (so higher images result in smaller 
       downloads). 
+    * `get_bbox` provides an S3 generic to create `terrainr_bounding_box` 
+      objects. In this version, that means users can use `get_bbox` to get 
+      bounding boxes from `sf` objects, and it means adding methods will be 
+      easier going forward. Using `get_bbox` with non-sf objects is equivalent
+      to `get_coord_bbox`
 * Improvements and bug fixes:
     * `get_tiles`, `raster_to_raw_tiles`, and `merge_rasters` are now much more 
       conscientious about deleting tempfiles when they're done with them.
@@ -25,6 +30,9 @@
       images and then return a 3 band raster image.
     * The `output_image` argument to `merge_rasters` now has a default value of 
       `tempfile(fileext = ".tif")` to be a little more friendly to users.
+    * Arguments `lat` and `lng` to `get_bbox` (and `get_coord_bbox`) no longer 
+      need to be quoted -- either the tidyverse-feeling NSE approach or the 
+      more standard quoted argument approach will work.
 * Internal changes:
     * All terrainr-provided functions now explicitly use the terrainr:: 
       namespace.
@@ -32,6 +40,8 @@
     * `sf` has been added as an explicit import due to `vector_to_overlay`. `sf`
       is required by `gdalUtilities`, also imported by this package, so this 
       change should have no impact on users.
+    * `rlang` is added as a dependency to allow `lat` and `lng` be unquoted in 
+      `get_bbox`.
     * `ggplot2` has been added to `Suggests` due to `vector_to_overlay`. 
     * `jpeg` and `tiff` have been added to `Suggests` due to 
       `georeference_overlay`. I'd expect more image libraries to join this list

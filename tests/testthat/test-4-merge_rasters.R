@@ -38,7 +38,10 @@ test_that("merge_raster files are identical no matter the filename", {
   )
   # assign the output tile filenames...
   tmptif <- vector("list")
-  tmptif[[1]] <- get_tiles(first_tile)[[1]]
+  temp_tiles <- get_tiles(first_tile,
+                          services = c("elevation", "ortho"),
+                          georeference = FALSE)
+  tmptif[[1]] <- temp_tiles[[1]]
   tmptif[[2]] <- get_tiles(second_tile)[[1]]
 
   # create two outputs, one that needs fix_tif and one that doesn't:
@@ -52,23 +55,18 @@ test_that("merge_raster files are identical no matter the filename", {
     raster::raster(tmptif[[3]])@extent,
     raster::raster(tmptif[[4]])@extent
   )
-})
 
-test_that("merge_raster works with orthos", {
-  skip_on_cran()
-  tmpf <- get_tiles(add_bbox_buffer(get_coord_bbox(
-    lat = 44.05003,
-    lng = -74.01164
-  ), 10),
-  services = c("elevation", "ortho"),
-  georeference = FALSE
-  )
   merge_orth <- tempfile(fileext = ".tiff")
-  merge_rasters(tmpf[[1]], tempfile(fileext = ".tif"), tmpf[[2]], merge_orth)
+  merge_rasters(temp_tiles[[1]],
+                tempfile(fileext = ".tif"),
+                temp_tiles[[2]],
+                merge_orth)
 
   stored_raster <- raster::raster("testdata/merge_rasters_test.tif")
   test_raster <- raster::raster(merge_orth)
 
   expect_equal(stored_raster@crs, test_raster@crs)
   expect_equal(stored_raster@extent, test_raster@extent)
+
 })
+
