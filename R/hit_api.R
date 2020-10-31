@@ -148,21 +148,36 @@ hit_national_map_api <- function(bbox,
   # I haven't been able to capture this happening, it just crashes something
   # like 3% of the time
   # But it's non-deterministic, so we can just retry
-  res <- httr::GET(url, query = c(bbox_arg, query_arg))
-  body <- tryCatch(httr::content(res, type = "application/json"),
-                   error = function(e) {
-                     res <- httr::GET(url, query = c(bbox_arg, query_arg))
-                     httr::content(res, type = "application/json")
+  get_href <- function(counter = 0) {
+    res <- httr::GET(url, query = c(bbox_arg, query_arg))
+    body <- tryCatch(httr::content(res, type = "application/json"),
+                     error = function(e) {
+                       res <- httr::GET(url, query = c(bbox_arg, query_arg))
+                       httr::content(res, type = "application/json")
                      }
-                   )
+    )
+
+    if (!is.null(body$error) &&
+        counter < 10 &&
+        is.null(body$href)) {
+      get_href(counter = counter + 1)
+    } else {
+      return(body)
+    }
+  }
+
+  body <- get_href()
 
   if (service %in% method$href) {
-    img_res <- httr::RETRY("GET",
-                           url = body$href,
-                           times = 20,
-                           quiet = !verbose,
-                           pause_cap = 30
-    )
+
+    img_res <- httr::GET(url = body$href)
+    counter <- 0
+    while (counter < 15 && httr::status_code(img_res) != 200) {
+      backoff <- stats::runif(n = 1, min = 0, max = floor(c(2^counter - 1,
+                                                            30)))
+      Sys.sleep(backoff)
+      img_res <- httr::GET(body$href)
+    }
 
     if (httr::status_code(img_res) != 200) {
       # nocov start
