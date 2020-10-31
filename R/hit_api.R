@@ -158,8 +158,9 @@ hit_national_map_api <- function(bbox,
     )
 
     if (!is.null(body$error) &&
-        counter < 10 &&
+        counter < 15 &&
         is.null(body$href)) {
+      Sys.sleep(1)
       get_href(counter = counter + 1)
     } else {
       return(body)
