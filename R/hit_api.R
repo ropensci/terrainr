@@ -148,49 +148,21 @@ hit_national_map_api <- function(bbox,
   # I haven't been able to capture this happening, it just crashes something
   # like 3% of the time
   # But it's non-deterministic, so we can just retry
-  get_href <- function(url, query, counter = 0) {
-    if (counter < 7) {
-      backoff <- floor(c(stats::runif(n = 1, min = 0, max = 2^counter - 1), 30))
-      Sys.sleep(backoff)
-      res <- httr::GET(url, query = query)
-      tryCatch(httr::content(res, type = "application/json"),
-        error = function(e) {
-          get_href(url, query, counter = counter + 1) # nocov
-        }
-      )
-    } else {
-      stop("Server returned malformed JSON") # nocov
-    }
-  }
-
-  body <- vector("list")
-  counter <- 0
-
-  body <- get_href(url, query = c(bbox_arg, query_arg))
+  res <- httr::GET(url, query = c(bbox_arg, query_arg))
+  body <- tryCatch(httr::content(res, type = "application/json"),
+                   error = function(e) {
+                     res <- httr::GET(url, query = c(bbox_arg, query_arg))
+                     httr::content(res, type = "application/json")
+                     }
+                   )
 
   if (service %in% method$href) {
-
-    href_method <- function(counter = 0) {
-      tryCatch({
-        body <- get_href(url, query = c(bbox_arg, query_arg))
-        httr::RETRY("GET",
-                    url = body$href,
-                    times = 20,
-                    quiet = !verbose,
-                    pause_cap = 60
-        )
-      },
-        error = function(e) {
-          if (counter < 10) {
-            href_method(counter = counter + 1)
-          } else {
-            stop("Error: Must specify at least one of url or handle")
-          }
-        }
-      )
-    }
-
-    img_res <- href_method()
+    img_res <- httr::RETRY("GET",
+                           url = body$href,
+                           times = 20,
+                           quiet = !verbose,
+                           pause_cap = 30
+    )
 
     if (httr::status_code(img_res) != 200) {
       # nocov start
