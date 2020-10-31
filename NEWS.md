@@ -11,7 +11,7 @@
         * `vector_to_overlay` lets users quickly produce image overlays from 
           vector data.
         * `georeference_overlay` replaces the use of merge_raster for creating 
-          single-file georeferenced overlay files.  
+          single-file georeferenced overlay files.
         * `combine_overlays` lets users, well, combine overlays into a single 
           image
     * `get_tiles` gains an argument, `resolution`, specifying the number of 
