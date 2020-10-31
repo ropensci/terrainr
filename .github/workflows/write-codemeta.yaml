@@ -1,4 +1,5 @@
 on:
+  workflow_run:
   push:
     paths:
       - DESCRIPTION
