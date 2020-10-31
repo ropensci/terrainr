@@ -48,16 +48,16 @@ mt_elbert <- c(39.1178, -106.4452)
 ```
 
 Our first step is to get the bounding box that contains our data. This is 
-where our first terrainr function, `get_coord_bbox`, comes in:
+where our first terrainr function, `get_bbox`, comes in:
 
 ```{r}
-mt_elbert_bbox <- get_coord_bbox(data = mt_elbert_points, 
-                                 lat = "lat", 
-                                 lng = "lng")
+mt_elbert_bbox <- get_bbox(data = mt_elbert_points, 
+                           lat = "lat", 
+                           lng = "lng")
 mt_elbert_bbox
 ```
 
-`get_coord_bbox` returns an S4 class (`terrainr_bounding_box`) that indicates 
+`get_bbox` returns an S4 class (`terrainr_bounding_box`) that indicates 
 the "bottom left" and "top right" points of the box containing all your points, 
 which is guaranteed to work with all the functions in terrainr. However, there's 
 no requirement for you to go out of your way to make a `terrainr_bounding_box` 
@@ -67,8 +67,8 @@ well with all of terrainr's processing and data retrieval functions.
 We can also calculate a bounding box for our single point:
 
 ```{r}
-peak_bbox <- get_coord_bbox(lat = mt_elbert[[1]], 
-                            lng = mt_elbert[[2]])
+peak_bbox <- get_bbox(lat = mt_elbert[[1]], 
+                      lng = mt_elbert[[2]])
 peak_bbox
 ```
 
