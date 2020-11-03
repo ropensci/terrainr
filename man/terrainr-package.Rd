@@ -17,6 +17,7 @@ Functions for the retrieval and manipulation of 'USGS' National Map
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://mikemahoney218.github.io/terrainr/}
   \item \url{https://github.com/mikemahoney218/terrainr}
   \item Report bugs at \url{https://github.com/mikemahoney218/terrainr/issues}
 }
