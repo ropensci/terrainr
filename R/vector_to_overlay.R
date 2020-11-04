@@ -1,4 +1,4 @@
-#' Turn spatial vector data into an overlay for Unity
+#' Turn spatial vector data into an image overlay
 #'
 #' This function allows users to quickly transform any vector data into an
 #' image overlay, which may then be imported as a texture into Unity.
@@ -85,7 +85,12 @@ vector_to_overlay <- function(vector_data,
     stopifnot(any(grepl("^Raster", class(reference_raster))))
   }
 
-  vector_data <- sf::st_transform(vector_data, target_crs)
+  if (is.na(sf::st_crs(vector_data)[[1]])) {
+    sf::st_crs(vector_data) <- sf::st_crs(4326)
+  } else {
+    vector_data <- sf::st_transform(vector_data, target_crs)
+  }
+
   vector_data <- as.data.frame(sf::st_coordinates(vector_data))
 
   if (any(grepl("L", names(vector_data)))) {

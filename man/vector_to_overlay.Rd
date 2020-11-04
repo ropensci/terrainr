@@ -2,7 +2,7 @@
 % Please edit documentation in R/vector_to_overlay.R
 \name{vector_to_overlay}
 \alias{vector_to_overlay}
-\title{Turn spatial vector data into an overlay for Unity}
+\title{Turn spatial vector data into an image overlay}
 \usage{
 vector_to_overlay(
   vector_data,

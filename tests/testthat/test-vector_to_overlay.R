@@ -31,6 +31,7 @@ test_that("vector_to_overlay generates the same tiles", {
 
   # Create an sf object from our original simulated data
   simulated_data_sf <- sf::st_as_sf(simulated_data, coords = c("lng", "lat"))
+  sds_cache <- simulated_data_sf
   sf::st_crs(simulated_data_sf) <- sf::st_crs(4326)
 
   #' Overlay image for points
@@ -43,6 +44,24 @@ test_that("vector_to_overlay generates the same tiles", {
       na.rm = TRUE
     )),
     png::readPNG("testdata/vto_point.png")
+  )
+
+  #' No CRS necessary
+  expect_equal(
+    png::readPNG(vector_to_overlay(
+      simulated_data_sf,
+      merged_file[[1]],
+      size = 5,
+      color = "red",
+      na.rm = TRUE
+    )),
+    png::readPNG(vector_to_overlay(
+      sds_cache,
+      merged_file[[1]],
+      size = 5,
+      color = "red",
+      na.rm = TRUE
+    ))
   )
 
   # Overlay image for lines
