@@ -38,8 +38,8 @@ raster_to_raw_tiles <- function(input_file,
   input_raster <- raster::raster(input_file)
   max_raster <- raster::cellStats(input_raster, "max")
 
-  x_tiles <- ceiling(input_raster@nrows / side_length)
-  y_tiles <- ceiling(input_raster@ncols / side_length)
+  x_tiles <- ceiling(input_raster@ncols / side_length)
+  y_tiles <- ceiling(input_raster@nrows / side_length)
   if (requireNamespace("progressr", quietly = TRUE)) { # nocov start
     p <- progressr::progressor(steps = x_tiles * y_tiles * 3)
   } # nocov end

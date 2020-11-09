@@ -22,6 +22,7 @@
       bounding boxes from `sf` objects, and it means adding methods will be 
       easier going forward. Using `get_bbox` with non-sf objects is equivalent
       to `get_coord_bbox`
+    * `raster_to_raw_tiles` handles rectangles appropriately
 * Improvements and bug fixes:
     * `get_tiles`, `raster_to_raw_tiles`, and `merge_rasters` are now much more 
       conscientious about deleting tempfiles when they're done with them.
