@@ -4,8 +4,8 @@ test_that("georeference_overlay edge cases work", {
   expect_equal(
     tiff::readTIFF(georeference_overlay(
       "testdata/NAIPPlus_gr.tif",
-      tempfile(fileext = ".tif"),
-      "testdata/NAIPPlus_gr.tif"
+      "testdata/NAIPPlus_gr.tif",
+      tempfile(fileext = ".tif")
     )),
     tiff::readTIFF("testdata/NAIPPlus_gr.tif")
   )
@@ -14,8 +14,8 @@ test_that("georeference_overlay edge cases work", {
 test_that("georeference_overlay produces the same file twice", {
   gr_rst <- raster::raster(georeference_overlay(
     "testdata/NAIPPlus.png",
-    tempfile(fileext = ".tif"),
-    "testdata/NAIPPlus_gr.tif"
+    "testdata/NAIPPlus_gr.tif",
+    tempfile(fileext = ".tif")
   ))
   gr_rst@file@name <- ""
   gr_rst@data@names <- ""

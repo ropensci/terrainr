@@ -122,9 +122,9 @@ merge_rasters <- function(input_rasters,
     )
     mapply(function(img, out, rst) {
       terrainr::georeference_overlay(
-        img,
-        out,
-        rst
+        overlay_file = img,
+        reference_raster = rst,
+        output_file = out
       )
     },
     img = input_images,

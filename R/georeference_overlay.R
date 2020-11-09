@@ -8,12 +8,12 @@
 #' @param overlay_file The image overlay to georeference. File format will be
 #' detected automatically from file extension; options include `jpeg/jpg`,
 #' `png`, and `tif/tiff`.
-#' @param output_file The path to write the georeferenced image file to. Must
-#' be a TIFF.
 #' @param reference_raster The raster file to base georeferencing on. The output
 #' image will have the same extent and CRS as the reference raster. Accepts both
 #' Raster* objects from the `raster` package or a file readable by
 #' [raster::raster].
+#' @param output_file The path to write the georeferenced image file to. Must
+#' be a TIFF.
 #'
 #' @return The file path written to, invisibly.
 #'
@@ -42,8 +42,8 @@
 #' @export
 #' @md
 georeference_overlay <- function(overlay_file,
-                                 output_file,
-                                 reference_raster) {
+                                 reference_raster,
+                                 output_file) {
   stopifnot(is.character(overlay_file) && length(overlay_file) == 1)
   stopifnot(grepl("tiff?$", output_file))
   file_type <- regmatches(overlay_file, regexpr("\\w*$", overlay_file))

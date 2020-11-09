@@ -4,20 +4,20 @@
 \alias{georeference_overlay}
 \title{Georeference image overlays based on a reference raster}
 \usage{
-georeference_overlay(overlay_file, output_file, reference_raster)
+georeference_overlay(overlay_file, reference_raster, output_file)
 }
 \arguments{
 \item{overlay_file}{The image overlay to georeference. File format will be
 detected automatically from file extension; options include \code{jpeg/jpg},
 \code{png}, and \code{tif/tiff}.}
 
-\item{output_file}{The path to write the georeferenced image file to. Must
-be a TIFF.}
-
 \item{reference_raster}{The raster file to base georeferencing on. The output
 image will have the same extent and CRS as the reference raster. Accepts both
 Raster* objects from the \code{raster} package or a file readable by
 \link[raster:raster]{raster::raster}.}
+
+\item{output_file}{The path to write the georeferenced image file to. Must
+be a TIFF.}
 }
 \value{
 The file path written to, invisibly.
