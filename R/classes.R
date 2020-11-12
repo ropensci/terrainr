@@ -47,6 +47,7 @@ terrainr_coordinate_pair <- function(coords, coord_units = c(
   stopifnot(length(coords) == 2)
   longitude_names <- c(
     "lng",
+    "lon",
     "long",
     "longitude",
     "x"
@@ -56,6 +57,7 @@ terrainr_coordinate_pair <- function(coords, coord_units = c(
     "latitude",
     "y"
   )
+
   # the components of coord pairs are named
   # so if someone passes them to try and construct a new bbox and names the
   # vectors (to avoid the warning), they get an error
@@ -70,21 +72,28 @@ terrainr_coordinate_pair <- function(coords, coord_units = c(
     paste0(latitude_names, ".lat")
   )
 
-
   if (is.null(names(coords))) {
     # If we have no names to go by,
     # assume that provided data is ISO 6709 compliant.
     warning("Assuming unnamed coordinate vector is in (lat, lng) format")
     lat <- coords[[1]]
     lng <- coords[[2]]
-  } else if (all(names(coords) %in% c(latitude_names, longitude_names))) {
-    stopifnot(sum(names(coords) %in% latitude_names) == 1)
-    stopifnot(sum(names(coords) %in% longitude_names) == 1)
-    lat <- coords[names(coords) %in% latitude_names]
-    lng <- coords[names(coords) %in% longitude_names]
   } else {
-    stop("Couldn't understand coordinate vector names.")
+
+    names(coords) <- tolower(names(coords))
+
+    if (all(names(coords) %in% c(latitude_names, longitude_names))) {
+      stopifnot(sum(names(coords) %in% latitude_names) == 1)
+      stopifnot(sum(names(coords) %in% longitude_names) == 1)
+      lat <- coords[names(coords) %in% latitude_names]
+      names(lat) <- "lat"
+      lng <- coords[names(coords) %in% longitude_names]
+      names(lng) <- "lng"
+    } else {
+      stop("Couldn't understand coordinate vector names.")
+    }
   }
+
 
   coord_units <- coord_units[[1]]
   if (coord_units == "radians") {

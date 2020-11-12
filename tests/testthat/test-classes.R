@@ -51,3 +51,16 @@ test_that("export functions are stable", {
     )
   )
 })
+
+test_that("terrainr_coordinate_pair is case-insensitive", {
+  expect_equal(
+    terrainr_bounding_box(
+      tr = c("lat" = 44.05003, "lng" = -74.01164),
+      bl = c("lat" = 44.17538, "lng" = -73.83500)
+    ),
+    terrainr_bounding_box(
+      bl = c("LAT" = 44.05003, "LNG" = -74.01164),
+      tr = c("Y" = 44.17538, "LON" = -73.83500)
+    )
+  )
+})
