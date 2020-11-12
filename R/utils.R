@@ -52,7 +52,9 @@ convert_distance <- function(distance, distance_unit = c(
                                "miles",
                                "mi",
                                "feet",
-                               "ft"
+                               "ft",
+                               "inches",
+                               "in"
                              )) {
   distance_unit <- distance_unit[[1]]
   if (distance_unit == "miles" || distance_unit == "mi") {
@@ -61,6 +63,8 @@ convert_distance <- function(distance, distance_unit = c(
     distance * 0.3048
   } else if (distance_unit == "kilometers" || distance_unit == "km") {
     distance * 1000
+  } else if (distance_unit == "inches" || distance_unit == "in") {
+    distance * 0.0254
   } else {
     distance
   }

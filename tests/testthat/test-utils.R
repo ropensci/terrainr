@@ -23,4 +23,7 @@ test_that("distance conversions make sense", {
     round(convert_distance(3280.84, "ft")),
     1000
   )
+  expect_equal(terrainr::convert_distance(100, "feet"),
+               terrainr::convert_distance(1200, "inches"),
+               tolerance = 0.001)
 })
