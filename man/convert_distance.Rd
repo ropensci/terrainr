@@ -6,7 +6,8 @@
 \usage{
 convert_distance(
   distance,
-  distance_unit = c("meters", "m", "kilometers", "km", "miles", "mi", "feet", "ft")
+  distance_unit = c("meters", "m", "kilometers", "km", "miles", "mi", "feet", "ft",
+    "inches", "in")
 )
 }
 \arguments{
