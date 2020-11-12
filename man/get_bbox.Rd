@@ -3,6 +3,7 @@
 \name{get_bbox}
 \alias{get_bbox}
 \alias{get_bbox.sf}
+\alias{get_bbox.RasterLayer}
 \alias{get_coord_bbox}
 \alias{get_bbox.default}
 \title{Get bounding box for spatial vector data.}
@@ -11,19 +12,22 @@ get_bbox(data = NULL, lat = NULL, lng = NULL, na.rm = NULL)
 
 \method{get_bbox}{sf}(data, lat, lng, na.rm)
 
+\method{get_bbox}{RasterLayer}(data, lat, lng, na.rm)
+
 get_coord_bbox(data = NULL, lat, lng, na.rm = NULL)
 
 \method{get_bbox}{default}(data = NULL, lat, lng, na.rm = NULL)
 }
 \arguments{
-\item{data}{An object of class \code{sf} (see \link[sf:sf]{sf::st_sf}), a dataframe containing
-latitude and longitude values, or \code{NULL}.}
+\item{data}{An object of class \code{sf} (see \link[sf:sf]{sf::st_sf}), an object of class
+\code{RasterLayer} (see \link[raster:raster]{raster::raster}), a data frame containing latitude and
+longitude values, or \code{NULL}.}
 
-\item{lat}{If \code{data} is not \code{NULL} or an \code{sf} object, the name of
+\item{lat}{If \code{data} is a data frame, the name of
 the column containing latitude values. If \code{data} is \code{NULL}, a
 vector of latitude values.}
 
-\item{lng}{If \code{data} is not \code{NULL} or an \code{sf} object, the name of
+\item{lng}{If \code{data} is a data frame, the name of
 the column containing longitude values. If \code{data} is \code{NULL}, a
 vector of longitude values.}
 

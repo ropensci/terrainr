@@ -7,12 +7,13 @@
 #' 1e-10 in order to return a rectangle with a real "bottom left" and
 #' "upper right".
 #'
-#' @param data An object of class `sf` (see [sf::st_sf]), a dataframe containing
-#' latitude and longitude values, or \code{NULL}.
-#' @param lat If \code{data} is not \code{NULL} or an `sf` object, the name of
+#' @param data An object of class `sf` (see [sf::st_sf]), an object of class
+#' `RasterLayer` (see [raster::raster]), a data frame containing latitude and
+#' longitude values, or \code{NULL}.
+#' @param lat If \code{data} is a data frame, the name of
 #' the column containing latitude values. If \code{data} is \code{NULL}, a
 #' vector of latitude values.
-#' @param lng If \code{data} is not \code{NULL} or an `sf` object, the name of
+#' @param lng If \code{data} is a data frame, the name of
 #' the column containing longitude values. If \code{data} is \code{NULL}, a
 #' vector of longitude values.
 #' @param na.rm Logical: Silently remove NA values? If \code{NULL}, the default,
@@ -46,6 +47,17 @@ get_bbox.sf <- function(data, lat, lng, na.rm) {
 # nolint end
   coords <- as.data.frame(sf::st_coordinates(data))
   terrainr::get_coord_bbox(lat = coords$Y, lng = coords$X, na.rm = na.rm)
+}
+
+#' @rdname get_bbox
+#' @export
+# nolint start
+get_bbox.RasterLayer <- function(data, lat, lng, na.rm) {
+  # nolint end
+  coords <- raster::extent(data)
+  terrainr::get_coord_bbox(lat = c(coords@ymin, coords@ymax),
+                           lng = c(coords@xmin, coords@xmax),
+                           na.rm = na.rm)
 }
 
 #' @rdname get_bbox

@@ -1,4 +1,5 @@
 # terrainr 0.1.0.9001
+* This version will be released as 0.2.0
 * Breaking changes:
     * `merge_rasters` loses the argument `merge_raster`. For the "georeference 
       a single image" use case, see the new `georeference_overlay` function.
@@ -19,9 +20,9 @@
       downloads). 
     * `get_bbox` provides an S3 generic to create `terrainr_bounding_box` 
       objects. In this version, that means users can use `get_bbox` to get 
-      bounding boxes from `sf` objects, and it means adding methods will be 
-      easier going forward. Using `get_bbox` with non-sf objects is equivalent
-      to `get_coord_bbox`
+      bounding boxes from `sf` and `RasterLayer` objects, and it means adding 
+      methods will be easier going forward. The generic `get_bbox` method 
+      is equivalent to `get_coord_bbox`
     * `raster_to_raw_tiles` handles rectangles appropriately
 * Improvements and bug fixes:
     * `get_tiles`, `raster_to_raw_tiles`, and `merge_rasters` are now much more 

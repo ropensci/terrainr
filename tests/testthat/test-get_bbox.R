@@ -44,3 +44,17 @@ test_that("tidy framework bounding boxes work", {
     get_bbox(tidy_df, "pt1", "pt2")
   )
 })
+
+test_that("raster s3 method definitions work", {
+  expected_bbox <- get_bbox(
+    lat = c(44.04904, 44.04912),
+    lng = c(-74.01188, -74.01179)
+  )
+
+  expect_equal(
+    expected_bbox,
+    get_bbox(raster::raster("testdata/3DEP.tif")),
+    tolerance = 0.00001
+  )
+
+})
