@@ -1,5 +1,4 @@
-# terrainr 0.1.0.9004
-* This version will be released as 0.2.0
+# terrainr 0.2.0
 * Breaking changes:
     * `merge_rasters` loses the argument `merge_raster`. For the "georeference 
       a single image" use case, see the new `georeference_overlay` function.
