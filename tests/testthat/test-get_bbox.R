@@ -56,5 +56,4 @@ test_that("raster s3 method definitions work", {
     get_bbox(raster::raster("testdata/3DEP.tif")),
     tolerance = 0.00001
   )
-
 })

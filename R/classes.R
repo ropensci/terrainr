@@ -79,7 +79,6 @@ terrainr_coordinate_pair <- function(coords, coord_units = c(
     lat <- coords[[1]]
     lng <- coords[[2]]
   } else {
-
     names(coords) <- tolower(names(coords))
 
     if (all(names(coords) %in% c(latitude_names, longitude_names))) {

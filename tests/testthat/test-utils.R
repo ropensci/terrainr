@@ -24,6 +24,7 @@ test_that("distance conversions make sense", {
     1000
   )
   expect_equal(terrainr::convert_distance(100, "feet"),
-               terrainr::convert_distance(1200, "inches"),
-               tolerance = 0.001)
+    terrainr::convert_distance(1200, "inches"),
+    tolerance = 0.001
+  )
 })

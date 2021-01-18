@@ -152,7 +152,8 @@ hit_national_map_api <- function(bbox,
     res <- httr::GET(url, query = c(bbox_arg, query_arg))
     body <- tryCatch(httr::content(res, type = "application/json"),
       error = function(e) {
-        tryCatch({
+        tryCatch(
+          {
             res <- httr::GET(url, query = c(bbox_arg, query_arg))
             httr::content(res, type = "application/json")
           },

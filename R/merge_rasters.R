@@ -182,8 +182,8 @@ merge_rasters <- function(input_rasters,
         total_extent,
         output_image,
         overwrite = overwrite
-        )
       )
+    )
     invisible(
       utils::capture.output(
         gdalUtils::mosaic_rasters(

@@ -35,8 +35,8 @@
 #' @md
 # nolint start
 get_bbox <- function(data = NULL, lat = NULL, lng = NULL, na.rm = NULL) {
-# lintr complains about na.rm but I want to mimic base R
-# nolint end
+  # lintr complains about na.rm but I want to mimic base R
+  # nolint end
   UseMethod("get_bbox")
 }
 
@@ -44,7 +44,7 @@ get_bbox <- function(data = NULL, lat = NULL, lng = NULL, na.rm = NULL) {
 #' @export
 # nolint start
 get_bbox.sf <- function(data, lat, lng, na.rm) {
-# nolint end
+  # nolint end
   coords <- as.data.frame(sf::st_coordinates(data))
   terrainr::get_coord_bbox(lat = coords$Y, lng = coords$X, na.rm = na.rm)
 }
@@ -55,16 +55,18 @@ get_bbox.sf <- function(data, lat, lng, na.rm) {
 get_bbox.RasterLayer <- function(data, lat, lng, na.rm) {
   # nolint end
   coords <- raster::extent(data)
-  terrainr::get_coord_bbox(lat = c(coords@ymin, coords@ymax),
-                           lng = c(coords@xmin, coords@xmax),
-                           na.rm = na.rm)
+  terrainr::get_coord_bbox(
+    lat = c(coords@ymin, coords@ymax),
+    lng = c(coords@xmin, coords@xmax),
+    na.rm = na.rm
+  )
 }
 
 #' @rdname get_bbox
 #' @export
 # nolint start
 get_coord_bbox <- function(data = NULL, lat, lng, na.rm = NULL) {
-# nolint end
+  # nolint end
   if (!is.null(data)) {
     lat <- tryCatch(lat, error = function(e) rlang::ensym(lat))
     lng <- tryCatch(lng, error = function(e) rlang::ensym(lng))

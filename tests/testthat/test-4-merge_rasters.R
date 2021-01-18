@@ -39,8 +39,9 @@ test_that("merge_raster files are identical no matter the filename", {
   # assign the output tile filenames...
   tmptif <- vector("list")
   temp_tiles <- get_tiles(first_tile,
-                          services = c("elevation", "ortho"),
-                          georeference = FALSE)
+    services = c("elevation", "ortho"),
+    georeference = FALSE
+  )
   tmptif[[1]] <- temp_tiles[[1]]
   tmptif[[2]] <- get_tiles(second_tile)[[1]]
 
@@ -57,16 +58,16 @@ test_that("merge_raster files are identical no matter the filename", {
   )
 
   merge_orth <- tempfile(fileext = ".tiff")
-  merge_rasters(temp_tiles[[1]],
-                tempfile(fileext = ".tif"),
-                temp_tiles[[2]],
-                merge_orth)
+  merge_rasters(
+    temp_tiles[[1]],
+    tempfile(fileext = ".tif"),
+    temp_tiles[[2]],
+    merge_orth
+  )
 
   stored_raster <- raster::raster("testdata/merge_rasters_test.tif")
   test_raster <- raster::raster(merge_orth)
 
   expect_equal(stored_raster@crs, test_raster@crs)
   expect_equal(stored_raster@extent, test_raster@extent)
-
 })
-

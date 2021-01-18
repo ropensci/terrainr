@@ -1,3 +1,13 @@
+# terrainr 0.2.1
+* Improvements and bug fixes:
+    * The `transportation` endpoint has moved servers, and is now handled by the
+      same function that handles DEMs and orthoimages
+* Internal changes:
+    * The main branch of `terrainr` is now `main`
+    * Tests run on a schedule on Monday/Wednesday/Friday mornings, to alert to 
+      endpoint changes
+    * Restyled code
+
 # terrainr 0.2.0
 * Breaking changes:
     * `merge_rasters` loses the argument `merge_raster`. For the "georeference 

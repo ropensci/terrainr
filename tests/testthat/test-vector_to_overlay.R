@@ -88,4 +88,3 @@ test_that("vector_to_overlay generates the same tiles", {
     png::readPNG("testdata/vto_poly.png")
   )
 })
-
