@@ -177,10 +177,13 @@ merge_rasters <- function(input_rasters,
 
   if (!is.null(input_images)) {
     # same as above for input_rasters
-    suppressWarnings(raster::writeRaster(total_extent,
-      output_image,
-      overwrite = overwrite
-    ))
+    suppressWarnings(
+      raster::writeRaster(
+        total_extent,
+        output_image,
+        overwrite = overwrite
+        )
+      )
     invisible(
       utils::capture.output(
         gdalUtils::mosaic_rasters(
