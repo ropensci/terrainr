@@ -10,7 +10,7 @@
   "codeRepository": "https://github.com/mikemahoney218/terrainr",
   "issueTracker": "https://github.com/mikemahoney218/terrainr/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -270,8 +270,8 @@
     }
   ],
   "releaseNotes": "https://github.com/mikemahoney218/terrainr/blob/master/NEWS.md",
-  "readme": "https://github.com/mikemahoney218/terrainr/blob/master/README.md",
-  "fileSize": "3085.542KB",
+  "readme": "https://github.com/mikemahoney218/terrainr/blob/main/README.md",
+  "fileSize": "3085.971KB",
   "contIntegration": "https://codecov.io/gh/mikemahoney218/terrainr",
   "developmentStatus": ["https://www.tidyverse.org/lifecycle/#maturing", "https://www.repostatus.org/#active"],
   "keywords": [
