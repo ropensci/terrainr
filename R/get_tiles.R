@@ -110,7 +110,7 @@ get_tiles <- function(bbox,
     services %in% names(list_of_services)))
 
   method <- vector("list")
-  method$href <- c("3DEPElevation", "USGSNAIPPlus")
+  method$href <- c("3DEPElevation", "USGSNAIPPlus", "transportation")
   method$img <- list_of_services[!(list_of_services %in% method$href)]
 
   tif_files <- c("3DEPElevation")

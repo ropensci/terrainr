@@ -79,7 +79,7 @@ hit_national_map_api <- function(bbox,
   }
 
   method <- vector("list")
-  method$href <- c("3DEPElevation", "USGSNAIPPlus")
+  method$href <- c("3DEPElevation", "USGSNAIPPlus", "transportation")
 
   first_corner <- bbox@bl
   second_corner <- bbox@tr
