@@ -146,7 +146,6 @@ hit_national_map_api <- function(bbox,
   # like 3% of the time
   # But it's non-deterministic, so we can just retry
   get_href <- function(counter = 0) {
-
     backoff <- stats::runif(
       n = 1,
       min = 0,
@@ -157,7 +156,6 @@ hit_national_map_api <- function(bbox,
     res <- httr::GET(url, query = c(bbox_arg, query_arg))
 
     if (httr::status_code(res) == 200) {
-
       body <- tryCatch(
         httr::content(res, type = "application/json"),
         error = function(e) {
@@ -165,11 +163,11 @@ hit_national_map_api <- function(bbox,
             {
               res <- httr::GET(url, query = c(bbox_arg, query_arg))
               httr::content(res, type = "application/json")
-              },
+            },
             error = function(e) {
               res <- httr::GET(url, query = c(bbox_arg, query_arg))
               httr::content(res, type = "application/json")
-              }
+            }
           )
         }
       )
@@ -179,17 +177,11 @@ hit_national_map_api <- function(bbox,
       } else {
         return(body)
       }
-
     } else if (counter < 15) {
-
       get_href(counter = counter + 1)
-
     } else {
-
       stop("Map server returned error code ", httr::status_code(img_res))
-
     }
-
   }
 
   body <- get_href()

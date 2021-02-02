@@ -189,8 +189,8 @@ get_tiles <- function(bbox,
 
         counter <- 0
         while ((!file.exists(cur_path) ||
-                file.size(cur_path) == 0) &&
-               counter < 5) {
+          file.size(cur_path) == 0) &&
+          counter < 5) {
           img_bin <- terrainr::hit_national_map_api(
             current_box[["bbox"]],
             current_box[["img_width"]],
@@ -200,14 +200,16 @@ get_tiles <- function(bbox,
             ...
           )
           outconn <- file(cur_path, "wb")
-          tryCatch({
-            base64enc::base64decode(
-              what = img_bin$imageData,
-              output = outconn
-            )
-          },
-          error = function(e) writeBin(img_bin$imageData, cur_path),
-          finally = close(outconn))
+          tryCatch(
+            {
+              base64enc::base64decode(
+                what = img_bin$imageData,
+                output = outconn
+              )
+            },
+            error = function(e) writeBin(img_bin$imageData, cur_path),
+            finally = close(outconn)
+          )
         }
 
         if (georeference && services[[k]] != "3DEPElevation") {
