@@ -109,10 +109,6 @@ get_tiles <- function(bbox,
   stopifnot(all(services %in% list_of_services |
     services %in% names(list_of_services)))
 
-  method <- vector("list")
-  method$href <- c("3DEPElevation", "USGSNAIPPlus", "transportation")
-  method$img <- list_of_services[!(list_of_services %in% method$href)]
-
   tif_files <- c("3DEPElevation")
   png_files <- list_of_services[!(list_of_services %in% tif_files)]
 
@@ -191,37 +187,27 @@ get_tiles <- function(bbox,
           cur_path <- final_path
         }
 
-        if (services[[k]] %in% method$href) {
-          counter <- 0
-
-          while ((!file.exists(cur_path) ||
-            file.size(cur_path) == 0) &&
-            counter < 5) {
-            img_bin <- terrainr::hit_national_map_api(
-              current_box[["bbox"]],
-              current_box[["img_width"]],
-              current_box[["img_height"]],
-              services[[k]],
-              verbose = verbose,
-              ...
-            )
-            writeBin(img_bin$imageData, cur_path)
-          }
-        } else if (services[[k]] %in% method$img) {
-          img_bin <- terrainr::hit_national_map_api(current_box[["bbox"]],
+        counter <- 0
+        while ((!file.exists(cur_path) ||
+                file.size(cur_path) == 0) &&
+               counter < 5) {
+          img_bin <- terrainr::hit_national_map_api(
+            current_box[["bbox"]],
             current_box[["img_width"]],
             current_box[["img_height"]],
             services[[k]],
             verbose = verbose,
             ...
           )
-
           outconn <- file(cur_path, "wb")
-          base64enc::base64decode(
-            what = img_bin$imageData,
-            output = outconn
-          )
-          close(outconn)
+          tryCatch({
+            base64enc::base64decode(
+              what = img_bin$imageData,
+              output = outconn
+            )
+          },
+          error = function(e) writeBin(img_bin$imageData, cur_path),
+          finally = close(outconn))
         }
 
         if (georeference && services[[k]] != "3DEPElevation") {
