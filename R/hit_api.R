@@ -157,7 +157,7 @@ hit_national_map_api <- function(bbox,
 
     res <- httr::GET(url, agent, query = c(bbox_arg, query_arg))
 
-    if (httr::status_code(res) == 200) {
+    if (!httr::http_error(res)) {
       body <- tryCatch(
         httr::content(res, type = "application/json"),
         error = function(e) {
@@ -191,7 +191,7 @@ hit_national_map_api <- function(bbox,
   if (!is.null(body$href)) {
     img_res <- httr::GET(body$href, agent)
     counter <- 0
-    while (counter < 15 && httr::status_code(img_res) != 200) {
+    while (counter < 15 && httr::http_error(img_res)) {
       backoff <- stats::runif(n = 1, min = 0, max = floor(c(
         2^counter - 1,
         30
@@ -200,7 +200,7 @@ hit_national_map_api <- function(bbox,
       img_res <- httr::GET(body$href, agent)
     }
 
-    if (httr::status_code(img_res) != 200) {
+    if (httr::http_error(img_res)) {
       # nocov start
       stop("Map server returned error code ", httr::status_code(img_res))
       # nocov end
