@@ -141,6 +141,8 @@ hit_national_map_api <- function(bbox,
   # length of dots changes after that last step, so check again
   if (length(dots) > 0) query_arg <- c(query_arg, dots) # nocov
 
+  agent <- httr::user_agent("https://github.com/mikemahoney218/terrainr")
+
   # periodically res is a HTML file instead of the JSON
   # I haven't been able to capture this happening, it just crashes something
   # like 3% of the time
@@ -153,7 +155,7 @@ hit_national_map_api <- function(bbox,
     )
     Sys.sleep(backoff)
 
-    res <- httr::GET(url, query = c(bbox_arg, query_arg))
+    res <- httr::GET(url, agent, query = c(bbox_arg, query_arg))
 
     if (httr::status_code(res) == 200) {
       body <- tryCatch(
@@ -161,11 +163,11 @@ hit_national_map_api <- function(bbox,
         error = function(e) {
           tryCatch(
             {
-              res <- httr::GET(url, query = c(bbox_arg, query_arg))
+              res <- httr::GET(url, agent, query = c(bbox_arg, query_arg))
               httr::content(res, type = "application/json")
             },
             error = function(e) {
-              res <- httr::GET(url, query = c(bbox_arg, query_arg))
+              res <- httr::GET(url, agent, query = c(bbox_arg, query_arg))
               httr::content(res, type = "application/json")
             }
           )
@@ -187,7 +189,7 @@ hit_national_map_api <- function(bbox,
   body <- get_href()
 
   if (!is.null(body$href)) {
-    img_res <- httr::GET(url = body$href)
+    img_res <- httr::GET(body$href, agent)
     counter <- 0
     while (counter < 15 && httr::status_code(img_res) != 200) {
       backoff <- stats::runif(n = 1, min = 0, max = floor(c(
@@ -195,7 +197,7 @@ hit_national_map_api <- function(bbox,
         30
       )))
       Sys.sleep(backoff)
-      img_res <- httr::GET(body$href)
+      img_res <- httr::GET(body$href, agent)
     }
 
     if (httr::status_code(img_res) != 200) {

@@ -9,6 +9,8 @@
           returning base64 or binary and writes to file appropriately.
     * `hit_national_map_api` is now more likely to fail with a human-friendly
       error message if API endpoints return a non-200 status (54ad9fb).
+    * `hit_national_map_api` (and by extension `get_tiles`) now register a user
+      agent.
 
 # terrainr 0.2.1
 * Improvements and bug fixes:
