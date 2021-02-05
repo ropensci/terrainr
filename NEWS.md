@@ -1,3 +1,13 @@
+# terrainr 0.2.1.9000
+* Improvements and bug fixes:
+    * `calc_haversine_distance` gains an argument `coord_units` allowing it to 
+      handle coordinates in radians as well as degrees.
+    * `get_bbox` gains a method for `terrainr_bounding_box`, returning the 
+      `data` argument with no validation or processing.
+* Internal changes:
+    * `calc_haversine_distance` has been internally simplified somewhat to 
+      reduce code duplication.
+
 # terrainr 0.2.1
 * Improvements and bug fixes:
     * The `transportation` endpoint has moved servers, and is now handled by the
