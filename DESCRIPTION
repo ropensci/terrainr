@@ -1,7 +1,7 @@
 Package: terrainr
 Type: Package
 Title: Retrieve Data from the 'USGS' National Map and Transform it for '3D' Landscape Visualizations
-Version: 0.2.1
+Version: 0.2.1.9000
 Authors@R: 
     person(given = "Michael",
            family = "Mahoney",

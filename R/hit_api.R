@@ -78,9 +78,6 @@ hit_national_map_api <- function(bbox,
     bbox <- terrainr::terrainr_bounding_box(bbox[[1]], bbox[[2]])
   }
 
-  method <- vector("list")
-  method$href <- c("3DEPElevation", "USGSNAIPPlus", "transportation")
-
   first_corner <- bbox@bl
   second_corner <- bbox@tr
 
@@ -144,56 +141,66 @@ hit_national_map_api <- function(bbox,
   # length of dots changes after that last step, so check again
   if (length(dots) > 0) query_arg <- c(query_arg, dots) # nocov
 
+  agent <- httr::user_agent("https://github.com/mikemahoney218/terrainr")
+
   # periodically res is a HTML file instead of the JSON
   # I haven't been able to capture this happening, it just crashes something
   # like 3% of the time
   # But it's non-deterministic, so we can just retry
   get_href <- function(counter = 0) {
-    res <- httr::GET(url, query = c(bbox_arg, query_arg))
-    body <- tryCatch(httr::content(res, type = "application/json"),
-      error = function(e) {
-        tryCatch(
-          {
-            res <- httr::GET(url, query = c(bbox_arg, query_arg))
-            httr::content(res, type = "application/json")
-          },
-          error = function(e) {
-            res <- httr::GET(url, query = c(bbox_arg, query_arg))
-            httr::content(res, type = "application/json")
-          }
-        )
-      }
+    backoff <- stats::runif(
+      n = 1,
+      min = 0,
+      max = floor(c(2^counter - 1, 30))
     )
+    Sys.sleep(backoff)
 
-    if (!is.null(body$error) &&
-      counter < 15 &&
-      (is.null(body$href) && service %in% method$href)) {
-      backoff <- stats::runif(n = 1, min = 0, max = floor(c(
-        2^counter - 1,
-        30
-      )))
-      Sys.sleep(backoff)
+    res <- httr::GET(url, agent, query = c(bbox_arg, query_arg))
+
+    if (!httr::http_error(res)) {
+      body <- tryCatch(
+        httr::content(res, type = "application/json"),
+        error = function(e) {
+          tryCatch(
+            {
+              res <- httr::GET(url, agent, query = c(bbox_arg, query_arg))
+              httr::content(res, type = "application/json")
+            },
+            error = function(e) {
+              res <- httr::GET(url, agent, query = c(bbox_arg, query_arg))
+              httr::content(res, type = "application/json")
+            }
+          )
+        }
+      )
+
+      if (counter < 15 && !is.null(body$error)) {
+        get_href(counter = counter + 1)
+      } else {
+        return(body)
+      }
+    } else if (counter < 15) {
       get_href(counter = counter + 1)
     } else {
-      return(body)
+      stop("Map server returned error code ", httr::status_code(img_res))
     }
   }
 
   body <- get_href()
 
-  if (service %in% method$href) {
-    img_res <- httr::GET(url = body$href)
+  if (!is.null(body$href)) {
+    img_res <- httr::GET(body$href, agent)
     counter <- 0
-    while (counter < 15 && httr::status_code(img_res) != 200) {
+    while (counter < 15 && httr::http_error(img_res)) {
       backoff <- stats::runif(n = 1, min = 0, max = floor(c(
         2^counter - 1,
         30
       )))
       Sys.sleep(backoff)
-      img_res <- httr::GET(body$href)
+      img_res <- httr::GET(body$href, agent)
     }
 
-    if (httr::status_code(img_res) != 200) {
+    if (httr::http_error(img_res)) {
       # nocov start
       stop("Map server returned error code ", httr::status_code(img_res))
       # nocov end
