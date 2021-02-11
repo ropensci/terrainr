@@ -112,6 +112,8 @@ get_tiles <- function(bbox,
   tif_files <- c("3DEPElevation")
   png_files <- list_of_services[!(list_of_services %in% tif_files)]
 
+  services <- stats::setNames(services, services)
+
   if (any(services %in% names(list_of_services))) { # cast short codes now
     replacements <- which(services %in% names(list_of_services))
     services[replacements] <- as.vector(
@@ -119,7 +121,8 @@ get_tiles <- function(bbox,
     )
   }
 
-  services <- unique(services)
+  # duplicated instead of unique to preserve names
+  services <- services[!duplicated(services)]
 
   if (!methods::is(bbox, "terrainr_bounding_box")) {
     bbox <- terrainr::terrainr_bounding_box(bbox[[1]], bbox[[2]])
@@ -250,7 +253,7 @@ get_tiles <- function(bbox,
       outer(1:x_tiles, 1:y_tiles, paste, sep = "_"),
       fileext
     )
-    names(res)[[i]] <- services[[i]]
+    names(res)[[i]] <- names(services)[[i]]
   }
 
   return(invisible(res))

@@ -1,4 +1,9 @@
 # terrainr 0.2.1.9000
+* Breaking changes:
+    * The list returned by `get_tiles` now uses the service names provided by
+      the user, not the endpoint names. This means that 
+      `get_tiles(..., services = "elevation")` will now use the name `elevation`
+      instead of `3DEPElevation`, and remain standard across versions (#12).
 * Improvements and bug fixes:
     * `calc_haversine_distance` gains an argument `coord_units` allowing it to 
       handle coordinates in radians as well as degrees.

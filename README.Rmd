@@ -38,20 +38,17 @@ output_tiles <- get_tiles(bbox = bbox,
                           services = c("elevation", "ortho"))
 ```
 
-```{r, eval = FALSE}
-# output_tiles is now a list of two vectors pointing to the elevation and 
-# orthoimagery tiles we just downloaded -- here we're displaying the first
-# of the ortho tiles
-raster::plot(raster::raster(output_tiles[[2]][[1]]))
+```{r eval=FALSE}
+raster::plotRGB(raster::brick(output_tiles[[2]][[1]]), scale = 1)
 ```
 
-```{r, echo = FALSE}
-# that above plot leaves rmarkdown looking for a tempfile
-# toss the actual image into man
+```{r echo=FALSE}
 knitr::include_graphics("man/figures/naip.png")
 ```
 
-Once downloaded, these images are in standard GeoTIFF or PNG formats and can be used as expected with other utilities:
+
+Once downloaded, these images are in standard GeoTIFF or PNG formats and can be 
+used as expected with other utilities:
 
 ```{r eval=FALSE}
 raster::plot(raster::raster(output_tiles[[1]][[1]]))
@@ -67,10 +64,8 @@ Additionally, terrainr provides functions to transform these tiles into RAW imag
 merged_dem <- tempfile(fileext = ".tif")
 merged_ortho <- tempfile(fileext = ".tif")
 # we can call these vectors by name instead of position, too
-merge_rasters(output_tiles$`3DEPElevation`, 
-              merged_dem, 
-              output_tiles$USGSNAIPPlus, 
-              merged_ortho)
+merge_rasters(output_tiles[["elevation"]], merged_dem)
+merge_rasters(output_tiles[["ortho"]], merged_ortho)
 
 mapply(function(x, y) raster_to_raw_tiles(input_file = x, 
                                           output_prefix = tempfile(), 

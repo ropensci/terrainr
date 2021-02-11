@@ -35,9 +35,9 @@ raw_tiles <- data.frame(id = seq(1, 100, 1),
   get_bbox(lat = "lat", lng = "lng") %>% 
   get_tiles(., services = c("elevation", "ortho"))
 
-merged_outputs <- merge_rasters(raw_tiles$`3DEPElevation`, 
+merged_outputs <- merge_rasters(raw_tiles$elevation, 
                                 tempfile(fileext = ".tif"), 
-                                .$USGSNAIPPlus, 
+                                .$ortho, 
                                 tempfile(fileext = ".tif"))
 
 mapply(function(x, y) raster_to_raw_tiles(input_file = x, 

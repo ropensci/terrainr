@@ -26,7 +26,7 @@
 #' bbox <- add_bbox_buffer(bbox, 100)
 #' output_files <- get_tiles(bbox)
 #' temptiff <- tempfile(fileext = ".tif")
-#' merge_rasters(output_files["3DEPElevation"][[1]], temptiff)
+#' merge_rasters(output_files["elevation"][[1]], temptiff)
 #' raster_to_raw_tiles(temptiff, tempfile())
 #' }
 #'

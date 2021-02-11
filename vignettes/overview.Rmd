@@ -134,8 +134,8 @@ output_files
 
 ```{r echo = FALSE}
 output_files <- list(
-  `3DEPElevation` = "/tmp/RtmphTFQvZ/file65e5d859e628_3DEPElevation_1_1.tif",
-  USGSNAIPPlus = "/tmp/RtmphTFQvZ/file65e5d859e628_USGSNAIPPlus_1_1.tif"
+  elevation = "/tmp/RtmphTFQvZ/file65e5d859e628_3DEPElevation_1_1.tif",
+  ortho = "/tmp/RtmphTFQvZ/file65e5d859e628_USGSNAIPPlus_1_1.tif"
 )
 output_files
 ```
