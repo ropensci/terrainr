@@ -3,6 +3,7 @@
 S3method(get_bbox,RasterLayer)
 S3method(get_bbox,default)
 S3method(get_bbox,sf)
+S3method(get_bbox,terrainr_bounding_box)
 export(add_bbox_buffer)
 export(calc_haversine_distance)
 export(combine_overlays)

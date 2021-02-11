@@ -4,6 +4,7 @@
 \alias{get_bbox}
 \alias{get_bbox.sf}
 \alias{get_bbox.RasterLayer}
+\alias{get_bbox.terrainr_bounding_box}
 \alias{get_coord_bbox}
 \alias{get_bbox.default}
 \title{Get bounding box for spatial vector data.}
@@ -13,6 +14,8 @@ get_bbox(data = NULL, lat = NULL, lng = NULL, na.rm = NULL)
 \method{get_bbox}{sf}(data, lat, lng, na.rm)
 
 \method{get_bbox}{RasterLayer}(data, lat, lng, na.rm)
+
+\method{get_bbox}{terrainr_bounding_box}(data, lat, lng, na.rm)
 
 get_coord_bbox(data = NULL, lat, lng, na.rm = NULL)
 

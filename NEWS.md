@@ -1,5 +1,12 @@
 # terrainr 0.2.1.9000
 * Improvements and bug fixes:
+    * `calc_haversine_distance` gains an argument `coord_units` allowing it to 
+      handle coordinates in radians as well as degrees.
+    * `get_bbox` gains a method for `terrainr_bounding_box`, returning the 
+      `data` argument with no validation or processing.
+* Internal changes:
+    * `calc_haversine_distance` has been internally simplified somewhat to 
+      reduce code duplication.
     * All `services` arguments to `hit_national_map_api` and `get_tiles` can 
       now handle both base64 and binary returns, removing the need to manually
       categorize endpoints (54ad9fb).

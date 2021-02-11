@@ -65,6 +65,16 @@ get_bbox.RasterLayer <- function(data, lat, lng, na.rm) {
 #' @rdname get_bbox
 #' @export
 # nolint start
+get_bbox.terrainr_bounding_box <- function(data, lat, lng, na.rm) {
+# nolint end
+  data
+}
+
+
+
+#' @rdname get_bbox
+#' @export
+# nolint start
 get_coord_bbox <- function(data = NULL, lat, lng, na.rm = NULL) {
   # nolint end
   if (!is.null(data)) {
