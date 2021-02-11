@@ -7,6 +7,17 @@
 * Internal changes:
     * `calc_haversine_distance` has been internally simplified somewhat to 
       reduce code duplication.
+    * All `services` arguments to `hit_national_map_api` and `get_tiles` can 
+      now handle both base64 and binary returns, removing the need to manually
+      categorize endpoints (54ad9fb).
+        * `hit_national_map_api` auto-detects whether API endpoints are 
+          returning base64 or binary and handles them appropriately
+        * `get_tiles` now auto-detects whether `hit_national_map_api` is 
+          returning base64 or binary and writes to file appropriately.
+    * `hit_national_map_api` is now more likely to fail with a human-friendly
+      error message if API endpoints return a non-200 status (54ad9fb).
+    * `hit_national_map_api` (and by extension `get_tiles`) now register a user
+      agent.
 
 # terrainr 0.2.1
 * Improvements and bug fixes:

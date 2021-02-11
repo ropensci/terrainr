@@ -38,7 +38,7 @@ simulated_data <-  data.frame(id = seq(1, 100, 1),
                               lat = runif(100, 44.04905, 44.17609), 
                               lng = runif(100, -74.01188, -73.83493))
 
-bbox <- get_coord_bbox(lat = simulated_data$lat, lng = simulated_data$lng) 
+bbox <- get_bbox(lat = simulated_data$lat, lng = simulated_data$lng) 
 output_tiles <- get_tiles(bbox = bbox,
                           services = c("elevation", "ortho"))
 ```
@@ -56,7 +56,7 @@ Once downloaded, these images are in standard GeoTIFF or PNG formats and
 can be used as expected with other utilities:
 
 ``` r
-raster::plot(raster::raster(output_tiles[[1]][[1]]))elev
+raster::plot(raster::raster(output_tiles[[1]][[1]]))
 ```
 
 <img src="man/figures/elevation.png" width="100%" />

@@ -54,7 +54,7 @@ knitr::include_graphics("man/figures/naip.png")
 Once downloaded, these images are in standard GeoTIFF or PNG formats and can be used as expected with other utilities:
 
 ```{r eval=FALSE}
-raster::plot(raster::raster(output_tiles[[1]][[1]]))elev
+raster::plot(raster::raster(output_tiles[[1]][[1]]))
 ```
 
 ```{r, echo = FALSE}

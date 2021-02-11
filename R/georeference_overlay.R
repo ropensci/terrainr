@@ -30,12 +30,14 @@
 #'
 #' bbox <- get_coord_bbox(lat = simulated_data$lat, lng = simulated_data$lng)
 #'
-#' downloaded_tiles <- get_tiles(bbox, services = c("elevation", "ortho"))
+#' downloaded_tiles <- get_tiles(bbox,
+#'                               services = c("elevation", "ortho"),
+#'                               georeference = FALSE)
 #'
 #' georeference_overlay(
-#'   downloaded_tiles[[2]],
-#'   tempfile(fileext = ".tif"),
-#'   downloaded_tiles[[1]]
+#'   overlay_file = downloaded_tiles[[2]],
+#'   reference_raster = downloaded_tiles[[1]],
+#'   output_file = tempfile(fileext = ".tif")
 #' )
 #' }
 #'
