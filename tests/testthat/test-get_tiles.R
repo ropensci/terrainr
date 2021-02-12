@@ -8,7 +8,10 @@ test_that("split_bbox works consistently", {
 
   side_length <- 4096
 
-  bbox <- get_coord_bbox(lat = simulated_data$lat, lng = simulated_data$lng)
+  bbox <- terrainr_bounding_box(
+    bl = c(lat = min(simulated_data$lat), lng = min(simulated_data$lng)),
+    tr = c(lat = max(simulated_data$lat), lng = max(simulated_data$lng))
+  )
   bbox <- add_bbox_buffer(bbox, 100)
   splits <- split_bbox(bbox, side_length)
 

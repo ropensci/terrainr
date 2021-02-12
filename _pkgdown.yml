@@ -52,7 +52,6 @@ reference:
     - convert_distance
     - deg_to_rad
     - get_bbox_centroid
-    - get_bbox
     - point_from_distance
     - rad_to_deg
   - title: Classes and Related Functions

@@ -25,7 +25,6 @@ Other utilities:
 \code{\link{calc_haversine_distance}()},
 \code{\link{convert_distance}()},
 \code{\link{get_bbox_centroid}()},
-\code{\link{get_bbox}()},
 \code{\link{point_from_distance}()},
 \code{\link{rad_to_deg}()}
 }

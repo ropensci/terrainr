@@ -28,9 +28,9 @@ test_that("merge_raster expected errors error expectedly", {
 
 test_that("merge_raster files are identical no matter the filename", {
   skip_on_cran()
-  first_tile <- add_bbox_buffer(get_coord_bbox(
-    lat = 44.05003,
-    lng = -74.01164
+  first_tile <- add_bbox_buffer(list(
+    tr = c(lat = 44.050030001, lng = -74.01164),
+    bl = c(lat = 44.05003, lng = -74.011640001)
   ), 10)
   second_tile <- terrainr_bounding_box(
     bl = c(first_tile@bl@lat, first_tile@tr@lng),

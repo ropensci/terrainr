@@ -28,9 +28,9 @@
 #'   lng = runif(100, -73.92273, -73.92147)
 #' )
 #'
-#' bbox <- get_coord_bbox(lat = simulated_data$lat, lng = simulated_data$lng)
+#' simulated_data <- sf::st_as_sf(simulated_data, coords = c("lng", "lat"))
 #'
-#' downloaded_tiles <- get_tiles(bbox,
+#' downloaded_tiles <- get_tiles(simulated_data,
 #'                               services = c("elevation", "ortho"),
 #'                               georeference = FALSE)
 #'

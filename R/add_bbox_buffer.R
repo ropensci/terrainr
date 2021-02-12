@@ -80,9 +80,11 @@ add_bbox_buffer <- function(bbox,
 set_bbox_side_length <- function(bbox,
                                  distance,
                                  distance_unit = "meters") {
-  bbox <- terrainr::export_coord_pair(terrainr::get_bbox_centroid(bbox))
+  center <- terrainr::export_coord_pair(terrainr::get_bbox_centroid(bbox))
   terrainr::add_bbox_buffer(
-    terrainr::get_coord_bbox(lat = bbox["lat"], lng = bbox["lng"]),
+    list(tr = c(lat = center[["lat"]], lng = center[["lng"]]),
+         bl = c(lat = center[["lat"]] - 0.000001,
+                lng = center[["lng"]] - 0.000001)),
     distance = sqrt((distance^2) * 2) / 2,
     distance_unit = distance_unit
   )

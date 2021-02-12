@@ -22,9 +22,8 @@
 #'   lat = runif(100, 44.04905, 44.17609),
 #'   lng = runif(100, -74.01188, -73.83493)
 #' )
-#' bbox <- get_coord_bbox(lat = simulated_data$lat, lng = simulated_data$lng)
-#' bbox <- add_bbox_buffer(bbox, 100)
-#' output_files <- get_tiles(bbox)
+#' simulated_data <- sf::st_as_sf(simulated_data, coords = c("lng", "lat"))
+#' output_files <- get_tiles(simulated_data)
 #' temptiff <- tempfile(fileext = ".tif")
 #' merge_rasters(output_files["elevation"][[1]], temptiff)
 #' raster_to_raw_tiles(temptiff, tempfile())

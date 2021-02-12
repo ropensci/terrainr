@@ -4,6 +4,9 @@
       the user, not the endpoint names. This means that 
       `get_tiles(..., services = "elevation")` will now use the name `elevation`
       instead of `3DEPElevation`, and remain standard across versions (#12).
+    * `get_bbox` and `get_coordinate_bbox` have been removed. Functions that 
+      used to expect `terrainr_bounding_box` objects now accept objects of class
+      `sf` or `raster`. 
 * Improvements and bug fixes:
     * `calc_haversine_distance` gains an argument `coord_units` allowing it to 
       handle coordinates in radians as well as degrees.

@@ -21,16 +21,13 @@ test_that("vector_to_overlay generates the same tiles", {
   load("testdata/sim_dat.rds")
 
   # Download raster tiles and merge them into a single raster
-  bbox <- get_coord_bbox(lat = simulated_data$lat, lng = simulated_data$lng)
-
-  downloaded_tiles <- get_tiles(bbox, tempfile())
+  simulated_data_sf <- sf::st_as_sf(simulated_data, coords = c("lng", "lat"))
+  downloaded_tiles <- get_tiles(simulated_data_sf, tempfile(fileext = ".tif"))
   merged_file <- merge_rasters(
     downloaded_tiles[[1]],
     tempfile(fileext = ".tif")
   )
 
-  # Create an sf object from our original simulated data
-  simulated_data_sf <- sf::st_as_sf(simulated_data, coords = c("lng", "lat"))
   sds_cache <- simulated_data_sf
   sf::st_crs(simulated_data_sf) <- sf::st_crs(4326)
 

@@ -3,7 +3,7 @@
 #' This function splits the area contained within a bounding box into a set of
 #' tiles, and retrieves data from the USGS National map for each tile.
 #'
-#' @param bbox A bounding box representing the lower left and upper right corner
+#' @param data A bounding box representing the lower left and upper right corner
 #' of the area to retrieve a heightmap for. If not a
 #' \code{\link{terrainr_bounding_box}} object, it will be coerced to one.
 #' @param output_prefix The file prefix to use when saving tiles.
@@ -75,14 +75,15 @@
 #'   lng = runif(100, -74.01188, -73.83493)
 #' )
 #'
-#' bbox <- get_coord_bbox(lat = simulated_data$lat, lng = simulated_data$lng)
-#' bbox <- add_bbox_buffer(bbox, 100)
-#' get_tiles(bbox, tempfile())
+#' simulated_data <- sf::st_as_sf(simulated_data, coords = c("lng", "lat"))
+#'
+#' get_tiles(simulated_data, tempfile())
 #' }
 #'
 #' @export
 #' @md
-get_tiles <- function(bbox,
+#' @rdname get_tiles
+get_tiles <- function(data,
                       output_prefix = tempfile(),
                       side_length = NULL,
                       resolution = 1,
@@ -90,6 +91,125 @@ get_tiles <- function(bbox,
                       verbose = FALSE,
                       georeference = TRUE,
                       ...) {
+  UseMethod("get_tiles")
+}
+
+#' @rdname get_tiles
+#' @export
+get_tiles.sf <- function(data,
+                         output_prefix = tempfile(),
+                         side_length = NULL,
+                         resolution = 1,
+                         services = "elevation",
+                         verbose = FALSE,
+                         georeference = TRUE,
+                         ...) {
+
+  data <- sf::st_bbox(data)
+  bl <- c("lng" = data[["xmin"]], "lat" = data[["ymin"]])
+  tr <- c("lng" = data[["xmax"]], "lat" = data[["ymax"]])
+
+  get_tiles_internal(
+    bl = bl,
+    tr = tr,
+    output_prefix = output_prefix,
+    side_length = side_length,
+    resolution = resolution,
+    services = services,
+    verbose = verbose,
+    georeference = georeference,
+    ...
+  )
+
+}
+
+get_tiles.raster <- function(data,
+                             output_prefix = tempfile(),
+                             side_length = NULL,
+                             resolution = 1,
+                             services = "elevation",
+                             verbose = FALSE,
+                             georeference = TRUE,
+                             ...) {
+
+  data <- raster::extent(data)
+  bl <- c("lng" = data@xmin, "lat" = data@ymin)
+  tr <- c("lng" = data@xmax, "lat" = data@ymax)
+
+  get_tiles_internal(
+    bl = bl,
+    tr = tr,
+    output_prefix = output_prefix,
+    side_length = side_length,
+    resolution = resolution,
+    services = services,
+    verbose = verbose,
+    georeference = georeference,
+    ...
+  )
+
+}
+
+#' @rdname get_tiles
+#' @export
+get_tiles.list <- function(data,
+                           output_prefix = tempfile(),
+                           side_length = NULL,
+                           resolution = 1,
+                           services = "elevation",
+                           verbose = FALSE,
+                           georeference = TRUE,
+                           ...) {
+
+  bbox <- terrainr::terrainr_bounding_box(data[[1]], data[[2]])
+  get_tiles_internal(
+    bl = bbox@bl,
+    tr = bbox@tr,
+    output_prefix = output_prefix,
+    side_length = side_length,
+    resolution = resolution,
+    services = services,
+    verbose = verbose,
+    georeference = georeference,
+    ...
+  )
+
+}
+
+#' @rdname get_tiles
+#' @export
+get_tiles.terrainr_bounding_box <- function(data,
+                                            output_prefix = tempfile(),
+                                            side_length = NULL,
+                                            resolution = 1,
+                                            services = "elevation",
+                                            verbose = FALSE,
+                                            georeference = TRUE,
+                                            ...) {
+
+  get_tiles_internal(
+    bl = data@bl,
+    tr = data@tr,
+    output_prefix = output_prefix,
+    side_length = side_length,
+    resolution = resolution,
+    services = services,
+    verbose = verbose,
+    georeference = georeference,
+    ...
+  )
+
+}
+
+get_tiles_internal <- function(bl,
+                               tr,
+                               output_prefix = tempfile(),
+                               side_length = NULL,
+                               resolution = 1,
+                               services = "elevation",
+                               verbose = FALSE,
+                               georeference = TRUE,
+                               ...) {
 
   # short codes are assigned as names; we'll cast them into the full name later
   # full names are from the API URL, hence capitalization woes
@@ -107,7 +227,7 @@ get_tiles <- function(bbox,
   )
 
   stopifnot(all(services %in% list_of_services |
-    services %in% names(list_of_services)))
+                  services %in% names(list_of_services)))
 
   tif_files <- c("3DEPElevation")
   png_files <- list_of_services[!(list_of_services %in% tif_files)]
@@ -124,9 +244,7 @@ get_tiles <- function(bbox,
   # duplicated instead of unique to preserve names
   services <- services[!duplicated(services)]
 
-  if (!methods::is(bbox, "terrainr_bounding_box")) {
-    bbox <- terrainr::terrainr_bounding_box(bbox[[1]], bbox[[2]])
-  }
+  bbox <- terrainr::terrainr_bounding_box(bl, tr)
 
   if (is.null(side_length)) {
     if (any(services %in% png_files)) {
@@ -192,8 +310,8 @@ get_tiles <- function(bbox,
 
         counter <- 0
         while ((!file.exists(cur_path) ||
-          file.size(cur_path) == 0) &&
-          counter < 5) {
+                file.size(cur_path) == 0) &&
+               counter < 5) {
           img_bin <- terrainr::hit_national_map_api(
             current_box[["bbox"]],
             current_box[["img_width"]],
@@ -229,8 +347,8 @@ get_tiles <- function(bbox,
           )
 
           raster::writeRaster(cur_raster,
-            final_path,
-            overwrite = TRUE
+                              final_path,
+                              overwrite = TRUE
           )
           if (rm_path) unlink(cur_path)
         }
@@ -257,6 +375,7 @@ get_tiles <- function(bbox,
   }
 
   return(invisible(res))
+
 }
 
 #' Split a bounding box into a smaller set of component tiles.

@@ -54,20 +54,21 @@ simulated_data <- data.frame(
   lat = runif(100, 44.1114, 44.1123),
   lng = runif(100, -73.92273, -73.92147)
 )
-# Download raster tiles and merge them into a single raster
-bbox <- get_coord_bbox(lat = simulated_data$lat, lng = simulated_data$lng)
 
-downloaded_tiles <- get_tiles(bbox, tempfile())
+# Create an sf object from our original simulated data
+
+simulated_data_sf <- sf::st_as_sf(simulated_data, coords = c("lng", "lat"))
+sf::st_crs(simulated_data_sf) <- sf::st_crs(4326)
+
+# Download data!
+
+downloaded_tiles <- get_tiles(simulated_data_sf, tempfile())
 
 merged_file <- merge_rasters(
   downloaded_tiles[[1]],
   tempfile(fileext = ".tif")
 )
 
-# Create an sf object from our original simulated data
-
-simulated_data_sf <- sf::st_as_sf(simulated_data, coords = c("lng", "lat"))
-sf::st_crs(simulated_data_sf) <- sf::st_crs(4326)
 
 # Create an overlay image
 vector_to_overlay(simulated_data_sf, merged_file[[1]], na.rm = TRUE)

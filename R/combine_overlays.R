@@ -22,14 +22,11 @@
 #'   lng = runif(100, min = -106.4534, max = -106.437)
 #' )
 #'
-#' mt_elbert_bbox <- get_coord_bbox(
-#'   data = mt_elbert_points,
-#'   lat = "lat",
-#'   lng = "lng"
-#' )
+#' mt_elbert_sf <- sf::st_as_sf(mt_elbert_points, coords = c("lng", "lat"))
+#' sf::st_crs(mt_elbert_sf) <- sf::st_crs(4326)
 #'
 #' output_files <- get_tiles(
-#'   bbox = mt_elbert_bbox,
+#'   mt_elbert_sf,
 #'   output_prefix = tempfile(),
 #'   services = c("ortho")
 #' )
@@ -39,10 +36,6 @@
 #'   input_rasters = output_files[1],
 #'   output_raster = tempfile(fileext = ".tif")
 #' )
-#'
-#' # Create an sf dataset from our points
-#' mt_elbert_sf <- sf::st_as_sf(mt_elbert_points, coords = c("lng", "lat"))
-#' sf::st_crs(mt_elbert_sf) <- sf::st_crs(4326)
 #'
 #' # Convert our points into an overlay
 #' mt_elbert_overlay <- vector_to_overlay(mt_elbert_sf,

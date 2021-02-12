@@ -44,7 +44,6 @@ Other utilities:
 \code{\link{convert_distance}()},
 \code{\link{deg_to_rad}()},
 \code{\link{get_bbox_centroid}()},
-\code{\link{get_bbox}()},
 \code{\link{rad_to_deg}()}
 }
 \concept{utilities}

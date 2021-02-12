@@ -2,10 +2,46 @@
 % Please edit documentation in R/get_tiles.R
 \name{get_tiles}
 \alias{get_tiles}
+\alias{get_tiles.sf}
+\alias{get_tiles.list}
+\alias{get_tiles.terrainr_bounding_box}
 \title{A user-friendly way to get USGS National Map data tiles for an area}
 \usage{
 get_tiles(
-  bbox,
+  data,
+  output_prefix = tempfile(),
+  side_length = NULL,
+  resolution = 1,
+  services = "elevation",
+  verbose = FALSE,
+  georeference = TRUE,
+  ...
+)
+
+\method{get_tiles}{sf}(
+  data,
+  output_prefix = tempfile(),
+  side_length = NULL,
+  resolution = 1,
+  services = "elevation",
+  verbose = FALSE,
+  georeference = TRUE,
+  ...
+)
+
+\method{get_tiles}{list}(
+  data,
+  output_prefix = tempfile(),
+  side_length = NULL,
+  resolution = 1,
+  services = "elevation",
+  verbose = FALSE,
+  georeference = TRUE,
+  ...
+)
+
+\method{get_tiles}{terrainr_bounding_box}(
+  data,
   output_prefix = tempfile(),
   side_length = NULL,
   resolution = 1,
@@ -16,7 +52,7 @@ get_tiles(
 )
 }
 \arguments{
-\item{bbox}{A bounding box representing the lower left and upper right corner
+\item{data}{A bounding box representing the lower left and upper right corner
 of the area to retrieve a heightmap for. If not a
 \code{\link{terrainr_bounding_box}} object, it will be coerced to one.}
 
@@ -101,9 +137,9 @@ simulated_data <- data.frame(
   lng = runif(100, -74.01188, -73.83493)
 )
 
-bbox <- get_coord_bbox(lat = simulated_data$lat, lng = simulated_data$lng)
-bbox <- add_bbox_buffer(bbox, 100)
-get_tiles(bbox, tempfile())
+simulated_data <- sf::st_as_sf(simulated_data, coords = c("lng", "lat"))
+
+get_tiles(simulated_data, tempfile())
 }
 
 }
