@@ -8,7 +8,7 @@ on:
       - '*'
       - '!gh-pages'
 
-name: R-CMD-check-Ubuntu-release
+name: run-examples
 
 jobs:
   run-examples:

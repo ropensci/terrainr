@@ -69,3 +69,30 @@ convert_distance <- function(distance, distance_unit = c(
     distance
   }
 }
+
+#' Get the great-circle centroid for latitude/longitude data
+#'
+#' @param lat A vector of latitudes in degrees.
+#' @param lng A vector of longitudes in degrees.
+#'
+#' @keywords internal
+#'
+#' @family utilities
+#'
+#' @return A latitude/longitude
+get_centroid <- function(lat, lng) {
+
+  lat <- terrainr::deg_to_rad(lat)
+  lng <- terrainr::deg_to_rad(lng)
+
+  x <- sum(cos(lat) * cos(lng)) / length(lat)
+  y <- sum(cos(lat) * sin(lng)) / length(lat)
+  z <- sum(sin(lat)) / length(lat)
+  lng <- atan2(y, x)
+  lat <- atan2(z, sqrt(x * x + y * y))
+
+  lat <- terrainr::rad_to_deg(lat)
+  lng <- terrainr::rad_to_deg(lng)
+
+  return(c(lat = lat, lng = lng))
+}

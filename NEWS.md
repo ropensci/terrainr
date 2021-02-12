@@ -1,5 +1,9 @@
 # terrainr 0.2.1.9000
 * Breaking changes:
+    * `terrainr_*` classes have been effectively removed and are no longer 
+      exported. Functions which previously expected these objects now generally 
+      accept `sf` and `Raster` class objects instead. Functions which previously
+      returned these objects now generally return `sf` objects instead.
     * The list returned by `get_tiles` now uses the service names provided by
       the user, not the endpoint names. This means that 
       `get_tiles(..., services = "elevation")` will now use the name `elevation`
@@ -7,6 +11,9 @@
     * `get_bbox` and `get_coordinate_bbox` have been removed. Functions that 
       used to expect `terrainr_bounding_box` objects now accept objects of class
       `sf` or `raster`. 
+    * `add_bbox_buffer` loses the `divisible` argument. For precise control over
+      side length, use `set_bbox_side_length` (which should be more accurate, if
+      slightly more conservative, than the `divisible` system ever was).
 * Improvements and bug fixes:
     * `calc_haversine_distance` gains an argument `coord_units` allowing it to 
       handle coordinates in radians as well as degrees.

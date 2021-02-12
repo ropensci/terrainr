@@ -1,53 +1,25 @@
-test_that("add_bbox_buffer doesn't care about classes", {
-  expect_equal(
-    add_bbox_buffer(list(
-      c(lat = 44.04905, lng = -74.01188),
-      c(lat = 44.17609, lng = -73.83493)
-    ), 10),
-    add_bbox_buffer(
-      terrainr_bounding_box(
-        c(lat = 44.04905, lng = -74.01188),
-        c(lat = 44.17609, lng = -73.83493)
-      ), 10
-    )
-  )
-})
-
-test_that("divisible works, ish", {
-  divide_me <- add_bbox_buffer(
-    terrainr_bounding_box(
-      c(lat = 44.04905, lng = -74.01188),
-      c(lat = 44.17609, lng = -73.83493)
-    ), 10,
-    divisible = 4096
-  )
-  tl <- c(divide_me@tr@lat, divide_me@bl@lng)
-  expect_equal(calc_haversine_distance(tl, divide_me@tr) / 4096,
-    4,
-    tolerance = 0.005
-  )
-  expect_equal(calc_haversine_distance(tl, divide_me@bl) / 4096,
-    5,
-    tolerance = 0.005
-  )
-})
-
 test_that("set_bbox_side_length works within 1%", {
-  bbox <- terrainr_bounding_box(
-    c(lat = 44.04905, lng = -74.01188),
-    c(lat = 44.17609, lng = -73.83493)
+  df <- data.frame(
+    lat = c(44.04905, 44.17609),
+    lng = c(-74.01188, -73.83493)
   )
-  bbox <- set_bbox_side_length(bbox, 8000)
-  tl <- c(bbox@tr@lat, bbox@bl@lng)
+
+  df_sf <- sf::st_as_sf(df, coords = c("lng", "lat"))
+  df_sf <- sf::st_set_crs(df_sf, 4326)
+
+  bbox <- set_bbox_side_length(df_sf, 8000)
+  bbox <- sf::st_bbox(bbox)
+
+  tl <- c(lat = bbox[["ymax"]], lng = bbox[["xmin"]])
   expect_equal(calc_haversine_distance(
-    bbox@tr,
+    c(lat = bbox[["ymax"]], lng = bbox[["xmax"]]),
     tl
   ),
   8000,
   tolerance = 8000 * 0.005
   )
   expect_equal(calc_haversine_distance(
-    bbox@bl,
+    c(lat = bbox[["ymin"]], lng = bbox[["xmin"]]),
     tl
   ),
   8000,

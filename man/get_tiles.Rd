@@ -3,6 +3,7 @@
 \name{get_tiles}
 \alias{get_tiles}
 \alias{get_tiles.sf}
+\alias{get_tiles.Raster}
 \alias{get_tiles.list}
 \alias{get_tiles.terrainr_bounding_box}
 \title{A user-friendly way to get USGS National Map data tiles for an area}
@@ -19,6 +20,17 @@ get_tiles(
 )
 
 \method{get_tiles}{sf}(
+  data,
+  output_prefix = tempfile(),
+  side_length = NULL,
+  resolution = 1,
+  services = "elevation",
+  verbose = FALSE,
+  georeference = TRUE,
+  ...
+)
+
+\method{get_tiles}{Raster}(
   data,
   output_prefix = tempfile(),
   side_length = NULL,

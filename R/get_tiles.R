@@ -123,7 +123,36 @@ get_tiles.sf <- function(data,
 
 }
 
-get_tiles.raster <- function(data,
+get_tiles.sfc <- function(data,
+                          output_prefix = tempfile(),
+                          side_length = NULL,
+                          resolution = 1,
+                          services = "elevation",
+                          verbose = FALSE,
+                          georeference = TRUE,
+                          ...) {
+
+  data <- sf::st_bbox(data)
+  bl <- c("lng" = data[["xmin"]], "lat" = data[["ymin"]])
+  tr <- c("lng" = data[["xmax"]], "lat" = data[["ymax"]])
+
+  get_tiles_internal(
+    bl = bl,
+    tr = tr,
+    output_prefix = output_prefix,
+    side_length = side_length,
+    resolution = resolution,
+    services = services,
+    verbose = verbose,
+    georeference = georeference,
+    ...
+  )
+
+}
+
+#' @rdname get_tiles
+#' @export
+get_tiles.Raster <- function(data,
                              output_prefix = tempfile(),
                              side_length = NULL,
                              resolution = 1,

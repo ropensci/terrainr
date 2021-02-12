@@ -29,7 +29,8 @@ Imports:
     utils,
     gdalUtilities,
     sf,
-    rlang
+    rlang,
+    units
 RoxygenNote: 7.1.1
 Suggests: 
     testthat,

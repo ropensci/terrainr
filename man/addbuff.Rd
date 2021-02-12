@@ -3,28 +3,54 @@
 \name{addbuff}
 \alias{addbuff}
 \alias{add_bbox_buffer}
+\alias{add_bbox_buffer.sf}
+\alias{add_bbox_buffer.Raster}
 \alias{set_bbox_side_length}
+\alias{set_bbox_side_length.sf}
+\alias{set_bbox_side_length.Raster}
 \title{Add a uniform buffer around a bounding box}
 \usage{
-add_bbox_buffer(bbox, distance, distance_unit = "meters", divisible = NULL)
+add_bbox_buffer(data, distance, distance_unit = "meters", error_crs = NULL)
 
-set_bbox_side_length(bbox, distance, distance_unit = "meters")
+\method{add_bbox_buffer}{sf}(data, distance, distance_unit = "meters", error_crs = NULL)
+
+\method{add_bbox_buffer}{Raster}(data, distance, distance_unit = "meters", error_crs = NULL)
+
+set_bbox_side_length(
+  data,
+  distance,
+  distance_unit = "meters",
+  error_crs = NULL
+)
+
+\method{set_bbox_side_length}{sf}(
+  data,
+  distance,
+  distance_unit = "meters",
+  error_crs = NULL
+)
+
+\method{set_bbox_side_length}{Raster}(
+  data,
+  distance,
+  distance_unit = "meters",
+  error_crs = NULL
+)
 }
 \arguments{
-\item{bbox}{The original bounding box to add a buffer around. If not already
-a \code{\link{terrainr_bounding_box}} object, will be converted.}
+\item{data}{The original data to add a buffer around.}
 
 \item{distance}{The distance to add to the buffer.}
 
 \item{distance_unit}{The units of the distance to add to the buffer, passed
-to \code{\link{convert_distance}}.}
+to [units::as_units].}
 
-\item{divisible}{Numeric: Extend the top right and bottom left corners so
-that each side is divisible by \code{divisible}. Leave set to \code{NULL} to
-not extend. This argument is in the same units as \code{distance_unit}.}
+\item{error_crs}{Logical: Should this function error if `data` has no CRS?
+If `TRUE`, function errors; if `FALSE`, function quietly assumes EPSG:4326.
+If `NULL`, the default, function assumes EPSG:4326 with a warning.}
 }
 \value{
-A [terrainr_bounding_box] object.
+An `sfc` object (from [sf::st_as_sfc]).
 }
 \description{
 [add_bbox_buffer] calculates the great circle distance both corners of
@@ -36,27 +62,35 @@ exact.
 all sides of the bounding box to (approximately) a specified length.
 }
 \examples{
-add_bbox_buffer(
-  list(
-    c(lat = 44.04905, lng = -74.01188),
-    c(lat = 44.17609, lng = -73.83493)
-  ),
-  10
-)
-set_bbox_side_length(
-  list(
-    c(lat = 44.04905, lng = -74.01188),
-    c(lat = 44.17609, lng = -73.83493)
-  ),
-  4000
-)
+
+df <- data.frame(
+  lat = c(44.04905, 44.17609),
+  lng = c(-74.01188, -73.83493)
+  )
+
+df_sf <- sf::st_as_sf(df, coords = c("lng", "lat"))
+df_sf <- sf::st_set_crs(df_sf, 4326)
+
+add_bbox_buffer(df_sf, 10)
+
+
+df <- data.frame(
+  lat = c(44.04905, 44.17609),
+  lng = c(-74.01188, -73.83493)
+  )
+
+df_sf <- sf::st_as_sf(df, coords = c("lng", "lat"))
+df_sf <- sf::st_set_crs(df_sf, 4326)
+
+set_bbox_side_length(df_sf, 4000)
+
 }
 \seealso{
 Other utilities: 
 \code{\link{calc_haversine_distance}()},
 \code{\link{convert_distance}()},
 \code{\link{deg_to_rad}()},
-\code{\link{get_bbox_centroid}()},
+\code{\link{get_centroid}()},
 \code{\link{point_from_distance}()},
 \code{\link{rad_to_deg}()}
 }

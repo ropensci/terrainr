@@ -32,7 +32,7 @@ Other utilities:
 \code{\link{addbuff}},
 \code{\link{convert_distance}()},
 \code{\link{deg_to_rad}()},
-\code{\link{get_bbox_centroid}()},
+\code{\link{get_centroid}()},
 \code{\link{point_from_distance}()},
 \code{\link{rad_to_deg}()}
 }

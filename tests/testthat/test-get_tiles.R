@@ -6,15 +6,18 @@ test_that("split_bbox works consistently", {
     lng = runif(100, -74.01188, -73.83493)
   )
 
+  simulated_sf <- sf::st_as_sf(simulated_data, coords = c("lng", "lat"))
+  simulated_sf <- sf::st_set_crs(simulated_sf, 4326)
+
   side_length <- 4096
 
+  bbox_sf <- add_bbox_buffer(simulated_sf, 100)
+  bbox_sf <- sf::st_bbox(bbox_sf)
   bbox <- terrainr_bounding_box(
-    bl = c(lat = min(simulated_data$lat), lng = min(simulated_data$lng)),
-    tr = c(lat = max(simulated_data$lat), lng = max(simulated_data$lng))
+    bl = c(lat = bbox_sf[["ymin"]], lng = bbox_sf[["xmin"]]),
+    tr = c(lat = bbox_sf[["ymax"]], lng = bbox_sf[["xmax"]])
   )
-  bbox <- add_bbox_buffer(bbox, 100)
   splits <- split_bbox(bbox, side_length)
-
 
   expect_equal(splits[[2]], 4)
   expect_equal(splits[[3]], 4)
