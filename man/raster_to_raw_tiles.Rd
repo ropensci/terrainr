@@ -27,6 +27,8 @@ into the Unity game engine.
 }
 \examples{
 \dontrun{
+if (!isTRUE(as.logical(Sys.getenv("CI")))) {
+
 simulated_data <- data.frame(
   id = seq(1, 100, 1),
   lat = runif(100, 44.04905, 44.17609),
@@ -37,6 +39,8 @@ output_files <- get_tiles(simulated_data)
 temptiff <- tempfile(fileext = ".tif")
 merge_rasters(output_files["elevation"][[1]], temptiff)
 raster_to_raw_tiles(temptiff, tempfile())
+
+}
 }
 
 }

@@ -30,13 +30,16 @@
 #'
 #' @examples
 #' \dontrun{
-#' tiles <- terrainr_bounding_box(
-#'   bl = c(lat = 44.10379, lng = -74.01177),
-#'   tr = c(lat = 44.17573, lng = -73.91171)
+#' tiles <- data.frame(
+#' lat = c(44.10379, 44.17573),
+#' lng = c(-74.01177, -73.91171)
 #' )
+#'
+#' tiles <- sf::st_as_sf(tiles, coords = c("lng", "lat"))
 #'
 #' img_files <- get_tiles(tiles)
 #' merge_rasters(img_files[[1]])
+#'
 #' }
 #'
 #' @export
@@ -121,7 +124,7 @@ merge_rasters <- function(input_rasters,
       character(1)
     )
     mapply(function(img, out, rst) {
-      terrainr::georeference_overlay(
+      georeference_overlay(
         overlay_file = img,
         reference_raster = rst,
         output_file = out

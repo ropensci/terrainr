@@ -19,7 +19,6 @@ S4 class for coordinate points in the format expected by
 
 \seealso{
 Other classes and related functions: 
-\code{\link{export_coord_pair}()},
 \code{\link{terrainr_coordinate_pair}}
 }
 \concept{classes and related functions}

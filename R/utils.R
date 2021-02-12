@@ -82,8 +82,8 @@ convert_distance <- function(distance, distance_unit = c(
 #' @return A latitude/longitude
 get_centroid <- function(lat, lng) {
 
-  lat <- terrainr::deg_to_rad(lat)
-  lng <- terrainr::deg_to_rad(lng)
+  lat <- deg_to_rad(lat)
+  lng <- deg_to_rad(lng)
 
   x <- sum(cos(lat) * cos(lng)) / length(lat)
   y <- sum(cos(lat) * sin(lng)) / length(lat)
@@ -91,8 +91,8 @@ get_centroid <- function(lat, lng) {
   lng <- atan2(y, x)
   lat <- atan2(z, sqrt(x * x + y * y))
 
-  lat <- terrainr::rad_to_deg(lat)
-  lng <- terrainr::rad_to_deg(lng)
+  lat <- rad_to_deg(lat)
+  lng <- rad_to_deg(lng)
 
   return(c(lat = lat, lng = lng))
 }

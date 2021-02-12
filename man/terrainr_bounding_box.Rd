@@ -19,26 +19,10 @@ objects, these arguments are not used.}
 }
 \value{
 A terrainr_bounding_box object
-
-classes and related functions
 }
 \description{
 In order to simplify code, most \code{terrainr} functions expect a set S4
 class representation of coordinate pairs and bounding boxes. If the provided
 data is not in the expected S4 format, these functions are used to cast the
 data into the target class.
-}
-\examples{
-# Create bounding box from coordinates:
-terrainr_bounding_box(
-  bl = c(lat = 44.05003, lng = -74.01164),
-  tr = c(lat = 44.17538, lng = -73.83500)
-)
-# This is identical to:
-bl_coords <- terrainr_coordinate_pair(c(lat = 44.05003, lng = -74.01164))
-tr_coords <- terrainr_coordinate_pair(c(lat = 44.17538, lng = -73.83500))
-terrainr_bounding_box(
-  bl = bl_coords,
-  tr = tr_coords
-)
 }

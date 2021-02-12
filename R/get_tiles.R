@@ -190,7 +190,7 @@ get_tiles.list <- function(data,
                            georeference = TRUE,
                            ...) {
 
-  bbox <- terrainr::terrainr_bounding_box(data[[1]], data[[2]])
+  bbox <- terrainr_bounding_box(data[[1]], data[[2]])
   get_tiles_internal(
     bl = bbox@bl,
     tr = bbox@tr,
@@ -273,7 +273,7 @@ get_tiles_internal <- function(bl,
   # duplicated instead of unique to preserve names
   services <- services[!duplicated(services)]
 
-  bbox <- terrainr::terrainr_bounding_box(bl, tr)
+  bbox <- terrainr_bounding_box(bl, tr)
 
   if (is.null(side_length)) {
     if (any(services %in% png_files)) {
@@ -341,7 +341,7 @@ get_tiles_internal <- function(bl,
         while ((!file.exists(cur_path) ||
                 file.size(cur_path) == 0) &&
                counter < 5) {
-          img_bin <- terrainr::hit_national_map_api(
+          img_bin <- hit_national_map_api(
             current_box[["bbox"]],
             current_box[["img_width"]],
             current_box[["img_height"]],
@@ -426,14 +426,14 @@ get_tiles_internal <- function(bl,
 #'
 #' @noRd
 split_bbox <- function(bbox, side_length, resolution = 1) {
-  tl <- terrainr::terrainr_coordinate_pair(c(bbox@tr@lat, bbox@bl@lng))
+  tl <- terrainr_coordinate_pair(c(bbox@tr@lat, bbox@bl@lng))
 
   img_width <- round(
-    terrainr::calc_haversine_distance(tl, bbox@tr) / resolution,
+    calc_haversine_distance(tl, bbox@tr) / resolution,
     digits = 0
   )
   img_height <- round(
-    terrainr::calc_haversine_distance(tl, bbox@bl) / resolution,
+    calc_haversine_distance(tl, bbox@bl) / resolution,
     digits = 0
   )
 
@@ -447,19 +447,19 @@ split_bbox <- function(bbox, side_length, resolution = 1) {
 
   for (i in 1:x_tiles) {
     if (i == x_tiles) {
-      left_lng <- terrainr::point_from_distance(
+      left_lng <- point_from_distance(
         bbox@bl,
         side_length * (i - 1) * resolution,
         90
       )@lng
       right_lng <- bbox@tr@lng
     } else {
-      left_lng <- terrainr::point_from_distance(
+      left_lng <- point_from_distance(
         bbox@bl,
         side_length * (i - 1) * resolution,
         90
       )@lng
-      right_lng <- terrainr::point_from_distance(
+      right_lng <- point_from_distance(
         bbox@bl,
         side_length * i * resolution,
         90
@@ -467,19 +467,19 @@ split_bbox <- function(bbox, side_length, resolution = 1) {
     }
     for (j in 1:y_tiles) {
       if (j == y_tiles) {
-        top_lat <- terrainr::point_from_distance(
+        top_lat <- point_from_distance(
           bbox@tr,
           side_length * (j - 1) * resolution,
           180
         )@lat
         bot_lat <- bbox@bl@lat
       } else {
-        top_lat <- terrainr::point_from_distance(
+        top_lat <- point_from_distance(
           bbox@tr,
           side_length * (j - 1) * resolution,
           180
         )@lat
-        bot_lat <- terrainr::point_from_distance(
+        bot_lat <- point_from_distance(
           bbox@tr,
           side_length * j * resolution,
           180
@@ -487,9 +487,9 @@ split_bbox <- function(bbox, side_length, resolution = 1) {
       }
 
       tile_boxes[[i]][[j]] <- list(
-        bbox = terrainr::terrainr_bounding_box(
-          bl = terrainr::terrainr_coordinate_pair(c(bot_lat, left_lng)),
-          tr = terrainr::terrainr_coordinate_pair(c(top_lat, right_lng))
+        bbox = terrainr_bounding_box(
+          bl = terrainr_coordinate_pair(c(bot_lat, left_lng)),
+          tr = terrainr_coordinate_pair(c(top_lat, right_lng))
         ),
         img_width = ifelse(((img_width - (i * side_length)) < 0),
           img_width - ((i - 1) * side_length),
