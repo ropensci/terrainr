@@ -27,9 +27,7 @@ Imports:
     methods,
     png,
     utils,
-    gdalUtilities,
     sf,
-    rlang,
     units
 RoxygenNote: 7.1.1
 Suggests: 

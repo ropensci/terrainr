@@ -23,6 +23,7 @@
 * Improvements and bug fixes:
     * `calc_haversine_distance` gains an argument `coord_units` allowing it to 
       handle coordinates in radians as well as degrees.
+    * `get_tiles` now tells you what tiles it's retrieving, not retriving.
 * Internal changes:
     * `calc_haversine_distance` has been internally simplified somewhat to 
       reduce code duplication.
@@ -37,6 +38,10 @@
       error message if API endpoints return a non-200 status (54ad9fb).
     * `hit_national_map_api` (and by extension `get_tiles`) now register a user
       agent.
+  * Changes in dependencies:
+    * `gdalUtilities` has been removed, with functionality replaced by `sf`.
+    * `rlang` has been removed, with functionality removed.
+    * `units` has been added.
 
 # terrainr 0.2.1
 * Improvements and bug fixes:

@@ -119,13 +119,15 @@ raster_to_raw_tiles <- function(input_file,
         p(message = sprintf("Converting tile %s to PNG", x))
       } # nocov end
       # changing this to gdalUtils causes errors
-      gdalUtilities::gdal_translate(
-        src_dataset = x,
-        dst_dataset = y,
-        ot = "UInt16",
-        strict = FALSE,
-        scale = c(0, max_raster, 0, (2^16) - 1),
-        of = "png"
+      sf::gdal_utils(
+        "translate",
+        source = x,
+        destination = y,
+        options = c(
+          "-ot", "UInt16",
+          "-of", "png",
+          "-scale", "0", max_raster, "0", "65535"
+        )
       )
     },
     temptiffs,

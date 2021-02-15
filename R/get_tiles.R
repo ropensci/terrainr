@@ -304,7 +304,7 @@ get_tiles_internal <- function(bl,
       for (k in seq_along(services)) {
         if (requireNamespace("progressr", quietly = TRUE)) { # nocov start
           p(message = sprintf(
-            "Retriving %s tile (%d, %d)",
+            "Retrieving %s tile (%d, %d)",
             services[[k]],
             i,
             j
