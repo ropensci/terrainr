@@ -234,18 +234,6 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "gdalUtilities",
-      "name": "gdalUtilities",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=gdalUtilities"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "sf",
       "name": "sf",
       "provider": {
@@ -255,18 +243,6 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=sf"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "rlang",
-      "name": "rlang",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=rlang"
     },
     {
       "@type": "SoftwareApplication",
@@ -283,7 +259,7 @@
   ],
   "releaseNotes": "https://github.com/mikemahoney218/terrainr/blob/master/NEWS.md",
   "readme": "https://github.com/mikemahoney218/terrainr/blob/main/README.md",
-  "fileSize": "3078.712KB",
+  "fileSize": "3079.141KB",
   "contIntegration": "https://codecov.io/gh/mikemahoney218/terrainr",
   "developmentStatus": ["https://www.tidyverse.org/lifecycle/#maturing", "https://www.repostatus.org/#active"],
   "keywords": [
