@@ -21,16 +21,9 @@ A vector of length 1 containing distance between points
 This is an internal utility function to convert bounding boxes into
 coordinate pairs.
 }
-\examples{
-calc_haversine_distance(
-  c(lat = 44.121268, lng = -73.903734),
-  c(lat = 43.121268, lng = -74.903734)
-)
-}
 \seealso{
 Other utilities: 
 \code{\link{addbuff}},
-\code{\link{convert_distance}()},
 \code{\link{deg_to_rad}()},
 \code{\link{get_centroid}()},
 \code{\link{point_from_distance}()},

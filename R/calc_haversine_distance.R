@@ -13,13 +13,6 @@
 #' @family utilities
 #'
 #' @return A vector of length 1 containing distance between points
-#'
-#' @examples
-#' calc_haversine_distance(
-#'   c(lat = 44.121268, lng = -73.903734),
-#'   c(lat = 43.121268, lng = -74.903734)
-#' )
-#' @export
 calc_haversine_distance <- function(point_1, point_2, coord_units = "degrees") {
 
   if (!(coord_units %in% c("degrees", "radians"))) {

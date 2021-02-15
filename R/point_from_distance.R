@@ -19,9 +19,13 @@ point_from_distance <- function(coord_pair,
                                 distance_unit = "meters",
                                 azimuth_unit = c("degrees", "radians")) {
   distance_unit <- distance_unit[[1]]
+  units(distance) <- units::as_units(distance_unit)
   azimuth_unit <- azimuth_unit[[1]]
 
-  distance <- convert_distance(distance, distance_unit)
+  # Force units to meters
+  distance <- units::as_units("meter") + distance - units::as_units("meter")
+  # Remove units to prevent errors in trig
+  units(distance) <- units::as_units(NULL)
 
   r <- 6371e3 # Radius of the earth in m
 

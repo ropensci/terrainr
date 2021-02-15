@@ -23,7 +23,6 @@ rad_to_deg(deg_to_rad(360))
 Other utilities: 
 \code{\link{addbuff}},
 \code{\link{calc_haversine_distance}()},
-\code{\link{convert_distance}()},
 \code{\link{get_centroid}()},
 \code{\link{point_from_distance}()},
 \code{\link{rad_to_deg}()}

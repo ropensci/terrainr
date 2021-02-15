@@ -21,7 +21,6 @@ Get the great-circle centroid for latitude/longitude data
 Other utilities: 
 \code{\link{addbuff}},
 \code{\link{calc_haversine_distance}()},
-\code{\link{convert_distance}()},
 \code{\link{deg_to_rad}()},
 \code{\link{point_from_distance}()},
 \code{\link{rad_to_deg}()}

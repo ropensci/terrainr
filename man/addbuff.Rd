@@ -88,7 +88,6 @@ set_bbox_side_length(df_sf, 4000)
 \seealso{
 Other utilities: 
 \code{\link{calc_haversine_distance}()},
-\code{\link{convert_distance}()},
 \code{\link{deg_to_rad}()},
 \code{\link{get_centroid}()},
 \code{\link{point_from_distance}()},

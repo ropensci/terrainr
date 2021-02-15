@@ -35,16 +35,9 @@ Must be a TIFF file. Leave as \code{NULL} if you aren't merging images.}
 A named list containing the file paths outputs were written to.
 }
 \description{
-Some functions like \code{\link{get_tiles}} return multiple separate files
+Some functions like [get_tiles] return multiple separate files
 when it can be useful to have a single larger raster instead. This function
 will collapse those multiple raster files into a single TIFF.
-}
-\details{
-Additionally, some outputs from \code{\link{get_tiles}} (such as when
-\code{service = "ortho"}) are not georeferenced, making future processing
-with them harder. This function can georeference those images using a
-reference raster, then merge them into a single object for further
-processing.
 }
 \examples{
 \dontrun{

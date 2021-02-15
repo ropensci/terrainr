@@ -1,14 +1,8 @@
 #' Merge multiple raster files into a single raster
 #'
-#' Some functions like \code{\link{get_tiles}} return multiple separate files
+#' Some functions like [get_tiles] return multiple separate files
 #' when it can be useful to have a single larger raster instead. This function
 #' will collapse those multiple raster files into a single TIFF.
-#'
-#' Additionally, some outputs from \code{\link{get_tiles}} (such as when
-#' \code{service = "ortho"}) are not georeferenced, making future processing
-#' with them harder. This function can georeference those images using a
-#' reference raster, then merge them into a single object for further
-#' processing.
 #'
 #' @param input_rasters A character vector containing the file paths to the
 #' georeferenced rasters you want to use.

@@ -27,22 +27,22 @@ test_that("split_bbox works consistently", {
   first_tile <- bbox_tiles[[1]][[1]][[1]]
 
   tl <- c(first_tile@tr@lat, first_tile@bl@lng)
-  expect_equal(terrainr::calc_haversine_distance(tl, first_tile@bl),
+  expect_equal(calc_haversine_distance(tl, first_tile@bl),
     side_length,
     tolerance = side_length * 0.005
   )
-  expect_equal(terrainr::calc_haversine_distance(tl, first_tile@tr),
+  expect_equal(calc_haversine_distance(tl, first_tile@tr),
     side_length,
     tolerance = side_length * 0.005
   )
 
   middle_tile <- bbox_tiles[[2]][[3]][[1]]
   tl <- c(middle_tile@tr@lat, middle_tile@bl@lng)
-  expect_equal(terrainr::calc_haversine_distance(tl, middle_tile@bl),
+  expect_equal(calc_haversine_distance(tl, middle_tile@bl),
     side_length,
     tolerance = side_length * 0.005
   )
-  expect_equal(terrainr::calc_haversine_distance(tl, middle_tile@tr),
+  expect_equal(calc_haversine_distance(tl, middle_tile@tr),
     side_length,
     tolerance = side_length * 0.005
   )

@@ -1,24 +1,28 @@
 # terrainr 0.2.1.9000
+* This version will be released as v 0.3.0.
 * Breaking changes:
     * `terrainr_*` classes have been effectively removed and are no longer 
       exported. Functions which previously expected these objects now generally 
       accept `sf` and `Raster` class objects instead. Functions which previously
-      returned these objects now generally return `sf` objects instead.
+      returned these objects now generally return `sf` objects instead (#24).
     * The list returned by `get_tiles` now uses the service names provided by
       the user, not the endpoint names. This means that 
       `get_tiles(..., services = "elevation")` will now use the name `elevation`
       instead of `3DEPElevation`, and remain standard across versions (#12).
     * `get_bbox` and `get_coordinate_bbox` have been removed. Functions that 
       used to expect `terrainr_bounding_box` objects now accept objects of class
-      `sf` or `raster`. 
+      `sf` or `raster` (#24).
     * `add_bbox_buffer` loses the `divisible` argument. For precise control over
       side length, use `set_bbox_side_length` (which should be more accurate, if
-      slightly more conservative, than the `divisible` system ever was).
+      slightly more conservative, than the `divisible` system ever was) (#17).
+    * `convert_distance` has been removed (internally replaced by the 
+      `units` package) (#7).
+    * A handful of utility functions are no longer exported:
+        * `calc_haversine_distance`
+        * `point_from_distance`
 * Improvements and bug fixes:
     * `calc_haversine_distance` gains an argument `coord_units` allowing it to 
       handle coordinates in radians as well as degrees.
-    * `get_bbox` gains a method for `terrainr_bounding_box`, returning the 
-      `data` argument with no validation or processing.
 * Internal changes:
     * `calc_haversine_distance` has been internally simplified somewhat to 
       reduce code duplication.

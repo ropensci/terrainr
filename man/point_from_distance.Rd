@@ -37,7 +37,6 @@ Find latitude and longitude for a certain distance and azimuth from a point.
 Other utilities: 
 \code{\link{addbuff}},
 \code{\link{calc_haversine_distance}()},
-\code{\link{convert_distance}()},
 \code{\link{deg_to_rad}()},
 \code{\link{get_centroid}()},
 \code{\link{rad_to_deg}()}

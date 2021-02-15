@@ -49,7 +49,6 @@ reference:
   - title: Utility Functions
   - contents:
     - add_bbox_buffer
-    - convert_distance
     - deg_to_rad
     - get_bbox_centroid
     - point_from_distance
