@@ -3,9 +3,8 @@
 #' This function splits the area contained within a bounding box into a set of
 #' tiles, and retrieves data from the USGS National map for each tile.
 #'
-#' @param data A bounding box representing the lower left and upper right corner
-#' of the area to retrieve a heightmap for. If not a
-#' \code{\link{terrainr_bounding_box}} object, it will be coerced to one.
+#' @param data An `sf` or `Raster` object; tiles will be downloaded for the full
+#' extent of the provided object.
 #' @param output_prefix The file prefix to use when saving tiles.
 #' @param side_length The length, in meters, of each side of tiles to download.
 #' If \code{NULL}, defaults to the maximum side length permitted by the least

@@ -64,9 +64,8 @@ get_tiles(
 )
 }
 \arguments{
-\item{data}{A bounding box representing the lower left and upper right corner
-of the area to retrieve a heightmap for. If not a
-\code{\link{terrainr_bounding_box}} object, it will be coerced to one.}
+\item{data}{An \code{sf} or \code{Raster} object; tiles will be downloaded for the full
+extent of the provided object.}
 
 \item{output_prefix}{The file prefix to use when saving tiles.}
 
