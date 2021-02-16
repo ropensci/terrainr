@@ -45,7 +45,7 @@
 #' @md
 georeference_overlay <- function(overlay_file,
                                  reference_raster,
-                                 output_file) {
+                                 output_file = tempfile(fileext = ".tif")) {
   stopifnot(is.character(overlay_file) && length(overlay_file) == 1)
   stopifnot(grepl("tiff?$", output_file))
   file_type <- regmatches(overlay_file, regexpr("\\w*$", overlay_file))

@@ -79,9 +79,8 @@
 #' get_tiles(simulated_data, tempfile())
 #' }
 #'
-#' @export
-#' @md
 #' @rdname get_tiles
+#' @export
 get_tiles <- function(data,
                       output_prefix = tempfile(),
                       side_length = NULL,
@@ -122,6 +121,8 @@ get_tiles.sf <- function(data,
 
 }
 
+#' @rdname get_tiles
+#' @export
 get_tiles.sfc <- function(data,
                           output_prefix = tempfile(),
                           side_length = NULL,
@@ -131,21 +132,16 @@ get_tiles.sfc <- function(data,
                           georeference = TRUE,
                           ...) {
 
-  data <- sf::st_bbox(data)
-  bl <- c("lng" = data[["xmin"]], "lat" = data[["ymin"]])
-  tr <- c("lng" = data[["xmax"]], "lat" = data[["ymax"]])
+  data <- sf::st_as_sf(data)
 
-  get_tiles_internal(
-    bl = bl,
-    tr = tr,
-    output_prefix = output_prefix,
-    side_length = side_length,
-    resolution = resolution,
-    services = services,
-    verbose = verbose,
-    georeference = georeference,
-    ...
-  )
+  get_tiles(data,
+           output_prefix = output_prefix,
+           side_length = side_length,
+           resolution = resolution,
+           services = services,
+           verbose = verbose,
+           georeference = georeference,
+           ...)
 
 }
 
@@ -205,7 +201,6 @@ get_tiles.list <- function(data,
 }
 
 #' @rdname get_tiles
-#' @export
 get_tiles.terrainr_bounding_box <- function(data,
                                             output_prefix = tempfile(),
                                             side_length = NULL,

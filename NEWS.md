@@ -17,12 +17,19 @@
       slightly more conservative, than the `divisible` system ever was) (#17).
     * `convert_distance` has been removed (internally replaced by the 
       `units` package) (#7).
+    * `merge_rasters` loses the `input_images` and `output_image` function, as
+      most downloaded files are now already georeferenced. To recreate this 
+      functionality, georeference image tiles directly via 
+      `output <- georeference_overlay(img_tiles, ref_tiles, tempfile(fileext = ".tif"))`
+      and then provide `output` to `merge_rasters`.
     * A handful of utility functions are no longer exported:
         * `calc_haversine_distance`
         * `point_from_distance`
 * Improvements and bug fixes:
     * `calc_haversine_distance` gains an argument `coord_units` allowing it to 
       handle coordinates in radians as well as degrees.
+    * `georeference_overlay` provides `tempfile(fileext = ".tif")` as a default
+      output location if no `output_file` is provided.
     * `get_tiles` now tells you what tiles it's retrieving, not retriving.
 * Internal changes:
     * `calc_haversine_distance` has been internally simplified somewhat to 

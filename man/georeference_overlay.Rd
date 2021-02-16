@@ -4,7 +4,11 @@
 \alias{georeference_overlay}
 \title{Georeference image overlays based on a reference raster}
 \usage{
-georeference_overlay(overlay_file, reference_raster, output_file)
+georeference_overlay(
+  overlay_file,
+  reference_raster,
+  output_file = tempfile(fileext = ".tif")
+)
 }
 \arguments{
 \item{overlay_file}{The image overlay to georeference. File format will be
