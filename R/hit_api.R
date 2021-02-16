@@ -160,6 +160,10 @@ hit_national_map_api <- function(bbox,
     if (!httr::http_error(res)) {
       body <- tryCatch(
         httr::content(res, type = "application/json"),
+        # nocov start
+        # Hard to force temporary API errors
+        # Rather than have code coverage improve when servers go down,
+        # I just exclude error handling from coverage
         error = function(e) {
           tryCatch(
             {
@@ -172,17 +176,18 @@ hit_national_map_api <- function(bbox,
             }
           )
         }
+        # nocov end
       )
 
       if (counter < 15 && !is.null(body$error)) {
-        get_href(counter = counter + 1)
+        get_href(counter = counter + 1) # nocov
       } else {
         return(body)
       }
     } else if (counter < 15) {
       get_href(counter = counter + 1)
     } else {
-      stop("Map server returned error code ", httr::status_code(img_res))
+      stop("Map server returned error code ", httr::status_code(img_res)) # nocov
     }
   }
 
