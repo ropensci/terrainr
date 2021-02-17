@@ -16,7 +16,7 @@
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.0.3 (2020-10-10)",
+  "runtimePlatform": "R version 4.0.4 (2021-02-15)",
   "author": [
     {
       "@type": "Person",
@@ -113,18 +113,6 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "ggplot2",
-      "name": "ggplot2",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=ggplot2"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "jpeg",
       "name": "jpeg",
       "provider": {
@@ -146,6 +134,18 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=tiff"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "brio",
+      "name": "brio",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=brio"
     }
   ],
   "softwareRequirements": [
@@ -255,11 +255,40 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=units"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "grDevices",
+      "name": "grDevices"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "ggplot2",
+      "name": "ggplot2",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=ggplot2"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "sp",
+      "name": "sp",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=sp"
     }
   ],
   "releaseNotes": "https://github.com/mikemahoney218/terrainr/blob/master/NEWS.md",
   "readme": "https://github.com/mikemahoney218/terrainr/blob/main/README.md",
-  "fileSize": "3108.33KB",
+  "fileSize": "3196.968KB",
   "contIntegration": "https://codecov.io/gh/mikemahoney218/terrainr",
   "developmentStatus": ["https://www.tidyverse.org/lifecycle/#maturing", "https://www.repostatus.org/#active"],
   "keywords": [
