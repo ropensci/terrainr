@@ -245,7 +245,7 @@ ortho_with_points <- combine_overlays(
   # Overlays are stacked in order, with the first file specified on the bottom
   output_files[[2]],
   mt_elbert_overlay,
-  output_file = tempfile(fileext = ".jpg")
+  output_file = tempfile(fileext = ".png")
   )
 knitr::include_graphics(ortho_with_points)
 ```
@@ -279,7 +279,7 @@ tile_overlays <- lapply(output_files[[2]],
                                                       na.rm = TRUE))
 
 combined_tiles <- mapply(function(x, y) {
-  combine_overlays(x, y, output_file = tempfile(fileext = ".jpg"))
+  combine_overlays(x, y, output_file = tempfile(fileext = ".png"))
   },                            
   output_files[[2]],
   tile_overlays)

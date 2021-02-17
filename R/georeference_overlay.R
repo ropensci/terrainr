@@ -77,6 +77,8 @@ georeference_overlay <- function(overlay_file,
     stopifnot(any(grepl("^Raster", class(reference_raster))))
   }
 
+  # Need image_read in order for brick to correctly detect scale
+  # otherwise assumes 8bit
   overlay_file <- raster::brick(image_read(overlay_file))
   raster::crs(overlay_file) <- reference_raster@crs
   raster::extent(overlay_file) <- reference_raster@extent
