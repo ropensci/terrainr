@@ -42,13 +42,17 @@ reference:
   - title: Data Manipulation Functions
   - contents:
     - merge_rasters
-    - raster_to_raw_tiles
     - georeference_overlay
+  - title: Visualization Functions
+  - contents:
+    - geom_spatial_rgb
+    - raster_to_raw_tiles
     - vector_to_overlay
     - combine_overlays
   - title: Utility Functions
   - contents:
-    - add_bbox_buffer, set_bbox_side_length
+    - add_bbox_buffer
+    - set_bbox_side_length
     - deg_to_rad
     - rad_to_deg
 

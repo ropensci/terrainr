@@ -24,7 +24,6 @@ Other utilities:
 \code{\link{addbuff}},
 \code{\link{calc_haversine_distance}()},
 \code{\link{deg_to_rad}()},
-\code{\link{get_centroid}()},
-\code{\link{point_from_distance}()}
+\code{\link{get_centroid}()}
 }
 \concept{utilities}

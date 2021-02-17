@@ -22,3 +22,4 @@ Other classes and related functions:
 \code{\link{terrainr_coordinate_pair}}
 }
 \concept{classes and related functions}
+\keyword{internal}

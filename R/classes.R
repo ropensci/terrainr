@@ -5,6 +5,7 @@
 #' @slot lng Numeric longitude, in decimal degrees
 #'
 #' @family classes and related functions
+#' @keywords internal
 methods::setClass("terrainr_coordinate_pair",
   slots = c(
     lat = "numeric",
@@ -34,6 +35,7 @@ methods::setClass("terrainr_coordinate_pair",
 #' @return \code{terrainr_coordinate_pair} object
 #'
 #' @family classes and related functions
+#' @keywords internal
 terrainr_coordinate_pair <- function(coords, coord_units = c(
                                        "degrees",
                                        "radians"
@@ -105,7 +107,7 @@ terrainr_coordinate_pair <- function(coords, coord_units = c(
 #' @slot tr A \code{\link{terrainr_coordinate_pair}} representing the top right
 #' corner of the bounding box
 #'
-#' classes and related functions
+#' @keywords internal
 methods::setClass("terrainr_bounding_box",
   slots = c(
     bl = "terrainr_coordinate_pair",
@@ -133,8 +135,7 @@ methods::setClass("terrainr_bounding_box",
 #' If \code{bl} and \code{tr} are already [terrainr_coordinate_pair]
 #' objects, these arguments are not used.
 #'
-#' @return A terrainr_bounding_box object
-#' @md
+#' @keywords internal
 terrainr_bounding_box <- function(bl, tr, coord_units = "degrees") {
   if (!methods::is(bl, "terrainr_coordinate_pair")) {
     bl <- terrainr_coordinate_pair(bl, coord_units)
