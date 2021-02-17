@@ -4,17 +4,21 @@
 \alias{georeference_overlay}
 \title{Georeference image overlays based on a reference raster}
 \usage{
-georeference_overlay(overlay_file, reference_raster, output_file)
+georeference_overlay(
+  overlay_file,
+  reference_raster,
+  output_file = tempfile(fileext = ".tif")
+)
 }
 \arguments{
 \item{overlay_file}{The image overlay to georeference. File format will be
-detected automatically from file extension; options include \code{jpeg/jpg},
-\code{png}, and \code{tif/tiff}.}
+detected automatically from file extension; options include `jpeg/jpg`,
+`png`, and `tif/tiff`.}
 
 \item{reference_raster}{The raster file to base georeferencing on. The output
 image will have the same extent and CRS as the reference raster. Accepts both
-Raster* objects from the \code{raster} package or a file readable by
-\link[raster:raster]{raster::raster}.}
+Raster* objects from the `raster` package or a file readable by
+[raster::raster].}
 
 \item{output_file}{The path to write the georeferenced image file to. Must
 be a TIFF.}
@@ -26,7 +30,7 @@ The file path written to, invisibly.
 This function georeferences an image overlay based on a reference raster,
 setting the extent and CRS of the image to those of the raster file. To
 georeference multiple images and merge them into a single file, see
-\link{merge_rasters}.
+[merge_rasters].
 }
 \examples{
 \dontrun{
@@ -36,14 +40,16 @@ simulated_data <- data.frame(
   lng = runif(100, -73.92273, -73.92147)
 )
 
-bbox <- get_coord_bbox(lat = simulated_data$lat, lng = simulated_data$lng)
+simulated_data <- sf::st_as_sf(simulated_data, coords = c("lng", "lat"))
 
-downloaded_tiles <- get_tiles(bbox, services = c("elevation", "ortho"))
+downloaded_tiles <- get_tiles(simulated_data,
+                              services = c("elevation", "ortho"),
+                              georeference = FALSE)
 
 georeference_overlay(
-  downloaded_tiles[[2]],
-  tempfile(fileext = ".tif"),
-  downloaded_tiles[[1]]
+  overlay_file = downloaded_tiles[[2]],
+  reference_raster = downloaded_tiles[[1]],
+  output_file = tempfile(fileext = ".tif")
 )
 }
 

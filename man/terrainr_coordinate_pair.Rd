@@ -25,12 +25,9 @@ class representation of coordinate pairs and bounding boxes. If the provided
 data isn't in the expected S4 format, these functions are used to cast the
 data into the target class.
 }
-\examples{
-terrainr_coordinate_pair(c(lat = 44.05003, lng = -74.01164))
-}
 \seealso{
 Other classes and related functions: 
-\code{\link{export_coord_pair}()},
 \code{\link{terrainr_coordinate_pair-class}}
 }
 \concept{classes and related functions}
+\keyword{internal}

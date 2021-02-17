@@ -42,27 +42,15 @@ reference:
   - title: Data Manipulation Functions
   - contents:
     - merge_rasters
-    - raster_to_raw_tiles
     - georeference_overlay
+  - title: Visualization Functions
+  - contents:
+    - geom_spatial_rgb
+    - raster_to_raw_tiles
     - vector_to_overlay
     - combine_overlays
   - title: Utility Functions
   - contents:
     - add_bbox_buffer
-    - convert_distance
-    - deg_to_rad
-    - get_bbox_centroid
-    - get_bbox
-    - point_from_distance
-    - rad_to_deg
-  - title: Classes and Related Functions
-  - contents:
-    - terrainr_coordinate_pair-class
-    - terrainr_bounding_box-class
-    - terrainr_coordinate_pair
-    - terrainr_bounding_box
-    - export_coord_pair
-    - export_bounding_box
-
-
+    - set_bbox_side_length
 

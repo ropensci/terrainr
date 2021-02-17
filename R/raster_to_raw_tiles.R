@@ -11,23 +11,27 @@
 #' returns a .png.
 #'
 #' @family data manipulation functions
+#' @family visualization functions
 #'
 #' @return Invisibly, a character vector containing the file paths that were
 #' written to.
 #'
 #' @examples
 #' \dontrun{
+#' if (!isTRUE(as.logical(Sys.getenv("CI")))) {
+#'
 #' simulated_data <- data.frame(
 #'   id = seq(1, 100, 1),
 #'   lat = runif(100, 44.04905, 44.17609),
 #'   lng = runif(100, -74.01188, -73.83493)
 #' )
-#' bbox <- get_coord_bbox(lat = simulated_data$lat, lng = simulated_data$lng)
-#' bbox <- add_bbox_buffer(bbox, 100)
-#' output_files <- get_tiles(bbox)
+#' simulated_data <- sf::st_as_sf(simulated_data, coords = c("lng", "lat"))
+#' output_files <- get_tiles(simulated_data)
 #' temptiff <- tempfile(fileext = ".tif")
-#' merge_rasters(output_files["3DEPElevation"][[1]], temptiff)
+#' merge_rasters(output_files["elevation"][[1]], temptiff)
 #' raster_to_raw_tiles(temptiff, tempfile())
+#'
+#' }
 #' }
 #'
 #' @export
@@ -116,13 +120,15 @@ raster_to_raw_tiles <- function(input_file,
         p(message = sprintf("Converting tile %s to PNG", x))
       } # nocov end
       # changing this to gdalUtils causes errors
-      gdalUtilities::gdal_translate(
-        src_dataset = x,
-        dst_dataset = y,
-        ot = "UInt16",
-        strict = FALSE,
-        scale = c(0, max_raster, 0, (2^16) - 1),
-        of = "png"
+      sf::gdal_utils(
+        "translate",
+        source = x,
+        destination = y,
+        options = c(
+          "-ot", "UInt16",
+          "-of", "png",
+          "-scale", "0", max_raster, "0", "65535"
+        )
       )
     },
     temptiffs,

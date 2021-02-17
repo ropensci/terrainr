@@ -2,10 +2,70 @@
 % Please edit documentation in R/get_tiles.R
 \name{get_tiles}
 \alias{get_tiles}
+\alias{get_tiles.sf}
+\alias{get_tiles.sfc}
+\alias{get_tiles.Raster}
+\alias{get_tiles.list}
+\alias{get_tiles.terrainr_bounding_box}
 \title{A user-friendly way to get USGS National Map data tiles for an area}
 \usage{
 get_tiles(
-  bbox,
+  data,
+  output_prefix = tempfile(),
+  side_length = NULL,
+  resolution = 1,
+  services = "elevation",
+  verbose = FALSE,
+  georeference = TRUE,
+  ...
+)
+
+\method{get_tiles}{sf}(
+  data,
+  output_prefix = tempfile(),
+  side_length = NULL,
+  resolution = 1,
+  services = "elevation",
+  verbose = FALSE,
+  georeference = TRUE,
+  ...
+)
+
+\method{get_tiles}{sfc}(
+  data,
+  output_prefix = tempfile(),
+  side_length = NULL,
+  resolution = 1,
+  services = "elevation",
+  verbose = FALSE,
+  georeference = TRUE,
+  ...
+)
+
+\method{get_tiles}{Raster}(
+  data,
+  output_prefix = tempfile(),
+  side_length = NULL,
+  resolution = 1,
+  services = "elevation",
+  verbose = FALSE,
+  georeference = TRUE,
+  ...
+)
+
+\method{get_tiles}{list}(
+  data,
+  output_prefix = tempfile(),
+  side_length = NULL,
+  resolution = 1,
+  services = "elevation",
+  verbose = FALSE,
+  georeference = TRUE,
+  ...
+)
+
+\method{get_tiles}{terrainr_bounding_box}(
+  data,
   output_prefix = tempfile(),
   side_length = NULL,
   resolution = 1,
@@ -16,9 +76,8 @@ get_tiles(
 )
 }
 \arguments{
-\item{bbox}{A bounding box representing the lower left and upper right corner
-of the area to retrieve a heightmap for. If not a
-\code{\link{terrainr_bounding_box}} object, it will be coerced to one.}
+\item{data}{An `sf` or `Raster` object; tiles will be downloaded for the full
+extent of the provided object.}
 
 \item{output_prefix}{The file prefix to use when saving tiles.}
 
@@ -64,22 +123,21 @@ tiles, and retrieves data from the USGS National map for each tile.
 The following services are currently available
 (with short codes in parentheses where applicable). See links for API
 documentation.
-\itemize{
-\item \href{https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer}{3DEPElevation}
-(short code: elevation)
-\item \href{https://services.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/MapServer}{USGSNAIPPlus}
-(short code: ortho)
-\item \href{https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer}{nhd}
-(short code: hydro)
-\item \href{https://carto.nationalmap.gov/arcgis/rest/services/govunits/MapServer}{govunits}
-\item \href{https://carto.nationalmap.gov/arcgis/rest/services/contours/MapServer}{contours}
-\item \href{https://carto.nationalmap.gov/arcgis/rest/services/geonames/MapServer}{geonames}
-\item \href{https://hydro.nationalmap.gov/arcgis/rest/services/NHDPlus_HR/MapServer}{NHDPlus_HR}
-\item \href{https://carto.nationalmap.gov/arcgis/rest/services/structures/MapServer}{structures}
-\item \href{https://carto.nationalmap.gov/arcgis/rest/services/transportation/MapServer}{transportation}
-\item \href{https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer}{wbd}
-("short code": watersheds)
-}
+
+* [3DEPElevation](https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer)
+  (short code: elevation)
+* [USGSNAIPPlus](https://services.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/MapServer)
+  (short code: ortho)
+* [nhd](https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer)
+  (short code: hydro)
+* [govunits](https://carto.nationalmap.gov/arcgis/rest/services/govunits/MapServer)
+* [contours](https://carto.nationalmap.gov/arcgis/rest/services/contours/MapServer)
+* [geonames](https://carto.nationalmap.gov/arcgis/rest/services/geonames/MapServer)
+* [NHDPlus_HR](https://hydro.nationalmap.gov/arcgis/rest/services/NHDPlus_HR/MapServer)
+* [structures](https://carto.nationalmap.gov/arcgis/rest/services/structures/MapServer)
+* [transportation](https://carto.nationalmap.gov/arcgis/rest/services/transportation/MapServer)
+* [wbd](https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer)
+  ("short code": watersheds)
 }
 
 \section{Additional Arguments}{
@@ -87,10 +145,10 @@ documentation.
 The \code{...} argument can be used to pass additional arguments to the
 National Map API or to edit the hard-coded defaults used by this function.
 More information on common arguments to change can be found in
-\link{hit_national_map_api}. Note that \code{...} can also be used to change
+[hit_national_map_api]. Note that \code{...} can also be used to change
 the formats returned by the server, but that doing so while using this
 function will likely cause the function to error (or corrupt the output
-data). To download files in different formats, use \link{hit_national_map_api}.
+data). To download files in different formats, use [hit_national_map_api].
 }
 
 \examples{
@@ -101,9 +159,9 @@ simulated_data <- data.frame(
   lng = runif(100, -74.01188, -73.83493)
 )
 
-bbox <- get_coord_bbox(lat = simulated_data$lat, lng = simulated_data$lng)
-bbox <- add_bbox_buffer(bbox, 100)
-get_tiles(bbox, tempfile())
+simulated_data <- sf::st_as_sf(simulated_data, coords = c("lng", "lat"))
+
+get_tiles(simulated_data, tempfile())
 }
 
 }

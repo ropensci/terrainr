@@ -1,3 +1,61 @@
+# terrainr 0.3.0
+* Breaking changes:
+    * `terrainr_*` classes have been effectively removed and are no longer 
+      exported. Functions which previously expected these objects now generally 
+      accept `sf` and `Raster` class objects instead. Functions which previously
+      returned these objects now generally return `sf` objects instead (#24).
+    * The list returned by `get_tiles` now uses the service names provided by
+      the user, not the endpoint names. This means that 
+      `get_tiles(..., services = "elevation")` will now use the name `elevation`
+      instead of `3DEPElevation`, and remain standard across versions (#12).
+    * `get_bbox` and `get_coordinate_bbox` have been removed. Functions that 
+      used to expect `terrainr_bounding_box` objects now accept objects of class
+      `sf` or `raster` (#24).
+    * `add_bbox_buffer` loses the `divisible` argument. For precise control over
+      side length, use `set_bbox_side_length` (which should be more accurate, if
+      slightly more conservative, than the `divisible` system ever was) (#17).
+    * `convert_distance` has been removed (internally replaced by the 
+      `units` package) (#7).
+    * `merge_rasters` loses the `input_images` and `output_image` function, as
+      most downloaded files are now already georeferenced. To recreate this 
+      functionality, georeference image tiles directly via 
+      `output <- georeference_overlay(img_tiles, ref_tiles, tempfile(fileext = ".tif"))`
+      and then provide `output` to `merge_rasters`.
+    * A handful of utility functions are no longer exported:
+        * `calc_haversine_distance`
+        * `point_from_distance`
+        * `rad_to_deg`
+        * `deg_to_rad`
+* New features:
+    * Two new functions, `geom_spatial_rgb` and `stat_spatial_rgb`, allow you to 
+      use RGB map tiles as backgrounds for further plotting.
+    * `calc_haversine_distance` gains an argument `coord_units` allowing it to 
+      handle coordinates in radians as well as degrees.
+* Improvements and bug fixes:
+    * `georeference_overlay` provides `tempfile(fileext = ".tif")` as a default
+      output location if no `output_file` is provided.
+    * `get_tiles` now tells you what tiles it's retrieving, not retriving.
+* Internal changes:
+    * `calc_haversine_distance` has been internally simplified somewhat to 
+      reduce code duplication.
+    * All `services` arguments to `hit_national_map_api` and `get_tiles` can 
+      now handle both base64 and binary returns, removing the need to manually
+      categorize endpoints (54ad9fb).
+        * `hit_national_map_api` auto-detects whether API endpoints are 
+          returning base64 or binary and handles them appropriately
+        * `get_tiles` now auto-detects whether `hit_national_map_api` is 
+          returning base64 or binary and writes to file appropriately.
+    * `hit_national_map_api` is now more likely to fail with a human-friendly
+      error message if API endpoints return a non-200 status (54ad9fb).
+    * `hit_national_map_api` (and by extension `get_tiles`) now register a user
+      agent.
+  * Changes in dependencies:
+    * `gdalUtilities` has been removed, with functionality replaced by `sf`.
+    * `rlang` has been removed, with functionality removed.
+    * `units` has been added.
+    * `ggplot2` has been moved to Imports (was previously in Suggests) due to 
+      the new `geom_spatial_rgb` and `stat_spatial_rgb` functions.
+
 # terrainr 0.2.1
 * Improvements and bug fixes:
     * The `transportation` endpoint has moved servers, and is now handled by the

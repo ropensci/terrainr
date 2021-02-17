@@ -27,17 +27,20 @@ into the Unity game engine.
 }
 \examples{
 \dontrun{
+if (!isTRUE(as.logical(Sys.getenv("CI")))) {
+
 simulated_data <- data.frame(
   id = seq(1, 100, 1),
   lat = runif(100, 44.04905, 44.17609),
   lng = runif(100, -74.01188, -73.83493)
 )
-bbox <- get_coord_bbox(lat = simulated_data$lat, lng = simulated_data$lng)
-bbox <- add_bbox_buffer(bbox, 100)
-output_files <- get_tiles(bbox)
+simulated_data <- sf::st_as_sf(simulated_data, coords = c("lng", "lat"))
+output_files <- get_tiles(simulated_data)
 temptiff <- tempfile(fileext = ".tif")
-merge_rasters(output_files["3DEPElevation"][[1]], temptiff)
+merge_rasters(output_files["elevation"][[1]], temptiff)
 raster_to_raw_tiles(temptiff, tempfile())
+
+}
 }
 
 }
@@ -47,5 +50,11 @@ Other data manipulation functions:
 \code{\link{georeference_overlay}()},
 \code{\link{merge_rasters}()},
 \code{\link{vector_to_overlay}()}
+
+Other visualization functions: 
+\code{\link{combine_overlays}()},
+\code{\link{geom_spatial_rgb}()},
+\code{\link{vector_to_overlay}()}
 }
 \concept{data manipulation functions}
+\concept{visualization functions}

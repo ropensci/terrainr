@@ -16,8 +16,7 @@ functions.
 left corner of the bounding box}
 
 \item{\code{tr}}{A \code{\link{terrainr_coordinate_pair}} representing the top right
-corner of the bounding box
-
-classes and related functions}
+corner of the bounding box}
 }}
 
+\keyword{internal}

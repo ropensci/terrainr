@@ -14,13 +14,13 @@ knitr::opts_chunk$set(
 )
 ```
 
-The goal of the terrainr package is to make it easy for users to download 
-geospatial data for points within the United States from the USGS National Map 
-API and then process that data for 
-further analysis, or to produce tiles that can then be imported into the 
-Unity 3D rendering engine to be used as physics objects. This vignette will 
-walk through the core functions available in terrainr and talk about a few 
-quirks of the National Map service and how to work around them.
+The goal of the terrainr package is to make it easier to visualize landscapes,
+both by providing functions to download elevation data and base maps from the 
+USGS National Map and by adding utilities to manipulate base maps for use in 
+visualizations using [ggplot2](https://ggplot2.tidyverse.org/) or the 
+freely available [Unity 3D rendering engine](https://unity.com/).
+This vignette will walk through the core functions available in terrainr and 
+how they interact.
 
 Let's load the terrainr package to get started:
 
@@ -32,7 +32,7 @@ We're going to work with data for Mount Elbert today, the highest point in the
 Rocky Mountain range. I'm just choosing this location for the dramatic scenery;
 the National Map can be used to retrieve data for the entire United States and 
 much of Canada. Let's simulate some data for the area right around Mt. Elbert,
-such as the point data we might get from field data:
+such as the point data we might get from some field collection:
 
 ```{r}
 mt_elbert_points <- data.frame(
@@ -41,69 +41,26 @@ mt_elbert_points <- data.frame(
 )
 ```
 
-Let's also assign the coordinates for the peak to `mt_elbert`:
+terrainr is built to play nicely with functions from the 
+[sf](https://r-spatial.github.io/sf/) and [raster](https://rspatial.org/raster/) 
+packages. In order to get our simulated points into the right format, we need to 
+use the `st_as_sf` function from the `sf` package:
 
 ```{r}
-mt_elbert <- c(39.1178, -106.4452)
+mt_elbert_points <- sf::st_as_sf(mt_elbert_points,
+                                 coords = c("lng", "lat"))
+mt_elbert_points <- sf::st_set_crs(mt_elbert_points, 4326)
 ```
 
-Our first step is to get the bounding box that contains our data. This is 
-where our first terrainr function, `get_bbox`, comes in:
-
-```{r}
-mt_elbert_bbox <- get_bbox(data = mt_elbert_points, 
-                           lat = "lat", 
-                           lng = "lng")
-mt_elbert_bbox
-```
-
-`get_bbox` returns an S4 class (`terrainr_bounding_box`) that indicates 
-the "bottom left" and "top right" points of the box containing all your points, 
-which is guaranteed to work with all the functions in terrainr. However, there's 
-no requirement for you to go out of your way to make a `terrainr_bounding_box` 
-object; any list object that contains the same information will work just as 
-well with all of terrainr's processing and data retrieval functions.
-
-We can also calculate a bounding box for our single point:
-
-```{r}
-peak_bbox <- get_bbox(lat = mt_elbert[[1]], 
-                      lng = mt_elbert[[2]])
-peak_bbox
-```
-
-But of course, this bounding box doesn't contain anything other than our single 
-point! 
-
-If we want, we can extend the bounding box by a set distance using
-`add_bbox_buffer()`:
-
-```{r}
-add_bbox_buffer(bbox = peak_bbox, 
-                distance = 1000,
-                distance_unit = "meters")
-```
-
-Which, if we only have a single point, can be equivalent to simulating data as
-we did above!
-
-```{r}
-all.equal(add_bbox_buffer(bbox = peak_bbox, 
-                distance = 1000,
-                distance_unit = "meters"),
-          mt_elbert_bbox,
-          tolerance = 0.00001)
-```
-
-Now that we've got our bounding box, it's time to retrieve our data. terrainr 
-currently supports downloading DEMs from the USGS 3D Elevation Program and 
-orthoimages from the National Agricultural Imagery Program. These programs have
-slightly different APIs and different restrictions on file types and the size
-of image you can download at once. Rather than make you think about this, 
-terrainr handles all the weird edges of the API requests for you, including 
-splitting your bounding box into tiles and downloading each separately. To make
-multi-step processing easier, terrainr functions which deal with these tiles 
-typically return lists of the file paths they saved your data to.
+Now that we've got our data in the right format, it's time to retrieve our data. 
+terrainr currently supports downloading DEMs from the USGS 3D Elevation Program 
+as well as orthoimages from the National Agricultural Imagery Program, in 
+addition to other base map images from the National Map. These programs each 
+have slightly different APIs and different restrictions on file types and the 
+size of image you can download at once. 
+Rather than make you think about this, terrainr handles all the edges of making 
+API requests for you, including splitting your request into tiles and 
+formatting the query. 
 
 For this vignette, we'll retrieve both elevation and orthoimagery using the 
 `get_tiles` function. We can either use the generic "elevation" and "ortho"
@@ -120,13 +77,15 @@ package. We'll demonstrate that syntax here:
 library(progressr)
 handlers("progress")
 with_progress(
-  output_files <- get_tiles(bbox = mt_elbert_bbox,
+  output_files <- get_tiles(mt_elbert_points,
                             output_prefix = tempfile(),
                             services = c("elevation", "ortho"))
   )
 ```
 
-And just like that, we have our data tiles!
+And just like that, we have our data tiles! To make multi-step processing 
+easier, terrainr functions which deal with these tiles typically return lists of 
+the file paths they saved your data to.
 
 ```{r eval = FALSE}
 output_files
@@ -134,18 +93,33 @@ output_files
 
 ```{r echo = FALSE}
 output_files <- list(
-  `3DEPElevation` = "/tmp/RtmphTFQvZ/file65e5d859e628_3DEPElevation_1_1.tif",
-  USGSNAIPPlus = "/tmp/RtmphTFQvZ/file65e5d859e628_USGSNAIPPlus_1_1.tif"
+  elevation = "/tmp/RtmphTFQvZ/file65e5d859e628_3DEPElevation_1_1.tif",
+  ortho = "/tmp/RtmphTFQvZ/file65e5d859e628_USGSNAIPPlus_1_1.tif"
 )
 output_files
 ```
+
+If we were requesting more data than we can download at once, each element of 
+the list would be a character vector containing the file paths for all of our 
+downloaded tiles. Since we're sticking with a relatively small area for this 
+example, we only have one tile for each service. 
+
+As a quick aside, note that 
+you can control where these files save to via the `output_prefix` argument 
+(which appends the suffix `servicename_xindex_yindex.tif` to each tile it 
+downloads) -- you don't need to save them to a temporary directory (and 
+redownload every time you launch R) as we're doing here!
+
+If all you want is to access these endpoints to download data, this is probably
+the only terrainr function you'll need -- the files produced by this function
+can be processed just like any other spatial data:
 
 ```{r eval=FALSE}
 raster::plot(raster::raster(output_files[[1]]))
 ```
 
 ```{r echo = FALSE}
-knitr::include_graphics("example_dem.png")
+knitr::include_graphics("example_dem.jpg")
 ```
 
 ```{r eval=FALSE}
@@ -153,98 +127,182 @@ raster::plotRGB(raster::brick(output_files[[2]]), scale = 1)
 ```
 
 ```{r echo = FALSE}
-knitr::include_graphics("example_ortho.png")
+knitr::include_graphics("example_ortho.jpg")
 ```
 
-`output_files` is now a named list with all of our downloaded files! If we were
-requesting more data than we can download at once, each element of the list 
-would be a character vector containing the file paths for all of our downloaded
-tiles. Since we're sticking with a relatively small area for this example, we 
-only have one tile for each service.
+In addition to the regular methods for plotting rasters in R, terrainr makes it 
+a bit easier to use ggplot2 for plotting the data returned by `get_tiles`. 
+Plotting single-band rasters, like our elevation file, is already well-supported
+in base ggplot2:
 
-A weird quirk of this API is that the USGS does not necessarily respect 
-the bounding boxes that we ask for, and will download tiles with overlapping
-edges. We can fix this using `merge_rasters`:
+```{r eval=FALSE}
+library(ggplot2)
+
+elevation_raster <- raster::raster(output_files[[1]])
+elevation_df <- as.data.frame(elevation_raster, xy = TRUE)
+elevation_df <- setNames(elevation_df, c("x", "y", "elevation"))
+
+ggplot() + 
+  geom_raster(data = elevation_df, aes(x = x, y = y, fill = elevation)) + 
+  scale_fill_distiller(palette = "BrBG") + 
+  coord_sf(crs = 4326)
+```
+
+```{r echo = FALSE}
+knitr::include_graphics("elevation_ggplot.jpg")
+```
+
+terrainr adds the ability to plot using multi-band RGB rasters, like the tiles
+downloaded for non-elevation endpoints, using the new `geom_spatial_rgb`
+function (or its partner, `stat_spatial_rgb`):
 
 ```{r eval = FALSE}
-elevation_merged <- merge_rasters(input_rasters = output_files[1],
-                                  output_raster = tempfile(fileext = ".tif"))
-ortho_merged <- merge_rasters(input_rasters = output_files[2],
-                              output_raster = tempfile(fileext = ".tif"))
+ortho_raster <- raster::stack(output_files[[2]])
+ortho_df <- as.data.frame(ortho_raster, xy = TRUE)
+ortho_df <- setNames(ortho_df, c("x", "y", "red", "green", "blue", "alpha"))
+
+ggplot() + 
+  geom_spatial_rgb(data = ortho_df,
+                   # Required aesthetics r/g/b specify color bands:
+                   aes(x = x, y = y, r = red, g = green, b = blue)) + 
+  coord_sf(crs = 4326)
 ```
 
-`merge_rasters` can also be used to georeference multiple images based on 
-reference rasters -- so if you produce overlays for each tile you download, you
-can quickly and easily turn them into a single merged overlay. If you only have
-a single file to georeference (or don't want to merge the outputs), check out 
-the `terrainr` function `georeference_overlay`.
+```{r}
+knitr::include_graphics("ortho_ggplot.jpg")
+```
 
-This can be particularly useful when producing overlay images from external 
-data. Users are able to provide their own imagery (given it is of the same 
-extent and resolution as the raster map) to be georeferenced and used as an 
-overlay, or quickly produce images from vector data (in any format that can be 
-read by the `sf` package) using the `vector_to_overlay` function:
+
+Note that `geom_spatial_rgb` is a little different from other ggplot2 geoms in 
+that it can also accept RasterStack objects directly:
+
+```{r eval = FALSE}
+ggplot() + 
+  geom_spatial_rgb(data = ortho_raster,
+                   aes(x = x, y = y, r = red, g = green, b = blue)) + 
+  coord_sf(crs = 4326)
+```
+
+```{r echo = FALSE}
+knitr::include_graphics("ortho_ggplot.jpg")
+```
+
+Or length 1 character vectors with a path to a file that can be read by 
+`raster::stack`:
+
+```{r eval = FALSE}
+ggplot() + 
+  geom_spatial_rgb(data = output_files[[2]],
+                   aes(x = x, y = y, r = red, g = green, b = blue)) + 
+  coord_sf(crs = 4326)
+```
+
+```{r echo = FALSE}
+knitr::include_graphics("ortho_ggplot.jpg")
+```
+
+You can then use these multi-band rasters as basemaps for further plotting as 
+desired.
+
+```{r eval = FALSE}
+ggplot() + 
+  geom_spatial_rgb(data = output_files[[2]],
+                   aes(x = x, y = y, r = red, g = green, b = blue)) + 
+  geom_sf(data = mt_elbert_points)
+```
+
+```{r echo = FALSE}
+knitr::include_graphics("with_points.jpg")
+```
+
+In case you find this visualization falls a little bit flat, terrainr also 
+provides the ability to bring your landscapes into Unity to visualize in 3D. 
+Our first step in this process is going to be replicating our image of 
+base-map-plus-field-sites (above) in a format that we can import into Unity 
+directly. First, we'll need to use the `vector_to_overlay` function to create
+an image overlay from our point data:
 
 ```{r, eval = FALSE}
-mt_elbert_sf <- sf::st_as_sf(mt_elbert_points, coords = c("lng", "lat"))
-sf::st_crs(mt_elbert_sf) <- sf::st_crs(4326)
-mt_elbert_overlay <- vector_to_overlay(mt_elbert_sf,
-                                       elevation_merged[[1]],
+mt_elbert_overlay <- vector_to_overlay(mt_elbert_points,
+                                       output_files[[2]],
                                        size = 15,
                                        color = "red")
 knitr::include_graphics(mt_elbert_overlay)
 ```
 
 ```{r, echo = FALSE}
-knitr::include_graphics("mt_elbert_overlay.png")
+knitr::include_graphics("mt_elbert_overlay.jpg")
 ```
+
+Note that `vector_to_overlay` can be used with any sf object, not just point 
+data.
 
 These overlays may be stacked on top of one another or downloaded imagery using
 the `combine_overlays` function:
 
 ```{r, eval=FALSE}
-ortho_with_points <- combine_overlays(ortho_merged[[1]],
-                                      mt_elbert_overlay,
-                                      output_file = tempfile(fileext = ".png"))
-png::readPNG(ortho_with_points)
+ortho_with_points <- combine_overlays(
+  # Overlays are stacked in order, with the first file specified on the bottom
+  output_files[[2]],
+  mt_elbert_overlay,
+  output_file = tempfile(fileext = ".jpg")
+  )
+knitr::include_graphics(ortho_with_points)
 ```
 
 ```{r, echo = FALSE}
 knitr::include_graphics("combined_overlay.jpg")
 ```
 
-Attempting to combine particularly large images may result in R using too much 
-memory, possibly even crashing the R session. As a result, it is often helpful 
-to instead create an overlay for each image tile and then merge the resuling 
-images using `merge_rasters`:
+Unfortunately, this image processing strips the georeferencing on the image. 
+We can restore the original georeferencing via the `georeference_overlay`
+function:
+
+```{r eval = FALSE}
+georef_overlay <- georeference_overlay(
+  ortho_with_points,
+  output_files[[2]]
+)
+```
+
+We've been working so far with a single tile, but Unity is able to handle much,
+much larger rasters than we would normally work with in R. In order to create
+overlays for these larger rasters, it's usually best to create an overlay for
+smaller image tiles which can then be joined back together with `merge_rasters`:
 
 ```{r, eval = FALSE}
-tile_overlays <- lapply(elevation_merged[[1]],
-                        function(x) vector_to_overlay(mt_elbert_sf, 
+tile_overlays <- lapply(output_files[[2]],
+                        function(x) vector_to_overlay(mt_elbert_points, 
                                                       x, 
                                                       size = 15, 
                                                       color = "red", 
                                                       na.rm = TRUE))
 
 combined_tiles <- mapply(function(x, y) {
-  combine_overlays(x, y, output_file = tempfile(fileext = ".png"))
+  combine_overlays(x, y, output_file = tempfile(fileext = ".jpg"))
   },                            
   output_files[[2]],
   tile_overlays)
 
-merge_rasters(input_rasters = output_files[[1]],
-              input_images = combined_tiles)
+georef_tiles <- mapply(georeference_overlay, combined_tiles, output_files[[2]])
+
+merged_tiles <- merge_rasters(georef_tiles)
 ```
 
+Of course, since we're only working with a single tile, `georef_tiles` is 
+identical to `merged_tiles`. But when working with larger areas, `merged_tiles`
+is particularly useful for joining the separate tiles downloaded by `get_tiles`
+into a single raster file.
 
-The last major function provided by terrainr is `raster_to_raw_tiles`, which 
-is designed to turn these larger rasters into tiles that can be imported into 
-the Unity 3D rendering engine. The specifics of working with Unity is outside
-of the scope of this overview vignette, other than to demonstrate the main 
-way I call `raster_to_raw_tiles`:
+In particular, having a single joined raster is necessary for the function
+`raster_to_raw_tiles`, which is designed to turn these larger rasters into tiles 
+in a format that can be imported into the Unity 3D rendering engine. The 
+specifics of working with Unity is outside of the scope of this overview 
+vignette, other than to demonstrate the main way I call `raster_to_raw_tiles`:
 
 ```{r eval = FALSE}
-side_length <- vapply(c(elevation_merged, ortho_merged), 
+elevation_tile <- output_files[[1]]
+side_length <- vapply(c(elevation_tile, georef_tiles), 
                       function(x) max(dim(raster::raster(x))), 
                       numeric(1))
 
@@ -256,17 +314,19 @@ mapply(function(x, y, z) {
                         raw = z)
     )
 },
-  c(elevation_merged, ortho_merged),
+  c(elevation_tile, georef_tiles),
   side_length, # What's the longer edge of our image file?
   c(TRUE, FALSE) # we don't want to convert our orthoimages to .raw;
-)                # Unity takes the textures as .pngs
+)                # Unity takes the textures as .jpgs
 ```
 
 And after that function runs, it's a matter of minutes to create beautiful -- 
 and fully physically-simulated -- landscape visualizations of your area of 
-interest:
+interest in Unity:
 
 ```{r echo = FALSE}
 knitr::include_graphics("ebert_unity.jpg")
 ```
 
+For more instructions on how to create these 3D simulations in Unity, check out
+the [Unity vignette](https://mikemahoney218.github.io/terrainr/articles/unity_instructions.html).

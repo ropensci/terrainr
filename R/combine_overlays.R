@@ -5,8 +5,10 @@
 #'
 #' @param ... File paths for images to be combined. Note that combining TIFF
 #' images requires the `tiff` package be installed.
-#' @param output_file Optionally, the path to save the resulting image to. Can
-#' be any format accepted by [magick::image_read].
+#' @param output_file The path to save the resulting image to. Can
+#' be any format accepted by [magick::image_read]. Optionally, can be set to
+#' `NULL`, in which case this function will return the image as a `magick`
+#' object instead of writing to disk.
 #' @param transparency A value indicating how much transparency should be added
 #' to each image. If less than 1, interpreted as a proportion (so a value of
 #' 0.1 results in each image becoming 10% more transparent); if between 1 and
@@ -22,14 +24,11 @@
 #'   lng = runif(100, min = -106.4534, max = -106.437)
 #' )
 #'
-#' mt_elbert_bbox <- get_coord_bbox(
-#'   data = mt_elbert_points,
-#'   lat = "lat",
-#'   lng = "lng"
-#' )
+#' mt_elbert_sf <- sf::st_as_sf(mt_elbert_points, coords = c("lng", "lat"))
+#' sf::st_crs(mt_elbert_sf) <- sf::st_crs(4326)
 #'
 #' output_files <- get_tiles(
-#'   bbox = mt_elbert_bbox,
+#'   mt_elbert_sf,
 #'   output_prefix = tempfile(),
 #'   services = c("ortho")
 #' )
@@ -39,10 +38,6 @@
 #'   input_rasters = output_files[1],
 #'   output_raster = tempfile(fileext = ".tif")
 #' )
-#'
-#' # Create an sf dataset from our points
-#' mt_elbert_sf <- sf::st_as_sf(mt_elbert_points, coords = c("lng", "lat"))
-#' sf::st_crs(mt_elbert_sf) <- sf::st_crs(4326)
 #'
 #' # Convert our points into an overlay
 #' mt_elbert_overlay <- vector_to_overlay(mt_elbert_sf,
@@ -61,6 +56,7 @@
 #'
 #' @family data manipulation functions
 #' @family overlay creation functions
+#' @family visualization functions
 #'
 #' @return If `output_file` is not null, `output_file`, invisibly. If
 #' `output_file` is null, a `magick` image object.

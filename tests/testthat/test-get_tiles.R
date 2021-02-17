@@ -6,12 +6,18 @@ test_that("split_bbox works consistently", {
     lng = runif(100, -74.01188, -73.83493)
   )
 
+  simulated_sf <- sf::st_as_sf(simulated_data, coords = c("lng", "lat"))
+  simulated_sf <- sf::st_set_crs(simulated_sf, 4326)
+
   side_length <- 4096
 
-  bbox <- get_coord_bbox(lat = simulated_data$lat, lng = simulated_data$lng)
-  bbox <- add_bbox_buffer(bbox, 100)
+  bbox_sf <- add_bbox_buffer(simulated_sf, 100)
+  bbox_sf <- sf::st_bbox(bbox_sf)
+  bbox <- terrainr_bounding_box(
+    bl = c(lat = bbox_sf[["ymin"]], lng = bbox_sf[["xmin"]]),
+    tr = c(lat = bbox_sf[["ymax"]], lng = bbox_sf[["xmax"]])
+  )
   splits <- split_bbox(bbox, side_length)
-
 
   expect_equal(splits[[2]], 4)
   expect_equal(splits[[3]], 4)
@@ -21,22 +27,22 @@ test_that("split_bbox works consistently", {
   first_tile <- bbox_tiles[[1]][[1]][[1]]
 
   tl <- c(first_tile@tr@lat, first_tile@bl@lng)
-  expect_equal(terrainr::calc_haversine_distance(tl, first_tile@bl),
+  expect_equal(calc_haversine_distance(tl, first_tile@bl),
     side_length,
     tolerance = side_length * 0.005
   )
-  expect_equal(terrainr::calc_haversine_distance(tl, first_tile@tr),
+  expect_equal(calc_haversine_distance(tl, first_tile@tr),
     side_length,
     tolerance = side_length * 0.005
   )
 
   middle_tile <- bbox_tiles[[2]][[3]][[1]]
   tl <- c(middle_tile@tr@lat, middle_tile@bl@lng)
-  expect_equal(terrainr::calc_haversine_distance(tl, middle_tile@bl),
+  expect_equal(calc_haversine_distance(tl, middle_tile@bl),
     side_length,
     tolerance = side_length * 0.005
   )
-  expect_equal(terrainr::calc_haversine_distance(tl, middle_tile@tr),
+  expect_equal(calc_haversine_distance(tl, middle_tile@tr),
     side_length,
     tolerance = side_length * 0.005
   )
@@ -70,4 +76,13 @@ test_that("split_bbox works consistently", {
     img_width,
     tolerance = 1
   )
+})
+
+test_that("raster method is consistent", {
+  tmp_raster <- raster::raster("testdata/merge_rasters_test.tif")
+  rstr_tile <- get_tiles(tmp_raster)
+  downloaded_raster <- raster::raster(rstr_tile[["elevation"]])
+  test_raster <- raster::raster("testdata/raster_tile.tif")
+  expect_equal(downloaded_raster@crs, test_raster@crs)
+  expect_equal(downloaded_raster@extent, test_raster@extent)
 })

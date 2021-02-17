@@ -1,48 +1,24 @@
-test_that("merge_raster expected errors error expectedly", {
-  expect_error(merge_rasters("dummy_input.tif", "dummy_output.R"))
-  expect_error(merge_rasters(
-    "dummy_input.tif",
-    "dummy_output.tif",
-    "dummy_input.png"
-  ))
-  expect_error(merge_rasters(
-    "dummy_input.tif",
-    "dummy_output.tif",
-    c("dummy_input.png", "dummy_input.png"),
-    "dummy_output.tif"
-  ))
-
-  expect_error(merge_rasters("dummy_input.tif",
-    NULL,
-    "dummy_input.png",
-    "dummy_output.png",
-    merge_raster = FALSE
-  ))
-  expect_error(merge_rasters(
-    "dummy_input.tif",
-    "dummy_output.png",
-    "dummy_input.png",
-    "dummy_output.tif"
-  ))
-})
-
 test_that("merge_raster files are identical no matter the filename", {
   skip_on_cran()
-  first_tile <- add_bbox_buffer(get_coord_bbox(
-    lat = 44.05003,
-    lng = -74.01164
-  ), 10)
-  second_tile <- terrainr_bounding_box(
-    bl = c(first_tile@bl@lat, first_tile@tr@lng),
-    tr = point_from_distance(first_tile@tr, 10, 90)
+  df <- data.frame(
+    lat = c(44.050030001, 44.05003),
+    lng = c(-74.01164, -74.011640001)
   )
+  df_sf <- sf::st_as_sf(df, coords = c("lng", "lat"))
+  df_sf <- sf::st_set_crs(df_sf, 4326)
+  first_tile <- add_bbox_buffer(df_sf, 10)
+  ft_bbox <- sf::st_bbox(first_tile)
+
+  df <- data.frame(
+    lat = c(44.051030001, 44.05103),
+    lng = c(-74.01264, -74.012640001)
+  )
+  df_sf <- sf::st_as_sf(df, coords = c("lng", "lat"))
+  df_sf <- sf::st_set_crs(df_sf, 4326)
+  second_tile <- add_bbox_buffer(df_sf, 10)
   # assign the output tile filenames...
   tmptif <- vector("list")
-  temp_tiles <- get_tiles(first_tile,
-    services = c("elevation", "ortho"),
-    georeference = FALSE
-  )
-  tmptif[[1]] <- temp_tiles[[1]]
+  tmptif[[1]] <- get_tiles(first_tile)[[1]]
   tmptif[[2]] <- get_tiles(second_tile)[[1]]
 
   # create two outputs, one that needs fix_tif and one that doesn't:
@@ -57,16 +33,8 @@ test_that("merge_raster files are identical no matter the filename", {
     raster::raster(tmptif[[4]])@extent
   )
 
-  merge_orth <- tempfile(fileext = ".tiff")
-  merge_rasters(
-    temp_tiles[[1]],
-    tempfile(fileext = ".tif"),
-    temp_tiles[[2]],
-    merge_orth
-  )
-
-  stored_raster <- raster::raster("testdata/merge_rasters_test.tif")
-  test_raster <- raster::raster(merge_orth)
+  stored_raster <- raster::raster("testdata/merge_dem.tif")
+  test_raster <- raster::raster(tmptif[[4]])
 
   expect_equal(stored_raster@crs, test_raster@crs)
   expect_equal(stored_raster@extent, test_raster@extent)

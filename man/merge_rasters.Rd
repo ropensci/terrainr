@@ -7,9 +7,7 @@
 merge_rasters(
   input_rasters,
   output_raster = tempfile(fileext = ".tif"),
-  input_images = NULL,
-  output_image = tempfile(fileext = ".tif"),
-  overwrite = TRUE
+  options = character(0)
 )
 }
 \arguments{
@@ -17,44 +15,32 @@ merge_rasters(
 georeferenced rasters you want to use.}
 
 \item{output_raster}{The file path to save the merged georeferenced raster
-to. Must be a TIFF file. Ignored if \code{merge_raster} is not \code{TRUE}.}
+to.}
 
-\item{input_images}{A character vector, the same length as
-\code{input_rasters}, containing the file paths to non-georeferenced images
-to merge. It's assumed that each image in the vector corresponds to the
-raster in the same position in input_rasters, and these images will be
-assigned the same extent and CRS. If you don't want to merge any images,
-leave as \code{NULL}.}
-
-\item{output_image}{The file path to save the merged images to.
-Must be a TIFF file. Leave as \code{NULL} if you aren't merging images.}
-
-\item{overwrite}{Logical: overwrite the output files if they exist?}
+\item{options}{Optionally, a character vector of options to be passed
+directly to [sf::gdal_utils].}
 }
 \value{
-A named list containing the file paths outputs were written to.
+`output_raster`, invisibly.
 }
 \description{
-Some functions like \code{\link{get_tiles}} return multiple separate files
+Some functions like [get_tiles] return multiple separate files
 when it can be useful to have a single larger raster instead. This function
-will collapse those multiple raster files into a single TIFF.
-}
-\details{
-Additionally, some outputs from \code{\link{get_tiles}} (such as when
-\code{service = "ortho"}) are not georeferenced, making future processing
-with them harder. This function can georeference those images using a
-reference raster, then merge them into a single object for further
-processing.
+is a thin wrapper over [sf::gdal_utils(util = "warp")], making it easy to
+collapse those multiple raster files into a single TIFF.
 }
 \examples{
 \dontrun{
-tiles <- terrainr_bounding_box(
-  bl = c(lat = 44.10379, lng = -74.01177),
-  tr = c(lat = 44.17573, lng = -73.91171)
+simulated_data <- data.frame(
+lat = c(44.10379, 44.17573),
+lng = c(-74.01177, -73.91171)
 )
 
-img_files <- get_tiles(tiles)
+simulated_data <- sf::st_as_sf(simulated_data, coords = c("lng", "lat"))
+
+img_files <- get_tiles(simulated_data)
 merge_rasters(img_files[[1]])
+
 }
 
 }

@@ -8,6 +8,8 @@ test_that("get_tiles gets the same hydro tiles twice", {
   georeference = FALSE
   )
 
+  expect_equal(names(output_tif), c("hydro", "NHDPlus_HR"))
+
   expect_equal(length(output_tif), 2)
   expect_equal(length(output_tif[[1]]), 1)
 

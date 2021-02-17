@@ -23,8 +23,11 @@ This is the entirety of the R code that we'll be running today; most of this
 tutorial will be focusing on using Unity. If you aren't familiar with the 
 functions being used in this chunk, check out the [introductory vignette!](https://mikemahoney218.github.io/terrainr/articles/overview.html)
 
+Note that downloading this much data takes a bit of time!
+
 ```{r, eval = FALSE}
 library(terrainr)
+library(sf)
 library(magrittr)
 
 # This will get us data for a 16 km2 area centered on Mt. Marcy,
@@ -32,13 +35,11 @@ library(magrittr)
 raw_tiles <- data.frame(id = seq(1, 100, 1),
                         lat = runif(100, 44.04905, 44.17609), 
                         lng = runif(100, -74.01188, -73.83493)) %>% 
-  get_bbox(lat = "lat", lng = "lng") %>% 
-  get_tiles(., services = c("elevation", "ortho"))
+  st_as_sf(coords = c("lng", "lat")) %>% 
+  st_set_crs(4326) %>% 
+  get_tiles(services = c("elevation", "ortho"))
 
-merged_outputs <- merge_rasters(raw_tiles$`3DEPElevation`, 
-                                tempfile(fileext = ".tif"), 
-                                .$USGSNAIPPlus, 
-                                tempfile(fileext = ".tif"))
+merged_outputs <- lapply(raw_tiles, merge_rasters)
 
 mapply(function(x, y) raster_to_raw_tiles(input_file = x, 
                                           output_prefix = "mt_marcy", 

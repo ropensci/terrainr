@@ -4,12 +4,12 @@
 #' image overlay, which may then be imported as a texture into Unity.
 #'
 #' @param vector_data The spatial vector data set to be transformed into an
-#' overlay image. Users may provide either an sf object or a length 1 character
-#' vector containing a path to a file interpretable by [sf::read_sf].
+#' overlay image. Users may provide either an `sf` object or a length 1
+#' character vector containing a path to a file readable by [sf::read_sf].
 #' @param reference_raster The raster file to produce an overlay for. The output
 #' overlay will have the same extent and resolution as the input raster. Users
 #' may provide either a Raster* object or a length 1 character
-#' vector containing a path to a file interpretable by [raster::raster].
+#' vector containing a path to a file readable by [raster::raster].
 #' @param output_file The path to save the image overlay to. If `NULL`, saves to
 #' a tempfile.
 #' @param target_crs The CRS (as an EPSG integer code) to transform vector data
@@ -23,6 +23,7 @@
 #'
 #' @family data manipulation functions
 #' @family overlay creation functions
+#' @family visualization functions
 #'
 #' @return `output_file`, invisibly.
 #'
@@ -36,20 +37,21 @@
 #'   lat = runif(100, 44.1114, 44.1123),
 #'   lng = runif(100, -73.92273, -73.92147)
 #' )
-#' # Download raster tiles and merge them into a single raster
-#' bbox <- get_coord_bbox(lat = simulated_data$lat, lng = simulated_data$lng)
 #'
-#' downloaded_tiles <- get_tiles(bbox, tempfile())
+#' # Create an sf object from our original simulated data
+#'
+#' simulated_data_sf <- sf::st_as_sf(simulated_data, coords = c("lng", "lat"))
+#' sf::st_crs(simulated_data_sf) <- sf::st_crs(4326)
+#'
+#' # Download data!
+#'
+#' downloaded_tiles <- get_tiles(simulated_data_sf, tempfile())
 #'
 #' merged_file <- merge_rasters(
 #'   downloaded_tiles[[1]],
 #'   tempfile(fileext = ".tif")
 #' )
 #'
-#' # Create an sf object from our original simulated data
-#'
-#' simulated_data_sf <- sf::st_as_sf(simulated_data, coords = c("lng", "lat"))
-#' sf::st_crs(simulated_data_sf) <- sf::st_crs(4326)
 #'
 #' # Create an overlay image
 #' vector_to_overlay(simulated_data_sf, merged_file[[1]], na.rm = TRUE)
@@ -162,5 +164,6 @@ vector_to_overlay <- function(vector_data,
     magick::image_write(img, output_file)
   }
 
-  return(invisible(output_file))
+  invisible(output_file)
+
 }

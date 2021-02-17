@@ -14,8 +14,10 @@ combine_overlays(
 \item{...}{File paths for images to be combined. Note that combining TIFF
 images requires the \code{tiff} package be installed.}
 
-\item{output_file}{Optionally, the path to save the resulting image to. Can
-be any format accepted by \link[magick:editing]{magick::image_read}.}
+\item{output_file}{The path to save the resulting image to. Can
+be any format accepted by \link[magick:editing]{magick::image_read}. Optionally, can be set to
+\code{NULL}, in which case this function will return the image as a \code{magick}
+object instead of writing to disk.}
 
 \item{transparency}{A value indicating how much transparency should be added
 to each image. If less than 1, interpreted as a proportion (so a value of
@@ -40,14 +42,11 @@ mt_elbert_points <- data.frame(
   lng = runif(100, min = -106.4534, max = -106.437)
 )
 
-mt_elbert_bbox <- get_coord_bbox(
-  data = mt_elbert_points,
-  lat = "lat",
-  lng = "lng"
-)
+mt_elbert_sf <- sf::st_as_sf(mt_elbert_points, coords = c("lng", "lat"))
+sf::st_crs(mt_elbert_sf) <- sf::st_crs(4326)
 
 output_files <- get_tiles(
-  bbox = mt_elbert_bbox,
+  mt_elbert_sf,
   output_prefix = tempfile(),
   services = c("ortho")
 )
@@ -57,10 +56,6 @@ ortho_merged <- merge_rasters(
   input_rasters = output_files[1],
   output_raster = tempfile(fileext = ".tif")
 )
-
-# Create an sf dataset from our points
-mt_elbert_sf <- sf::st_as_sf(mt_elbert_points, coords = c("lng", "lat"))
-sf::st_crs(mt_elbert_sf) <- sf::st_crs(4326)
 
 # Convert our points into an overlay
 mt_elbert_overlay <- vector_to_overlay(mt_elbert_sf,
@@ -88,6 +83,12 @@ Other data manipulation functions:
 Other overlay creation functions: 
 \code{\link{georeference_overlay}()},
 \code{\link{vector_to_overlay}()}
+
+Other visualization functions: 
+\code{\link{geom_spatial_rgb}()},
+\code{\link{raster_to_raw_tiles}()},
+\code{\link{vector_to_overlay}()}
 }
 \concept{data manipulation functions}
 \concept{overlay creation functions}
+\concept{visualization functions}

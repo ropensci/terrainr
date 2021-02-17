@@ -5,36 +5,46 @@
 #'
 #' @param point_1,point_2 Coordinate pairs (as length-2 numeric vectors with the
 #' names "lat" and "lng") to calculate distance between.
-#'
+#' @param coord_units String indicating whether coordinates are in degrees
+#' (`"degrees"`) or radians (`"radians"`) Degrees stored in radians will be
+#' converted to degrees.
 #' @keywords internal
 #'
 #' @family utilities
 #'
-#' @return A vector of length 2 containing object latitude and longitude
-#'
-#' @examples
-#' calc_haversine_distance(
-#'   c(lat = 44.121268, lng = -73.903734),
-#'   c(lat = 43.121268, lng = -74.903734)
-#' )
-#' @export
-calc_haversine_distance <- function(point_1, point_2) {
-  if (!methods::is(point_1, "terrainr_coordinate_pair")) {
-    point_1 <- terrainr::terrainr_coordinate_pair(point_1)
+#' @return A vector of length 1 containing distance between points
+calc_haversine_distance <- function(point_1, point_2, coord_units = "degrees") {
+
+  if (!(coord_units %in% c("degrees", "radians"))) {
+    stop("coord_units must be either degrees or radians.")
   }
-  if (!methods::is(point_2, "terrainr_coordinate_pair")) {
-    point_2 <- terrainr::terrainr_coordinate_pair(point_2)
-  }
+
+  points <- lapply(
+    list(point_1, point_2), # list, not c, since these are both numeric vectors
+    function(x) {
+      if (!methods::is(x, "terrainr_coordinate_pair")) {
+        x <- terrainr_coordinate_pair(x)
+      }
+      x
+    }
+  )
 
   r <- 6371e3 # Radius of the earth in m
 
-  lat1_rad <- terrainr::deg_to_rad(point_1@lat)
-  lat2_rad <- terrainr::deg_to_rad(point_2@lat)
-  delta_lat <- terrainr::deg_to_rad(point_2@lat - point_1@lat)
-  delta_lng <- terrainr::deg_to_rad(point_2@lng - point_1@lng)
+  used_pts <- vapply(
+    list(
+      "lat1" = points[[1]]@lat,
+      "lat2" = points[[2]]@lat,
+      "delta_lat" = points[[2]]@lat - points[[1]]@lat,
+      "delta_lng" = points[[2]]@lng - points[[1]]@lng
+    ),
+    function(x) ifelse(coord_units == "degrees", deg_to_rad(x), x),
+    numeric(1)
+  )
 
-  a <- (sin(delta_lat / 2) * sin(delta_lat / 2)) +
-    (cos(lat1_rad) * cos(lat2_rad) * sin(delta_lng / 2) * sin(delta_lng / 2))
+  a <- (sin(used_pts[["delta_lat"]] / 2) * sin(used_pts[["delta_lat"]] / 2)) +
+    (cos(used_pts[["lat1"]]) * cos(used_pts[["lat2"]]) *
+       sin(used_pts[["delta_lng"]] / 2) * sin(used_pts[["delta_lng"]] / 2))
   c <- 2 * atan2(sqrt(a), sqrt(1 - a))
 
   # c inherits the name "lat" from a

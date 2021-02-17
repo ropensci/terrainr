@@ -5,8 +5,7 @@
 #' @slot lng Numeric longitude, in decimal degrees
 #'
 #' @family classes and related functions
-#'
-#' @exportClass terrainr_coordinate_pair
+#' @keywords internal
 methods::setClass("terrainr_coordinate_pair",
   slots = c(
     lat = "numeric",
@@ -36,10 +35,7 @@ methods::setClass("terrainr_coordinate_pair",
 #' @return \code{terrainr_coordinate_pair} object
 #'
 #' @family classes and related functions
-#'
-#' @examples
-#' terrainr_coordinate_pair(c(lat = 44.05003, lng = -74.01164))
-#' @export
+#' @keywords internal
 terrainr_coordinate_pair <- function(coords, coord_units = c(
                                        "degrees",
                                        "radians"
@@ -96,33 +92,11 @@ terrainr_coordinate_pair <- function(coords, coord_units = c(
 
   coord_units <- coord_units[[1]]
   if (coord_units == "radians") {
-    lat <- terrainr::rad_to_deg(lat)
-    lng <- terrainr::rad_to_deg(lng)
+    lat <- rad_to_deg(lat)
+    lng <- rad_to_deg(lng)
   }
 
   return(methods::new("terrainr_coordinate_pair", lat = lat, lng = lng))
-}
-
-#' Convert a terrainr_coordinate_pair object to a base vector.
-#'
-#' @param coord_pair A [terrainr_coordinate_pair] object
-#'
-#' @return A vector with a coordinate pair in (latitude, longitude) format
-#'
-#' @family classes and related functions
-#'
-#' @examples
-#' coord_pair <- terrainr_coordinate_pair(c(lat = 44.05003, lng = -74.01164))
-#' export_coord_pair(coord_pair)
-#' @export
-#' @md
-export_coord_pair <- function(coord_pair) {
-  if (!methods::is(coord_pair, "terrainr_coordinate_pair")) {
-    warning("coord_pair is not terrainr_coordinate_pair object, doing nothing.")
-    return(coord_pair)
-  } else {
-    return(c(coord_pair@lat, coord_pair@lng))
-  }
 }
 
 #' S4 class for bounding boxes in the format expected by \code{terrainr}
@@ -133,9 +107,7 @@ export_coord_pair <- function(coord_pair) {
 #' @slot tr A \code{\link{terrainr_coordinate_pair}} representing the top right
 #' corner of the bounding box
 #'
-#' classes and related functions
-#'
-#' @exportClass terrainr_bounding_box
+#' @keywords internal
 methods::setClass("terrainr_bounding_box",
   slots = c(
     bl = "terrainr_coordinate_pair",
@@ -163,31 +135,13 @@ methods::setClass("terrainr_bounding_box",
 #' If \code{bl} and \code{tr} are already [terrainr_coordinate_pair]
 #' objects, these arguments are not used.
 #'
-#' @return A terrainr_bounding_box object
-#'
-#' classes and related functions
-#'
-#' @examples
-#' # Create bounding box from coordinates:
-#' terrainr_bounding_box(
-#'   bl = c(lat = 44.05003, lng = -74.01164),
-#'   tr = c(lat = 44.17538, lng = -73.83500)
-#' )
-#' # This is identical to:
-#' bl_coords <- terrainr_coordinate_pair(c(lat = 44.05003, lng = -74.01164))
-#' tr_coords <- terrainr_coordinate_pair(c(lat = 44.17538, lng = -73.83500))
-#' terrainr_bounding_box(
-#'   bl = bl_coords,
-#'   tr = tr_coords
-#' )
-#' @export
-#' @md
+#' @keywords internal
 terrainr_bounding_box <- function(bl, tr, coord_units = "degrees") {
   if (!methods::is(bl, "terrainr_coordinate_pair")) {
-    bl <- terrainr::terrainr_coordinate_pair(bl, coord_units)
+    bl <- terrainr_coordinate_pair(bl, coord_units)
   }
   if (!methods::is(tr, "terrainr_coordinate_pair")) {
-    tr <- terrainr::terrainr_coordinate_pair(tr, coord_units)
+    tr <- terrainr_coordinate_pair(tr, coord_units)
   }
   if ((bl@lat < tr@lat) && (bl@lng < tr@lng)) {
 
@@ -205,40 +159,4 @@ terrainr_bounding_box <- function(bl, tr, coord_units = "degrees") {
     bl = bl,
     tr = tr
   )
-}
-
-#' Convert a terrainr_bounding_box object to a base list
-#'
-#' @param bbox A [terrainr_bounding_box] object
-#'
-#' @return A list with coordinate pairs representing the lower left and upper
-#' right corners of a bounding box
-#'
-#' classes and related functions
-#'
-#' @examples
-#' # Create bounding box from coordinates:
-#' bbox <- terrainr_bounding_box(
-#'   bl = c(lat = 44.05003, lng = -74.01164),
-#'   tr = c(lat = 44.17538, lng = -73.83500)
-#' )
-#' export_bounding_box(bbox)
-#' @export
-#' @md
-export_bounding_box <- function(bbox) {
-  if (!methods::is(bbox, "terrainr_bounding_box")) {
-    warning("bbox is not terrainr_bounding_box object, doing nothing.")
-    return(bbox)
-  } else {
-    return(list(
-      bl = c(
-        bbox@bl@lat,
-        bbox@bl@lng
-      ),
-      tr = c(
-        bbox@tr@lat,
-        bbox@tr@lng
-      )
-    ))
-  }
 }
