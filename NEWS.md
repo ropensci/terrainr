@@ -1,5 +1,4 @@
-# terrainr 0.2.1.9000
-* This version will be released as v 0.3.0.
+# terrainr 0.3.0
 * Breaking changes:
     * `terrainr_*` classes have been effectively removed and are no longer 
       exported. Functions which previously expected these objects now generally 
