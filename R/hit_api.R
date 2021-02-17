@@ -169,8 +169,7 @@ hit_national_map_api <- function(bbox,
         # Rather than have code coverage improve when servers go down,
         # I just exclude error handling from coverage
         error = function(e) {
-          tryCatch(
-            {
+          tryCatch({
               if (verbose) message("Interpreting JSON attempt 2")
               res <- httr::GET(url, agent, query = c(bbox_arg, query_arg))
               httr::content(res, type = "application/json")

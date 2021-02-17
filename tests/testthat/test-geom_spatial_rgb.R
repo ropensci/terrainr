@@ -20,39 +20,73 @@ test_that("all methods of geom_spatial_rgb are equivalent", {
   plots <- vapply(1:6, function(x) tempfile(fileext = ".png"), character(1))
 
   ggplot2::ggplot() +
-    geom_spatial_rgb(data = stats::setNames(test_df, c("red", "green", "blue", "x", "y")),
-                     mapping = ggplot2::aes(x = x, y = y, r = red, g = green, b = blue)) +
+    geom_spatial_rgb(data = stats::setNames(test_df,
+                                            c("red",
+                                              "green",
+                                              "blue",
+                                              "x",
+                                              "y")),
+                     mapping = ggplot2::aes(x = x,
+                                            y = y,
+                                            r = red,
+                                            g = green,
+                                            b = blue)) +
     ggplot2::geom_sf(data = simulated_data) +
     ggplot2::ggsave(plots[[1]])
 
   ggplot2::ggplot() +
     geom_spatial_rgb(data = test,
-                     mapping = ggplot2::aes(x = x, y = y, r = red, g = green, b = blue)) +
+                     mapping = ggplot2::aes(x = x,
+                                            y = y,
+                                            r = red,
+                                            g = green,
+                                            b = blue)) +
     ggplot2::geom_sf(data = simulated_data) +
     ggplot2::ggsave(plots[[2]])
 
   ggplot2::ggplot() +
     geom_spatial_rgb(data = merged_ortho,
-                     mapping = ggplot2::aes(x = x, y = y, r = red, g = green, b = blue)) +
+                     mapping = ggplot2::aes(x = x,
+                                            y = y,
+                                            r = red,
+                                            g = green,
+                                            b = blue)) +
     ggplot2::geom_sf(data = simulated_data) +
     ggplot2::ggsave(plots[[3]])
 
   ggplot2::ggplot() +
-    stat_spatial_rgb(data = stats::setNames(test_df, c("red", "green", "blue", "x", "y")),
-                     mapping = ggplot2::aes(x = x, y = y, r = red, g = green, b = blue),
+    stat_spatial_rgb(data = stats::setNames(test_df,
+                                            c("red",
+                                              "green",
+                                              "blue",
+                                              "x",
+                                              "y")),
+                     mapping = ggplot2::aes(x = x,
+                                            y = y,
+                                            r = red,
+                                            g = green,
+                                            b = blue),
                      scale = 1) +
     ggplot2::geom_sf(data = simulated_data) +
     ggplot2::ggsave(plots[[4]])
 
   ggplot2::ggplot() +
     stat_spatial_rgb(data = test,
-                     mapping = ggplot2::aes(x = x, y = y, r = red, g = green, b = blue)) +
+                     mapping = ggplot2::aes(x = x,
+                                            y = y,
+                                            r = red,
+                                            g = green,
+                                            b = blue)) +
     ggplot2::geom_sf(data = simulated_data) +
     ggplot2::ggsave(plots[[5]])
 
   ggplot2::ggplot() +
     stat_spatial_rgb(data = merged_ortho,
-                     mapping = ggplot2::aes(x = x, y = y, r = red, g = green, b = blue)) +
+                     mapping = ggplot2::aes(x = x,
+                                            y = y,
+                                            r = red,
+                                            g = green,
+                                            b = blue)) +
     ggplot2::geom_sf(data = simulated_data) +
     ggplot2::ggsave(plots[[6]])
 

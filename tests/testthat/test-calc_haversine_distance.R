@@ -19,4 +19,3 @@ test_that("Distance calculations make sense", {
     )
   )
 })
-

@@ -4,8 +4,8 @@
 #' image overlay, which may then be imported as a texture into Unity.
 #'
 #' @param vector_data The spatial vector data set to be transformed into an
-#' overlay image. Users may provide either an `sf` object or a length 1 character
-#' vector containing a path to a file readable by [sf::read_sf].
+#' overlay image. Users may provide either an `sf` object or a length 1
+#' character vector containing a path to a file readable by [sf::read_sf].
 #' @param reference_raster The raster file to produce an overlay for. The output
 #' overlay will have the same extent and resolution as the input raster. Users
 #' may provide either a Raster* object or a length 1 character

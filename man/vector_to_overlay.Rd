@@ -15,8 +15,8 @@ vector_to_overlay(
 }
 \arguments{
 \item{vector_data}{The spatial vector data set to be transformed into an
-overlay image. Users may provide either an \code{sf} object or a length 1 character
-vector containing a path to a file readable by \link[sf:st_read]{sf::read_sf}.}
+overlay image. Users may provide either an \code{sf} object or a length 1
+character vector containing a path to a file readable by \link[sf:st_read]{sf::read_sf}.}
 
 \item{reference_raster}{The raster file to produce an overlay for. The output
 overlay will have the same extent and resolution as the input raster. Users

@@ -201,6 +201,7 @@ get_tiles.list <- function(data,
 }
 
 #' @rdname get_tiles
+# nolint start
 get_tiles.terrainr_bounding_box <- function(data,
                                             output_prefix = tempfile(),
                                             side_length = NULL,
@@ -209,7 +210,7 @@ get_tiles.terrainr_bounding_box <- function(data,
                                             verbose = FALSE,
                                             georeference = TRUE,
                                             ...) {
-
+# nolint end
   get_tiles_internal(
     bl = data@bl,
     tr = data@tr,
@@ -344,8 +345,7 @@ get_tiles_internal <- function(bl,
             ...
           )
           outconn <- file(cur_path, "wb")
-          tryCatch(
-            {
+          tryCatch({
               base64enc::base64decode(
                 what = img_bin$imageData,
                 output = outconn
