@@ -27,3 +27,4 @@ Other utilities:
 \code{\link{get_centroid}()}
 }
 \concept{utilities}
+\keyword{internal}

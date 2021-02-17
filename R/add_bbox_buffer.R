@@ -4,14 +4,15 @@
 #' @description
 #' [add_bbox_buffer] calculates the great circle distance both corners of
 #' your bounding box are from the centroid and extends those by a set distance.
-#' Due to using Haversine "great circle" distance, calculations will not be
-#' exact.
+#' Due to using Haversine/great circle distance, latitude/longitude calculations
+#' will not be exact.
 #'
 #' [set_bbox_side_length] is a thin wrapper around [add_bbox_buffer] which sets
 #' all sides of the bounding box to (approximately) a specified length.
 #'
-#' @param data The original data to add a buffer around.
-#' @param distance The distance to add to the buffer.
+#' @param data The original data to add a buffer around. Must be either an `sf`
+#' or `Raster` object.
+#' @param distance The distance to add or to set side lengths equal to.
 #' @param distance_unit The units of the distance to add to the buffer, passed
 #' to [units::as_units].
 #' @param error_crs Logical: Should this function error if `data` has no CRS?

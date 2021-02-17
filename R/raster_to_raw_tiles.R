@@ -11,6 +11,7 @@
 #' returns a .png.
 #'
 #' @family data manipulation functions
+#' @family visualization functions
 #'
 #' @return Invisibly, a character vector containing the file paths that were
 #' written to.

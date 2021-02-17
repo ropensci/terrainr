@@ -25,6 +25,8 @@
     * A handful of utility functions are no longer exported:
         * `calc_haversine_distance`
         * `point_from_distance`
+        * `rad_to_deg`
+        * `deg_to_rad`
 * New features:
     * Two new functions, `geom_spatial_rgb` and `stat_spatial_rgb`, allow you to 
       use RGB map tiles as backgrounds for further plotting.

@@ -8,11 +8,11 @@
 #' @param input_rasters A character vector containing the file paths to the
 #' georeferenced rasters you want to use.
 #' @param output_raster The file path to save the merged georeferenced raster
-#' to. Must be a TIFF file. Ignored if \code{merge_raster} is not \code{TRUE}.
+#' to.
 #' @param options Optionally, a character vector of options to be passed
 #' directly to [sf::gdal_utils].
 #'
-#' @return A named list containing the file paths outputs were written to.
+#' @return `output_raster`, invisibly.
 #'
 #' @family data manipulation functions
 #'
@@ -40,5 +40,5 @@ merge_rasters <- function(input_rasters,
                  destination = output_raster,
                  options = options)
 
-  return(output_raster)
+  return(invisible(output_raster))
 }

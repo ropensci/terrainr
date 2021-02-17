@@ -14,7 +14,8 @@ hit_national_map_api(
 )
 }
 \arguments{
-\item{bbox}{The bounding box (bottom left and top left coordinate pairs)}
+\item{bbox}{A list representing the bounding box (bottom left and top left
+coordinate pairs).}
 
 \item{img_width}{The number of pixels in the x direction to retrieve}
 
@@ -37,7 +38,7 @@ A raw vector.
 \description{
 This function retrieves a single tile of data from a single National Map
 service and returns the raw response. End users are recommended to use
-\code{\link{get_tiles}} instead, as it does much more validation and provides
+\link{get_tiles} instead, as it does much more validation and provides
 a more friendly interface. For a description of the datasets provided by the
 National Map, see \url{https://viewer.nationalmap.gov/services/}
 }
@@ -81,7 +82,7 @@ hit_national_map_api(
 
 }
 \seealso{
-\code{\link{get_tiles}} for a friendlier interface to the National
+\link{get_tiles} for a friendlier interface to the National
 Map API.
 
 Other data retrieval functions: 

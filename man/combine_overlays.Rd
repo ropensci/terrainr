@@ -14,8 +14,10 @@ combine_overlays(
 \item{...}{File paths for images to be combined. Note that combining TIFF
 images requires the \code{tiff} package be installed.}
 
-\item{output_file}{Optionally, the path to save the resulting image to. Can
-be any format accepted by \link[magick:editing]{magick::image_read}.}
+\item{output_file}{The path to save the resulting image to. Can
+be any format accepted by \link[magick:editing]{magick::image_read}. Optionally, can be set to
+\code{NULL}, in which case this function will return the image as a \code{magick}
+object instead of writing to disk.}
 
 \item{transparency}{A value indicating how much transparency should be added
 to each image. If less than 1, interpreted as a proportion (so a value of
@@ -81,6 +83,12 @@ Other data manipulation functions:
 Other overlay creation functions: 
 \code{\link{georeference_overlay}()},
 \code{\link{vector_to_overlay}()}
+
+Other visualization functions: 
+\code{\link{geom_spatial_rgb}()},
+\code{\link{raster_to_raw_tiles}()},
+\code{\link{vector_to_overlay}()}
 }
 \concept{data manipulation functions}
 \concept{overlay creation functions}
+\concept{visualization functions}

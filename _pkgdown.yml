@@ -53,6 +53,4 @@ reference:
   - contents:
     - add_bbox_buffer
     - set_bbox_side_length
-    - deg_to_rad
-    - rad_to_deg
 

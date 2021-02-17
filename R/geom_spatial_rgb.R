@@ -23,6 +23,8 @@
 #' If `NULL`, attempts to infer proper values from data -- if all RGB values
 #' are <= 1 then 1, <= 255 then 255, and otherwise 65535.
 #'
+#' @family visualization functions
+#'
 #' @examples
 #' \dontrun{
 #'

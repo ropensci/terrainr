@@ -27,3 +27,4 @@ Other utilities:
 \code{\link{rad_to_deg}()}
 }
 \concept{utilities}
+\keyword{internal}

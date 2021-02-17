@@ -15,13 +15,13 @@ vector_to_overlay(
 }
 \arguments{
 \item{vector_data}{The spatial vector data set to be transformed into an
-overlay image. Users may provide either an sf object or a length 1 character
-vector containing a path to a file interpretable by \link[sf:st_read]{sf::read_sf}.}
+overlay image. Users may provide either an \code{sf} object or a length 1 character
+vector containing a path to a file readable by \link[sf:st_read]{sf::read_sf}.}
 
 \item{reference_raster}{The raster file to produce an overlay for. The output
 overlay will have the same extent and resolution as the input raster. Users
 may provide either a Raster* object or a length 1 character
-vector containing a path to a file interpretable by \link[raster:raster]{raster::raster}.}
+vector containing a path to a file readable by \link[raster:raster]{raster::raster}.}
 
 \item{output_file}{The path to save the image overlay to. If \code{NULL}, saves to
 a tempfile.}
@@ -85,6 +85,12 @@ Other data manipulation functions:
 Other overlay creation functions: 
 \code{\link{combine_overlays}()},
 \code{\link{georeference_overlay}()}
+
+Other visualization functions: 
+\code{\link{combine_overlays}()},
+\code{\link{geom_spatial_rgb}()},
+\code{\link{raster_to_raw_tiles}()}
 }
 \concept{data manipulation functions}
 \concept{overlay creation functions}
+\concept{visualization functions}

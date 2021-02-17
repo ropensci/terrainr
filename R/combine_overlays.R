@@ -5,8 +5,10 @@
 #'
 #' @param ... File paths for images to be combined. Note that combining TIFF
 #' images requires the `tiff` package be installed.
-#' @param output_file Optionally, the path to save the resulting image to. Can
-#' be any format accepted by [magick::image_read].
+#' @param output_file The path to save the resulting image to. Can
+#' be any format accepted by [magick::image_read]. Optionally, can be set to
+#' `NULL`, in which case this function will return the image as a `magick`
+#' object instead of writing to disk.
 #' @param transparency A value indicating how much transparency should be added
 #' to each image. If less than 1, interpreted as a proportion (so a value of
 #' 0.1 results in each image becoming 10% more transparent); if between 1 and
@@ -54,6 +56,7 @@
 #'
 #' @family data manipulation functions
 #' @family overlay creation functions
+#' @family visualization functions
 #'
 #' @return If `output_file` is not null, `output_file`, invisibly. If
 #' `output_file` is null, a `magick` image object.

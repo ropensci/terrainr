@@ -144,4 +144,11 @@ ggplot() +
 }
 
 }
+\seealso{
+Other visualization functions: 
+\code{\link{combine_overlays}()},
+\code{\link{raster_to_raw_tiles}()},
+\code{\link{vector_to_overlay}()}
+}
+\concept{visualization functions}
 \keyword{datasets}

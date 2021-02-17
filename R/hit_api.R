@@ -2,11 +2,12 @@
 #'
 #' This function retrieves a single tile of data from a single National Map
 #' service and returns the raw response. End users are recommended to use
-#' \code{\link{get_tiles}} instead, as it does much more validation and provides
+#' [get_tiles] instead, as it does much more validation and provides
 #' a more friendly interface. For a description of the datasets provided by the
 #' National Map, see \url{https://viewer.nationalmap.gov/services/}
 #'
-#' @param bbox The bounding box (bottom left and top left coordinate pairs)
+#' @param bbox A list representing the bounding box (bottom left and top left
+#' coordinate pairs).
 #' @param img_width The number of pixels in the x direction to retrieve
 #' @param img_height The number of pixels in the y direction to retrieve
 #' @param verbose Logical: Print out the number of tries required to pull each
@@ -45,7 +46,7 @@
 #' validated before being used; passing invalid parameters to \code{...} will
 #' cause data retrieval to fail.
 #'
-#' @seealso \code{\link{get_tiles}} for a friendlier interface to the National
+#' @seealso [get_tiles] for a friendlier interface to the National
 #' Map API.
 #' @family data retrieval functions
 #'
@@ -154,12 +155,15 @@ hit_national_map_api <- function(bbox,
       max = floor(c(2^counter - 1, 30))
     )
     Sys.sleep(backoff)
+    if (verbose) message(sprintf("API call 1 attempt %d"), counter + 1)
 
     res <- httr::GET(url, agent, query = c(bbox_arg, query_arg))
 
     if (!httr::http_error(res)) {
-      body <- tryCatch(
-        httr::content(res, type = "application/json"),
+      body <- tryCatch({
+        if (verbose) message("Interpreting JSON attempt 1")
+        httr::content(res, type = "application/json")
+      },
         # nocov start
         # Hard to force temporary API errors
         # Rather than have code coverage improve when servers go down,
@@ -167,10 +171,12 @@ hit_national_map_api <- function(bbox,
         error = function(e) {
           tryCatch(
             {
+              if (verbose) message("Interpreting JSON attempt 2")
               res <- httr::GET(url, agent, query = c(bbox_arg, query_arg))
               httr::content(res, type = "application/json")
             },
             error = function(e) {
+              if (verbose) message("Interpreting JSON attempt 3")
               res <- httr::GET(url, agent, query = c(bbox_arg, query_arg))
               httr::content(res, type = "application/json")
             }
@@ -194,9 +200,11 @@ hit_national_map_api <- function(bbox,
   body <- get_href()
 
   if (!is.null(body$href)) {
+    if (verbose) message(sprintf("API call 2 attempt %d"), 1)
     img_res <- httr::GET(body$href, agent)
     counter <- 0
     while (counter < 15 && httr::http_error(img_res)) {
+      if (verbose) message(sprintf("API call 2 attempt %d"), counter + 1)
       backoff <- stats::runif(n = 1, min = 0, max = floor(c(
         2^counter - 1,
         30

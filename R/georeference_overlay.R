@@ -42,7 +42,6 @@
 #' }
 #'
 #' @export
-#' @md
 georeference_overlay <- function(overlay_file,
                                  reference_raster,
                                  output_file = tempfile(fileext = ".tif")) {

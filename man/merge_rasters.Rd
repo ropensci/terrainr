@@ -15,13 +15,13 @@ merge_rasters(
 georeferenced rasters you want to use.}
 
 \item{output_raster}{The file path to save the merged georeferenced raster
-to. Must be a TIFF file. Ignored if \code{merge_raster} is not \code{TRUE}.}
+to.}
 
 \item{options}{Optionally, a character vector of options to be passed
 directly to [sf::gdal_utils].}
 }
 \value{
-A named list containing the file paths outputs were written to.
+`output_raster`, invisibly.
 }
 \description{
 Some functions like [get_tiles] return multiple separate files

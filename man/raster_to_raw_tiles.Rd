@@ -50,5 +50,11 @@ Other data manipulation functions:
 \code{\link{georeference_overlay}()},
 \code{\link{merge_rasters}()},
 \code{\link{vector_to_overlay}()}
+
+Other visualization functions: 
+\code{\link{combine_overlays}()},
+\code{\link{geom_spatial_rgb}()},
+\code{\link{vector_to_overlay}()}
 }
 \concept{data manipulation functions}
+\concept{visualization functions}
