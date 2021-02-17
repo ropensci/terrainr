@@ -164,5 +164,6 @@ vector_to_overlay <- function(vector_data,
     magick::image_write(img, output_file)
   }
 
-  return(invisible(output_file))
+  invisible(output_file)
+
 }

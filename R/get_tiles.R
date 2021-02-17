@@ -344,16 +344,16 @@ get_tiles_internal <- function(bl,
             verbose = verbose,
             ...
           )
-          outconn <- file(cur_path, "wb")
-          tryCatch({
-              base64enc::base64decode(
-                what = img_bin$imageData,
-                output = outconn
-              )
-            },
-            error = function(e) writeBin(img_bin$imageData, cur_path),
-            finally = close(outconn)
-          )
+          if (is.raw(img_bin$imageData)) {
+            writeBin(img_bin$imageData, cur_path)
+          } else {
+            outconn <- file(cur_path, "wb")
+            base64enc::base64decode(
+              what = img_bin$imageData,
+              output = outconn
+            )
+            close(outconn)
+          }
         }
 
         if (georeference && services[[k]] != "3DEPElevation") {

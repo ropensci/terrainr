@@ -1,6 +1,6 @@
 Package: terrainr
 Type: Package
-Title: Retrieve Data from the 'USGS' National Map and Transform it for '3D' Landscape Visualizations
+Title: Landscape Visualizations in R and Unity
 Version: 0.2.1.9000
 Authors@R: 
     person(given = "Michael",
@@ -8,11 +8,11 @@ Authors@R:
            role = c("aut", "cre"),
            email = "mike.mahoney.218@gmail.com",
            comment = c(ORCID = "0000-0003-2402-304X"))
-Description: Functions for the retrieval and manipulation of 'USGS' National Map 
-    data ('<https://viewer.nationalmap.gov/services/>'), enabling users to 
-    download elevation and image data for areas of interest. Functions are also 
-    provided to transform these data sources into formats that can be used to 
-    create 3D elevation models in the Unity rendering engine.
+Description: Functions for the retrieval, manipulation, and visualization of 
+    geospatial data, with an aim towards producing '3D' landscape visualizations
+    in the Unity '3D' rendering engine. Functions are also provided for 
+    retrieving elevation data and base map tiles from the 'USGS' National Map
+    ('<https://viewer.nationalmap.gov/services/>').
 URL: https://mikemahoney218.github.io/terrainr/, https://github.com/mikemahoney218/terrainr
 BugReports: https://github.com/mikemahoney218/terrainr/issues
 License: MIT + file LICENSE
@@ -26,12 +26,10 @@ Imports:
     gdalUtils,
     methods,
     png,
-    utils,
     sf,
     units,
     grDevices,
-    ggplot2,
-    sp
+    ggplot2
 RoxygenNote: 7.1.1
 Suggests: 
     testthat,

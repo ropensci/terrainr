@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# terrainr: Retrieve Data from the USGS National Map and Transform it for 3D Landscape Visualizations <a href='https://mikemahoney218.github.io/terrainr/'><img src="man/figures/logo.png" align="right" height="138.5"/></a>
+# terrainr: Landscape Visualization in R and Unity <a href='https://mikemahoney218.github.io/terrainr/'><img src="man/figures/logo.png" align="right" height="138.5"/></a>
 
 <!-- badges: start -->
 
@@ -22,15 +22,16 @@ status](https://github.com/mikemahoney218/terrainr/workflows/R-CMD-check/badge.s
 
 ## Overview
 
-terrainr makes it easy to identify your area of interest from point
-data, retrieve geospatial data (including orthoimagery and DEMs) for
-areas of interest within the United States from the [National Map family
-of APIs](https://viewer.nationalmap.gov/services/), and then process
-that data into larger, joined images or crop it into tiles that can be
-imported into the Unity rendering engine.
+terrainr makes it easy to retrieve elevation and base map image tiles
+for areas of interest within the United States from the [National Map
+family of APIs](https://viewer.nationalmap.gov/services/), and then
+process that data into larger, joined images or crop it into tiles that
+can be imported into the Unity 3D rendering engine.
 
-At the absolute simplest level, terrainr provides a convenient and
-consistent API to downloading data from the National Map.
+There are three main utilities provided by terrainr. First, users are
+able to download data from the National Map via the `get_tiles`
+function, downloading data tiles for the area represented by an `sf` or
+`Raster` object:
 
 ``` r
 library(terrainr)
@@ -45,39 +46,76 @@ simulated_data <- data.frame(id = seq(1, 100, 1),
                              lng = runif(100, -74.01188, -73.83493))
 
 simulated_data <- st_as_sf(simulated_data, coords = c("lng", "lat"))
+simulated_data <- st_set_crs(simulated_data, 4326)
 
 with_progress( # Only needed if you're using progressr
   output_tiles <- get_tiles(simulated_data,
-                            services = c("elevation", "ortho"))
+                            services = c("elevation", "ortho"),
+                            resolution = 90 # pixel side length in meters
+                            )
 )
 ```
-
-``` r
-raster::plotRGB(raster::brick(output_tiles[[2]][[1]]), scale = 1)
-```
-
-<img src="man/figures/naip.png" width="100%" />
 
 Once downloaded, these images are in standard GeoTIFF or PNG formats and
 can be used as expected with other utilities:
 
 ``` r
-raster::plot(raster::raster(output_tiles[[1]][[1]]))
+raster::plot(raster::raster(output_tiles[["elevation"]][[1]]))
 ```
 
 <img src="man/figures/elevation.png" width="100%" />
 
-Additionally, terrainr provides functions to transform these tiles into
-RAW images ready to be imported into the Unity rendering engine,
-allowing you to fly or walk through your downloaded data sets in 3D or
-VR:
+``` r
+raster::plotRGB(raster::brick(output_tiles[["ortho"]][[1]]), scale = 1)
+```
+
+<img src="man/figures/naip.png" width="100%" />
+
+Secondly, terrainr provides functions for manipulating these files,
+editing downloaded images to create new base map tiles:
 
 ``` r
-merged_dem <- tempfile(fileext = ".tif")
-merged_ortho <- tempfile(fileext = ".tif")
-# we can call these vectors by name instead of position, too
-merge_rasters(output_tiles[["elevation"]], merged_dem)
-merge_rasters(output_tiles[["ortho"]], merged_ortho)
+vector_overlay <- vector_to_overlay(
+  simulated_data,
+  output_tiles[["ortho"]]
+)
+
+vector_overlay <- combine_overlays(
+  output_tiles[["ortho"]],
+  vector_overlay
+)
+
+raster::plotRGB(raster::stack(vector_overlay))
+```
+
+<img src="man/figures/overlay.png" width="100%" />
+
+Finally, terrainr helps you visualize this data, both natively in R via
+the new `geom_spatial_rgb` geom:
+
+``` r
+library(ggplot2)
+ggplot() + 
+  geom_spatial_rgb(data = output_tiles[["ortho"]],
+                   aes(x = x, y = y, r = red, g = green, b = blue)) + 
+  geom_sf(data = simulated_data)
+```
+
+<img src="man/figures/ggplot.png" width="100%" />
+
+As well as with the Unity 3D rendering engine, allowing you to fly or
+walk through your downloaded data sets in 3D and VR:
+
+``` r
+with_progress( # When not specifying resolution, default is 1m pixels
+  output_tiles <- get_tiles(simulated_data,
+                            services = c("elevation", "ortho"))
+)
+
+merged_dem <- merge_rasters(output_tiles[["elevation"]], 
+                            tempfile(fileext = ".tif"))
+merged_ortho <- merge_rasters(output_tiles[["ortho"]], 
+                              tempfile(fileext = ".tif"))
 
 mapply(function(x, y) raster_to_raw_tiles(input_file = x, 
                                           output_prefix = tempfile(), 
@@ -86,61 +124,57 @@ mapply(function(x, y) raster_to_raw_tiles(input_file = x,
        c(merged_dem, merged_ortho),
        c(TRUE, FALSE))
 
-# With about ten minutes of movie magic (loading the files into Unity), 
-# we can turn that into:
+# We can then import these tiles to Unity to create:
 ```
 
 <img src="man/figures/unity-lakeside.jpg" width="100%" />
 
-terrainr also includes functionality to merge and crop the files you’ve
-downloaded, and to resize your area of interest so you’re sure to
-download exactly the area you want. Additionally, the more time
-intensive processing steps can all be monitored via the
+The more time intensive processing steps can all be monitored via the
 [progressr](https://github.com/HenrikBengtsson/progressr) package, so
 you’ll be more confident that your computer is still churning along and
-not just hung. For more information, check out [the introductory
+not just stalled out. For more information, check out [the introductory
 vignette](https://mikemahoney218.github.io/terrainr/articles/overview.html)
 and [the guide to importing your data into
-Unity.](https://mikemahoney218.github.io/terrainr/articles/unity_instructions.html)
+Unity!](https://mikemahoney218.github.io/terrainr/articles/unity_instructions.html)
 
 ## Available Datasets
 
 The following datasets can currently be downloaded using `get_tiles` or
 `hit_national_map_api`:
 
-  - [3DEPElevation](https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer):
+-   [3DEPElevation](https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer):
     The USGS 3D Elevation Program (3DEP) Bare Earth DEM.
-  - [USGSNAIPPlus](https://services.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/MapServer):
+-   [USGSNAIPPlus](https://services.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/MapServer):
     National Agriculture Imagery Program (NAIP) and high resolution
     orthoimagery (HRO).
-  - [nhd](https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer):
+-   [nhd](https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer):
     A comprehensive set of digital spatial data that encodes information
     about naturally occurring and constructed bodies of surface water
     (lakes, ponds, and reservoirs), paths through which water flows
     (canals, ditches, streams, and rivers), and related entities such as
     point features (springs, wells, stream gauges, and dams).
-  - [govunits](https://carto.nationalmap.gov/arcgis/rest/services/govunits/MapServer):
+-   [govunits](https://carto.nationalmap.gov/arcgis/rest/services/govunits/MapServer):
     Major civil areas for the Nation, including States or Territories,
     counties (or equivalents), Federal and Native American areas,
     congressional districts, minor civil divisions, incorporated places
     (such as cities and towns), and unincorporated places.
-  - [contours](https://carto.nationalmap.gov/arcgis/rest/services/contours/MapServer):
+-   [contours](https://carto.nationalmap.gov/arcgis/rest/services/contours/MapServer):
     The USGS Elevation Contours service.
-  - [geonames](https://carto.nationalmap.gov/arcgis/rest/services/geonames/MapServer):
+-   [geonames](https://carto.nationalmap.gov/arcgis/rest/services/geonames/MapServer):
     Information about physical and cultural geographic features,
     geographic areas, and locational entities that are generally
     recognizable and locatable by name.
-  - [NHDPlus\_HR](https://hydro.nationalmap.gov/arcgis/rest/services/NHDPlus_HR/MapServer):
+-   [NHDPlus\_HR](https://hydro.nationalmap.gov/arcgis/rest/services/NHDPlus_HR/MapServer):
     A comprehensive set of digital spatial data comprising a nationally
     seamless network of stream reaches, elevation-based catchment areas,
     flow surfaces, and value-added attributes.
-  - [structures](https://carto.nationalmap.gov/arcgis/rest/services/structures/MapServer):
+-   [structures](https://carto.nationalmap.gov/arcgis/rest/services/structures/MapServer):
     The name, function, location, and other core information and
     characteristics of selected manmade facilities.
-  - [transportation](https://carto.nationalmap.gov/arcgis/rest/services/transportation/MapServer):
+-   [transportation](https://carto.nationalmap.gov/arcgis/rest/services/transportation/MapServer):
     Roads, railroads, trails, airports, and other features associated
     with the transport of people or commerce.
-  - [wbd](https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer):
+-   [wbd](https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer):
     Hydrologic Unit (HU) polygon boundaries for the United States,
     Puerto Rico, and the U.S. Virgin Islands.
 

@@ -146,7 +146,6 @@ geom_spatial_rgb_internal.character <- function(data = NULL,
   )
 }
 
-#' @importClassesFrom sp SpatialPixelsDataFrame
 geom_spatial_rgb_internal.RasterStack <- function(data = NULL,
                                                   mapping = NULL,
                                                   stat = "spatialRGB",
@@ -159,12 +158,14 @@ geom_spatial_rgb_internal.RasterStack <- function(data = NULL,
                                                   show.legend = NA,
                                                   inherit.aes = TRUE,
                                                   scale = NULL) {
-  data <- methods::as(data, "SpatialPixelsDataFrame")
-  data <- as.data.frame(data)
-  data <- if (ncol(data) == 5) {
-    stats::setNames(data, c("red", "green", "blue", "x", "y"))
+
+  data <- raster::as.data.frame(data, xy = TRUE)
+  if (ncol(data) == 5) {
+    data <- stats::setNames(data, c("x", "y", "red", "green", "blue"))
+  } else if (ncol(data) == 6) {
+    data <- stats::setNames(data, c("x", "y", "red", "green", "blue", "alpha"))
   } else {
-    stats::setNames(data, c("red", "green", "blue", "alpha", "x", "y"))
+    stop("Can't assume band values from ", ncol(data) - 2, " band raster.")
   }
 
   geom_spatial_rgb_internal(
@@ -232,6 +233,9 @@ StatSpatialRGB <- ggplot2::ggproto(
     params
   },
   compute_group = function(data, scales, params, scale = NULL) {
+    if (any(data$r < 0)) data[data$r < 0, ]$r <- 0
+    if (any(data$g < 0)) data[data$g < 0, ]$g <- 0
+    if (any(data$b < 0)) data[data$b < 0, ]$b <- 0
     data$fill <- grDevices::rgb(data$r / scale, data$g / scale, data$b / scale)
     data.frame(
       x = data$x,
@@ -302,7 +306,6 @@ stat_spatial_rgb_internal.character <- function(data = NULL,
   )
 }
 
-#' @importClassesFrom sp SpatialPixelsDataFrame
 stat_spatial_rgb_internal.RasterStack <- function(data = NULL,
                                                   mapping = NULL,
                                                   geom = "raster",
@@ -312,12 +315,14 @@ stat_spatial_rgb_internal.RasterStack <- function(data = NULL,
                                                   inherit.aes = TRUE,
                                                   scale = NULL,
                                                   ...) {
-  data <- methods::as(data, "SpatialPixelsDataFrame")
-  data <- as.data.frame(data)
-  data <- if (ncol(data) == 5) {
-    stats::setNames(data, c("red", "green", "blue", "x", "y"))
+
+  data <- raster::as.data.frame(data, xy = TRUE)
+  if (ncol(data) == 5) {
+    data <- stats::setNames(data, c("x", "y", "red", "green", "blue"))
+  } else if (ncol(data) == 6) {
+    data <- stats::setNames(data, c("x", "y", "red", "green", "blue", "alpha"))
   } else {
-    stats::setNames(data, c("red", "green", "blue", "alpha", "x", "y"))
+    stop("Can't assume band values from ", ncol(data) - 2, " band raster.")
   }
 
   stat_spatial_rgb_internal(

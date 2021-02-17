@@ -4,15 +4,15 @@
 \name{terrainr-package}
 \alias{terrainr}
 \alias{terrainr-package}
-\title{terrainr: Retrieve Data from the 'USGS' National Map and Transform it for '3D' Landscape Visualizations}
+\title{terrainr: Landscape Visualizations in R and Unity}
 \description{
 \if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
 
-Functions for the retrieval and manipulation of 'USGS' National Map 
-    data ('<https://viewer.nationalmap.gov/services/>'), enabling users to 
-    download elevation and image data for areas of interest. Functions are also 
-    provided to transform these data sources into formats that can be used to 
-    create 3D elevation models in the Unity rendering engine.
+Functions for the retrieval, manipulation, and visualization of 
+    geospatial data, with an aim towards producing '3D' landscape visualizations
+    in the Unity '3D' rendering engine. Functions are also provided for 
+    retrieving elevation data and base map tiles from the 'USGS' National Map
+    ('<https://viewer.nationalmap.gov/services/>').
 }
 \seealso{
 Useful links:
