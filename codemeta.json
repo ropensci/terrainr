@@ -5,12 +5,12 @@
   ],
   "@type": "SoftwareSourceCode",
   "identifier": "terrainr",
-  "description": "Functions for the retrieval and manipulation of 'USGS' National Map \n    data ('<https://viewer.nationalmap.gov/services/>'), enabling users to \n    download elevation and image data for areas of interest. Functions are also \n    provided to transform these data sources into formats that can be used to \n    create 3D elevation models in the Unity rendering engine.",
-  "name": "terrainr: Retrieve Data from the 'USGS' National Map and Transform it for '3D' Landscape Visualizations",
+  "description": "Functions for the retrieval, manipulation, and visualization of \n    geospatial data, with an aim towards producing '3D' landscape visualizations\n    in the Unity '3D' rendering engine. Functions are also provided for \n    retrieving elevation data and base map tiles from the 'USGS' National Map\n    ('<https://viewer.nationalmap.gov/services/>').",
+  "name": "terrainr: Landscape Visualizations in R and Unity",
   "codeRepository": "https://github.com/mikemahoney218/terrainr",
   "issueTracker": "https://github.com/mikemahoney218/terrainr/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.2.1.9000",
+  "version": "0.3.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -229,11 +229,6 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "utils",
-      "name": "utils"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "sf",
       "name": "sf",
       "provider": {
@@ -272,23 +267,11 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=ggplot2"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "sp",
-      "name": "sp",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=sp"
     }
   ],
   "releaseNotes": "https://github.com/mikemahoney218/terrainr/blob/master/NEWS.md",
   "readme": "https://github.com/mikemahoney218/terrainr/blob/main/README.md",
-  "fileSize": "3198.976KB",
+  "fileSize": "4601.155KB",
   "contIntegration": "https://codecov.io/gh/mikemahoney218/terrainr",
   "developmentStatus": ["https://www.tidyverse.org/lifecycle/#maturing", "https://www.repostatus.org/#active"],
   "keywords": [
