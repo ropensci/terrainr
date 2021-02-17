@@ -28,7 +28,10 @@ Imports:
     png,
     utils,
     sf,
-    units
+    units,
+    grDevices,
+    ggplot2,
+    sp
 RoxygenNote: 7.1.1
 Suggests: 
     testthat,
@@ -37,9 +40,9 @@ Suggests:
     knitr,
     rmarkdown,
     progress,
-    ggplot2,
     jpeg,
-    tiff
+    tiff,
+    brio
 Config/testthat/parallel: true
 Config/testthat/edition: 3
 VignetteBuilder: knitr

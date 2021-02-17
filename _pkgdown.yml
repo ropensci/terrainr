@@ -48,19 +48,7 @@ reference:
     - combine_overlays
   - title: Utility Functions
   - contents:
-    - add_bbox_buffer
+    - add_bbox_buffer, set_bbox_side_length
     - deg_to_rad
-    - get_bbox_centroid
-    - point_from_distance
     - rad_to_deg
-  - title: Classes and Related Functions
-  - contents:
-    - terrainr_coordinate_pair-class
-    - terrainr_bounding_box-class
-    - terrainr_coordinate_pair
-    - terrainr_bounding_box
-    - export_coord_pair
-    - export_bounding_box
-
-
 
