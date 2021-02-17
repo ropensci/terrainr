@@ -8,6 +8,8 @@ test_that("get_tiles gets the same geonames tiles twice", {
   georeference = FALSE
   )
 
+  expect_equal(names(output_tif), "geonames")
+
   expect_equal(length(output_tif), 1)
   expect_equal(length(output_tif[[1]]), 1)
 

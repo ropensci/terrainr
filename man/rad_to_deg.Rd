@@ -15,10 +15,6 @@ A vector of the same length in decimal degrees
 \description{
 Convert radians to degrees
 }
-\examples{
-rad_to_deg(2 * base::pi)
-rad_to_deg(deg_to_rad(360))
-}
 \seealso{
 Other utilities: 
 \code{\link{addbuff}},

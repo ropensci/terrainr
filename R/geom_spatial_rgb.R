@@ -159,7 +159,7 @@ geom_spatial_rgb_internal.RasterStack <- function(data = NULL,
                                                   show.legend = NA,
                                                   inherit.aes = TRUE,
                                                   scale = NULL) {
-  data <- as(data, "SpatialPixelsDataFrame")
+  data <- methods::as(data, "SpatialPixelsDataFrame")
   data <- as.data.frame(data)
   data <- if (ncol(data) == 5) {
     stats::setNames(data, c("red", "green", "blue", "x", "y"))
@@ -312,7 +312,7 @@ stat_spatial_rgb_internal.RasterStack <- function(data = NULL,
                                                   inherit.aes = TRUE,
                                                   scale = NULL,
                                                   ...) {
-  data <- as(data, "SpatialPixelsDataFrame")
+  data <- methods::as(data, "SpatialPixelsDataFrame")
   data <- as.data.frame(data)
   data <- if (ncol(data) == 5) {
     stats::setNames(data, c("red", "green", "blue", "x", "y"))

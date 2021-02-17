@@ -7,10 +7,6 @@
 #' @family utilities
 #'
 #' @return A vector of the same length in radians
-#'
-#' @examples
-#' deg_to_rad(360)
-#' rad_to_deg(deg_to_rad(360))
 deg_to_rad <- function(deg) {
   stopifnot(is.numeric(deg))
   deg * base::pi / 180
@@ -25,10 +21,6 @@ deg_to_rad <- function(deg) {
 #' @family utilities
 #'
 #' @return A vector of the same length in decimal degrees
-#'
-#' @examples
-#' rad_to_deg(2 * base::pi)
-#' rad_to_deg(deg_to_rad(360))
 rad_to_deg <- function(rad) {
   stopifnot(is.numeric(rad))
   rad * 180 / base::pi

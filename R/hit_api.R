@@ -155,7 +155,7 @@ hit_national_map_api <- function(bbox,
       max = floor(c(2^counter - 1, 30))
     )
     Sys.sleep(backoff)
-    if (verbose) message(sprintf("API call 1 attempt %d"), counter + 1)
+    if (verbose) message(sprintf("API call 1 attempt %d", counter + 1))
 
     res <- httr::GET(url, agent, query = c(bbox_arg, query_arg))
 
@@ -200,11 +200,11 @@ hit_national_map_api <- function(bbox,
   body <- get_href()
 
   if (!is.null(body$href)) {
-    if (verbose) message(sprintf("API call 2 attempt %d"), 1)
+    if (verbose) message(sprintf("API call 2 attempt %d", 1))
     img_res <- httr::GET(body$href, agent)
     counter <- 0
     while (counter < 15 && httr::http_error(img_res)) {
-      if (verbose) message(sprintf("API call 2 attempt %d"), counter + 1)
+      if (verbose) message(sprintf("API call 2 attempt %d", counter + 1))
       backoff <- stats::runif(n = 1, min = 0, max = floor(c(
         2^counter - 1,
         30
