@@ -56,20 +56,24 @@ heightmap with the argument `raw = TRUE`, then we rerun the function with our
 orthoimage and `raw = FALSE`. The reason here is that we'll import these objects
 into Unity differently, so they need to be saved out in different file formats.
 
-Once that code finishes running, you should have about this many files:
+You might also have seen a number of "warning" messages, all in the general 
+format `Warning 1: -srcwin 0 8194 4097 4097 falls partially outside raster extent. Going on however.`. 
+That's nothing to worry about! As our input files aren't _exactly_ divisible by
+4097, some of the tiles we created extended beyond the edge of our input data. 
+When the code finishes running, you should have about this many files:
 
 ```{r echo=FALSE}
 knitr::include_graphics("files.jpg")
 ```
 
-We can safely ignore or delete all the XML files. Additionally, you'll notice 
-that you have 3 black PNG files, which are only a few kB in size (versus the 
-roughly 75 MB average of the other files). Our input files weren't exactly 
-evenly divisible by 4097, so the few extra pixels at the end got split into 
-their own files; feel free to delete those (and their matching .raw 
-counterparts) as well.
+Those small black PNG files (which are only a few kB in size, versus the 
+roughly 75 MB average of the other files) are the few extra pixels at the end of
+the raster, which got split into their own files. 
+Feel free to delete those (and their matching .raw counterparts). We can delete
+or ignore all the XML files as well; Unity doesn't know how to process them.
 
-So now we're down to 16 files. Let's go ahead and open a new Unity project now:
+After deleting those, we're down to 16 files. Let's go ahead and open a new 
+Unity project now:
 
 ```{r echo=FALSE}
 knitr::include_graphics("new_unity.jpg")
