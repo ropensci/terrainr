@@ -1,3 +1,15 @@
+# terrainr 0.3.1
+* First CRAN submission!
+* This is the smallest of patch releases, with almost no user-facing changes.
+* Internal changes:
+    * Added rOpenSci reviewers to DESCRIPTION.
+    * Changed USGS API link to new website.
+    * Added rOpenSci badge to README.
+    * Changed most PNG images to _slightly_ smaller JPGs.
+    * Edited URLs for new rOpenSci website.
+    * Moved lifecycle badge href to new site.
+    * Some small spelling issues have been fixed.
+
 # terrainr 0.3.0
 * Breaking changes:
     * `terrainr_*` classes have been effectively removed and are no longer 
@@ -49,7 +61,7 @@
       error message if API endpoints return a non-200 status (54ad9fb).
     * `hit_national_map_api` (and by extension `get_tiles`) now register a user
       agent.
-  * Changes in dependencies:
+* Changes in dependencies:
     * `gdalUtilities` has been removed, with functionality replaced by `sf`.
     * `rlang` has been removed, with functionality removed.
     * `units` has been added.
