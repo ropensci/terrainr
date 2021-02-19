@@ -7,8 +7,8 @@
   "identifier": "terrainr",
   "description": "Functions for the retrieval, manipulation, and visualization of \n    geospatial data, with an aim towards producing '3D' landscape visualizations\n    in the Unity '3D' rendering engine. Functions are also provided for \n    retrieving elevation data and base map tiles from the 'USGS' National Map\n    ('<https://viewer.nationalmap.gov/services/>').",
   "name": "terrainr: Landscape Visualizations in R and Unity",
-  "codeRepository": "https://github.com/mikemahoney218/terrainr",
-  "issueTracker": "https://github.com/mikemahoney218/terrainr/issues",
+  "codeRepository": "https://github.com/ropensci/terrainr",
+  "issueTracker": "https://github.com/ropensci/terrainr/issues",
   "license": "https://spdx.org/licenses/MIT",
   "version": "0.3.0",
   "programmingLanguage": {
@@ -269,10 +269,10 @@
       "sameAs": "https://CRAN.R-project.org/package=ggplot2"
     }
   ],
-  "releaseNotes": "https://github.com/mikemahoney218/terrainr/blob/master/NEWS.md",
-  "readme": "https://github.com/mikemahoney218/terrainr/blob/main/README.md",
-  "fileSize": "4600.614KB",
-  "contIntegration": "https://codecov.io/gh/mikemahoney218/terrainr",
+  "releaseNotes": "https://github.com/ropensci/terrainr/blob/master/NEWS.md",
+  "readme": "https://github.com/ropensci/terrainr/blob/main/README.md",
+  "fileSize": "4601.27KB",
+  "contIntegration": "https://codecov.io/gh/ropensci/terrainr",
   "developmentStatus": ["https://www.tidyverse.org/lifecycle/#maturing", "https://www.repostatus.org/#active"],
   "keywords": [
     "r",
@@ -282,7 +282,17 @@
     "rstats",
     "usgs",
     "map",
-    "mapping"
+    "mapping",
+    "national-map",
+    "unity-rendering-engine",
+    "unity",
+    "map-tiles",
+    "progressr"
   ],
-  "relatedLink": "https://mikemahoney218.github.io/terrainr/"
+  "relatedLink": ["https://mikemahoney218.github.io/terrainr/", "https://docs.ropensci.org/terrainr"],
+  "review": {
+    "@type": "Review",
+    "url": "https://github.com/ropensci/software-review/issues/416",
+    "provider": "https://ropensci.org"
+  }
 }
