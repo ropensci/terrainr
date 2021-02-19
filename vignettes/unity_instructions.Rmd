@@ -21,7 +21,7 @@ This tutorial assumes you have already downloaded Unity.
 
 This is the entirety of the R code that we'll be running today; most of this 
 tutorial will be focusing on using Unity. If you aren't familiar with the 
-functions being used in this chunk, check out the [introductory vignette!](https://mikemahoney218.github.io/terrainr/articles/overview.html)
+functions being used in this chunk, check out the [introductory vignette!](https://docs.ropensci.org/terrainr/articles/overview.html)
 
 Note that downloading this much data takes a bit of time!
 

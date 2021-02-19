@@ -329,4 +329,4 @@ knitr::include_graphics("ebert_unity.jpg")
 ```
 
 For more instructions on how to create these 3D simulations in Unity, check out
-the [Unity vignette](https://mikemahoney218.github.io/terrainr/articles/unity_instructions.html).
+the [Unity vignette](https://docs.ropensci.org/terrainr/articles/unity_instructions.html).

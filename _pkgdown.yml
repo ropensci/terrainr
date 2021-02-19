@@ -30,7 +30,7 @@ navbar:
       href: news/index.html
     github:
       icon: fab fa-github fa-lg
-      href: https://github.com/mikemahoney218/terrainr
+      href: https://github.com/ropensci/terrainr
 reference:
   - title: Data Retrieval Functions
   - contents:
