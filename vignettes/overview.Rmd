@@ -201,7 +201,7 @@ ggplot() +
 knitr::include_graphics("ortho_ggplot.jpg")
 ```
 
-You can then use these multi-band rasters as basemaps for further plotting as 
+You can then use these multi-band rasters as base maps for further plotting as 
 desired.
 
 ```{r eval = FALSE}

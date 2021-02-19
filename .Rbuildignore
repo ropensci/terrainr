@@ -30,3 +30,4 @@ methods-in-ecology-and-evolution.csl
 ^tile1.tif$
 ^tile2.tif$
 ^merged.tif$
+^cran-comments\.md$

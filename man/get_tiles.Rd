@@ -105,7 +105,7 @@ source will only be queried once per tile.}
 georeferencing, or should they be downloaded as georeferenced TIFF files?
 This option does nothing when only elevation data is being downloaded.}
 
-\item{...}{Additional arguments passed to \code{\link{hit_national_map_api}}.
+\item{...}{Additional arguments passed to [hit_national_map_api].
 These can be used to change default query parameters or as additional options
 for the National Map services. See below for more details.}
 }
@@ -142,10 +142,10 @@ documentation.
 
 \section{Additional Arguments}{
 
-The \code{...} argument can be used to pass additional arguments to the
+The `...` argument can be used to pass additional arguments to the
 National Map API or to edit the hard-coded defaults used by this function.
 More information on common arguments to change can be found in
-[hit_national_map_api]. Note that \code{...} can also be used to change
+[hit_national_map_api]. Note that `...` can also be used to change
 the formats returned by the server, but that doing so while using this
 function will likely cause the function to error (or corrupt the output
 data). To download files in different formats, use [hit_national_map_api].

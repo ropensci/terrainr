@@ -26,11 +26,11 @@
 #' National Map API or to edit the hard-coded defaults used by this function.
 #' Some of the most useful options that can be changed include:
 #'
-#' * bboxSR: The spatial reference of the bounding box given to this function.
+#' * `bboxSR`: The spatial reference of the bounding box given to this function.
 #'   If not specified, assumed to be
 #'   [4326](https://spatialreference.org/ref/epsg/wgs-84/).
 #'
-#' * imageSR: The spatial reference of the image downloaded.
+#' * `imageSR`: The spatial reference of the image downloaded.
 #'   If not specified, assumed to be
 #'   [4326](https://spatialreference.org/ref/epsg/wgs-84/).
 #'

@@ -1,7 +1,7 @@
 Package: terrainr
 Type: Package
 Title: Landscape Visualizations in R and Unity
-Version: 0.3.0
+Version: 0.3.1
 Authors@R: c(
     person(given = "Michael",
            family = "Mahoney",
@@ -17,10 +17,10 @@ Authors@R: c(
            role = c("rev"),
            comment = c("Sydney reviewed the package (v. 0.2.1) for rOpenSci, see <https://github.com/ropensci/software-review/issues/416>")))
 Description: Functions for the retrieval, manipulation, and visualization of 
-    geospatial data, with an aim towards producing '3D' landscape visualizations
-    in the Unity '3D' rendering engine. Functions are also provided for 
-    retrieving elevation data and base map tiles from the 'USGS' National Map
-    ('<https://apps.nationalmap.gov/services/>').
+    'geospatial' data, with an aim towards producing '3D' landscape 
+    visualizations in the Unity '3D' rendering engine. Functions are also 
+    provided for retrieving elevation data and base map tiles from the 'USGS' 
+    National Map ('<https://apps.nationalmap.gov/services/>').
 URL: https://docs.ropensci.org/terrainr/, https://github.com/ropensci/terrainr
 BugReports: https://github.com/ropensci/terrainr/issues
 License: MIT + file LICENSE

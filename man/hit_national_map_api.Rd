@@ -48,10 +48,10 @@ The \code{...} argument can be used to pass additional arguments to the
 National Map API or to edit the hard-coded defaults used by this function.
 Some of the most useful options that can be changed include:
 \itemize{
-\item bboxSR: The spatial reference of the bounding box given to this function.
+\item \code{bboxSR}: The spatial reference of the bounding box given to this function.
 If not specified, assumed to be
 \href{https://spatialreference.org/ref/epsg/wgs-84/}{4326}.
-\item imageSR: The spatial reference of the image downloaded.
+\item \code{imageSR}: The spatial reference of the image downloaded.
 If not specified, assumed to be
 \href{https://spatialreference.org/ref/epsg/wgs-84/}{4326}.
 \item layers: Which data layers to download. If the National Map API returns data
