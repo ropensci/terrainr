@@ -65,13 +65,13 @@ can be used as expected with other utilities:
 raster::plot(raster::raster(output_tiles[["elevation"]][[1]]))
 ```
 
-<img src="man/figures/elevation.png" width="100%" />
+<img src="man/figures/elevation.jpg" width="100%" />
 
 ``` r
 raster::plotRGB(raster::brick(output_tiles[["ortho"]][[1]]), scale = 1)
 ```
 
-<img src="man/figures/naip.png" width="100%" />
+<img src="man/figures/naip.jpg" width="100%" />
 
 Secondly, terrainr provides functions for manipulating these files,
 editing downloaded images to create new base map tiles:
@@ -90,7 +90,7 @@ vector_overlay <- combine_overlays(
 raster::plotRGB(raster::stack(vector_overlay))
 ```
 
-<img src="man/figures/overlay.png" width="100%" />
+<img src="man/figures/overlay.jpg" width="100%" />
 
 Finally, terrainr helps you visualize this data, both natively in R via
 the new `geom_spatial_rgb` geom:
@@ -103,7 +103,7 @@ ggplot() +
   geom_sf(data = simulated_data)
 ```
 
-<img src="man/figures/ggplot.png" width="100%" />
+<img src="man/figures/ggplot.jpg" width="100%" />
 
 As well as with the Unity 3D rendering engine, allowing you to fly or
 walk through your downloaded data sets in 3D and VR:
