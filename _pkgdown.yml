@@ -1,10 +1,7 @@
-url: https://mikemahoney218.github.io/terrainr
+url: https://docs.ropensci.org/terrainr
 authors:
   Mike Mahoney:
     href: https://www.mm218.dev/
-template:
-  params:
-    bootswatch: flatly
 navbar:
   structure:
     right:
