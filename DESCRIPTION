@@ -2,12 +2,20 @@ Package: terrainr
 Type: Package
 Title: Landscape Visualizations in R and Unity
 Version: 0.3.0
-Authors@R: 
+Authors@R: c(
     person(given = "Michael",
            family = "Mahoney",
            role = c("aut", "cre"),
            email = "mike.mahoney.218@gmail.com",
-           comment = c(ORCID = "0000-0003-2402-304X"))
+           comment = c(ORCID = "0000-0003-2402-304X")),
+    person(given = "Mike",
+           family = "Johnson",
+           role = c("rev"),
+           comment = c("Mike reviewed the package (v. 0.2.1) for rOpenSci, see <https://github.com/ropensci/software-review/issues/416>")),
+    person(given = "Sydney",
+           family = "Foks",
+           role = c("rev"),
+           comment = c("Sydney reviewed the package (v. 0.2.1) for rOpenSci, see <https://github.com/ropensci/software-review/issues/416>")))
 Description: Functions for the retrieval, manipulation, and visualization of 
     geospatial data, with an aim towards producing '3D' landscape visualizations
     in the Unity '3D' rendering engine. Functions are also provided for 

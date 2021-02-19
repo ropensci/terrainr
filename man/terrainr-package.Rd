@@ -17,14 +17,20 @@ Functions for the retrieval, manipulation, and visualization of
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://mikemahoney218.github.io/terrainr/}
-  \item \url{https://github.com/mikemahoney218/terrainr}
-  \item Report bugs at \url{https://github.com/mikemahoney218/terrainr/issues}
+  \item \url{https://docs.ropensci.org/terrainr}
+  \item \url{https://github.com/ropensci/terrainr}
+  \item Report bugs at \url{https://github.com/ropensci/terrainr/issues}
 }
 
 }
 \author{
 \strong{Maintainer}: Michael Mahoney \email{mike.mahoney.218@gmail.com} (\href{https://orcid.org/0000-0003-2402-304X}{ORCID})
+
+Other contributors:
+\itemize{
+  \item Mike Johnson (Mike reviewed the package (v. 0.2.1) for rOpenSci, see <https://github.com/ropensci/software-review/issues/416>) [reviewer]
+  \item Sydney Foks (Sydney reviewed the package (v. 0.2.1) for rOpenSci, see <https://github.com/ropensci/software-review/issues/416>) [reviewer]
+}
 
 }
 \keyword{internal}

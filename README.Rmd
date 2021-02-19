@@ -64,7 +64,7 @@ raster::plot(raster::raster(output_tiles[["elevation"]][[1]]))
 ```
 
 ```{r, echo = FALSE}
-knitr::include_graphics("man/figures/elevation.png")
+knitr::include_graphics("man/figures/elevation.jpg")
 ```
 
 ```{r eval=FALSE}
@@ -72,7 +72,7 @@ raster::plotRGB(raster::brick(output_tiles[["ortho"]][[1]]), scale = 1)
 ```
 
 ```{r echo=FALSE}
-knitr::include_graphics("man/figures/naip.png")
+knitr::include_graphics("man/figures/naip.jpg")
 ```
 
 Secondly, terrainr provides functions for manipulating these files, editing 
@@ -93,7 +93,7 @@ raster::plotRGB(raster::stack(vector_overlay))
 ```
 
 ```{r echo = FALSE}
-knitr::include_graphics("man/figures/overlay.png")
+knitr::include_graphics("man/figures/overlay.jpg")
 ```
 
 Finally, terrainr helps you visualize this data, both natively in R via the new
@@ -108,7 +108,7 @@ ggplot() +
 ```
 
 ```{r echo = FALSE}
-knitr::include_graphics("man/figures/ggplot.png")
+knitr::include_graphics("man/figures/ggplot.jpg")
 ```
 
 As well as with the Unity 3D rendering engine, allowing you to fly or walk 
