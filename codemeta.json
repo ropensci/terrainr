@@ -5,12 +5,12 @@
   ],
   "@type": "SoftwareSourceCode",
   "identifier": "terrainr",
-  "description": "Functions for the retrieval, manipulation, and visualization of \n    geospatial data, with an aim towards producing '3D' landscape visualizations\n    in the Unity '3D' rendering engine. Functions are also provided for \n    retrieving elevation data and base map tiles from the 'USGS' National Map\n    ('<https://viewer.nationalmap.gov/services/>').",
+  "description": "Functions for the retrieval, manipulation, and visualization of \n    'geospatial' data, with an aim towards producing '3D' landscape \n    visualizations in the Unity '3D' rendering engine. Functions are also \n    provided for retrieving elevation data and base map tiles from the 'USGS' \n    National Map ('<https://apps.nationalmap.gov/services/>').",
   "name": "terrainr: Landscape Visualizations in R and Unity",
   "codeRepository": "https://github.com/ropensci/terrainr",
   "issueTracker": "https://github.com/ropensci/terrainr/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -271,9 +271,9 @@
   ],
   "releaseNotes": "https://github.com/ropensci/terrainr/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci/terrainr/blob/main/README.md",
-  "fileSize": "4601.27KB",
+  "fileSize": "3115.541KB",
   "contIntegration": "https://codecov.io/gh/ropensci/terrainr",
-  "developmentStatus": ["https://www.tidyverse.org/lifecycle/#maturing", "https://www.repostatus.org/#active"],
+  "developmentStatus": ["https://lifecycle.r-lib.org/articles/stages.html#maturing", "https://www.repostatus.org/#active"],
   "keywords": [
     "r",
     "r-package",
@@ -289,7 +289,11 @@
     "map-tiles",
     "progressr"
   ],
-  "relatedLink": ["https://mikemahoney218.github.io/terrainr/", "https://docs.ropensci.org/terrainr"],
+  "relatedLink": [
+    "https://mikemahoney218.github.io/terrainr/",
+    "https://docs.ropensci.org/terrainr",
+    "https://docs.ropensci.org/terrainr/"
+  ],
   "review": {
     "@type": "Review",
     "url": "https://github.com/ropensci/software-review/issues/416",
