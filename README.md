@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# terrainr: Landscape Visualization in R and Unity <a href='https://mikemahoney218.github.io/terrainr/'><img src="man/figures/logo.png" align="right" height="138.5"/></a>
+# terrainr: Landscape Visualization in R and Unity <a href='https://docs.ropensci.org/terrainr'><img src="man/figures/logo.png" align="right" height="138.5"/></a>
 
 <!-- badges: start -->
 
@@ -11,12 +11,14 @@ MIT](https://img.shields.io/badge/license-MIT-green)](https://choosealicense.com
 status](https://www.r-pkg.org/badges/version/terrainr)](https://CRAN.R-project.org/package=terrainr)
 [![Lifecycle:
 maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-[![codecov](https://codecov.io/gh/mikemahoney218/terrainr/branch/master/graph/badge.svg)](https://codecov.io/gh/mikemahoney218/terrainr)
+[![codecov](https://codecov.io/gh/ropensci/terrainr/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/terrainr)
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![R build
-status](https://github.com/mikemahoney218/terrainr/workflows/R-CMD-check/badge.svg)](https://github.com/mikemahoney218/terrainr/actions)
+status](https://github.com/ropensci/terrainr/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/terrainr/actions)
+[![rOpenSci Review
+Status](https://badges.ropensci.org/416_status.svg)](https://github.com/ropensci/software-review/issues/416)
 
 <!-- badges: end -->
 
@@ -133,9 +135,9 @@ The more time intensive processing steps can all be monitored via the
 [progressr](https://github.com/HenrikBengtsson/progressr) package, so
 you’ll be more confident that your computer is still churning along and
 not just stalled out. For more information, check out [the introductory
-vignette](https://mikemahoney218.github.io/terrainr/articles/overview.html)
-and [the guide to importing your data into
-Unity\!](https://mikemahoney218.github.io/terrainr/articles/unity_instructions.html)
+vignette](https://docs.ropensci.org/terrainr/articles/overview.html) and
+[the guide to importing your data into
+Unity\!](https://docs.ropensci.org/terrainr/articles/unity_instructions.html)
 
 ## Available Datasets
 
@@ -184,11 +186,11 @@ descriptions](https://viewer.nationalmap.gov/services/).)
 ## Installation
 
 You can install the development version of terrainr from
-[GitHub](https://github.com/mikemahoney218/terrainr) with:
+[GitHub](https://github.com/ropensci/terrainr) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("mikemahoney218/terrainr")
+devtools::install_github("ropensci/terrainr")
 ```
 
 ## Code of Conduct
@@ -196,3 +198,5 @@ devtools::install_github("mikemahoney218/terrainr")
 Please note that this package is released with a [Contributor Code of
 Conduct](https://ropensci.org/code-of-conduct/). By contributing to this
 project, you agree to abide by its terms.
+
+[![ropensci\_footer](https://ropensci.org/public_images/github_footer.png)](https://ropensci.org)
