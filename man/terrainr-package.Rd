@@ -12,12 +12,12 @@ Functions for the retrieval, manipulation, and visualization of
     geospatial data, with an aim towards producing '3D' landscape visualizations
     in the Unity '3D' rendering engine. Functions are also provided for 
     retrieving elevation data and base map tiles from the 'USGS' National Map
-    ('<https://viewer.nationalmap.gov/services/>').
+    ('<https://apps.nationalmap.gov/services/>').
 }
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://docs.ropensci.org/terrainr}
+  \item \url{https://docs.ropensci.org/terrainr/}
   \item \url{https://github.com/ropensci/terrainr}
   \item Report bugs at \url{https://github.com/ropensci/terrainr/issues}
 }

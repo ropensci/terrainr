@@ -1,16 +1,15 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# terrainr: Landscape Visualization in R and Unity <a href='https://docs.ropensci.org/terrainr'><img src="man/figures/logo.png" align="right" height="138.5"/></a>
+# terrainr: Landscape Visualization in R and Unity <a href='https://docs.ropensci.org/terrainr/'><img src="man/figures/logo.png" align="right" height="138.5"/></a>
 
 <!-- badges: start -->
 
 [![License:
 MIT](https://img.shields.io/badge/license-MIT-green)](https://choosealicense.com/licenses/mit/)
-[![CRAN
-status](https://www.r-pkg.org/badges/version/terrainr)](https://CRAN.R-project.org/package=terrainr)
+![CRAN status](https://www.r-pkg.org/badges/version/terrainr)
 [![Lifecycle:
-maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html#maturing)
 [![codecov](https://codecov.io/gh/ropensci/terrainr/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/terrainr)
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
@@ -26,9 +25,9 @@ Status](https://badges.ropensci.org/416_status.svg)](https://github.com/ropensci
 
 terrainr makes it easy to retrieve elevation and base map image tiles
 for areas of interest within the United States from the [National Map
-family of APIs](https://viewer.nationalmap.gov/services/), and then
-process that data into larger, joined images or crop it into tiles that
-can be imported into the Unity 3D rendering engine.
+family of APIs](https://apps.nationalmap.gov/services), and then process
+that data into larger, joined images or crop it into tiles that can be
+imported into the Unity 3D rendering engine.
 
 There are three main utilities provided by terrainr. First, users are
 able to download data from the National Map via the `get_tiles`
@@ -135,53 +134,53 @@ The more time intensive processing steps can all be monitored via the
 [progressr](https://github.com/HenrikBengtsson/progressr) package, so
 you’ll be more confident that your computer is still churning along and
 not just stalled out. For more information, check out [the introductory
-vignette](https://docs.ropensci.org/terrainr/articles/overview.html) and
+vignette](https://docs.ropensci.org/terrainr//articles/overview.html) and
 [the guide to importing your data into
-Unity\!](https://docs.ropensci.org/terrainr/articles/unity_instructions.html)
+Unity!](https://docs.ropensci.org/terrainr//articles/unity_instructions.html)
 
 ## Available Datasets
 
 The following datasets can currently be downloaded using `get_tiles` or
 `hit_national_map_api`:
 
-  - [3DEPElevation](https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer):
+-   [3DEPElevation](https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer):
     The USGS 3D Elevation Program (3DEP) Bare Earth DEM.
-  - [USGSNAIPPlus](https://services.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/MapServer):
+-   [USGSNAIPPlus](https://services.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/MapServer):
     National Agriculture Imagery Program (NAIP) and high resolution
     orthoimagery (HRO).
-  - [nhd](https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer):
+-   [nhd](https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer):
     A comprehensive set of digital spatial data that encodes information
     about naturally occurring and constructed bodies of surface water
     (lakes, ponds, and reservoirs), paths through which water flows
     (canals, ditches, streams, and rivers), and related entities such as
     point features (springs, wells, stream gauges, and dams).
-  - [govunits](https://carto.nationalmap.gov/arcgis/rest/services/govunits/MapServer):
+-   [govunits](https://carto.nationalmap.gov/arcgis/rest/services/govunits/MapServer):
     Major civil areas for the Nation, including States or Territories,
     counties (or equivalents), Federal and Native American areas,
     congressional districts, minor civil divisions, incorporated places
     (such as cities and towns), and unincorporated places.
-  - [contours](https://carto.nationalmap.gov/arcgis/rest/services/contours/MapServer):
+-   [contours](https://carto.nationalmap.gov/arcgis/rest/services/contours/MapServer):
     The USGS Elevation Contours service.
-  - [geonames](https://carto.nationalmap.gov/arcgis/rest/services/geonames/MapServer):
+-   [geonames](https://carto.nationalmap.gov/arcgis/rest/services/geonames/MapServer):
     Information about physical and cultural geographic features,
     geographic areas, and locational entities that are generally
     recognizable and locatable by name.
-  - [NHDPlus\_HR](https://hydro.nationalmap.gov/arcgis/rest/services/NHDPlus_HR/MapServer):
+-   [NHDPlus\_HR](https://hydro.nationalmap.gov/arcgis/rest/services/NHDPlus_HR/MapServer):
     A comprehensive set of digital spatial data comprising a nationally
     seamless network of stream reaches, elevation-based catchment areas,
     flow surfaces, and value-added attributes.
-  - [structures](https://carto.nationalmap.gov/arcgis/rest/services/structures/MapServer):
+-   [structures](https://carto.nationalmap.gov/arcgis/rest/services/structures/MapServer):
     The name, function, location, and other core information and
     characteristics of selected manmade facilities.
-  - [transportation](https://carto.nationalmap.gov/arcgis/rest/services/transportation/MapServer):
+-   [transportation](https://carto.nationalmap.gov/arcgis/rest/services/transportation/MapServer):
     Roads, railroads, trails, airports, and other features associated
     with the transport of people or commerce.
-  - [wbd](https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer):
+-   [wbd](https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer):
     Hydrologic Unit (HU) polygon boundaries for the United States,
     Puerto Rico, and the U.S. Virgin Islands.
 
 (All descriptions above taken from the [National Map API
-descriptions](https://viewer.nationalmap.gov/services/).)
+descriptions](https://apps.nationalmap.gov/services).)
 
 ## Installation
 

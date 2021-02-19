@@ -13,11 +13,11 @@ knitr::opts_chunk$set(
 )
 ```
 
-# terrainr: Landscape Visualization in R and Unity <a href='https://docs.ropensci.org/terrainr'><img src="man/figures/logo.png" align="right" height="138.5"/></a>
+# terrainr: Landscape Visualization in R and Unity <a href='https://docs.ropensci.org/terrainr/'><img src="man/figures/logo.png" align="right" height="138.5"/></a>
 
 <!-- badges: start -->
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-green)](https://choosealicense.com/licenses/mit/) [![CRAN status](https://www.r-pkg.org/badges/version/terrainr)](https://CRAN.R-project.org/package=terrainr) [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing) [![codecov](https://codecov.io/gh/ropensci/terrainr/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/terrainr) [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) [![R build status](https://github.com/ropensci/terrainr/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/terrainr/actions) [![rOpenSci Review Status](https://badges.ropensci.org/416_status.svg)](https://github.com/ropensci/software-review/issues/416)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](https://choosealicense.com/licenses/mit/) ![CRAN status](https://www.r-pkg.org/badges/version/terrainr) [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html#maturing) [![codecov](https://codecov.io/gh/ropensci/terrainr/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/terrainr) [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) [![R build status](https://github.com/ropensci/terrainr/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/terrainr/actions) [![rOpenSci Review Status](https://badges.ropensci.org/416_status.svg)](https://github.com/ropensci/software-review/issues/416)
 
 <!-- badges: end -->
 
@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 
 terrainr makes it easy to retrieve elevation and base map image tiles for areas 
 of interest within the United States from the 
-[National Map family of APIs](https://viewer.nationalmap.gov/services/), and 
+[National Map family of APIs](https://apps.nationalmap.gov/services), and 
 then process that data into larger, joined images or crop it into tiles that can 
 be imported into the Unity 3D rendering engine.
 
@@ -141,8 +141,8 @@ knitr::include_graphics("man/figures/unity-lakeside.jpg")
 
 The more time intensive processing steps can all be monitored via the [progressr](https://github.com/HenrikBengtsson/progressr) package, so you'll be 
 more confident that your computer is still churning along and not just stalled 
-out. For more information, check out [the introductory vignette](https://docs.ropensci.org/terrainr/articles/overview.html) and 
-[the guide to importing your data into Unity!](https://docs.ropensci.org/terrainr/articles/unity_instructions.html)
+out. For more information, check out [the introductory vignette](https://docs.ropensci.org/terrainr//articles/overview.html) and 
+[the guide to importing your data into Unity!](https://docs.ropensci.org/terrainr//articles/unity_instructions.html)
 
 ## Available Datasets
 
@@ -159,7 +159,7 @@ The following datasets can currently be downloaded using `get_tiles` or `hit_nat
 -   [transportation](https://carto.nationalmap.gov/arcgis/rest/services/transportation/MapServer): Roads, railroads, trails, airports, and other features associated with the transport of people or commerce.
 -   [wbd](https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer): Hydrologic Unit (HU) polygon boundaries for the United States, Puerto Rico, and the U.S. Virgin Islands.
 
-(All descriptions above taken from the [National Map API descriptions](https://viewer.nationalmap.gov/services/).)
+(All descriptions above taken from the [National Map API descriptions](https://apps.nationalmap.gov/services).)
 
 ## Installation
 

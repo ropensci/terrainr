@@ -4,7 +4,7 @@
 #' service and returns the raw response. End users are recommended to use
 #' [get_tiles] instead, as it does much more validation and provides
 #' a more friendly interface. For a description of the datasets provided by the
-#' National Map, see \url{https://viewer.nationalmap.gov/services/}
+#' National Map, see \url{https://apps.nationalmap.gov/services}
 #'
 #' @param bbox A list representing the bounding box (bottom left and top left
 #' coordinate pairs).
