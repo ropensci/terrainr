@@ -1,3 +1,8 @@
+## Resubmission
+This is a resubmission. In this version I have:
+
+* Addressed the test causing issues with debian builds.
+
 ## Test environments
 * local R installation, R 4.0.4
 * ubuntu 20.04 (on GitHub Actions), R devel, 4.0.4, 3.6.3
