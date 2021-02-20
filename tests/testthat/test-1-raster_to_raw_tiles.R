@@ -6,6 +6,7 @@ test_that("raster_to_raw runs without errors", {
   # yet to test it on a mac. As such, I believe this may be an issue with the
   # GH environment rather than using magick to open a tempfile.
   skip_on_os(c("windows", "mac"))
+  skip_on_cran()
   expect_error(
     raster_to_raw_tiles(
       input_file = "testdata/merge_rasters_test.tif",
