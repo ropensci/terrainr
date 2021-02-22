@@ -1,3 +1,10 @@
+## Resubmission
+
+This is a resubmission. In this version, I have:
+
+* Added \value to .Rd files point_from_distance.Rd and terrainr_bounding_box.Rd.
+* Added single quotes in the title and description around 'Unity'.
+
 ## Test environments
 * local R installation, R 4.0.4
 * ubuntu 20.04 (on GitHub Actions), R devel, 4.0.4, 3.6.3

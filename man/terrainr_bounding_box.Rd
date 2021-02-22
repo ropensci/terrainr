@@ -17,6 +17,9 @@ properly identify coordinates.}
 If \code{bl} and \code{tr} are already [terrainr_coordinate_pair]
 objects, these arguments are not used.}
 }
+\value{
+An object of class [terrainr_bounding_box].
+}
 \description{
 In order to simplify code, most \code{terrainr} functions expect a set S4
 class representation of coordinate pairs and bounding boxes. If the provided

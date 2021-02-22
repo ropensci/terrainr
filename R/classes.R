@@ -135,6 +135,8 @@ methods::setClass("terrainr_bounding_box",
 #' If \code{bl} and \code{tr} are already [terrainr_coordinate_pair]
 #' objects, these arguments are not used.
 #'
+#' @return An object of class [terrainr_bounding_box].
+#'
 #' @keywords internal
 terrainr_bounding_box <- function(bl, tr, coord_units = "degrees") {
   if (!methods::is(bl, "terrainr_coordinate_pair")) {

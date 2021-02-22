@@ -9,6 +9,9 @@
     * Edited URLs for new rOpenSci website.
     * Moved lifecycle badge href to new site.
     * Some small spelling issues have been fixed.
+    * Added \value tags to non-exported point_to_distance and 
+      terrainr_bounding_box functions
+    * Added single quotes around Unity in the DESCRIPTION
 
 # terrainr 0.3.0
 * Breaking changes:

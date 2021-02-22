@@ -66,6 +66,8 @@ get_centroid <- function(lat, lng) {
 #' indicating the units of the \code{azimuth} argument
 #'
 #' @keywords internal
+#'
+#' @return An object of class [terrainr_coordinate_pair].
 point_from_distance <- function(coord_pair,
                                 distance,
                                 azimuth,
