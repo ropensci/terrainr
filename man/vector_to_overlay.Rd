@@ -9,7 +9,8 @@ vector_to_overlay(
   reference_raster,
   output_file = NULL,
   transparent = "#ffffff",
-  ...
+  ...,
+  error_crs = NULL
 )
 }
 \arguments{
@@ -31,6 +32,10 @@ final image. Set to \code{FALSE} to not set any colors to transparent.}
 \item{...}{Arguments passed to \code{...} in either \link[ggplot2:geom_point]{ggplot2::geom_point} (for
 point vector data), \link[ggplot2:geom_path]{ggplot2::geom_line} (for line data),
 or \link[ggplot2:geom_polygon]{ggplot2::geom_polygon} (for all other data types).}
+
+\item{error_crs}{Logical: Should this function error if \code{data} has no CRS?
+If \code{TRUE}, function errors; if \code{FALSE}, function quietly assumes EPSG:4326.
+If \code{NULL}, the default, function assumes EPSG:4326 with a warning.}
 }
 \value{
 \code{output_file}, invisibly.
