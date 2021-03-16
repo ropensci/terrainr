@@ -10,7 +10,7 @@
   "codeRepository": "https://github.com/ropensci/terrainr",
   "issueTracker": "https://github.com/ropensci/terrainr/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.3.1",
+  "version": "0.3.1.9000",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -271,7 +271,7 @@
   ],
   "releaseNotes": "https://github.com/ropensci/terrainr/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci/terrainr/blob/main/README.md",
-  "fileSize": "3116.707KB",
+  "fileSize": "3117.921KB",
   "contIntegration": "https://codecov.io/gh/ropensci/terrainr",
   "developmentStatus": ["https://lifecycle.r-lib.org/articles/stages.html#maturing", "https://www.repostatus.org/#active"],
   "keywords": [
@@ -287,7 +287,10 @@
     "unity-rendering-engine",
     "unity",
     "map-tiles",
-    "progressr"
+    "progressr",
+    "peer-reviewed",
+    "retrieve-data",
+    "orthoimagery"
   ],
   "relatedLink": [
     "https://mikemahoney218.github.io/terrainr/",
@@ -298,5 +301,11 @@
     "@type": "Review",
     "url": "https://github.com/ropensci/software-review/issues/416",
     "provider": "https://ropensci.org"
+  },
+  "provider": {
+    "@id": "https://cran.r-project.org",
+    "@type": "Organization",
+    "name": "Comprehensive R Archive Network (CRAN)",
+    "url": "https://cran.r-project.org"
   }
 }
