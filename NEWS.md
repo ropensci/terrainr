@@ -1,3 +1,23 @@
+# terrainr 0.3.1.9000
+* Current development version (will be 0.4.0)
+* Breaking changes:
+    * Three changes in how `vector_to_overlay` deals with missing CRS in 
+      `vector_data`:
+        * A new argument, `error_crs`, behaves just like `error_crs` in 
+          `add_bbox`: if `NULL`, the function will give a warning when assuming
+          CRS; if `FALSE`, the function will assume a CRS silently, and if 
+          `TRUE`, the function will error if `vector_data` is missing a CRS.
+        * `target_crs` has been removed. `vector_data` will be given the CRS of 
+          `reference_raster` if it doesn't have its own CRS, and will always be
+          projected to the CRS of `reference_raster`.
+        * `error_crs` has been added to mirror `add_bbox_buffer`: if `NULL` and
+          your input data has no CRS, `vector_to_overlay` will warn about 
+          assuming the raster CRS. Set to `TRUE` to error or `FALSE` to ignore
+          the warning.
+* Internal changes:
+    * Removed code to check for `ggplot2` from `vector_to_overlay` now that
+      `ggplot2` is required
+
 # terrainr 0.3.1
 * First CRAN submission!
 * This is the smallest of patch releases, with almost no user-facing changes.

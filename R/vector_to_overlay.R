@@ -12,14 +12,14 @@
 #' vector containing a path to a file readable by [raster::raster].
 #' @param output_file The path to save the image overlay to. If `NULL`, saves to
 #' a tempfile.
-#' @param target_crs The CRS (as an EPSG integer code) to transform vector data
-#' into. If using raster images from [get_tiles], the default of 4326 is
-#' typically appropriate.
 #' @param transparent The hex code for a color to be made transparent in the
 #' final image. Set to `FALSE` to not set any colors to transparent.
 #' @param ... Arguments passed to `...` in either [ggplot2::geom_point] (for
 #' point vector data), [ggplot2::geom_line] (for line data),
 #' or [ggplot2::geom_polygon] (for all other data types).
+#' @param error_crs Logical: Should this function error if `data` has no CRS?
+#' If `TRUE`, function errors; if `FALSE`, function quietly assumes EPSG:4326.
+#' If `NULL`, the default, function assumes EPSG:4326 with a warning.
 #'
 #' @family data manipulation functions
 #' @family overlay creation functions
@@ -62,9 +62,9 @@
 vector_to_overlay <- function(vector_data,
                               reference_raster,
                               output_file = NULL,
-                              target_crs = 4326,
                               transparent = "#ffffff",
-                              ...) {
+                              ...,
+                              error_crs = NULL) {
 
   if (is.character(vector_data) && length(vector_data) == 1) {
     vector_data <- sf::read_sf(vector_data)
@@ -78,10 +78,17 @@ vector_to_overlay <- function(vector_data,
     stopifnot(any(grepl("^Raster", class(reference_raster))))
   }
 
-  if (is.na(sf::st_crs(vector_data)[[1]])) {
-    sf::st_crs(vector_data) <- sf::st_crs(4326)
-  } else {
-    vector_data <- sf::st_transform(vector_data, target_crs)
+  if (is.na(sf::st_crs(vector_data))) {
+    if (is.null(error_crs)) {
+      warning("No CRS associated with input vector data.\n",
+              "Assuming it shares the CRS of reference_raster.")
+    } else if (error_crs) {
+      stop("No CRS associated with input vector data.")
+    }
+    sf::st_crs(vector_data) <- sf::st_crs(reference_raster)
+  }
+  if (!is.na(sf::st_crs(reference_raster))) {
+    vector_data <- sf::st_transform(vector_data, sf::st_crs(reference_raster))
   }
 
   vector_data <- as.data.frame(sf::st_coordinates(vector_data))

@@ -8,7 +8,6 @@ vector_to_overlay(
   vector_data,
   reference_raster,
   output_file = NULL,
-  target_crs = 4326,
   transparent = "#ffffff",
   ...
 )
@@ -25,10 +24,6 @@ vector containing a path to a file readable by \link[raster:raster]{raster::rast
 
 \item{output_file}{The path to save the image overlay to. If \code{NULL}, saves to
 a tempfile.}
-
-\item{target_crs}{The CRS (as an EPSG integer code) to transform vector data
-into. If using raster images from \link{get_tiles}, the default of 4326 is
-typically appropriate.}
 
 \item{transparent}{The hex code for a color to be made transparent in the
 final image. Set to \code{FALSE} to not set any colors to transparent.}
