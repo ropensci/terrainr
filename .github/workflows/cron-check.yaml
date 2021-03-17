@@ -1,19 +1,12 @@
 on:
-  push:
-    branches:
-      - '*'
-      - '!gh-pages'
-  pull_request:
-    branches:
-      - '*'
-      - '!gh-pages'
   schedule: 
     - cron: 45 12 * * 1,3,5
+  workflow_dispatch
 
-name: R-CMD-check-MacOS
+name: R-CMD-check-scheduled
 
 jobs:
-  R-CMD-check-MacOS:
+  R-CMD-check:
     runs-on: ${{ matrix.config.os }}
 
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
@@ -22,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: macOS-latest, r: 'release'}
+          - {os: ubuntu-20.04, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
