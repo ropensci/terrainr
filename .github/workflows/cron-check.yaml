@@ -1,7 +1,7 @@
 on:
   schedule: 
     - cron: 45 12 * * 1,3,5
-  workflow_dispatch
+  workflow_dispatch:
 
 name: R-CMD-check-scheduled
 
