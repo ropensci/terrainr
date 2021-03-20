@@ -82,7 +82,7 @@ add_bbox_buffer.sf <- function(data,
                              lng = c(bbox[["xmin"]], bbox[["xmax"]]))
     corner_distance <- calc_haversine_distance(
       centroid,
-      c(lng = bbox[["xmin"]], lat = bbox[["ymin"]]),
+      c(lng = bbox[["xmin"]], lat = bbox[["ymin"]])
       )
     units(corner_distance) <- units::as_units("meter")
     # This forces add_distance into meters since corner_distance is first

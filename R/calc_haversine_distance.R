@@ -5,19 +5,12 @@
 #'
 #' @param point_1,point_2 Coordinate pairs (as length-2 numeric vectors with the
 #' names "lat" and "lng") to calculate distance between.
-#' @param coord_units String indicating whether coordinates are in degrees
-#' (`"degrees"`) or radians (`"radians"`) Degrees stored in radians will be
-#' converted to degrees.
 #' @keywords internal
 #'
 #' @family utilities
 #'
 #' @return A vector of length 1 containing distance between points
-calc_haversine_distance <- function(point_1, point_2, coord_units = "degrees") {
-
-  if (!(coord_units %in% c("degrees", "radians"))) {
-    stop("coord_units must be either degrees or radians.")
-  }
+calc_haversine_distance <- function(point_1, point_2) {
 
   points <- lapply(
     list(point_1, point_2), # list, not c, since these are both numeric vectors
@@ -38,7 +31,7 @@ calc_haversine_distance <- function(point_1, point_2, coord_units = "degrees") {
       "delta_lat" = points[[2]]@lat - points[[1]]@lat,
       "delta_lng" = points[[2]]@lng - points[[1]]@lng
     ),
-    function(x) ifelse(coord_units == "degrees", deg_to_rad(x), x),
+    deg_to_rad,
     numeric(1)
   )
 

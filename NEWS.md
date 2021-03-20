@@ -17,6 +17,8 @@
 * Internal changes:
     * Removed code to check for `ggplot2` from `vector_to_overlay` now that
       `ggplot2` is required
+    * `calc_haversine_distance` (not exported) now assumes it's been provided
+      with degrees. `coord_units` has been removed as an argument.
 
 # terrainr 0.3.1
 * First CRAN submission!

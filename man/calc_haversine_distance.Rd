@@ -4,15 +4,11 @@
 \alias{calc_haversine_distance}
 \title{Extract latitude and longitude from a provided object}
 \usage{
-calc_haversine_distance(point_1, point_2, coord_units = "degrees")
+calc_haversine_distance(point_1, point_2)
 }
 \arguments{
 \item{point_1, point_2}{Coordinate pairs (as length-2 numeric vectors with the
 names "lat" and "lng") to calculate distance between.}
-
-\item{coord_units}{String indicating whether coordinates are in degrees
-(`"degrees"`) or radians (`"radians"`) Degrees stored in radians will be
-converted to degrees.}
 }
 \value{
 A vector of length 1 containing distance between points

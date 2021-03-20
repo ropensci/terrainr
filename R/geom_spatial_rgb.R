@@ -220,6 +220,7 @@ StatSpatialRGB <- ggplot2::ggproto(
   "StatSpatialRGB",
   ggplot2::Stat,
   required_aes = c("x", "y", "r", "g", "b"),
+  default_aes = ggplot2::aes(fill = ggplot2::stat(fill)),
   setup_params = function(data, params) {
     if (is.null(params$scale)) {
       if (all(data$r <= 1, data$g <= 1, data$b <= 1)) {
