@@ -98,7 +98,7 @@ button. By clicking that and then selecting our first heightmap -- let's start
 with `mt_marcy_1_1.raw` -- we can start importing it into Unity. Set resolution,
 X, and Z to the side_length argument in `raster_to_raw_tiles`, and Y to the 
 maximum elevation across all your tiles -- if you don't know it, you can find it
-via `raster::cellStats(raster::raster("your_merged_heightmap.tif"), "max)`. In 
+via `raster::cellStats(raster::raster("your_merged_heightmap.tif"), "max")`. In 
 our case, it's about 1629.
 
 ```{r echo=FALSE}
