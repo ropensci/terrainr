@@ -16,7 +16,7 @@
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.0.4 (2021-02-15)",
+  "runtimePlatform": "R version 4.0.5 (2021-03-31)",
   "author": [
     {
       "@type": "Person",
@@ -271,7 +271,7 @@
   ],
   "releaseNotes": "https://github.com/ropensci/terrainr/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci/terrainr/blob/main/README.md",
-  "fileSize": "3117.751KB",
+  "fileSize": "3121.723KB",
   "contIntegration": "https://codecov.io/gh/ropensci/terrainr",
   "developmentStatus": ["https://lifecycle.r-lib.org/articles/stages.html#maturing", "https://www.repostatus.org/#active"],
   "keywords": [
