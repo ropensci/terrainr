@@ -14,6 +14,10 @@
           your input data has no CRS, `vector_to_overlay` will warn about 
           assuming the raster CRS. Set to `TRUE` to error or `FALSE` to ignore
           the warning.
+* Improvements and bug fixes:
+    * `merge_rasters` can once again handle merging mixed-band rasters (such as
+      NAIP images with and without alpha bands). At the moment this is using the
+      older, slower implementation and will raise a warning. (#30, #32).
 * Internal changes:
     * Removed code to check for `ggplot2` from `vector_to_overlay` now that
       `ggplot2` is required
