@@ -42,9 +42,8 @@ merge_rasters <- function(input_rasters,
                    options = options),
     error = function(e) {
       warning(
-        "Received error from gdalwarp:\n",
-        e,
-        "\nTrying another method.")
+        "\nReceived error from gdalwarp.",
+        "Trying another method. This may take longer than normal...")
       merge_rasters_deprecated(input_rasters, output_raster, options)
     }
   )
@@ -168,6 +167,10 @@ merge_rasters_deprecated <- function(
   }
 
   if (exists("tmprst")) lapply(tmprst, unlink)
+
+  message("...done.",
+          "The alternate method seems to have worked!",
+          "If your merged output looks right, you can ignore the above error.")
 
   return(output_list)
 
