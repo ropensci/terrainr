@@ -1,4 +1,4 @@
-# terrainr 0.3.1.9000
+# terrainr 0.3.1.9001
 * Current development version (will be 0.4.0)
 * Breaking changes:
     * Three changes in how `vector_to_overlay` deals with missing CRS in 
@@ -14,6 +14,14 @@
           your input data has no CRS, `vector_to_overlay` will warn about 
           assuming the raster CRS. Set to `TRUE` to error or `FALSE` to ignore
           the warning.
+    * NAIP imagery is now downloaded with `transparent = "false"` to
+      minimize the number of times the backup method to `merge_rasters` (see 
+      below) is called. To restore the old behavior, set `transparent = "true"` 
+      in either `get_tiles` or `hit_national_map_api`.
+    * `get_tiles` will now infer `bboxSR` and `imageSR` from provided `sf` or
+      `Raster` objects if not otherwise specified. To restore the old behavior,
+      set `bboxSR` and `imageSR` to `4326` in `get_tiles` (or set your data's 
+      CRS to 4326 before calling `get_tiles`).
 * Improvements and bug fixes:
     * `merge_rasters` can once again handle merging mixed-band rasters (such as
       NAIP images with and without alpha bands). At the moment this is using the

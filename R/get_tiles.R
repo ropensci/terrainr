@@ -103,6 +103,19 @@ get_tiles.sf <- function(data,
                          georeference = TRUE,
                          ...) {
 
+  dots <- list(...)
+  if (!any(names(dots) == "bboxSR")) {
+    bboxSR <- ifelse(is.na(sf::st_crs(data)$epsg),
+                     4326,
+                     sf::st_crs(data)$epsg)
+  } else bboxSR <- dots[["bboxSR"]]
+
+  if (!any(names(dots) == "imageSR")) {
+    imageSR <- ifelse(is.na(sf::st_crs(data)$epsg),
+                      4326,
+                      sf::st_crs(data)$epsg)
+  } else imageSR <- dots[["imageSR"]]
+
   data <- sf::st_bbox(data)
   bl <- c("lng" = data[["xmin"]], "lat" = data[["ymin"]])
   tr <- c("lng" = data[["xmax"]], "lat" = data[["ymax"]])
@@ -116,6 +129,8 @@ get_tiles.sf <- function(data,
     services = services,
     verbose = verbose,
     georeference = georeference,
+    bboxSR = bboxSR,
+    imageSR = imageSR,
     ...
   )
 
@@ -156,6 +171,19 @@ get_tiles.Raster <- function(data,
                              georeference = TRUE,
                              ...) {
 
+  dots <- list(...)
+  if (!any(names(dots) == "bboxSR")) {
+    bboxSR <- ifelse(is.na(sf::st_crs(data)$epsg),
+                     4326,
+                     sf::st_crs(data)$epsg)
+  } else bboxSR <- dots[["bboxSR"]]
+
+  if (!any(names(dots) == "imageSR")) {
+    imageSR <- ifelse(is.na(sf::st_crs(data)$epsg),
+                      4326,
+                      sf::st_crs(data)$epsg)
+  } else imageSR <- dots[["imageSR"]]
+
   data <- raster::extent(data)
   bl <- c("lng" = data@xmin, "lat" = data@ymin)
   tr <- c("lng" = data@xmax, "lat" = data@ymax)
@@ -189,31 +217,6 @@ get_tiles.list <- function(data,
   get_tiles_internal(
     bl = bbox@bl,
     tr = bbox@tr,
-    output_prefix = output_prefix,
-    side_length = side_length,
-    resolution = resolution,
-    services = services,
-    verbose = verbose,
-    georeference = georeference,
-    ...
-  )
-
-}
-
-#' @rdname get_tiles
-# nolint start
-get_tiles.terrainr_bounding_box <- function(data,
-                                            output_prefix = tempfile(),
-                                            side_length = NULL,
-                                            resolution = 1,
-                                            services = "elevation",
-                                            verbose = FALSE,
-                                            georeference = TRUE,
-                                            ...) {
-# nolint end
-  get_tiles_internal(
-    bl = data@bl,
-    tr = data@tr,
     output_prefix = output_prefix,
     side_length = side_length,
     resolution = resolution,

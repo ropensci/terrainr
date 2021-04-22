@@ -6,7 +6,6 @@
 \alias{get_tiles.sfc}
 \alias{get_tiles.Raster}
 \alias{get_tiles.list}
-\alias{get_tiles.terrainr_bounding_box}
 \title{A user-friendly way to get USGS National Map data tiles for an area}
 \usage{
 get_tiles(
@@ -54,17 +53,6 @@ get_tiles(
 )
 
 \method{get_tiles}{list}(
-  data,
-  output_prefix = tempfile(),
-  side_length = NULL,
-  resolution = 1,
-  services = "elevation",
-  verbose = FALSE,
-  georeference = TRUE,
-  ...
-)
-
-\method{get_tiles}{terrainr_bounding_box}(
   data,
   output_prefix = tempfile(),
   side_length = NULL,
