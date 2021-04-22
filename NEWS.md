@@ -31,6 +31,9 @@
       `ggplot2` is required
     * `calc_haversine_distance` (not exported) now assumes it's been provided
       with degrees. `coord_units` has been removed as an argument.
+    * `get_tiles.terrainr_bounding_box` has been removed; it should no longer be
+      possible for users to have `terrainr_bounding_box` objects unless they 
+      were using non-exported functionality.
 
 # terrainr 0.3.1
 * First CRAN submission!
