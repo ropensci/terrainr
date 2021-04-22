@@ -1,5 +1,4 @@
-# terrainr 0.3.1.9001
-* Current development version (will be 0.4.0)
+# terrainr 0.4.0
 * Breaking changes:
     * Three changes in how `vector_to_overlay` deals with missing CRS in 
       `vector_data`:

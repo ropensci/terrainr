@@ -1,7 +1,7 @@
 Package: terrainr
 Type: Package
 Title: Landscape Visualizations in R and 'Unity'
-Version: 0.3.1.9001
+Version: 0.4.0
 Authors@R: c(
     person(given = "Michael",
            family = "Mahoney",

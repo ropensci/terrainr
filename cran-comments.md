@@ -1,10 +1,3 @@
-## Resubmission
-
-This is a resubmission. In this version, I have:
-
-* Added \value to .Rd files point_from_distance.Rd and terrainr_bounding_box.Rd.
-* Added single quotes in the title and description around 'Unity'.
-
 ## Test environments
 * local R installation, R 4.0.4
 * ubuntu 20.04 (on GitHub Actions), R devel, 4.0.4, 3.6.3
@@ -14,6 +7,8 @@ This is a resubmission. In this version, I have:
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
+0 errors | 0 warnings | 0 notes
 
-* This is a new release.
+## Downstream dependencies
+There are no downstream dependencies on CRAN for terrainr at the time of 
+submission.
