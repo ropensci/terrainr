@@ -118,7 +118,11 @@ hit_national_map_api <- function(bbox,
       interpolation = "+RSP_BilinearInterpolation",
       f = "json"
     ),
-    # note: this format purposefully excludes transparent from NAIP downloads
+    # purposefully exclude transparency from NAIP downloads
+    "USGSNAIPPlus" = c(
+      standard_png_args[names(standard_png_args) != "transparent"],
+      transparent = "false"
+      ),
     "nhd" = c(layers = 0, standard_png_args),
     standard_png_args
   )
