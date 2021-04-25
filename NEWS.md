@@ -1,3 +1,8 @@
+# terrainr 0.4.0.9001
+* Current development version
+* Internal changes:
+    * Added `importFrom` tag to `terrainr-package.R` to silence R CMD CHECK NOTE.
+
 # terrainr 0.4.0
 * Breaking changes:
     * Three changes in how `vector_to_overlay` deals with missing CRS in 
