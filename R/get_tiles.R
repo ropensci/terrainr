@@ -35,6 +35,7 @@
 #' documentation.
 #'
 # nolint start
+#'
 #' * [3DEPElevation](https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer)
 #'   (short code: elevation)
 #' * [USGSNAIPPlus](https://services.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/MapServer)
@@ -49,6 +50,7 @@
 #' * [transportation](https://carto.nationalmap.gov/arcgis/rest/services/transportation/MapServer)
 #' * [wbd](https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer)
 #'   ("short code": watersheds)
+#'
 # nolint end
 #'
 #' @section Additional Arguments:
@@ -80,6 +82,7 @@
 #' }
 #'
 #' @rdname get_tiles
+#' @md
 #' @export
 get_tiles <- function(data,
                       output_prefix = tempfile(),
