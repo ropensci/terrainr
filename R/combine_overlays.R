@@ -80,7 +80,7 @@ combine_overlays <- function(...,
       # nocov start
       if (!requireNamespace("tiff", quietly = TRUE)) {
         stop(
-          "Please install the tiff package via",
+          "Please install the tiff package via ",
           "install.packages('tiff') to continue."
         )
       } else { # nocov end

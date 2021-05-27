@@ -55,14 +55,18 @@ add_bbox_buffer.sf <- function(data,
                                distance_unit = "meters",
                                error_crs = NULL) {
 
-  if (is.na(sf::st_crs(data)$input)) {
+  input_crs <- sf::st_crs(data)$input
+
+  if (is.na(input_crs)) {
     if (is.null(error_crs)) {
       warning("No CRS associated with input data. Assuming EPSG:4326.\n")
     } else if (error_crs) {
       stop("No CRS associated with input data.")
     }
-    data <- sf::st_set_crs(data, 4326)
+    input_crs <- 4326
+    data <- sf::st_set_crs(data, input_crs)
   }
+
 
   units(distance) <- units::as_units(distance_unit)
 
@@ -99,7 +103,7 @@ add_bbox_buffer.sf <- function(data,
     sf::st_as_sfc(output)
     })
 
-  return(bbox)
+  return(sf::st_set_crs(bbox, input_crs))
 }
 
 #' @rdname addbuff
