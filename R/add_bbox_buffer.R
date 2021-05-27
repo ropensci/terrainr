@@ -55,7 +55,7 @@ add_bbox_buffer.sf <- function(data,
                                distance_unit = "meters",
                                error_crs = NULL) {
 
-  input_crs <- sf::st_crs(data)$input
+  input_crs <- sf::st_crs(data)$wkt
 
   if (is.na(input_crs)) {
     if (is.null(error_crs)) {

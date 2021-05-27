@@ -21,8 +21,13 @@ test_that("set_bbox_side_length works within 1%", {
   bbox <- set_bbox_side_length(df_sf, 8000)
 
   expect_equal(
-    bbox_default,
-    bbox
+    sf::st_crs(bbox_default)$wkt,
+    sf::st_crs(bbox)$wkt
+  )
+
+  expect_equal(
+    sf::st_set_crs(bbox_default, sf::NA_crs_),
+    sf::st_set_crs(bbox, sf::NA_crs_)
   )
 
   bbox <- sf::st_bbox(bbox)
