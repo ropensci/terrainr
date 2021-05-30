@@ -10,13 +10,13 @@
   "codeRepository": "https://github.com/ropensci/terrainr",
   "issueTracker": "https://github.com/ropensci/terrainr/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.4.0.9001",
+  "version": "0.4.1",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.0.5 (2021-03-31)",
+  "runtimePlatform": "R version 4.1.0 (2021-05-18)",
   "author": [
     {
       "@type": "Person",
@@ -271,7 +271,7 @@
   ],
   "releaseNotes": "https://github.com/ropensci/terrainr/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci/terrainr/blob/main/README.md",
-  "fileSize": "3123.563KB",
+  "fileSize": "3102.798KB",
   "contIntegration": "https://codecov.io/gh/ropensci/terrainr",
   "developmentStatus": ["https://lifecycle.r-lib.org/articles/stages.html#maturing", "https://www.repostatus.org/#active"],
   "keywords": [

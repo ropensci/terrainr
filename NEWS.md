@@ -1,5 +1,4 @@
-# terrainr 0.4.0.9001
-* Current development version
+# terrainr 0.4.1
 * Improvements and bug fixes:
     * `get_tiles` now displays a bulleted list of endpoints (again?), rather 
       than a jumble of raw markdown
