@@ -27,7 +27,7 @@ test_that("all methods of geom_spatial_rgb are equivalent", {
                                             r = red,
                                             g = green,
                                             b = blue)) +
-    ggplot2::geom_sf(data = simulated_data) +
+    ggplot2::geom_sf(data = simulated_data)
     ggplot2::ggsave(plots[[1]])
 
   ggplot2::ggplot() +
@@ -37,7 +37,7 @@ test_that("all methods of geom_spatial_rgb are equivalent", {
                                             r = red,
                                             g = green,
                                             b = blue)) +
-    ggplot2::geom_sf(data = simulated_data) +
+    ggplot2::geom_sf(data = simulated_data)
     ggplot2::ggsave(plots[[2]])
 
   ggplot2::ggplot() +
@@ -47,7 +47,7 @@ test_that("all methods of geom_spatial_rgb are equivalent", {
                                             r = red,
                                             g = green,
                                             b = blue)) +
-    ggplot2::geom_sf(data = simulated_data) +
+    ggplot2::geom_sf(data = simulated_data)
     ggplot2::ggsave(plots[[3]])
 
   ggplot2::ggplot() +
@@ -58,7 +58,7 @@ test_that("all methods of geom_spatial_rgb are equivalent", {
                                             g = green,
                                             b = blue),
                      scale = 1) +
-    ggplot2::geom_sf(data = simulated_data) +
+    ggplot2::geom_sf(data = simulated_data)
     ggplot2::ggsave(plots[[4]])
 
   ggplot2::ggplot() +
@@ -68,7 +68,7 @@ test_that("all methods of geom_spatial_rgb are equivalent", {
                                             r = red,
                                             g = green,
                                             b = blue)) +
-    ggplot2::geom_sf(data = simulated_data) +
+    ggplot2::geom_sf(data = simulated_data)
     ggplot2::ggsave(plots[[5]])
 
   ggplot2::ggplot() +
@@ -78,7 +78,7 @@ test_that("all methods of geom_spatial_rgb are equivalent", {
                                             r = red,
                                             g = green,
                                             b = blue)) +
-    ggplot2::geom_sf(data = simulated_data) +
+    ggplot2::geom_sf(data = simulated_data)
     ggplot2::ggsave(plots[[6]])
 
   expect_identical(
