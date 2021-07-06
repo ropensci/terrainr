@@ -1,3 +1,10 @@
+# terrainr 0.4.2
+* Deprecations:
+    * The method `get_tiles.list` now gives a warning indicating a deprecation
+      schedule. This method will be unexported in Fall 2021, and removed in late
+      2021, as the package continues to rely more heavily on `sf`. Convert your
+      list to an `sf` object instead.
+
 # terrainr 0.4.1
 * Improvements and bug fixes:
     * `get_tiles` now displays a bulleted list of endpoints (again?), rather 

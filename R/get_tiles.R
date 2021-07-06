@@ -1,7 +1,8 @@
 #' A user-friendly way to get USGS National Map data tiles for an area
 #'
 #' This function splits the area contained within a bounding box into a set of
-#' tiles, and retrieves data from the USGS National map for each tile.
+#' tiles, and retrieves data from the USGS National map for each tile. As of
+#' version 0.4.2, the method for lists has been deprecated.
 #'
 #' @param data An `sf` or `Raster` object; tiles will be downloaded for the full
 #' extent of the provided object.
@@ -109,7 +110,9 @@ get_tiles.sf <- function(data,
   dots <- list(...)
   if (!any(names(dots) == "bboxSR")) {
     bboxSR <- ifelse(is.na(sf::st_crs(data)$epsg),
-                     4326,
+                     ifelse(sf::st_is_longlat(data),
+                            4326,
+                            5071),
                      sf::st_crs(data)$epsg)
   } else bboxSR <- dots[["bboxSR"]]
 
@@ -215,6 +218,11 @@ get_tiles.list <- function(data,
                            verbose = FALSE,
                            georeference = TRUE,
                            ...) {
+
+  warning("get_tiles.list is now deprecated; ",
+          "it will no longer be exported in Fall 2021, ",
+          "it will be removed entirely in late 2021.\n",
+          "Convert your list to an sf object instead.")
 
   bbox <- terrainr_bounding_box(data[[1]], data[[2]])
   get_tiles_internal(
