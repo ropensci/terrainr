@@ -9,6 +9,10 @@
 #' @param side_length The side length, in pixels, for the .raw tiles.
 #' @param raw Logical: Convert the cropped tiles to .raw? When \code{FALSE}
 #' returns a .png.
+#' @param write_manifest Logical: Write a manifest file for automated import
+#' into Unity? This feature is experimental and will not likely be released in
+#' this state.
+#' @param manifest_path File path to write the manifest file to.
 #'
 #' @family data manipulation functions
 #' @family visualization functions
@@ -38,7 +42,9 @@
 raster_to_raw_tiles <- function(input_file,
                                 output_prefix,
                                 side_length = 4097,
-                                raw = TRUE) {
+                                raw = TRUE,
+                                write_manifest = FALSE,
+                                manifest_path = "terrainr.manifest") {
   input_raster <- raster::raster(input_file)
   max_raster <- raster::cellStats(input_raster, "max")
 
@@ -166,6 +172,32 @@ raster_to_raw_tiles <- function(input_file,
     temppngs,
     names(temppngs)
   )
+
+  if (write_manifest) {
+
+    if (!raw) warning("Currently only heightmaps can be imported via manifest")
+
+    manifest <- data.frame(
+      filename = names(temppngs),
+      x_pos = -rep(x_tiles, each = length(temppngs) / length(x_tiles)),
+      z_pos = rep(y_tiles, length.out = length(temppngs)),
+      x_length = side_length,
+      height = max_raster,
+      z_length = side_length,
+      resolution = side_length
+    )
+
+    write.table(manifest,
+                manifest_path,
+                row.names = FALSE,
+                col.names = FALSE,
+                sep = "\t",
+                quote = FALSE)
+
+    if (!file.exists("import_terrain.cs")) {
+      file.copy(system.file("import_terrain.cs", package = "terrainr"))
+    }
+  }
 
   if (raw) unlink(temppngs)
 

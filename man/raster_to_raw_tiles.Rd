@@ -4,7 +4,14 @@
 \alias{raster_to_raw_tiles}
 \title{Crop a raster and convert the output tiles into new formats.}
 \usage{
-raster_to_raw_tiles(input_file, output_prefix, side_length = 4097, raw = TRUE)
+raster_to_raw_tiles(
+  input_file,
+  output_prefix,
+  side_length = 4097,
+  raw = TRUE,
+  write_manifest = FALSE,
+  manifest_path = "terrainr.manifest"
+)
 }
 \arguments{
 \item{input_file}{File path to the input TIFF file to convert.}
@@ -15,6 +22,12 @@ raster_to_raw_tiles(input_file, output_prefix, side_length = 4097, raw = TRUE)
 
 \item{raw}{Logical: Convert the cropped tiles to .raw? When \code{FALSE}
 returns a .png.}
+
+\item{write_manifest}{Logical: Write a manifest file for automated import
+into Unity? This feature is experimental and will not likely be released in
+this state.}
+
+\item{manifest_path}{File path to write the manifest file to.}
 }
 \value{
 Invisibly, a character vector containing the file paths that were
