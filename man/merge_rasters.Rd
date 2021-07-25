@@ -7,7 +7,8 @@
 merge_rasters(
   input_rasters,
   output_raster = tempfile(fileext = ".tif"),
-  options = character(0)
+  options = character(0),
+  force_fallback = FALSE
 )
 }
 \arguments{
@@ -19,6 +20,10 @@ to.}
 
 \item{options}{Optionally, a character vector of options to be passed
 directly to [sf::gdal_utils].}
+
+\item{force_fallback}{Logical: if TRUE, uses the much slower fallback method
+by default. This is used for testing purposes and is not recommended for use
+by end users.}
 }
 \value{
 `output_raster`, invisibly.

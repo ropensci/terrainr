@@ -218,6 +218,8 @@ get_tiles.Raster <- function(data,
     verbose = verbose,
     georeference = georeference,
     projected = projected,
+    bboxSR = bboxSR,
+    imageSR = imageSR,
     ...
   )
 
