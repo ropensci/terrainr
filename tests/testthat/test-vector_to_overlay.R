@@ -22,25 +22,29 @@ test_that("vector_to_overlay generates the same tiles", {
 
   # Download raster tiles and merge them into a single raster
   simulated_data_sf <- sf::st_as_sf(simulated_data, coords = c("lng", "lat"))
+  sds_cache <- simulated_data_sf
+  sf::st_crs(simulated_data_sf) <- sf::st_crs(4326)
   downloaded_tiles <- get_tiles(simulated_data_sf, tempfile(fileext = ".tif"))
   merged_file <- merge_rasters(
     downloaded_tiles[[1]],
     tempfile(fileext = ".tif")
   )
 
-  sds_cache <- simulated_data_sf
-  sf::st_crs(simulated_data_sf) <- sf::st_crs(4326)
-
   #' Overlay image for points
-  expect_equal(
-    png::readPNG(vector_to_overlay(
-      simulated_data_sf,
-      merged_file[[1]],
-      size = 5,
-      color = "red",
-      na.rm = TRUE
-    )),
-    png::readPNG("testdata/vto_point.png")
+  agreement <- sum(
+    png::readPNG(
+      vector_to_overlay(
+        simulated_data_sf,
+        merged_file[[1]],
+        size = 5,
+        color = "red",
+        na.rm = TRUE
+        )
+      ) == png::readPNG("testdata/vto_point.png")
+    ) / length(png::readPNG("testdata/vto_point.png"))
+
+  expect_true(
+    agreement > 0.95
   )
 
   #' CRS warns
@@ -74,26 +78,37 @@ test_that("vector_to_overlay generates the same tiles", {
   )
 
   # Overlay image for lines
-  expect_equal(
-    png::readPNG(vector_to_overlay(
-      sf::st_cast(sf::st_union(simulated_data_sf), "LINESTRING"),
-      merged_file[[1]],
-      size = 5,
-      color = "red",
-      na.rm = TRUE
-    )),
-    png::readPNG("testdata/vto_line.png")
+  agreement <- sum(
+    png::readPNG(
+      vector_to_overlay(
+        sf::st_cast(sf::st_union(simulated_data_sf), "LINESTRING"),
+        merged_file[[1]],
+        size = 5,
+        color = "red",
+        na.rm = TRUE
+      )
+    ) == png::readPNG("testdata/vto_line.png")
+  ) / length(png::readPNG("testdata/vto_line.png"))
+
+  expect_true(
+    agreement > 0.95
   )
 
   # Overlay image for polygons
-  expect_equal(
-    png::readPNG(vector_to_overlay(
-      sf::st_cast(sf::st_union(simulated_data_sf), "POLYGON"),
-      merged_file[[1]],
-      size = 5,
-      color = "red",
-      transparent = FALSE
-    )),
-    png::readPNG("testdata/vto_poly.png")
+  agreement <- sum(
+    png::readPNG(
+      vector_to_overlay(
+        sf::st_cast(sf::st_union(simulated_data_sf), "POLYGON"),
+        merged_file[[1]],
+        size = 5,
+        color = "red",
+        na.rm = TRUE
+      )
+    ) == png::readPNG("testdata/vto_poly.png")
+  ) / length(png::readPNG("testdata/vto_poly.png"))
+
+  expect_true(
+    agreement > 0.95
   )
+
 })

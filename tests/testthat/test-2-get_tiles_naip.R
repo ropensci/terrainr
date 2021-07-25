@@ -1,9 +1,12 @@
 test_that("get_tiles gets the same ortho tiles twice", {
   skip_on_cran()
-  output_tif <- get_tiles(list(
-    c(lat = 44.04905, lng = -74.01188),
-    c(lat = 44.04911, lng = -74.01179)
-  ),
+  dl_loc <- data.frame(
+    lat = c(44.04905, 44.04911),
+    lng = c(-74.01188, -74.01179)
+  )
+  dl_loc <- sf::st_as_sf(dl_loc, coords = c("lng", "lat"))
+  sf::st_crs(dl_loc) <- sf::st_crs(4326)
+  output_tif <- get_tiles(dl_loc,
   services = c("ortho", "USGSNAIPPlus"),
   georeference = FALSE
   )
@@ -21,11 +24,13 @@ test_that("get_tiles gets the same ortho tiles twice", {
 
 test_that("get_tiles gets the same georeferenced ortho tiles twice", {
   skip_on_cran()
-  skip_on_travis() # for now
-  output_tif <- get_tiles(list(
-    c(lat = 44.04905, lng = -74.01188),
-    c(lat = 44.04911, lng = -74.01179)
-  ),
+  dl_loc <- data.frame(
+    lat = c(44.04905, 44.04911),
+    lng = c(-74.01188, -74.01179)
+  )
+  dl_loc <- sf::st_as_sf(dl_loc, coords = c("lng", "lat"))
+  sf::st_crs(dl_loc) <- sf::st_crs(4326)
+  output_tif <- get_tiles(dl_loc,
   services = c("ortho", "USGSNAIPPlus")
   )
 

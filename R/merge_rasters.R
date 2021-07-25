@@ -11,6 +11,9 @@
 #' to.
 #' @param options Optionally, a character vector of options to be passed
 #' directly to [sf::gdal_utils].
+#' @param force_fallback Logical: if TRUE, uses the much slower fallback method
+#' by default. This is used for testing purposes and is not recommended for use
+#' by end users.
 #'
 #' @return `output_raster`, invisibly.
 #'
@@ -33,20 +36,25 @@
 #' @export
 merge_rasters <- function(input_rasters,
                           output_raster = tempfile(fileext = ".tif"),
-                          options = character(0)) {
+                          options = character(0),
+                          force_fallback = FALSE) {
 
-  tryCatch(
-    sf::gdal_utils(util = "warp",
-                   source = as.character(input_rasters),
-                   destination = output_raster,
-                   options = options),
-    error = function(e) {
-      warning(
-        "\nReceived error from gdalwarp.",
-        "Trying another method. This may take longer than normal...")
-      merge_rasters_deprecated(input_rasters, output_raster, options)
-    }
-  )
+  if (!force_fallback) {
+    tryCatch(
+      sf::gdal_utils(util = "warp",
+                     source = as.character(input_rasters),
+                     destination = output_raster,
+                     options = options),
+      error = function(e) {
+        warning(
+          "\nReceived error from gdalwarp.",
+          "Trying another method. This may take longer than normal...")
+        merge_rasters_deprecated(input_rasters, output_raster, options)
+      }
+    )
+  } else {
+    merge_rasters_deprecated(input_rasters, output_raster, options)
+  }
   return(invisible(output_raster))
 }
 
@@ -76,7 +84,6 @@ merge_rasters_deprecated <- function(
   }
 
   fix_height <- 0
-  fix_ortho <- 0
 
   if (grepl("\\.tiff$", output_raster)) {
     fix_height <- 1
@@ -168,9 +175,9 @@ merge_rasters_deprecated <- function(
 
   if (exists("tmprst")) lapply(tmprst, unlink)
 
-  message("...done.",
-          "The alternate method seems to have worked!",
-          "If your merged output looks right, you can ignore the above error.")
+  message("...done.\n",
+          "The alternate method seems to have worked!\n",
+          "If your merged output looks right, you can ignore the above error.\n")
 
   return(output_list)
 
