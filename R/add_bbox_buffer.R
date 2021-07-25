@@ -1,5 +1,5 @@
 #' @name addbuff
-#' @title Add a uniform buffer around a bounding box
+#' @title Add a uniform buffer around a bounding box for geographic coordinates
 #'
 #' @description
 #' [add_bbox_buffer] calculates the great circle distance both corners of
@@ -9,6 +9,12 @@
 #'
 #' [set_bbox_side_length] is a thin wrapper around [add_bbox_buffer] which sets
 #' all sides of the bounding box to (approximately) a specified length.
+#'
+#' Both of these functions are intended to be used with geographic coordinate
+#' systems (data using longitude and latitude for position). For projected
+#' coordinate systems, a more sane approach is to use [sf::st_buffer] to add a
+#' buffer, or combine [sf::st_centroid] with the buffer to set a specific side
+#' length.
 #'
 #' @param data The original data to add a buffer around. Must be either an `sf`
 #' or `Raster` object.
@@ -43,6 +49,13 @@ add_bbox_buffer <- function(data,
                             distance,
                             distance_unit = "meters",
                             error_crs = NULL) {
+  proj <- sf::st_is_longlat(data)
+  if (!is.na(proj) && !proj) {
+    warning(
+      "add_bbox_buffer and set_bbox_side_length only make sense for geographic coordinate systems.", # nolint
+      "Consider using sf::st_buffer instead."
+    )
+  }
 
   UseMethod("add_bbox_buffer")
 
