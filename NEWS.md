@@ -1,3 +1,14 @@
+# terrainr 0.4.1.9001
+* This is the current development version of terrainr and will be released as
+  terrainr 0.5.0.
+* New features:
+    * A new function, `make_manifest`, now helps automate the import of terrain
+      and imagery to Unity. It fully replaces `raster_to_raw_tiles` (see 
+      Deprecations below). Documentation updates are forthcoming.
+* Deprecations:
+    * `raster_to_raw_tiles` is now deprecated and will be removed in a future
+      release (no earlier than 2022). Use `make_manifest` instead.
+
 # terrainr 0.4.1
 * Improvements and bug fixes:
     * `get_tiles` now displays a bulleted list of endpoints (again?), rather 

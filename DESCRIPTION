@@ -1,7 +1,7 @@
 Package: terrainr
 Type: Package
 Title: Landscape Visualizations in R and 'Unity'
-Version: 0.4.1
+Version: 0.4.1.9001
 Authors@R: c(
     person(given = "Michael",
            family = "Mahoney",
@@ -36,7 +36,8 @@ Imports:
     sf,
     units,
     grDevices,
-    ggplot2
+    ggplot2,
+    proceduralnames
 RoxygenNote: 7.1.1
 Suggests: 
     testthat,
