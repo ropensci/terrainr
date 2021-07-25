@@ -38,8 +38,11 @@ public class ManifestImport : EditorWindow {
                     float height = float.Parse(fields[4]);
                     float length = float.Parse(fields[5]);
                     int heightmapResolution = int.Parse(fields[6]);
+                    string texturePath = fields[7];
 
-                    CreateTerrain(heightmapPath, x_pos, z_pos, width, height, length, heightmapResolution);
+                    CreateTerrain(heightmapPath, x_pos, z_pos, width, height, length, heightmapResolution, texturePath);
+
+                    this.Close();
                 }
             }
         }
@@ -57,7 +60,8 @@ public class ManifestImport : EditorWindow {
                                float t_width, 
                                float t_height, 
                                float t_length,
-                               int t_heightmapResolution){
+                               int t_heightmapResolution,
+                               string t_texturePath){
         ValidatePath(t_heightmapPath);
         TerrainData terrainData = new TerrainData();
         terrainData.size = new Vector3(t_width / 128, t_height, t_length / 128);
@@ -66,6 +70,9 @@ public class ManifestImport : EditorWindow {
         GameObject terrain = (GameObject)Terrain.CreateTerrainGameObject(terrainData);
         terrain.transform.position = new Vector3(t_x_pos, 0, t_z_pos);
         ReadRaw(t_heightmapPath, terrainData);
+        if(t_texturePath != string.Empty){
+            AddTexture(t_texturePath, terrainData, t_width, t_length);
+        }
         AssetDatabase.CreateAsset(terrainData, "Assets/" + t_heightmapPath + ".asset");
     }
 
@@ -97,5 +104,32 @@ public class ManifestImport : EditorWindow {
             }
 
         terrainData.SetHeights(0, 0, heights);
+    }
+
+    void AddTexture(string path, TerrainData terrainData, float t_width, float t_length)
+    {
+        Texture2D texture = LoadPNG(path);
+        AssetDatabase.CreateAsset(texture, "Assets/texture_" + path + ".asset");
+        TerrainLayer overlay = new TerrainLayer();
+        overlay.tileSize = new Vector2(t_width, t_length);
+        overlay.diffuseTexture = texture;
+        AssetDatabase.CreateAsset(overlay, "Assets/overlay_" + path + ".asset");
+        var layers = terrainData.terrainLayers;
+        int newIndex = layers.Length;
+        var newarray = new TerrainLayer[newIndex + 1];
+        Array.Copy(layers, 0, newarray, 0, newIndex);
+        newarray[newIndex] = overlay;
+        terrainData.SetTerrainLayersRegisterUndo(newarray, "Add terrain layer");
+    }
+
+    private static Texture2D LoadPNG(string imgPath){
+        Texture2D texture = null;
+        byte[] imgData;
+
+        imgData = File.ReadAllBytes(imgPath);
+        texture = new Texture2D(2, 2);
+        texture.LoadImage(imgData);
+
+        return texture;
     }
 }
