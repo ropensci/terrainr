@@ -22,14 +22,13 @@ test_that("vector_to_overlay generates the same tiles", {
 
   # Download raster tiles and merge them into a single raster
   simulated_data_sf <- sf::st_as_sf(simulated_data, coords = c("lng", "lat"))
+  sds_cache <- simulated_data_sf
+  sf::st_crs(simulated_data_sf) <- sf::st_crs(4326)
   downloaded_tiles <- get_tiles(simulated_data_sf, tempfile(fileext = ".tif"))
   merged_file <- merge_rasters(
     downloaded_tiles[[1]],
     tempfile(fileext = ".tif")
   )
-
-  sds_cache <- simulated_data_sf
-  sf::st_crs(simulated_data_sf) <- sf::st_crs(4326)
 
   #' Overlay image for points
   agreement <- sum(

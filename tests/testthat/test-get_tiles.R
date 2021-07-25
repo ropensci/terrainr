@@ -17,7 +17,7 @@ test_that("split_bbox works consistently", {
     bl = c(lat = bbox_sf[["ymin"]], lng = bbox_sf[["xmin"]]),
     tr = c(lat = bbox_sf[["ymax"]], lng = bbox_sf[["xmax"]])
   )
-  splits <- split_bbox(bbox, side_length)
+  splits <- split_bbox_geographic(bbox, side_length)
 
   expect_equal(splits[[2]], 4)
   expect_equal(splits[[3]], 4)
@@ -47,8 +47,8 @@ test_that("split_bbox works consistently", {
     tolerance = side_length * 0.005
   )
 
-  secondary_splits <- split_bbox(bbox, side_length, resolution = 2)
-  tertiary_splits <- split_bbox(bbox, side_length, resolution = 3)
+  secondary_splits <- split_bbox_geographic(bbox, side_length, resolution = 2)
+  tertiary_splits <- split_bbox_geographic(bbox, side_length, resolution = 3)
 
   secondary_bbox_tiles <- secondary_splits[[1]]
   x_dir <- length(secondary_bbox_tiles)

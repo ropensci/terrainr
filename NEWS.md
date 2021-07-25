@@ -1,9 +1,10 @@
-# terrainr 0.4.2
+# terrainr 0.4.1.9002
+ * This is the current development version of terrainr and will be released as
+  terrainr 0.5.0.
 * Deprecations:
-    * The method `get_tiles.list` now gives a warning indicating a deprecation
-      schedule. This method will be unexported in Fall 2021, and removed in late
-      2021, as the package continues to rely more heavily on `sf`. Convert your
-      list to an `sf` object instead.
+    * The method `get_tiles.list` is now deprecated and will be removed in a 
+      future release (unexported in Fall 2021, removed no earlier than 2022).
+      Convert your list to an `sf` object instead.
 
 # terrainr 0.4.1
 * Improvements and bug fixes:

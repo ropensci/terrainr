@@ -92,6 +92,7 @@ get_tiles <- function(data,
                       services = "elevation",
                       verbose = FALSE,
                       georeference = TRUE,
+                      projected = NULL,
                       ...) {
   UseMethod("get_tiles")
 }
@@ -105,14 +106,24 @@ get_tiles.sf <- function(data,
                          services = "elevation",
                          verbose = FALSE,
                          georeference = TRUE,
+                         projected = NULL,
                          ...) {
 
   dots <- list(...)
+
+  if (is.null(projected)) {
+    projected <- !sf::st_is_longlat(data)
+    if (is.na(projected)) {
+      warning("Assuming geographic CRS. Set 'projected' to TRUE if projected.")
+      projected <- FALSE
+    }
+  }
+
   if (!any(names(dots) == "bboxSR")) {
     bboxSR <- ifelse(is.na(sf::st_crs(data)$epsg),
-                     ifelse(sf::st_is_longlat(data),
-                            4326,
-                            5071),
+                     ifelse(projected,
+                            5071,
+                            4326),
                      sf::st_crs(data)$epsg)
   } else bboxSR <- dots[["bboxSR"]]
 
@@ -137,6 +148,7 @@ get_tiles.sf <- function(data,
     georeference = georeference,
     bboxSR = bboxSR,
     imageSR = imageSR,
+    projected = projected,
     ...
   )
 
@@ -151,6 +163,7 @@ get_tiles.sfc <- function(data,
                           services = "elevation",
                           verbose = FALSE,
                           georeference = TRUE,
+                          projected = NULL,
                           ...) {
 
   data <- sf::st_as_sf(data)
@@ -162,6 +175,7 @@ get_tiles.sfc <- function(data,
            services = services,
            verbose = verbose,
            georeference = georeference,
+           projected = projected,
            ...)
 
 }
@@ -175,12 +189,22 @@ get_tiles.Raster <- function(data,
                              services = "elevation",
                              verbose = FALSE,
                              georeference = TRUE,
+                             projected = NULL,
                              ...) {
 
   dots <- list(...)
+  if (is.null(projected)) {
+    projected <- !sf::st_is_longlat(data)
+    if (is.na(projected)) {
+      warning("Assuming geographic CRS. Set 'projected' to TRUE if projected.")
+      projected <- FALSE
+    }
+  }
   if (!any(names(dots) == "bboxSR")) {
     bboxSR <- ifelse(is.na(sf::st_crs(data)$epsg),
-                     4326,
+                     ifelse(projected,
+                            5071,
+                            4326),
                      sf::st_crs(data)$epsg)
   } else bboxSR <- dots[["bboxSR"]]
 
@@ -203,6 +227,7 @@ get_tiles.Raster <- function(data,
     services = services,
     verbose = verbose,
     georeference = georeference,
+    projected = projected,
     ...
   )
 
@@ -217,12 +242,16 @@ get_tiles.list <- function(data,
                            services = "elevation",
                            verbose = FALSE,
                            georeference = TRUE,
+                           projected = NULL,
                            ...) {
-
-  warning("get_tiles.list is now deprecated; ",
-          "it will no longer be exported in Fall 2021, ",
-          "it will be removed entirely in late 2021.\n",
-          "Convert your list to an sf object instead.")
+  .Deprecated(
+    "get_tiles.list",
+    "terrainr",
+    msg = paste("'get_tiles.list' is deprecated as of terrainr 0.5.0.",
+                "Convert your list to an sf object instead.",
+                sep = "\n")
+  )
+  projected <- FALSE
 
   bbox <- terrainr_bounding_box(data[[1]], data[[2]])
   get_tiles_internal(
@@ -234,9 +263,9 @@ get_tiles.list <- function(data,
     services = services,
     verbose = verbose,
     georeference = georeference,
+    projected = projected,
     ...
   )
-
 }
 
 get_tiles_internal <- function(bl,
@@ -247,6 +276,7 @@ get_tiles_internal <- function(bl,
                                services = "elevation",
                                verbose = FALSE,
                                georeference = TRUE,
+                               projected = NULL,
                                ...) {
 
   # short codes are assigned as names; we'll cast them into the full name later
@@ -282,7 +312,11 @@ get_tiles_internal <- function(bl,
   # duplicated instead of unique to preserve names
   services <- services[!duplicated(services)]
 
-  bbox <- terrainr_bounding_box(bl, tr)
+  if (projected) {
+    NULL
+  } else {
+    bbox <- terrainr_bounding_box(bl, tr)
+  }
 
   if (is.null(side_length)) {
     if (any(services %in% png_files)) {
@@ -299,7 +333,11 @@ get_tiles_internal <- function(bl,
     stop("3DEPElevation tiles have a maximum side length of 8000.")
   }
 
-  bbox_splits <- split_bbox(bbox, side_length, resolution)
+  if (projected) {
+    NULL
+  } else {
+    bbox_splits <- split_bbox_geographic(bbox, side_length, resolution)
+  }
   tile_boxes <- bbox_splits[[1]]
   x_tiles <- bbox_splits[[2]]
   y_tiles <- bbox_splits[[3]]
@@ -433,7 +471,7 @@ get_tiles_internal <- function(bl,
 #' in position 3.
 #'
 #' @noRd
-split_bbox <- function(bbox, side_length, resolution = 1) {
+split_bbox_geographic <- function(bbox, side_length, resolution = 1) {
   tl <- terrainr_coordinate_pair(c(bbox@tr@lat, bbox@bl@lng))
 
   img_width <- round(
