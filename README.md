@@ -53,7 +53,7 @@ simulated_data <- st_set_crs(simulated_data, 4326)
 with_progress( # Only needed if you're using progressr
   output_tiles <- get_tiles(simulated_data,
                             services = c("elevation", "ortho"),
-                            resolution = 90 # pixel side length in meters
+                            resolution = 30 # pixel side length in meters
                             )
 )
 ```
@@ -185,13 +185,23 @@ descriptions](https://apps.nationalmap.gov/services).)
 
 ## Installation
 
-You can install the development version of terrainr from
+You can install terrainr from CRAN via:
+
+``` r
+install.packages("terrainr")
+```
+
+Or, if you want the newest patches and features, you can install the
+development version of terrainr from
 [GitHub](https://github.com/ropensci/terrainr) with:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("ropensci/terrainr")
 ```
+
+Be aware that the development version is not stable, and features that
+haven’t been published on CRAN may change at any time\!
 
 ## Code of Conduct
 
