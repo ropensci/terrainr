@@ -28,6 +28,13 @@ test_that("get_tiles gets the same elevation tiles twice", {
 })
 
 test_that("get_tiles fails as expected", {
+  dl_loc <- data.frame(
+    lat = c(44.04905, 44.04911),
+    lng = c(-74.01188, -74.01179)
+  )
+  dl_loc <- sf::st_as_sf(dl_loc, coords = c("lng", "lat"))
+  sf::st_crs(dl_loc) <- sf::st_crs(4326)
+
   expect_error(get_tiles(dl_loc,
   services = c("elevation", "ortho", "USGSNAIPPlus"),
   side_length = 4097

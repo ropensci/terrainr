@@ -122,17 +122,11 @@ get_tiles.sf <- function(data,
   }
 
   if (!any(names(dots) == "bboxSR")) {
-    bboxSR <- ifelse(is.na(sf::st_crs(data)$epsg),
-                     ifelse(projected,
-                            5071,
-                            4326),
-                     sf::st_crs(data)$epsg)
+    bboxSR <- handle_bboxSR(data, projected)
   } else bboxSR <- dots[["bboxSR"]]
 
   if (!any(names(dots) == "imageSR")) {
-    imageSR <- ifelse(is.na(sf::st_crs(data)$epsg),
-                      4326,
-                      sf::st_crs(data)$epsg)
+    imageSR <- bboxSR
   } else imageSR <- dots[["imageSR"]]
 
   data <- sf::st_bbox(data)
@@ -203,17 +197,11 @@ get_tiles.Raster <- function(data,
     }
   }
   if (!any(names(dots) == "bboxSR")) {
-    bboxSR <- ifelse(is.na(sf::st_crs(data)$epsg),
-                     ifelse(projected,
-                            5071,
-                            4326),
-                     sf::st_crs(data)$epsg)
+    bboxSR <- handle_bboxSR(data, projected)
   } else bboxSR <- dots[["bboxSR"]]
 
   if (!any(names(dots) == "imageSR")) {
-    imageSR <- ifelse(is.na(sf::st_crs(data)$epsg),
-                      4326,
-                      sf::st_crs(data)$epsg)
+    imageSR <- bboxSR
   } else imageSR <- dots[["imageSR"]]
 
   data <- raster::extent(data)
@@ -458,6 +446,18 @@ get_tiles_internal <- function(bl,
 
   return(invisible(res))
 
+}
+
+handle_bboxSR <- function(data, projected) {
+  if (!is.na(sf::st_crs(data)$epsg)) {
+    sf::st_crs(data)$epsg
+  } else if (projected) {
+    warning("Assuming CRS of EPSG 5071 (set bboxSR explicity to override)")
+    5071
+  } else {
+    warning("Assuming CRS of EPSG 4326 (set bboxSR explicity to override)")
+    4326
+  }
 }
 
 #' Split a bounding box into a smaller set of component tiles.
