@@ -33,3 +33,22 @@ converts them into either .png or .raw files which are ready to be imported
 into the Unity game engine. It also writes a "manifest" file and importer
 script which may be used to automatically import the tiles into Unity.
 }
+\examples{
+\dontrun{
+if (!isTRUE(as.logical(Sys.getenv("CI")))) {
+
+simulated_data <- data.frame(
+  id = seq(1, 100, 1),
+  lat = runif(100, 44.04905, 44.17609),
+  lng = runif(100, -74.01188, -73.83493)
+)
+simulated_data <- sf::st_as_sf(simulated_data, coords = c("lng", "lat"))
+output_files <- get_tiles(simulated_data)
+temptiff <- tempfile(fileext = ".tif")
+merge_rasters(output_files["elevation"][[1]], temptiff)
+make_manifest(temptiff, output_prefix = tempfile(), importer_path = NULL)
+
+}
+}
+
+}
