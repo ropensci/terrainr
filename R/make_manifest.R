@@ -59,7 +59,7 @@ make_manifest <- function(heightmap,
     x = 1:x_tiles,
     y = 1:y_tiles
   )
-  file_names <- mapply(\(x, y) paste0(
+  file_names <- mapply(function(x, y) paste0(
     output_prefix,
     "_",
     x,
