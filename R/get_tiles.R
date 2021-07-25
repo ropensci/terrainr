@@ -2,7 +2,7 @@
 #'
 #' This function splits the area contained within a bounding box into a set of
 #' tiles, and retrieves data from the USGS National map for each tile. As of
-#' version 0.4.2, the method for lists has been deprecated.
+#' version 0.5.0, the method for lists has been deprecated.
 #'
 #' @param data An `sf` or `Raster` object; tiles will be downloaded for the full
 #' extent of the provided object.
@@ -122,12 +122,12 @@ get_tiles.sf <- function(data,
   }
 
   if (!any(names(dots) == "bboxSR")) {
-    bboxSR <- handle_bboxSR(data, projected)
-  } else bboxSR <- dots[["bboxSR"]]
+    bboxSR <- handle_bboxSR(data, projected) # nolint
+  } else bboxSR <- dots[["bboxSR"]] # nolint
 
   if (!any(names(dots) == "imageSR")) {
-    imageSR <- bboxSR
-  } else imageSR <- dots[["imageSR"]]
+    imageSR <- bboxSR # nolint
+  } else imageSR <- dots[["imageSR"]] # nolint
 
   data <- sf::st_bbox(data)
   bl <- c("lng" = data[["xmin"]], "lat" = data[["ymin"]])
@@ -197,12 +197,12 @@ get_tiles.Raster <- function(data,
     }
   }
   if (!any(names(dots) == "bboxSR")) {
-    bboxSR <- handle_bboxSR(data, projected)
-  } else bboxSR <- dots[["bboxSR"]]
+    bboxSR <- handle_bboxSR(data, projected) # nolint
+  } else bboxSR <- dots[["bboxSR"]] # nolint
 
   if (!any(names(dots) == "imageSR")) {
-    imageSR <- bboxSR
-  } else imageSR <- dots[["imageSR"]]
+    imageSR <- bboxSR # nolint
+  } else imageSR <- dots[["imageSR"]] # nolint
 
   data <- raster::extent(data)
   bl <- c("lng" = data@xmin, "lat" = data@ymin)

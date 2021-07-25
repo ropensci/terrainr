@@ -49,8 +49,8 @@ add_bbox_buffer <- function(data,
                             distance,
                             distance_unit = "meters",
                             error_crs = NULL) {
-  proj <- sf::st_is_longlat(data)
-  if (!is.na(proj) && !proj) {
+  projected <- sf::st_is_longlat(data)
+  if (!is.na(projected) && !projected) {
     warning(
       "add_bbox_buffer and set_bbox_side_length only make sense for geographic coordinate systems.", # nolint
       "Consider using sf::st_buffer instead."
