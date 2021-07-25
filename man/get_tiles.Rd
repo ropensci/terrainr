@@ -16,6 +16,7 @@ get_tiles(
   services = "elevation",
   verbose = FALSE,
   georeference = TRUE,
+  projected = NULL,
   ...
 )
 
@@ -27,6 +28,7 @@ get_tiles(
   services = "elevation",
   verbose = FALSE,
   georeference = TRUE,
+  projected = NULL,
   ...
 )
 
@@ -38,6 +40,7 @@ get_tiles(
   services = "elevation",
   verbose = FALSE,
   georeference = TRUE,
+  projected = NULL,
   ...
 )
 
@@ -49,6 +52,7 @@ get_tiles(
   services = "elevation",
   verbose = FALSE,
   georeference = TRUE,
+  projected = NULL,
   ...
 )
 
@@ -60,6 +64,7 @@ get_tiles(
   services = "elevation",
   verbose = FALSE,
   georeference = TRUE,
+  projected = NULL,
   ...
 )
 }
@@ -93,6 +98,9 @@ source will only be queried once per tile.}
 georeferencing, or should they be downloaded as georeferenced TIFF files?
 This option does nothing when only elevation data is being downloaded.}
 
+\item{projected}{Logical: is \code{data} in a projected coordinate reference
+system? If \code{NULL}, the default, inferred from \link[sf:st_is_longlat]{sf::st_is_longlat}.}
+
 \item{...}{Additional arguments passed to \link{hit_national_map_api}.
 These can be used to change default query parameters or as additional options
 for the National Map services. See below for more details.}
@@ -104,7 +112,8 @@ invisibly.
 }
 \description{
 This function splits the area contained within a bounding box into a set of
-tiles, and retrieves data from the USGS National map for each tile.
+tiles, and retrieves data from the USGS National map for each tile. As of
+version 0.4.2, the method for lists has been deprecated.
 }
 \section{Available Datasources}{
 

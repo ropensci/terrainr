@@ -1,7 +1,8 @@
 #' A user-friendly way to get USGS National Map data tiles for an area
 #'
 #' This function splits the area contained within a bounding box into a set of
-#' tiles, and retrieves data from the USGS National map for each tile.
+#' tiles, and retrieves data from the USGS National map for each tile. As of
+#' version 0.5.0, the method for lists has been deprecated.
 #'
 #' @param data An `sf` or `Raster` object; tiles will be downloaded for the full
 #' extent of the provided object.
@@ -25,6 +26,8 @@
 #' @param georeference Logical: should tiles be downloaded as PNGs without
 #' georeferencing, or should they be downloaded as georeferenced TIFF files?
 #' This option does nothing when only elevation data is being downloaded.
+#' @param projected Logical: is `data` in a projected coordinate reference
+#' system? If `NULL`, the default, inferred from [sf::st_is_longlat].
 #' @param ... Additional arguments passed to [hit_national_map_api].
 #' These can be used to change default query parameters or as additional options
 #' for the National Map services. See below for more details.
@@ -91,6 +94,7 @@ get_tiles <- function(data,
                       services = "elevation",
                       verbose = FALSE,
                       georeference = TRUE,
+                      projected = NULL,
                       ...) {
   UseMethod("get_tiles")
 }
@@ -104,20 +108,26 @@ get_tiles.sf <- function(data,
                          services = "elevation",
                          verbose = FALSE,
                          georeference = TRUE,
+                         projected = NULL,
                          ...) {
 
   dots <- list(...)
+
+  if (is.null(projected)) {
+    projected <- !sf::st_is_longlat(data)
+    if (is.na(projected)) {
+      warning("Assuming geographic CRS. Set 'projected' to TRUE if projected.")
+      projected <- FALSE
+    }
+  }
+
   if (!any(names(dots) == "bboxSR")) {
-    bboxSR <- ifelse(is.na(sf::st_crs(data)$epsg),
-                     4326,
-                     sf::st_crs(data)$epsg)
-  } else bboxSR <- dots[["bboxSR"]]
+    bboxSR <- handle_bboxSR(data, projected) # nolint
+  } else bboxSR <- dots[["bboxSR"]] # nolint
 
   if (!any(names(dots) == "imageSR")) {
-    imageSR <- ifelse(is.na(sf::st_crs(data)$epsg),
-                      4326,
-                      sf::st_crs(data)$epsg)
-  } else imageSR <- dots[["imageSR"]]
+    imageSR <- bboxSR # nolint
+  } else imageSR <- dots[["imageSR"]] # nolint
 
   data <- sf::st_bbox(data)
   bl <- c("lng" = data[["xmin"]], "lat" = data[["ymin"]])
@@ -134,6 +144,7 @@ get_tiles.sf <- function(data,
     georeference = georeference,
     bboxSR = bboxSR,
     imageSR = imageSR,
+    projected = projected,
     ...
   )
 
@@ -148,18 +159,20 @@ get_tiles.sfc <- function(data,
                           services = "elevation",
                           verbose = FALSE,
                           georeference = TRUE,
+                          projected = NULL,
                           ...) {
 
   data <- sf::st_as_sf(data)
 
   get_tiles(data,
-           output_prefix = output_prefix,
-           side_length = side_length,
-           resolution = resolution,
-           services = services,
-           verbose = verbose,
-           georeference = georeference,
-           ...)
+            output_prefix = output_prefix,
+            side_length = side_length,
+            resolution = resolution,
+            services = services,
+            verbose = verbose,
+            georeference = georeference,
+            projected = projected,
+            ...)
 
 }
 
@@ -172,20 +185,24 @@ get_tiles.Raster <- function(data,
                              services = "elevation",
                              verbose = FALSE,
                              georeference = TRUE,
+                             projected = NULL,
                              ...) {
 
   dots <- list(...)
+  if (is.null(projected)) {
+    projected <- !sf::st_is_longlat(data)
+    if (is.na(projected)) {
+      warning("Assuming geographic CRS. Set 'projected' to TRUE if projected.")
+      projected <- FALSE
+    }
+  }
   if (!any(names(dots) == "bboxSR")) {
-    bboxSR <- ifelse(is.na(sf::st_crs(data)$epsg),
-                     4326,
-                     sf::st_crs(data)$epsg)
-  } else bboxSR <- dots[["bboxSR"]]
+    bboxSR <- handle_bboxSR(data, projected) # nolint
+  } else bboxSR <- dots[["bboxSR"]] # nolint
 
   if (!any(names(dots) == "imageSR")) {
-    imageSR <- ifelse(is.na(sf::st_crs(data)$epsg),
-                      4326,
-                      sf::st_crs(data)$epsg)
-  } else imageSR <- dots[["imageSR"]]
+    imageSR <- bboxSR # nolint
+  } else imageSR <- dots[["imageSR"]] # nolint
 
   data <- raster::extent(data)
   bl <- c("lng" = data@xmin, "lat" = data@ymin)
@@ -200,6 +217,9 @@ get_tiles.Raster <- function(data,
     services = services,
     verbose = verbose,
     georeference = georeference,
+    projected = projected,
+    bboxSR = bboxSR,
+    imageSR = imageSR,
     ...
   )
 
@@ -214,7 +234,16 @@ get_tiles.list <- function(data,
                            services = "elevation",
                            verbose = FALSE,
                            georeference = TRUE,
+                           projected = NULL,
                            ...) {
+  .Deprecated(
+    "get_tiles.list",
+    "terrainr",
+    msg = paste("'get_tiles.list' is deprecated as of terrainr 0.5.0.",
+                "Convert your list to an sf object instead.",
+                sep = "\n")
+  )
+  projected <- FALSE
 
   bbox <- terrainr_bounding_box(data[[1]], data[[2]])
   get_tiles_internal(
@@ -226,9 +255,9 @@ get_tiles.list <- function(data,
     services = services,
     verbose = verbose,
     georeference = georeference,
+    projected = projected,
     ...
   )
-
 }
 
 get_tiles_internal <- function(bl,
@@ -239,6 +268,7 @@ get_tiles_internal <- function(bl,
                                services = "elevation",
                                verbose = FALSE,
                                georeference = TRUE,
+                               projected = NULL,
                                ...) {
 
   # short codes are assigned as names; we'll cast them into the full name later
@@ -291,7 +321,7 @@ get_tiles_internal <- function(bl,
     stop("3DEPElevation tiles have a maximum side length of 8000.")
   }
 
-  bbox_splits <- split_bbox(bbox, side_length, resolution)
+  bbox_splits <- split_bbox(bbox, side_length, resolution, projected)
   tile_boxes <- bbox_splits[[1]]
   x_tiles <- bbox_splits[[2]]
   y_tiles <- bbox_splits[[3]]
@@ -302,7 +332,7 @@ get_tiles_internal <- function(bl,
 
   for (i in seq_len(x_tiles)) {
     for (j in seq_len(y_tiles)) {
-      current_box <- tile_boxes[[i]][[j]]
+      current_box <- tile_boxes[tile_boxes$x_tiles == i & tile_boxes$y_tiles == j, ]
       for (k in seq_along(services)) {
         if (requireNamespace("progressr", quietly = TRUE)) { # nocov start
           p(message = sprintf(
@@ -343,7 +373,20 @@ get_tiles_internal <- function(bl,
                 file.size(cur_path) == 0) &&
                counter < 5) {
           img_bin <- hit_national_map_api(
-            current_box[["bbox"]],
+            terrainr_bounding_box(
+              bl = terrainr_coordinate_pair(
+                c(
+                  lat = current_box$min_y,
+                  lng = current_box$min_x
+                )
+              ),
+              tr = terrainr_coordinate_pair(
+                c(
+                  lat = current_box$max_y,
+                  lng = current_box$max_x
+                )
+              )
+            ),
             current_box[["img_width"]],
             current_box[["img_height"]],
             services[[k]],
@@ -407,6 +450,18 @@ get_tiles_internal <- function(bl,
 
 }
 
+handle_bboxSR <- function(data, projected) {
+  if (!is.na(sf::st_crs(data)$epsg)) {
+    sf::st_crs(data)$epsg
+  } else if (projected) {
+    warning("Assuming CRS of EPSG 5071 (set bboxSR explicity to override)")
+    5071
+  } else {
+    warning("Assuming CRS of EPSG 4326 (set bboxSR explicity to override)")
+    4326
+  }
+}
+
 #' Split a bounding box into a smaller set of component tiles.
 #'
 #' This function splits the area contained within a bounding box into a set of
@@ -417,90 +472,121 @@ get_tiles_internal <- function(bl,
 #' @param resolution How many meters are represented by each pixel? The default
 #' value of 1 means that 1 pixel = 1 meter, while a value of 2 means that
 #' 1 pixel = 2 meters, and so on.
+#' @param projected Logical: is `data` in a projected coordinate reference
+#' system? If `NULL`, the default, inferred from [sf::st_is_longlat].
 #'
 #' @keywords internal
 #'
-#' @return A list containing the split tiles in position 1, the number of tiles
-#' in the x direction in position 2, and the number of tiles in the y direction
-#' in position 3.
+#' @return A data frame containing x and y tile indices, bounding boxes, and
+#' side lengths.
 #'
 #' @noRd
-split_bbox <- function(bbox, side_length, resolution = 1) {
+split_bbox <- function(bbox, side_length, resolution = 1, projected) {
   tl <- terrainr_coordinate_pair(c(bbox@tr@lat, bbox@bl@lng))
 
-  img_width <- round(
-    calc_haversine_distance(tl, bbox@tr) / resolution,
-    digits = 0
-  )
-  img_height <- round(
-    calc_haversine_distance(tl, bbox@bl) / resolution,
-    digits = 0
-  )
+  if (projected) {
+    img_width <- round(
+      (bbox@tr@lng - tl@lng) / resolution,
+      digits = 0
+    )
+    img_height <- round(
+      (tl@lat - bbox@bl@lat) / resolution,
+      digits = 0
+    )
+  } else {
+    img_width <- round(
+      calc_haversine_distance(tl, bbox@tr) / resolution,
+      digits = 0
+    )
+    img_height <- round(
+      calc_haversine_distance(tl, bbox@bl) / resolution,
+      digits = 0
+    )
+  }
 
   x_tiles <- ceiling(img_width / side_length)
   y_tiles <- ceiling(img_height / side_length)
 
-  tile_boxes <- lapply(
-    vector("list", x_tiles),
-    function(x) vector("list", y_tiles)
-  )
+  tile_boxes <- expand.grid(x_tiles = 1:x_tiles,
+                            y_tiles = 1:y_tiles,
+                            min_x = NA,
+                            max_x = NA,
+                            min_y = NA,
+                            max_y = NA,
+                            img_width = NA,
+                            img_height = NA)
 
-  for (i in 1:x_tiles) {
-    if (i == x_tiles) {
-      left_lng <- point_from_distance(
-        bbox@bl,
-        side_length * (i - 1) * resolution,
-        90
-      )@lng
-      right_lng <- bbox@tr@lng
-    } else {
-      left_lng <- point_from_distance(
-        bbox@bl,
-        side_length * (i - 1) * resolution,
-        90
-      )@lng
-      right_lng <- point_from_distance(
-        bbox@bl,
-        side_length * i * resolution,
-        90
-      )@lng
+  if (projected) {
+    for (i in 1:x_tiles) {
+      tile_boxes[tile_boxes$x_tiles == i, ]$min_x <-
+        bbox@bl@lng + (side_length * (i - 1) * resolution)
+      if (i == x_tiles) {
+        tile_boxes[tile_boxes$x_tiles == i, ]$max_x <- bbox@tr@lng
+      } else {
+
+        tile_boxes[tile_boxes$x_tiles == i, ]$max_x <-
+          bbox@bl@lng + (side_length * i * resolution)
+      }
     }
     for (j in 1:y_tiles) {
+      tile_boxes[tile_boxes$y_tiles == j, ]$max_y <-
+        bbox@tr@lat - (side_length * (j - 1) * resolution)
       if (j == y_tiles) {
-        top_lat <- point_from_distance(
-          bbox@tr,
-          side_length * (j - 1) * resolution,
-          180
-        )@lat
-        bot_lat <- bbox@bl@lat
+        tile_boxes[tile_boxes$y_tiles == j, ]$min_y <- bbox@bl@lat
       } else {
-        top_lat <- point_from_distance(
-          bbox@tr,
-          side_length * (j - 1) * resolution,
-          180
-        )@lat
-        bot_lat <- point_from_distance(
+        tile_boxes[tile_boxes$y_tiles == j, ]$min_y <-
+          bbox@tr@lat - (side_length * j * resolution)
+
+      }
+    }
+  } else {
+    for (i in 1:x_tiles) {
+      tile_boxes[tile_boxes$x_tiles == i, ]$min_x <- point_from_distance(
+        bbox@bl,
+        side_length * (i - 1) * resolution,
+        90
+      )@lng
+      if (i == x_tiles) {
+        tile_boxes[tile_boxes$x_tiles == i, ]$max_x <- bbox@tr@lng
+      } else {
+        tile_boxes[tile_boxes$x_tiles == i, ]$max_x <- point_from_distance(
+          bbox@bl,
+          side_length * i * resolution,
+          90
+        )@lng
+      }
+    }
+    for (j in 1:y_tiles) {
+      tile_boxes[tile_boxes$y_tiles == j, ]$max_y <- point_from_distance(
+        bbox@tr,
+        side_length * (j - 1) * resolution,
+        180
+      )@lat
+      if (j == y_tiles) {
+        tile_boxes[tile_boxes$y_tiles == j, ]$min_y <- bbox@bl@lat
+      } else {
+        tile_boxes[tile_boxes$y_tiles == j, ]$min_y <- point_from_distance(
           bbox@tr,
           side_length * j * resolution,
           180
         )@lat
       }
-
-      tile_boxes[[i]][[j]] <- list(
-        bbox = terrainr_bounding_box(
-          bl = terrainr_coordinate_pair(c(bot_lat, left_lng)),
-          tr = terrainr_coordinate_pair(c(top_lat, right_lng))
-        ),
-        img_width = ifelse(((img_width - (i * side_length)) < 0),
-          img_width - ((i - 1) * side_length),
-          side_length
-        ),
-        img_height = ifelse((img_height - (j * side_length) < 0),
-          img_height - ((j - 1) * side_length),
-          side_length
-        )
-      )
     }
+  }
+
+  for (i in seq_len(nrow(tile_boxes))) {
+    x_idx <- tile_boxes[i, ]$x_tiles
+    y_idx <- tile_boxes[i, ]$y_tiles
+    tile_boxes[i, ]$img_width <- ifelse(
+      (img_width - (x_idx * side_length)) < 0,
+      img_width - ((x_idx - 1) * side_length),
+      side_length
+    )
+    tile_boxes[i, ]$img_height <- ifelse(
+      img_height - (y_idx * side_length) < 0,
+      img_height - ((y_idx - 1) * side_length),
+      side_length
+    )
   }
 
   return(list(

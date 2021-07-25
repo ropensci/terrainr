@@ -8,6 +8,18 @@
 * Deprecations:
     * `raster_to_raw_tiles` is now deprecated and will be removed in a future
       release (no earlier than 2022). Use `make_manifest` instead.
+    * The method `get_tiles.list` is now deprecated and will be removed in a 
+      future release (unexported in Fall 2021, removed no earlier than 2022).
+      Convert your list to an `sf` object instead.
+* Improvements and bug fixes:
+    * `get_tiles` no longer mangles data with projected coordinates (via a 
+      fix to the internal function `split_bbox`). If for some reason you want 
+      the old behavior back, set the new argument `projected` to `FALSE` while
+      providing projected data.
+    * The documentation for `add_bbox_buffer` and `set_bbox_side_length` now 
+      specifies that they should only be used with geographic coordinate 
+      systems. If you use these functions with projected data, they will warn;
+      this may be upgraded to an error in future versions.
 
 # terrainr 0.4.1
 * Improvements and bug fixes:
