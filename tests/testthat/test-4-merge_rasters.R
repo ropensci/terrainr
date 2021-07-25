@@ -42,6 +42,8 @@ test_that("merge_raster files are identical no matter the filename", {
 
 test_that("fallback method works", {
   skip_on_cran()
+  # Just for time savings
+  skip_on_os(c("windows", "mac"))
   df <- data.frame(
     lat = c(44.050030001, 44.05003),
     lng = c(-74.01164, -74.011640001)
