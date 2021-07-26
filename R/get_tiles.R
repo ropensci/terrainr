@@ -133,12 +133,9 @@ get_tiles.sf <- function(data,
   } # nolint
 
   data <- sf::st_bbox(data)
-  bl <- c("lng" = data[["xmin"]], "lat" = data[["ymin"]])
-  tr <- c("lng" = data[["xmax"]], "lat" = data[["ymax"]])
 
   get_tiles_internal(
-    bl = bl,
-    tr = tr,
+    data,
     output_prefix = output_prefix,
     side_length = side_length,
     resolution = resolution,
@@ -209,12 +206,13 @@ get_tiles.Raster <- function(data,
   } # nolint
 
   data <- raster::extent(data)
-  bl <- c("lng" = data@xmin, "lat" = data@ymin)
-  tr <- c("lng" = data@xmax, "lat" = data@ymax)
+  data <- data.frame(lng = c(data@xmin, data@xmax),
+                     lat = c(data@ymin, data@ymax))
+  data <- sf::st_as_sf(data, coords = c("lng", "lat"))
+  data <- sf::st_bbox(data)
 
   get_tiles_internal(
-    bl = bl,
-    tr = tr,
+    data,
     output_prefix = output_prefix,
     side_length = side_length,
     resolution = resolution,
@@ -251,8 +249,7 @@ get_tiles.list <- function(data,
 
   bbox <- terrainr_bounding_box(data[[1]], data[[2]])
   get_tiles_internal(
-    bl = bbox@bl,
-    tr = bbox@tr,
+    bbox,
     output_prefix = output_prefix,
     side_length = side_length,
     resolution = resolution,
@@ -264,8 +261,7 @@ get_tiles.list <- function(data,
   )
 }
 
-get_tiles_internal <- function(bl,
-                               tr,
+get_tiles_internal <- function(data,
                                output_prefix = tempfile(),
                                side_length = NULL,
                                resolution = 1,
@@ -308,8 +304,6 @@ get_tiles_internal <- function(bl,
   # duplicated instead of unique to preserve names
   services <- services[!duplicated(services)]
 
-  bbox <- terrainr_bounding_box(bl, tr)
-
   if (is.null(side_length)) {
     if (any(services %in% png_files)) {
       side_length <- 4096
@@ -325,7 +319,7 @@ get_tiles_internal <- function(bl,
     stop("3DEPElevation tiles have a maximum side length of 8000.")
   }
 
-  bbox_splits <- split_bbox(bbox, side_length, resolution, projected)
+  bbox_splits <- split_bbox(data, side_length, resolution, projected)
   tile_boxes <- bbox_splits[[1]]
   x_tiles <- bbox_splits[[2]]
   y_tiles <- bbox_splits[[3]]
@@ -484,7 +478,13 @@ handle_bboxSR <- function(data, projected) {
 #' side lengths.
 #'
 #' @noRd
-split_bbox <- function(bbox, side_length, resolution = 1, projected) {
+split_bbox <- function(data, side_length, resolution = 1, projected) {
+  if (!methods::is(data, "terrainr_bounding_box")) {
+    bbox <- terrainr_bounding_box(
+      c("lng" = data[["xmin"]], "lat" = data[["ymin"]]),
+      c("lng" = data[["xmax"]], "lat" = data[["ymax"]])
+    )
+  } else bbox <- data
   tl <- terrainr_coordinate_pair(c(bbox@tr@lat, bbox@bl@lng))
 
   if (projected) {

@@ -8,7 +8,7 @@ test_that("dots replace their arguments", {
       ),
       100,
       100,
-      "USGSNAIPPlus"
+      "3DEPElevation"
     ),
     hit_national_map_api(list(
       c(lat = 44.04905, lng = -74.01188),
@@ -16,7 +16,7 @@ test_that("dots replace their arguments", {
     ),
     8000,
     8000,
-    "USGSNAIPPlus",
+    "3DEPElevation",
     verbose = TRUE,
     size = "100,100"
     )

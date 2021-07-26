@@ -11,6 +11,11 @@
     * The method `get_tiles.list` is now deprecated and will be removed in a 
       future release (unexported in Fall 2021, removed no earlier than 2022).
       Convert your list to an `sf` object instead.
+    * The `bbox` argument to `hit_national_map_api` is now documented as 
+      "An object from [sf::st_bbox]." This is a change from the earlier options 
+      of a length 2 list or terrainr_bounding_box object. Those methods are 
+      currently still supported, but undocumented; they will be removed in a 
+      future release (no earlier than 2022).
 * Improvements and bug fixes:
     * `get_tiles` no longer mangles data with projected coordinates (via a 
       fix to the internal function `split_bbox`). If for some reason you want 
