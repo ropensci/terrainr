@@ -14,8 +14,7 @@ hit_national_map_api(
 )
 }
 \arguments{
-\item{bbox}{A list representing the bounding box (bottom left and top left
-coordinate pairs).}
+\item{bbox}{An object from \link[sf:st_bbox]{sf::st_bbox}.}
 
 \item{img_width}{The number of pixels in the x direction to retrieve}
 

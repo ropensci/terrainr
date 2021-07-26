@@ -113,7 +113,7 @@ invisibly.
 \description{
 This function splits the area contained within a bounding box into a set of
 tiles, and retrieves data from the USGS National map for each tile. As of
-version 0.4.2, the method for lists has been deprecated.
+version 0.5.0, the method for lists has been deprecated.
 }
 \section{Available Datasources}{
 

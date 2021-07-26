@@ -73,24 +73,22 @@ length.
 df <- data.frame(
   lat = c(44.04905, 44.17609),
   lng = c(-74.01188, -73.83493)
-  )
+)
 
 df_sf <- sf::st_as_sf(df, coords = c("lng", "lat"))
 df_sf <- sf::st_set_crs(df_sf, 4326)
 
 add_bbox_buffer(df_sf, 10)
 
-
 df <- data.frame(
   lat = c(44.04905, 44.17609),
   lng = c(-74.01188, -73.83493)
-  )
+)
 
 df_sf <- sf::st_as_sf(df, coords = c("lng", "lat"))
 df_sf <- sf::st_set_crs(df_sf, 4326)
 
 set_bbox_side_length(df_sf, 4000)
-
 }
 \seealso{
 Other utilities: 
