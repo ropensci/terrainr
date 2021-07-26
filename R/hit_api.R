@@ -122,7 +122,7 @@ hit_national_map_api <- function(bbox,
     "USGSNAIPPlus" = c(
       standard_png_args[names(standard_png_args) != "transparent"],
       transparent = "false"
-      ),
+    ),
     "nhd" = c(layers = 0, standard_png_args),
     standard_png_args
   )
@@ -164,16 +164,18 @@ hit_national_map_api <- function(bbox,
     res <- httr::GET(url, agent, query = c(bbox_arg, query_arg))
 
     if (!httr::http_error(res)) {
-      body <- tryCatch({
-        if (verbose) message("Interpreting JSON attempt 1")
-        httr::content(res, type = "application/json")
-      },
+      body <- tryCatch(
+        {
+          if (verbose) message("Interpreting JSON attempt 1")
+          httr::content(res, type = "application/json")
+        },
         # nocov start
         # Hard to force temporary API errors
         # Rather than have code coverage improve when servers go down,
         # I just exclude error handling from coverage
         error = function(e) {
-          tryCatch({
+          tryCatch(
+            {
               if (verbose) message("Interpreting JSON attempt 2")
               res <- httr::GET(url, agent, query = c(bbox_arg, query_arg))
               httr::content(res, type = "application/json")

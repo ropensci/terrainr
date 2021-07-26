@@ -110,7 +110,6 @@ get_tiles.sf <- function(data,
                          georeference = TRUE,
                          projected = NULL,
                          ...) {
-
   dots <- list(...)
 
   if (is.null(projected)) {
@@ -123,11 +122,15 @@ get_tiles.sf <- function(data,
 
   if (!any(names(dots) == "bboxSR")) {
     bboxSR <- handle_bboxSR(data, projected) # nolint
-  } else bboxSR <- dots[["bboxSR"]] # nolint
+  } else {
+    bboxSR <- dots[["bboxSR"]]
+  } # nolint
 
   if (!any(names(dots) == "imageSR")) {
     imageSR <- bboxSR # nolint
-  } else imageSR <- dots[["imageSR"]] # nolint
+  } else {
+    imageSR <- dots[["imageSR"]]
+  } # nolint
 
   data <- sf::st_bbox(data)
   bl <- c("lng" = data[["xmin"]], "lat" = data[["ymin"]])
@@ -147,7 +150,6 @@ get_tiles.sf <- function(data,
     projected = projected,
     ...
   )
-
 }
 
 #' @rdname get_tiles
@@ -161,19 +163,18 @@ get_tiles.sfc <- function(data,
                           georeference = TRUE,
                           projected = NULL,
                           ...) {
-
   data <- sf::st_as_sf(data)
 
   get_tiles(data,
-            output_prefix = output_prefix,
-            side_length = side_length,
-            resolution = resolution,
-            services = services,
-            verbose = verbose,
-            georeference = georeference,
-            projected = projected,
-            ...)
-
+    output_prefix = output_prefix,
+    side_length = side_length,
+    resolution = resolution,
+    services = services,
+    verbose = verbose,
+    georeference = georeference,
+    projected = projected,
+    ...
+  )
 }
 
 #' @rdname get_tiles
@@ -187,7 +188,6 @@ get_tiles.Raster <- function(data,
                              georeference = TRUE,
                              projected = NULL,
                              ...) {
-
   dots <- list(...)
   if (is.null(projected)) {
     projected <- !sf::st_is_longlat(data)
@@ -198,11 +198,15 @@ get_tiles.Raster <- function(data,
   }
   if (!any(names(dots) == "bboxSR")) {
     bboxSR <- handle_bboxSR(data, projected) # nolint
-  } else bboxSR <- dots[["bboxSR"]] # nolint
+  } else {
+    bboxSR <- dots[["bboxSR"]]
+  } # nolint
 
   if (!any(names(dots) == "imageSR")) {
     imageSR <- bboxSR # nolint
-  } else imageSR <- dots[["imageSR"]] # nolint
+  } else {
+    imageSR <- dots[["imageSR"]]
+  } # nolint
 
   data <- raster::extent(data)
   bl <- c("lng" = data@xmin, "lat" = data@ymin)
@@ -222,7 +226,6 @@ get_tiles.Raster <- function(data,
     imageSR = imageSR,
     ...
   )
-
 }
 
 #' @rdname get_tiles
@@ -240,8 +243,9 @@ get_tiles.list <- function(data,
     "get_tiles.list",
     "terrainr",
     msg = paste("'get_tiles.list' is deprecated as of terrainr 0.5.0.",
-                "Convert your list to an sf object instead.",
-                sep = "\n")
+      "Convert your list to an sf object instead.",
+      sep = "\n"
+    )
   )
   projected <- FALSE
 
@@ -287,7 +291,7 @@ get_tiles_internal <- function(bl,
   )
 
   stopifnot(all(services %in% list_of_services |
-                  services %in% names(list_of_services)))
+    services %in% names(list_of_services)))
 
   tif_files <- c("3DEPElevation")
   png_files <- list_of_services[!(list_of_services %in% tif_files)]
@@ -370,8 +374,8 @@ get_tiles_internal <- function(bl,
 
         counter <- 0
         while ((!file.exists(cur_path) ||
-                file.size(cur_path) == 0) &&
-               counter < 5) {
+          file.size(cur_path) == 0) &&
+          counter < 5) {
           img_bin <- hit_national_map_api(
             terrainr_bounding_box(
               bl = terrainr_coordinate_pair(
@@ -419,8 +423,8 @@ get_tiles_internal <- function(bl,
           )
 
           raster::writeRaster(cur_raster,
-                              final_path,
-                              overwrite = TRUE
+            final_path,
+            overwrite = TRUE
           )
           if (rm_path) unlink(cur_path)
         }
@@ -447,7 +451,6 @@ get_tiles_internal <- function(bl,
   }
 
   return(invisible(res))
-
 }
 
 handle_bboxSR <- function(data, projected) {
@@ -507,14 +510,16 @@ split_bbox <- function(bbox, side_length, resolution = 1, projected) {
   x_tiles <- ceiling(img_width / side_length)
   y_tiles <- ceiling(img_height / side_length)
 
-  tile_boxes <- expand.grid(x_tiles = 1:x_tiles,
-                            y_tiles = 1:y_tiles,
-                            min_x = NA,
-                            max_x = NA,
-                            min_y = NA,
-                            max_y = NA,
-                            img_width = NA,
-                            img_height = NA)
+  tile_boxes <- expand.grid(
+    x_tiles = 1:x_tiles,
+    y_tiles = 1:y_tiles,
+    min_x = NA,
+    max_x = NA,
+    min_y = NA,
+    max_y = NA,
+    img_width = NA,
+    img_height = NA
+  )
 
   if (projected) {
     for (i in 1:x_tiles) {
@@ -523,7 +528,6 @@ split_bbox <- function(bbox, side_length, resolution = 1, projected) {
       if (i == x_tiles) {
         tile_boxes[tile_boxes$x_tiles == i, ]$max_x <- bbox@tr@lng
       } else {
-
         tile_boxes[tile_boxes$x_tiles == i, ]$max_x <-
           bbox@bl@lng + (side_length * i * resolution)
       }
@@ -536,7 +540,6 @@ split_bbox <- function(bbox, side_length, resolution = 1, projected) {
       } else {
         tile_boxes[tile_boxes$y_tiles == j, ]$min_y <-
           bbox@tr@lat - (side_length * j * resolution)
-
       }
     }
   } else {

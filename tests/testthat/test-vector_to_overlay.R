@@ -39,9 +39,9 @@ test_that("vector_to_overlay generates the same tiles", {
         size = 5,
         color = "red",
         na.rm = TRUE
-        )
-      ) == png::readPNG("testdata/vto_point.png")
-    ) / length(png::readPNG("testdata/vto_point.png"))
+      )
+    ) == png::readPNG("testdata/vto_point.png")
+  ) / length(png::readPNG("testdata/vto_point.png"))
 
   expect_true(
     agreement > 0.95
@@ -49,13 +49,13 @@ test_that("vector_to_overlay generates the same tiles", {
 
   #' CRS warns
   expect_warning(
-      png::readPNG(vector_to_overlay(
-        sds_cache,
-        merged_file[[1]],
-        size = 5,
-        color = "red",
-        na.rm = TRUE
-      ))
+    png::readPNG(vector_to_overlay(
+      sds_cache,
+      merged_file[[1]],
+      size = 5,
+      color = "red",
+      na.rm = TRUE
+    ))
   )
 
   #' No CRS necessary
@@ -110,5 +110,4 @@ test_that("vector_to_overlay generates the same tiles", {
   expect_true(
     agreement > 0.95
   )
-
 })

@@ -27,5 +27,4 @@ test_that("make_manifest reproduces the same tiles", {
     png::readPNG(outputs_table$V8),
     png::readPNG("testdata/manifest_ort.png")
   )
-
 })

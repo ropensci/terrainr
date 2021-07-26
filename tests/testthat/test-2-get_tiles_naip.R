@@ -7,8 +7,8 @@ test_that("get_tiles gets the same ortho tiles twice", {
   dl_loc <- sf::st_as_sf(dl_loc, coords = c("lng", "lat"))
   sf::st_crs(dl_loc) <- sf::st_crs(4326)
   output_tif <- get_tiles(dl_loc,
-  services = c("ortho", "USGSNAIPPlus"),
-  georeference = FALSE
+    services = c("ortho", "USGSNAIPPlus"),
+    georeference = FALSE
   )
 
   expect_equal(names(output_tif), "ortho")
@@ -31,7 +31,7 @@ test_that("get_tiles gets the same georeferenced ortho tiles twice", {
   dl_loc <- sf::st_as_sf(dl_loc, coords = c("lng", "lat"))
   sf::st_crs(dl_loc) <- sf::st_crs(4326)
   output_tif <- get_tiles(dl_loc,
-  services = c("ortho", "USGSNAIPPlus")
+    services = c("ortho", "USGSNAIPPlus")
   )
 
   expect_equal(length(output_tif), 1)

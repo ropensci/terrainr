@@ -28,16 +28,19 @@
 #' @examples
 #' \dontrun{
 #'
-#' simulated_data <- data.frame(id = seq(1, 100, 1),
-#'                              lat = runif(100, 44.04905, 44.17609),
-#'                              lng = runif(100, -74.01188, -73.83493))
+#' simulated_data <- data.frame(
+#'   id = seq(1, 100, 1),
+#'   lat = runif(100, 44.04905, 44.17609),
+#'   lng = runif(100, -74.01188, -73.83493)
+#' )
 #'
 #' simulated_data <- sf::st_as_sf(simulated_data, coords = c("lng", "lat"))
 #' simulated_data <- sf::st_set_crs(simulated_data, 4326)
 #'
 #' output_tiles <- get_tiles(simulated_data,
-#'                           services = c("ortho"),
-#'                           resolution = 120)
+#'   services = c("ortho"),
+#'   resolution = 120
+#' )
 #'
 #' merged_ortho <- tempfile(fileext = ".tif")
 #' merge_rasters(output_tiles[["ortho"]], merged_ortho)
@@ -47,25 +50,32 @@
 #' library(ggplot2)
 #'
 #' ggplot() +
-#'   geom_spatial_rgb(data = merged_ortho,
-#'                    mapping = aes(x = x,
-#'                                  y = y,
-#'                                  r = red,
-#'                                  g = green,
-#'                                  b = blue)) +
+#'   geom_spatial_rgb(
+#'     data = merged_ortho,
+#'     mapping = aes(
+#'       x = x,
+#'       y = y,
+#'       r = red,
+#'       g = green,
+#'       b = blue
+#'     )
+#'   ) +
 #'   geom_sf(data = simulated_data) +
 #'   coord_sf(crs = 4326)
 #'
 #' ggplot() +
-#'   geom_spatial_rgb(data = merged_stack,
-#'                    mapping = aes(x = x,
-#'                                  y = y,
-#'                                  r = red,
-#'                                  g = green,
-#'                                  b = blue)) +
+#'   geom_spatial_rgb(
+#'     data = merged_stack,
+#'     mapping = aes(
+#'       x = x,
+#'       y = y,
+#'       r = red,
+#'       g = green,
+#'       b = blue
+#'     )
+#'   ) +
 #'   geom_sf(data = simulated_data) +
 #'   coord_sf(crs = 4326)
-#'
 #' }
 #'
 #' @export
@@ -158,7 +168,6 @@ geom_spatial_rgb_internal.RasterStack <- function(data = NULL,
                                                   show.legend = NA,
                                                   inherit.aes = TRUE,
                                                   scale = NULL) {
-
   data <- raster::as.data.frame(data, xy = TRUE)
   if (ncol(data) == 5) {
     data <- stats::setNames(data, c("x", "y", "red", "green", "blue"))
@@ -316,7 +325,6 @@ stat_spatial_rgb_internal.RasterStack <- function(data = NULL,
                                                   inherit.aes = TRUE,
                                                   scale = NULL,
                                                   ...) {
-
   data <- raster::as.data.frame(data, xy = TRUE)
   if (ncol(data) == 5) {
     data <- stats::setNames(data, c("x", "y", "red", "green", "blue"))

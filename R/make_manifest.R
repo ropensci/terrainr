@@ -17,18 +17,16 @@
 #' @examples
 #' \dontrun{
 #' if (!isTRUE(as.logical(Sys.getenv("CI")))) {
-#'
-#' simulated_data <- data.frame(
-#'   id = seq(1, 100, 1),
-#'   lat = runif(100, 44.04905, 44.17609),
-#'   lng = runif(100, -74.01188, -73.83493)
-#' )
-#' simulated_data <- sf::st_as_sf(simulated_data, coords = c("lng", "lat"))
-#' output_files <- get_tiles(simulated_data)
-#' temptiff <- tempfile(fileext = ".tif")
-#' merge_rasters(output_files["elevation"][[1]], temptiff)
-#' make_manifest(temptiff, output_prefix = tempfile(), importer_path = NULL)
-#'
+#'   simulated_data <- data.frame(
+#'     id = seq(1, 100, 1),
+#'     lat = runif(100, 44.04905, 44.17609),
+#'     lng = runif(100, -74.01188, -73.83493)
+#'   )
+#'   simulated_data <- sf::st_as_sf(simulated_data, coords = c("lng", "lat"))
+#'   output_files <- get_tiles(simulated_data)
+#'   temptiff <- tempfile(fileext = ".tif")
+#'   merge_rasters(output_files["elevation"][[1]], temptiff)
+#'   make_manifest(temptiff, output_prefix = tempfile(), importer_path = NULL)
 #' }
 #' }
 #'
@@ -38,7 +36,6 @@ make_manifest <- function(heightmap,
                           output_prefix = "import",
                           manifest_path = "terrainr.manifest",
                           importer_path = "import_terrain.cs") {
-
   input_raster <- raster::raster(heightmap)
   max_raster <- raster::cellStats(input_raster, "max")
 
@@ -59,15 +56,18 @@ make_manifest <- function(heightmap,
     x = 1:x_tiles,
     y = 1:y_tiles
   )
-  file_names <- mapply(function(x, y) paste0(
-    output_prefix,
-    "_",
-    x,
-    "_",
-    y
-  ),
-  file_combos$x,
-  file_combos$y
+  file_names <- mapply(
+    function(x, y) {
+      paste0(
+        output_prefix,
+        "_",
+        x,
+        "_",
+        y
+      )
+    },
+    file_combos$x,
+    file_combos$y
   )
 
   x_tiles <- 0:(x_tiles - 1)
@@ -84,7 +84,7 @@ make_manifest <- function(heightmap,
     height = max_raster,
     z_length = 4097,
     resolution = 4097,
-    texture = if(is.null(overlay)) "" else paste0(sort(file_names), ".png")
+    texture = if (is.null(overlay)) "" else paste0(sort(file_names), ".png")
   )
 
   temptiffs <- crop_tif(heightmap, manifest, temptiffs)
@@ -104,9 +104,9 @@ make_manifest <- function(heightmap,
       processing_image <- magick::image_read(x)
       processing_image <- magick::image_flop(processing_image)
       processing_image <- magick::image_convert(processing_image,
-                                                format = "RGB",
-                                                depth = 16,
-                                                interlace = "Plane"
+        format = "RGB",
+        depth = 16,
+        interlace = "Plane"
       )
       magick::image_write(processing_image, y)
     },
@@ -146,42 +146,42 @@ make_manifest <- function(heightmap,
   }
 
   write.table(manifest,
-              manifest_path,
-              row.names = FALSE,
-              col.names = FALSE,
-              sep = "\t",
-              quote = FALSE)
+    manifest_path,
+    row.names = FALSE,
+    col.names = FALSE,
+    sep = "\t",
+    quote = FALSE
+  )
 
   if (!is.null(importer_path) && !file.exists(importer_path)) {
     file.copy(
       system.file("import_terrain.cs", package = "terrainr"),
       importer_path,
-      overwrite = TRUE)
+      overwrite = TRUE
+    )
   }
 
   return(invisible(manifest_path))
-
 }
 
 crop_tif <- function(img, manifest, temptiffs, field = "filename") {
   for (i in seq_len(nrow(manifest))) {
     # changing this to gdalUtilities causes my computer to crash
     gdalUtils::gdal_translate(img, temptiffs[[i]],
-                              srcwin = paste0(
-                                -manifest$x_pos[[i]],
-                                ", ",
-                                manifest$z_pos[[i]],
-                                ", ",
-                                manifest$x_length[[i]],
-                                ", ",
-                                manifest$z_length[[i]]
-                              )
+      srcwin = paste0(
+        -manifest$x_pos[[i]],
+        ", ",
+        manifest$z_pos[[i]],
+        ", ",
+        manifest$x_length[[i]],
+        ", ",
+        manifest$z_length[[i]]
+      )
     )
     names(temptiffs)[[i]] <- manifest[[field]][[i]]
   }
 
   temptiffs
-
 }
 
 convert_to_png <- function(temptiffs,

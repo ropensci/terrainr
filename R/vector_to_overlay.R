@@ -65,7 +65,6 @@ vector_to_overlay <- function(vector_data,
                               transparent = "#ffffff",
                               ...,
                               error_crs = NULL) {
-
   if (is.character(vector_data) && length(vector_data) == 1) {
     vector_data <- sf::read_sf(vector_data)
   } else {
@@ -80,8 +79,10 @@ vector_to_overlay <- function(vector_data,
 
   if (is.na(sf::st_crs(vector_data))) {
     if (is.null(error_crs)) {
-      warning("No CRS associated with input vector data.\n",
-              "Assuming it shares the CRS of reference_raster.")
+      warning(
+        "No CRS associated with input vector data.\n",
+        "Assuming it shares the CRS of reference_raster."
+      )
     } else if (error_crs) {
       stop("No CRS associated with input vector data.")
     }
@@ -163,5 +164,4 @@ vector_to_overlay <- function(vector_data,
   }
 
   invisible(output_file)
-
 }

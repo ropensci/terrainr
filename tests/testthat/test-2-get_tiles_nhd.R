@@ -7,8 +7,8 @@ test_that("get_tiles gets the same hydro tiles twice", {
   dl_loc <- sf::st_as_sf(dl_loc, coords = c("lng", "lat"))
   sf::st_crs(dl_loc) <- sf::st_crs(4326)
   output_tif <- get_tiles(dl_loc,
-  services = c("hydro", "nhd", "NHDPlus_HR"),
-  georeference = FALSE
+    services = c("hydro", "nhd", "NHDPlus_HR"),
+    georeference = FALSE
   )
 
   expect_equal(names(output_tif), c("hydro", "NHDPlus_HR"))

@@ -37,7 +37,6 @@ rad_to_deg <- function(rad) {
 #'
 #' @return A latitude/longitude
 get_centroid <- function(lat, lng) {
-
   lat <- deg_to_rad(lat)
   lng <- deg_to_rad(lng)
 

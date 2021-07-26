@@ -70,9 +70,10 @@ test_that("set_bbox_side_length works within 1%", {
 
   expect_equal(
     rstr_bbox,
-    sf::st_bbox(add_bbox_buffer(tmp_raster,
-                                sqrt((8000^2) * 2) / 2)),
+    sf::st_bbox(add_bbox_buffer(
+      tmp_raster,
+      sqrt((8000^2) * 2) / 2
+    )),
     tolerance = 0.0001
   )
-
 })
