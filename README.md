@@ -42,20 +42,27 @@ library(sf)
 # Optional way to display a progress bar while your tiles download:
 library(progressr)
 handlers("progress")
+handlers(global = TRUE)
 
-simulated_data <- data.frame(id = seq(1, 100, 1),
-                             lat = runif(100, 44.04905, 44.17609), 
-                             lng = runif(100, -74.01188, -73.83493))
+location_of_interest <- tmaptools::geocode_OSM("Hyampom California")$coords
 
-simulated_data <- st_as_sf(simulated_data, coords = c("lng", "lat"))
-simulated_data <- st_set_crs(simulated_data, 4326)
-
-with_progress( # Only needed if you're using progressr
-  output_tiles <- get_tiles(simulated_data,
-                            services = c("elevation", "ortho"),
-                            resolution = 30 # pixel side length in meters
-                            )
+location_of_interest <- data.frame(
+  x = location_of_interest[["x"]],
+  y = location_of_interest[["y"]]
 )
+
+location_of_interest <- st_as_sf(
+  location_of_interest, 
+  coords = c("x", "y"), 
+  crs = 4326
+)
+
+location_of_interest <- set_bbox_side_length(location_of_interest, 8000)
+
+output_tiles <- get_tiles(location_of_interest,
+                          services = c("elevation", "ortho"),
+                          resolution = 30 # pixel side length in meters
+                          )
 ```
 
 Once downloaded, these images are in standard GeoTIFF or PNG formats and
@@ -65,32 +72,13 @@ can be used as expected with other utilities:
 raster::plot(raster::raster(output_tiles[["elevation"]][[1]]))
 ```
 
-<img src="man/figures/elevation.jpg" width="100%" />
+<img src="man/figures/20210728elevation.jpg" width="100%" />
 
 ``` r
 raster::plotRGB(raster::brick(output_tiles[["ortho"]][[1]]), scale = 1)
 ```
 
-<img src="man/figures/naip.jpg" width="100%" />
-
-Secondly, terrainr provides functions for manipulating these files,
-editing downloaded images to create new base map tiles:
-
-``` r
-vector_overlay <- vector_to_overlay(
-  simulated_data,
-  output_tiles[["ortho"]]
-)
-
-vector_overlay <- combine_overlays(
-  output_tiles[["ortho"]],
-  vector_overlay
-)
-
-raster::plotRGB(raster::stack(vector_overlay))
-```
-
-<img src="man/figures/overlay.jpg" width="100%" />
+<img src="man/figures/20210728naip.jpg" width="100%" />
 
 Finally, terrainr helps you visualize this data, both natively in R via
 the new `geom_spatial_rgb` geom:
@@ -100,10 +88,11 @@ library(ggplot2)
 ggplot() + 
   geom_spatial_rgb(data = output_tiles[["ortho"]],
                    aes(x = x, y = y, r = red, g = green, b = blue)) + 
-  geom_sf(data = simulated_data)
+  coord_sf(crs = 4326) + 
+  theme_void()
 ```
 
-<img src="man/figures/ggplot.jpg" width="100%" />
+<img src="man/figures/20210728ggplot.jpg" width="100%" />
 
 As well as with the Unity 3D rendering engine, allowing you to fly or
 walk through your downloaded data sets in 3D and VR:
@@ -119,17 +108,13 @@ merged_dem <- merge_rasters(output_tiles[["elevation"]],
 merged_ortho <- merge_rasters(output_tiles[["ortho"]], 
                               tempfile(fileext = ".tif"))
 
-mapply(function(x, y) raster_to_raw_tiles(input_file = x, 
-                                          output_prefix = tempfile(), 
-                                          side_length = 4097, 
-                                          raw = y),
-       c(merged_dem, merged_ortho),
-       c(TRUE, FALSE))
+make_manifest(output_tiles$elevation,
+              output_tiles$ortho)
 
 # We can then import these tiles to Unity to create:
 ```
 
-<img src="man/figures/unity-lakeside.jpg" width="100%" />
+<img src="man/figures/20210728unity.jpg" width="100%" />
 
 The more time intensive processing steps can all be monitored via the
 [progressr](https://github.com/HenrikBengtsson/progressr) package, so
@@ -137,46 +122,46 @@ you’ll be more confident that your computer is still churning along and
 not just stalled out. For more information, check out [the introductory
 vignette](https://docs.ropensci.org/terrainr//articles/overview.html)
 and [the guide to importing your data into
-Unity\!](https://docs.ropensci.org/terrainr//articles/unity_instructions.html)
+Unity!](https://docs.ropensci.org/terrainr//articles/unity_instructions.html)
 
 ## Available Datasets
 
 The following datasets can currently be downloaded using `get_tiles` or
 `hit_national_map_api`:
 
-  - [3DEPElevation](https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer):
+-   [3DEPElevation](https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer):
     The USGS 3D Elevation Program (3DEP) Bare Earth DEM.
-  - [USGSNAIPPlus](https://services.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/MapServer):
+-   [USGSNAIPPlus](https://services.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/MapServer):
     National Agriculture Imagery Program (NAIP) and high resolution
     orthoimagery (HRO).
-  - [nhd](https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer):
+-   [nhd](https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer):
     A comprehensive set of digital spatial data that encodes information
     about naturally occurring and constructed bodies of surface water
     (lakes, ponds, and reservoirs), paths through which water flows
     (canals, ditches, streams, and rivers), and related entities such as
     point features (springs, wells, stream gauges, and dams).
-  - [govunits](https://carto.nationalmap.gov/arcgis/rest/services/govunits/MapServer):
+-   [govunits](https://carto.nationalmap.gov/arcgis/rest/services/govunits/MapServer):
     Major civil areas for the Nation, including States or Territories,
     counties (or equivalents), Federal and Native American areas,
     congressional districts, minor civil divisions, incorporated places
     (such as cities and towns), and unincorporated places.
-  - [contours](https://carto.nationalmap.gov/arcgis/rest/services/contours/MapServer):
+-   [contours](https://carto.nationalmap.gov/arcgis/rest/services/contours/MapServer):
     The USGS Elevation Contours service.
-  - [geonames](https://carto.nationalmap.gov/arcgis/rest/services/geonames/MapServer):
+-   [geonames](https://carto.nationalmap.gov/arcgis/rest/services/geonames/MapServer):
     Information about physical and cultural geographic features,
     geographic areas, and locational entities that are generally
     recognizable and locatable by name.
-  - [NHDPlus\_HR](https://hydro.nationalmap.gov/arcgis/rest/services/NHDPlus_HR/MapServer):
+-   [NHDPlus\_HR](https://hydro.nationalmap.gov/arcgis/rest/services/NHDPlus_HR/MapServer):
     A comprehensive set of digital spatial data comprising a nationally
     seamless network of stream reaches, elevation-based catchment areas,
     flow surfaces, and value-added attributes.
-  - [structures](https://carto.nationalmap.gov/arcgis/rest/services/structures/MapServer):
+-   [structures](https://carto.nationalmap.gov/arcgis/rest/services/structures/MapServer):
     The name, function, location, and other core information and
     characteristics of selected manmade facilities.
-  - [transportation](https://carto.nationalmap.gov/arcgis/rest/services/transportation/MapServer):
+-   [transportation](https://carto.nationalmap.gov/arcgis/rest/services/transportation/MapServer):
     Roads, railroads, trails, airports, and other features associated
     with the transport of people or commerce.
-  - [wbd](https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer):
+-   [wbd](https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer):
     Hydrologic Unit (HU) polygon boundaries for the United States,
     Puerto Rico, and the U.S. Virgin Islands.
 
@@ -201,7 +186,7 @@ devtools::install_github("ropensci/terrainr")
 ```
 
 Be aware that the development version is not stable, and features that
-haven’t been published on CRAN may change at any time\!
+haven’t been published on CRAN may change at any time!
 
 ## Code of Conduct
 

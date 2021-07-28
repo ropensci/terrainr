@@ -18,7 +18,7 @@ test_that("get_tiles gets the same ortho tiles twice", {
 
   expect_equal(
     png::readPNG(output_tif[[1]]),
-    png::readPNG("testdata/NAIPPlus.png")
+    png::readPNG("testdata/NewNAIPPlus.png")
   )
 })
 
@@ -37,7 +37,7 @@ test_that("get_tiles gets the same georeferenced ortho tiles twice", {
   expect_equal(length(output_tif), 1)
   expect_equal(length(output_tif[[1]]), 1)
 
-  stored_raster <- raster::raster("testdata/NAIPPlus_gr.tif")
+  stored_raster <- raster::raster("testdata/NewNAIPPlus_gr.tif")
   test_raster <- raster::raster(output_tif[[1]])
 
   expect_equal(stored_raster@crs, test_raster@crs)

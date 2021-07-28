@@ -1,0 +1,20 @@
+citHeader("The United States Geological Survey provides guidelines for\n",
+          "citing USGS data products (as downloaded from 'get_tiles') at:\n",
+          "https://www.usgs.gov/faqs/how-should-i-cite-datasets-and-services-national-map \n",
+          "\n",
+          "To cite terrainr in publications please use:")
+
+year <- sub("-.*", "", meta$Date)
+note <- sprintf("R package version %s", meta$Version)
+
+bibentry(bibtype = "Manual",
+         title = "{terrainr}: Landscape Visualizations in R and Unity",
+         author = person("Michael", "Mahoney"),
+         year = year,
+         note = note,
+	 url = "https://CRAN.R-project.org/package=terrainr")
+
+ textVersion = paste0("Michael J Mahoney, (", year, ").",
+  " terrainr: Landscape Visualizations in R and Unity. ",
+  note, ".",
+  " https://CRAN.R-project.org/package=terrainr")
