@@ -248,7 +248,8 @@ get_tiles.list <- function(data,
   projected <- FALSE
 
   bbox <- terrainr_bounding_box(data[[1]], data[[2]])
-  get_tiles_internal(
+  bbox <- sf::st_as_sfc(terrainr_st_bbox(bbox))
+  get_tiles(
     bbox,
     output_prefix = output_prefix,
     side_length = side_length,
@@ -331,6 +332,12 @@ get_tiles_internal <- function(data,
   for (i in seq_len(x_tiles)) {
     for (j in seq_len(y_tiles)) {
       current_box <- tile_boxes[tile_boxes$x_tiles == i & tile_boxes$y_tiles == j, ]
+      current_bbox <- data.frame(
+        lat = c(current_box$min_y, current_box$max_y),
+        lng = c(current_box$min_x, current_box$max_x)
+      )
+      current_bbox <- sf::st_as_sf(current_bbox, coords = c("lng", "lat"))
+      current_bbox <- sf::st_bbox(current_bbox)
       for (k in seq_along(services)) {
         if (requireNamespace("progressr", quietly = TRUE)) { # nocov start
           p(message = sprintf(
@@ -371,20 +378,7 @@ get_tiles_internal <- function(data,
           file.size(cur_path) == 0) &&
           counter < 5) {
           img_bin <- hit_national_map_api(
-            terrainr_bounding_box(
-              bl = terrainr_coordinate_pair(
-                c(
-                  lat = current_box$min_y,
-                  lng = current_box$min_x
-                )
-              ),
-              tr = terrainr_coordinate_pair(
-                c(
-                  lat = current_box$max_y,
-                  lng = current_box$max_x
-                )
-              )
-            ),
+            current_bbox,
             current_box[["img_width"]],
             current_box[["img_height"]],
             services[[k]],

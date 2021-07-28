@@ -44,6 +44,7 @@ reference:
   - contents:
     - geom_spatial_rgb
     - raster_to_raw_tiles
+    - make_manifest
     - vector_to_overlay
     - combine_overlays
   - title: Utility Functions

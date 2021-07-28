@@ -79,12 +79,7 @@ hit_national_map_api <- function(bbox,
   }
 
   if (methods::is(bbox, "terrainr_bounding_box")) {
-    bbox <- data.frame(
-      lng = c(bbox@bl@lng, bbox@tr@lng),
-      lat = c(bbox@bl@lat, bbox@tr@lat)
-    )
-    bbox <- sf::st_as_sf(bbox, coords = c("lng", "lat"))
-    bbox <- sf::st_bbox(bbox)
+    bbox <- terrainr_st_bbox(bbox)
   }
   stopifnot(methods::is(bbox, "bbox"))
 

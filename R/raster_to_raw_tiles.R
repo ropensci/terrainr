@@ -1,5 +1,11 @@
 #' Crop a raster and convert the output tiles into new formats.
 #'
+#' This function has been deprecated as of terrainr 0.5.0 in favor of the new
+#' function, [make_manifest]. While it will be continued to be exported until
+#' at least 2022, improvements and bug fixes will only be made to the new
+#' function. Please open an issue if any features you relied upon is
+#' missing from the new function!
+#'
 #' This function crops input raster files into smaller square tiles and then
 #' converts them into either .png or .raw files which are ready to be imported
 #' into the Unity game engine.
