@@ -19,7 +19,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 status](https://github.com/ropensci/terrainr/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/terrainr/actions)
 [![rOpenSci Review
 Status](https://badges.ropensci.org/416_status.svg)](https://github.com/ropensci/software-review/issues/416)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5142764.svg)](https://doi.org/10.5281/zenodo.5142764)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5142763.svg)](https://doi.org/10.5281/zenodo.5142763)
 
 <!-- badges: end -->
 
