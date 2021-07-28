@@ -10,7 +10,7 @@
   "codeRepository": "https://github.com/ropensci/terrainr",
   "issueTracker": "https://github.com/ropensci/terrainr/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -271,7 +271,7 @@
   ],
   "releaseNotes": "https://github.com/ropensci/terrainr/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci/terrainr/blob/main/README.md",
-  "fileSize": "3102.798KB",
+  "fileSize": "3245.685KB",
   "contIntegration": "https://codecov.io/gh/ropensci/terrainr",
   "developmentStatus": ["https://lifecycle.r-lib.org/articles/stages.html#maturing", "https://www.repostatus.org/#active"],
   "keywords": [
@@ -311,5 +311,19 @@
     "@type": "Organization",
     "name": "Comprehensive R Archive Network (CRAN)",
     "url": "https://cran.r-project.org"
-  }
+  },
+  "citation": [
+    {
+      "@type": "SoftwareSourceCode",
+      "author": [
+        {
+          "@type": "Person",
+          "givenName": "Michael",
+          "familyName": "Mahoney"
+        }
+      ],
+      "name": "{terrainr}: Landscape Visualizations in R and Unity",
+      "url": "https://CRAN.R-project.org/package=terrainr"
+    }
+  ]
 }
