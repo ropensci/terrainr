@@ -72,13 +72,13 @@ can be used as expected with other utilities:
 raster::plot(raster::raster(output_tiles[["elevation"]][[1]]))
 ```
 
-<img src="man/figures/elevation.jpg" width="100%" />
+<img src="man/figures/20210728elevation.jpg" width="100%" />
 
 ``` r
 raster::plotRGB(raster::brick(output_tiles[["ortho"]][[1]]), scale = 1)
 ```
 
-<img src="man/figures/naip.jpg" width="100%" />
+<img src="man/figures/20210728naip.jpg" width="100%" />
 
 Finally, terrainr helps you visualize this data, both natively in R via
 the new `geom_spatial_rgb` geom:
@@ -92,7 +92,7 @@ ggplot() +
   theme_void()
 ```
 
-<img src="man/figures/ggplot.jpg" width="100%" />
+<img src="man/figures/20210728ggplot.jpg" width="100%" />
 
 As well as with the Unity 3D rendering engine, allowing you to fly or
 walk through your downloaded data sets in 3D and VR:
@@ -114,7 +114,7 @@ make_manifest(output_tiles$elevation,
 # We can then import these tiles to Unity to create:
 ```
 
-<img src="man/figures/unity.jpg" width="100%" />
+<img src="man/figures/20210728unity.jpg" width="100%" />
 
 The more time intensive processing steps can all be monitored via the
 [progressr](https://github.com/HenrikBengtsson/progressr) package, so
