@@ -145,7 +145,7 @@ make_manifest <- function(heightmap,
     )
   }
 
-  write.table(manifest,
+  utils::write.table(manifest,
     manifest_path,
     row.names = FALSE,
     col.names = FALSE,
