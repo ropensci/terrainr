@@ -51,8 +51,12 @@ zion <- data.frame(x = zion[["x"]], y = zion[["y"]]) %>%
 
 And now we can go ahead and download data for our area of interest, then merge 
 the downloaded tiles into individual rasters. For more on this process or what
-these functions do, check out (the overview vignette)[overview.html]. Fair 
-warning -- downloading this amount of data can take a bit of time!
+these functions do, check out (the overview vignette)[overview.html]. 
+
+Fair warning -- downloading this amount of data can take a bit of time! You can
+optionally add a progress bar to the `get_tiles` download by calling 
+`library(progressr)` and then `handlers(global = TRUE)` before running this 
+code.
 
 ```{r, eval = FALSE}
 merged_tiles <- zion %>%
@@ -122,7 +126,8 @@ knitr::include_graphics("terrain_surface.jpg")
 ```
 
 You can now move around your surface by right clicking on the image and moving
-around with the W-A-S-D keys on your keyboard. 
+around with the W-A-S-D keys on your keyboard. Note that your movement speed 
+starts off very slow, and then accelerates over time.
 
 And ta-da, you have a surface in Unity! You can go ahead and customize the scene
 further (I'll usually then click on "Directional Light" and change "Render Mode" 
