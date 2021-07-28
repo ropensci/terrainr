@@ -6,8 +6,7 @@
 #' a more friendly interface. For a description of the datasets provided by the
 #' National Map, see \url{https://apps.nationalmap.gov/services}
 #'
-#' @param bbox A list representing the bounding box (bottom left and top left
-#' coordinate pairs).
+#' @param bbox An object from [sf::st_bbox].
 #' @param img_width The number of pixels in the x direction to retrieve
 #' @param img_height The number of pixels in the y direction to retrieve
 #' @param verbose Logical: Print out the number of tries required to pull each
@@ -75,12 +74,14 @@ hit_national_map_api <- function(bbox,
                                  ...) {
   dots <- list(...)
 
-  if (!methods::is(bbox, "terrainr_bounding_box")) {
+  if (is.list(bbox) && length(bbox) == 2) {
     bbox <- terrainr_bounding_box(bbox[[1]], bbox[[2]])
   }
 
-  first_corner <- bbox@bl
-  second_corner <- bbox@tr
+  if (methods::is(bbox, "terrainr_bounding_box")) {
+    bbox <- terrainr_st_bbox(bbox)
+  }
+  stopifnot(methods::is(bbox, "bbox"))
 
   # nolint start
   # API endpoint for elevation mapping:
@@ -128,10 +129,10 @@ hit_national_map_api <- function(bbox,
   )
 
   bbox_arg <- list(bbox = paste(
-    min(first_corner@lng, second_corner@lng),
-    min(first_corner@lat, second_corner@lat),
-    max(second_corner@lng, first_corner@lng),
-    max(second_corner@lat, first_corner@lat),
+    bbox[["xmin"]],
+    bbox[["ymin"]],
+    bbox[["xmax"]],
+    bbox[["ymax"]],
     sep = ","
   ))
 
