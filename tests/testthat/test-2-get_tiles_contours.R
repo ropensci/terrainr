@@ -8,8 +8,8 @@ test_that("get_tiles gets the same contours tiles twice", {
   sf::st_crs(dl_loc) <- sf::st_crs(4326)
 
   output_tif <- get_tiles(dl_loc,
-  services = c("contours"),
-  georeference = FALSE
+    services = c("contours"),
+    georeference = FALSE
   )
 
   expect_equal(names(output_tif), "contours")

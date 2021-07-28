@@ -37,15 +37,14 @@ collapse those multiple raster files into a single TIFF.
 \examples{
 \dontrun{
 simulated_data <- data.frame(
-lat = c(44.10379, 44.17573),
-lng = c(-74.01177, -73.91171)
+  lat = c(44.10379, 44.17573),
+  lng = c(-74.01177, -73.91171)
 )
 
 simulated_data <- sf::st_as_sf(simulated_data, coords = c("lng", "lat"))
 
 img_files <- get_tiles(simulated_data)
 merge_rasters(img_files[[1]])
-
 }
 
 }

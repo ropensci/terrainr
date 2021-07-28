@@ -31,8 +31,9 @@
 #' simulated_data <- sf::st_as_sf(simulated_data, coords = c("lng", "lat"))
 #'
 #' downloaded_tiles <- get_tiles(simulated_data,
-#'                               services = c("elevation", "ortho"),
-#'                               georeference = FALSE)
+#'   services = c("elevation", "ortho"),
+#'   georeference = FALSE
+#' )
 #'
 #' georeference_overlay(
 #'   overlay_file = downloaded_tiles[[2]],

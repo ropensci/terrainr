@@ -11,7 +11,6 @@
 #'
 #' @return A vector of length 1 containing distance between points
 calc_haversine_distance <- function(point_1, point_2) {
-
   points <- lapply(
     list(point_1, point_2), # list, not c, since these are both numeric vectors
     function(x) {
@@ -37,7 +36,7 @@ calc_haversine_distance <- function(point_1, point_2) {
 
   a <- (sin(used_pts[["delta_lat"]] / 2) * sin(used_pts[["delta_lat"]] / 2)) +
     (cos(used_pts[["lat1"]]) * cos(used_pts[["lat2"]]) *
-       sin(used_pts[["delta_lng"]] / 2) * sin(used_pts[["delta_lng"]] / 2))
+      sin(used_pts[["delta_lng"]] / 2) * sin(used_pts[["delta_lng"]] / 2))
   c <- 2 * atan2(sqrt(a), sqrt(1 - a))
 
   # c inherits the name "lat" from a

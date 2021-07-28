@@ -69,5 +69,4 @@ test_that("projected returns are consistent", {
     raster::cellStats(stored_raster, "max"),
     raster::cellStats(test_raster, "max")
   )
-
 })
