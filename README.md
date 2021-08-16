@@ -100,7 +100,7 @@ walk through your downloaded data sets in 3D and VR:
 
 ``` r
 with_progress( # When not specifying resolution, default is 1m pixels
-  output_tiles <- get_tiles(simulated_data,
+  output_tiles <- get_tiles(location_of_interest,
                             services = c("elevation", "ortho"))
 )
 
