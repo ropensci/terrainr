@@ -115,9 +115,11 @@ merged_ortho <- merge_rasters(output_tiles[["ortho"]],
 
 make_manifest(output_tiles$elevation,
               output_tiles$ortho)
-
-# We can then import these tiles to Unity to create:
 ```
+
+We can then import these tiles to Unity (following the 
+[Import Vignette]((https://docs.ropensci.org/terrainr/articles/unity_instructions.html))) 
+to create:
 
 ```{r echo=FALSE}
 knitr::include_graphics("man/figures/20210728unity.jpg")
