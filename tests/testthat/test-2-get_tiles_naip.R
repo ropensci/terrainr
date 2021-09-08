@@ -1,66 +1,64 @@
 test_that("get_tiles gets the same ortho tiles twice", {
   skip_on_cran()
-  dl_loc <- data.frame(
-    lat = c(44.04905, 44.04911),
-    lng = c(-74.01188, -74.01179)
-  )
-  dl_loc <- sf::st_as_sf(dl_loc, coords = c("lng", "lat"))
-  sf::st_crs(dl_loc) <- sf::st_crs(4326)
-  output_tif <- get_tiles(dl_loc,
-    services = c("ortho", "USGSNAIPPlus"),
-    georeference = FALSE
+
+  location_of_interest <- data.frame(
+    x = -123.45254,
+    y = 40.61736
   )
 
-  expect_equal(names(output_tif), "ortho")
+  location_of_interest <- sf::st_as_sf(
+    location_of_interest,
+    coords = c("x", "y"),
+    crs = 4326
+  )
 
-  expect_equal(length(output_tif), 1)
-  expect_equal(length(output_tif[[1]]), 1)
+  location_of_interest <- set_bbox_side_length(location_of_interest, 8000)
 
-  tryCatch(
-    expect_equal(
-      png::readPNG(output_tif[[1]]),
-      png::readPNG("testdata/NAIPPlus.png")
-    ),
-    error = function(e) {
-      expect_equal(
-        png::readPNG(output_tif[[1]]),
-        png::readPNG("testdata/NewNAIPPlus.png")
-      )
-    }
+  output_tiles <- get_tiles(location_of_interest,
+                            services = c("ortho", "USGSNAIPPlus"),
+                            resolution = 30,
+                            georeference = FALSE
+                            )
+
+  expect_equal(names(output_tiles), "ortho")
+
+  expect_equal(length(output_tiles), 1)
+  expect_equal(length(output_tiles[[1]]), 1)
+
+  expect_equal(
+      brio::read_file_raw(output_tiles[[1]]),
+      brio::read_file_raw("testdata/NewNaip.png")
   )
 })
 
 test_that("get_tiles gets the same georeferenced ortho tiles twice", {
   skip_on_cran()
-  dl_loc <- data.frame(
-    lat = c(44.04905, 44.04911),
-    lng = c(-74.01188, -74.01179)
-  )
-  dl_loc <- sf::st_as_sf(dl_loc, coords = c("lng", "lat"))
-  sf::st_crs(dl_loc) <- sf::st_crs(4326)
-  output_tif <- get_tiles(dl_loc,
-    services = c("ortho", "USGSNAIPPlus")
+  location_of_interest <- data.frame(
+    x = -123.45254,
+    y = 40.61736
   )
 
-  expect_equal(length(output_tif), 1)
-  expect_equal(length(output_tif[[1]]), 1)
-
-  stored_raster <- raster::raster("testdata/NAIPPlus_gr.tif")
-  test_raster <- raster::raster(output_tif[[1]])
-
-  expect_equal(stored_raster@crs, test_raster@crs)
-  expect_equal(stored_raster@extent, test_raster@extent)
-  tryCatch(
-    expect_equal(
-      raster::cellStats(stored_raster, "max"),
-      raster::cellStats(test_raster, "max")
-    ),
-    error = function(e) {
-      stored_raster <- raster::raster("testdata/NewNAIPPlus_gr.tif")
-      expect_equal(
-        raster::cellStats(stored_raster, "max"),
-        raster::cellStats(test_raster, "max")
-      )
-    }
+  location_of_interest <- sf::st_as_sf(
+    location_of_interest,
+    coords = c("x", "y"),
+    crs = 4326
   )
+
+  location_of_interest <- set_bbox_side_length(location_of_interest, 8000)
+
+  output_tiles <- get_tiles(location_of_interest,
+                            services = c("ortho", "USGSNAIPPlus"),
+                            resolution = 30
+  )
+
+  expect_equal(names(output_tiles), "ortho")
+
+  expect_equal(length(output_tiles), 1)
+  expect_equal(length(output_tiles[[1]]), 1)
+
+  expect_equal(
+    brio::read_file_raw(output_tiles[[1]]),
+    brio::read_file_raw("testdata/NewNaip_gr.tif")
+  )
+
 })
