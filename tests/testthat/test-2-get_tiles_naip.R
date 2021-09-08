@@ -25,9 +25,14 @@ test_that("get_tiles gets the same ortho tiles twice", {
   expect_equal(length(output_tiles), 1)
   expect_equal(length(output_tiles[[1]]), 1)
 
+  agreement <-
+    brio::read_file_raw(output_tiles[[1]]) ==
+    brio::read_file_raw("testdata/NewNaip.png")
+
   expect_equal(
-      brio::read_file_raw(output_tiles[[1]]),
-      brio::read_file_raw("testdata/NewNaip.png")
+      sum(agreement),
+      length(agreement),
+      tolerance = 0.95
   )
 })
 
@@ -56,9 +61,15 @@ test_that("get_tiles gets the same georeferenced ortho tiles twice", {
   expect_equal(length(output_tiles), 1)
   expect_equal(length(output_tiles[[1]]), 1)
 
+  agreement <- suppressWarnings({
+    brio::read_file_raw(output_tiles[[1]]) ==
+          brio::read_file_raw("testdata/NewNaip_gr.tif")
+    })
+
   expect_equal(
-    brio::read_file_raw(output_tiles[[1]]),
-    brio::read_file_raw("testdata/NewNaip_gr.tif")
+    sum(agreement),
+    length(agreement),
+    tolerance = 0.95
   )
 
 })
