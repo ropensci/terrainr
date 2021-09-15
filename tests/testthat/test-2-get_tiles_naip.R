@@ -1,5 +1,6 @@
 test_that("get_tiles gets the same ortho tiles twice", {
   skip_on_cran()
+  skip_on_os("windows")
 
   location_of_interest <- data.frame(
     x = -123.45254,
@@ -38,6 +39,7 @@ test_that("get_tiles gets the same ortho tiles twice", {
 
 test_that("get_tiles gets the same georeferenced ortho tiles twice", {
   skip_on_cran()
+  skip_on_os("windows")
   location_of_interest <- data.frame(
     x = -123.45254,
     y = 40.61736
