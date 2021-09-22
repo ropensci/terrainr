@@ -2,11 +2,12 @@ on: [push]
 
 jobs:
   drat-upload:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     name: Drat Upload
     steps:
-      - uses: mikemahoney218/upload-to-drat-repo@v0.0.1
+      - uses: mikemahoney218/upload-to-drat-repo@v0.0.2
         with:
           drat_repo: 'mikemahoney218/drat'
           token: "${{ secrets.DRAT_TOKEN }}"
           commit_message: "Automated update (add terrainr)"
+          commit_email: "mike.mahoney.218@gmail.com"
