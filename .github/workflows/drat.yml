@@ -1,0 +1,12 @@
+on: [push]
+
+jobs:
+  drat-upload:
+    runs-on: ubuntu-latest
+    name: Drat Upload
+    steps:
+      - uses: mikemahoney218/upload-to-drat-repo@v0.0.1
+        with:
+          drat_repo: 'mikemahoney218/drat'
+          token: "${{ secrets.DRAT_TOKEN }}"
+          commit_message: "Automated update (add terrainr)"
