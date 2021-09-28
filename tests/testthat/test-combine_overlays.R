@@ -28,7 +28,7 @@ test_that("combine_overlays works", {
   )
 
   expect_equal(
-    png::readPNG(x_tmp),
-    png::readPNG(y_tmp)
+    brio::read_file_raw(x_tmp),
+    brio::read_file_raw(y_tmp)
   )
 })
