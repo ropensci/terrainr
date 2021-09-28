@@ -482,23 +482,11 @@ split_bbox <- function(data, side_length, resolution = 1, projected) {
   tl <- terrainr_coordinate_pair(c(bbox@tr@lat, bbox@bl@lng))
 
   if (projected) {
-    img_width <- round(
-      (bbox@tr@lng - tl@lng) / resolution,
-      digits = 0
-    )
-    img_height <- round(
-      (tl@lat - bbox@bl@lat) / resolution,
-      digits = 0
-    )
+    img_width <- ceiling((bbox@tr@lng - tl@lng) / resolution)
+    img_height <- ceiling((tl@lat - bbox@bl@lat) / resolution)
   } else {
-    img_width <- round(
-      calc_haversine_distance(tl, bbox@tr) / resolution,
-      digits = 0
-    )
-    img_height <- round(
-      calc_haversine_distance(tl, bbox@bl) / resolution,
-      digits = 0
-    )
+    img_width <- ceiling(calc_haversine_distance(tl, bbox@tr) / resolution)
+    img_height <- ceiling(calc_haversine_distance(tl, bbox@bl) / resolution)
   }
 
   x_tiles <- ceiling(img_width / side_length)
