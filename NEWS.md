@@ -12,6 +12,9 @@
       versions expected you to pass "-overwrite" to `options`. If a file exists
       at `output_raster` and `overwrite` is FALSE, `merge_rasters` will throw an
       error.
+    * `make_manifest` will now overwrite any file at `importer_path`, in line 
+      with documented behavior. Previous versions would never overwrite 
+      `importer_path`.
 
 # terrainr 0.5.0.
 * New features:

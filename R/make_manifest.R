@@ -76,7 +76,7 @@ make_manifest <- function(heightmap,
     quote = FALSE
   )
 
-  if (!is.null(importer_path) && !file.exists(importer_path)) {
+  if (!is.null(importer_path)) {
     file.copy(
       system.file("import_terrain.cs", package = "terrainr"),
       importer_path,

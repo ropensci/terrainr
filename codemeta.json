@@ -10,13 +10,13 @@
   "codeRepository": "https://github.com/ropensci/terrainr",
   "issueTracker": "https://github.com/ropensci/terrainr/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.1.0 (2021-05-18)",
+  "runtimePlatform": "R version 4.1.1 (2021-08-10)",
   "author": [
     {
       "@type": "Person",
@@ -146,6 +146,11 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=brio"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "unifir",
+      "name": "unifir"
     }
   ],
   "softwareRequirements": [
@@ -271,7 +276,7 @@
   ],
   "releaseNotes": "https://github.com/ropensci/terrainr/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci/terrainr/blob/main/README.md",
-  "fileSize": "3245.685KB",
+  "fileSize": "4047.343KB",
   "contIntegration": "https://codecov.io/gh/ropensci/terrainr",
   "developmentStatus": ["https://lifecycle.r-lib.org/articles/stages.html#maturing", "https://www.repostatus.org/#active"],
   "keywords": [
@@ -323,7 +328,10 @@
         }
       ],
       "name": "{terrainr}: Landscape Visualizations in R and Unity",
-      "url": "https://CRAN.R-project.org/package=terrainr"
+      "identifier": "https://doi.org/10.5281/zenodo.5142763",
+      "url": "https://CRAN.R-project.org/package=terrainr",
+      "@id": "https://doi.org/10.5281/zenodo.5142763",
+      "sameAs": "https://doi.org/10.5281/zenodo.5142763"
     }
   ]
 }
