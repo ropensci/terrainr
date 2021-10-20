@@ -21,7 +21,8 @@ transform_overlay(overlay, side_length = 4097, output_prefix = "import")
 \arguments{
 \item{heightmap}{File path to the heightmap to transform.}
 
-\item{overlay}{Optionally, file path to the image overlay to transform.}
+\item{overlay}{File path to the image overlay to transform. Optional for
+[make_manifest].}
 
 \item{output_prefix}{The file path to prefix output tiles with.}
 
@@ -29,6 +30,12 @@ transform_overlay(overlay, side_length = 4097, output_prefix = "import")
 
 \item{importer_path}{File name to write the importer script to. Set to NULL
 to not copy the importer script. Will overwrite any file at the same path.}
+
+\item{side_length}{Side length, in pixels, of each output tile. If the raster
+has dimensions not evenly divisible by `side_length`, tiles will be generated
+with overhanging pieces set to 0 units of elevation or RGB 0 (pure black).
+Side lengths not equal to 2^x + 1 (for x <= 12) will cause a warning, as
+tiles must be this size for import into Unity.}
 }
 \value{
 `manifest_path`, invisibly.
@@ -55,6 +62,5 @@ if (!isTRUE(as.logical(Sys.getenv("CI")))) {
   make_manifest(temptiff, output_prefix = tempfile(), importer_path = NULL)
 }
 }
-
 
 }

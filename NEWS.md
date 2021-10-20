@@ -1,7 +1,11 @@
-# terrainr 0.5.1
+# terrainr 0.6.0
 * New features:
     * A new endpoint, `ecosystems`, has been added to `get_tiles` and 
       `hit_national_map_api`. 
+    * Two new functions, `transform_elevation` and `transform_overlay`, should 
+      now provide raster transformation functions that were possible with 
+      `raster_to_raw_tiles` but not with `make_manifest`. As an added bonus, the
+      internal code to handle tiling is now dramatically simpler.
 * Improvements and bug fixes:
     * `merge_rasters` gains an argument, `overwrite`, which allows you to 
       specify whether or not to overwrite `output_raster` if it exists. Previous

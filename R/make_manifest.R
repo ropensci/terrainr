@@ -7,11 +7,17 @@
 #' Unity.
 #'
 #' @param heightmap File path to the heightmap to transform.
-#' @param overlay Optionally, file path to the image overlay to transform.
+#' @param overlay File path to the image overlay to transform. Optional for
+#' [make_manifest].
 #' @param output_prefix The file path to prefix output tiles with.
 #' @param manifest_path File path to write the manifest file to.
 #' @param importer_path File name to write the importer script to. Set to NULL
 #' to not copy the importer script. Will overwrite any file at the same path.
+#' @param side_length Side length, in pixels, of each output tile. If the raster
+#' has dimensions not evenly divisible by `side_length`, tiles will be generated
+#' with overhanging pieces set to 0 units of elevation or RGB 0 (pure black).
+#' Side lengths not equal to 2^x + 1 (for x <= 12) will cause a warning, as
+#' tiles must be this size for import into Unity.
 #'
 #' @return `manifest_path`, invisibly.
 #'
@@ -31,7 +37,6 @@
 #' }
 #' }
 #'
-#'
 #' @rdname unity_crops
 #' @export
 make_manifest <- function(heightmap,
@@ -39,23 +44,28 @@ make_manifest <- function(heightmap,
                           output_prefix = "import",
                           manifest_path = "terrainr.manifest",
                           importer_path = "import_terrain.cs") {
-
   manifest <- prep_table(heightmap,
-                         side_length = 4097,
-                         output_prefix = output_prefix,
-                         type = "elevation")
-  transform_elevation(heightmap = heightmap,
-                      side_length = 4097,
-                      output_prefix = output_prefix)
+    side_length = 4097,
+    output_prefix = output_prefix,
+    type = "elevation"
+  )
+  transform_elevation(
+    heightmap = heightmap,
+    side_length = 4097,
+    output_prefix = output_prefix
+  )
   if (!is.null(overlay)) {
     overlay_manifest <- prep_table(heightmap,
-                                   side_length = 4097,
-                                   output_prefix = output_prefix,
-                                   type = "overlay")
+      side_length = 4097,
+      output_prefix = output_prefix,
+      type = "overlay"
+    )
     manifest$texture <- overlay_manifest$texture
-    transform_overlay(overlay = overlay,
-                      side_length = 4097,
-                      output_prefix = output_prefix)
+    transform_overlay(
+      overlay = overlay,
+      side_length = 4097,
+      output_prefix = output_prefix
+    )
   }
 
   utils::write.table(manifest,
@@ -77,13 +87,99 @@ make_manifest <- function(heightmap,
   return(invisible(manifest_path))
 }
 
+#' @rdname unity_crops
+#' @export
+transform_elevation <- function(heightmap,
+                                side_length = 4097,
+                                output_prefix = "import") {
+  manifest <- prep_table(heightmap, side_length, output_prefix, type = "elevation")
+
+  temptiffs <- NULL
+  while (length(temptiffs) != nrow(manifest)) {
+    temptiffs <- unique(vapply(
+      seq_len(nrow(manifest)),
+      function(x) tempfile(fileext = ".tiff"),
+      character(1)
+    ))
+  }
+  temptiffs <- crop_tif(heightmap, manifest, temptiffs)
+
+  temppngs <- NULL
+  while (length(temppngs) != length(temptiffs)) {
+    temppngs <- unique(vapply(
+      seq_along(temptiffs),
+      function(x) tempfile(fileext = ".png"),
+      character(1)
+    ))
+  }
+  names(temppngs) <- names(temptiffs)
+  convert_to_png(temptiffs, temppngs, manifest$height[[1]])
+
+  mapply(
+    function(x, y) {
+      processing_image <- magick::image_read(x)
+      processing_image <- magick::image_flop(processing_image)
+      processing_image <- magick::image_convert(processing_image,
+        format = "RGB",
+        depth = 16,
+        interlace = "Plane"
+      )
+      magick::image_write(processing_image, y)
+    },
+    temppngs,
+    names(temppngs)
+  )
+
+  unlink(temppngs)
+
+  return(invisible(names(temppngs)))
+}
+
+#' @rdname unity_crops
+#' @export
+transform_overlay <- function(overlay,
+                              side_length = 4097,
+                              output_prefix = "import") {
+  manifest <- prep_table(overlay, side_length, output_prefix, type = "overlay")
+
+  temptiffs <- NULL
+  while (length(temptiffs) != nrow(manifest)) {
+    temptiffs <- unique(vapply(
+      seq_len(nrow(manifest)),
+      function(x) tempfile(fileext = ".tiff"),
+      character(1)
+    ))
+  }
+  temptiffs <- crop_tif(overlay, manifest, temptiffs, "texture")
+
+  temppngs <- NULL
+  temppngs <- names(temptiffs)
+  names(temppngs) <- names(temptiffs)
+  convert_to_png(temptiffs, temppngs, manifest$height[[1]])
+
+  mapply(
+    function(x, y) {
+      processing_image <- magick::image_read(x)
+      processing_image <- magick::image_flip(processing_image)
+      processing_image <- magick::image_flop(processing_image)
+      magick::image_write(processing_image, y)
+    },
+    temppngs,
+    names(temppngs)
+  )
+
+  return(invisible(names(temppngs)))
+}
+
 prep_table <- function(input_raster,
                        side_length,
                        output_prefix,
                        type) {
   if (!all.equal(log((side_length - 1), 2), round(log((side_length - 1), 2)))) {
-    warning("Side lengths must be equal to 2^x + 1 (for x <= 12) for import into Unity.\n", # nolint
-            "Tiles will still be produced but may not be usable.")
+    warning(
+      "Side lengths must be equal to 2^x + 1 (for x <= 12) for import into Unity.\n", # nolint
+      "Tiles will still be produced but may not be usable."
+    )
   }
   input_raster <- raster::raster(input_raster)
   max_raster <- raster::cellStats(input_raster, "max")
@@ -129,92 +225,6 @@ prep_table <- function(input_raster,
   output
 }
 
-#' @rdname unity_crops
-#' @export
-transform_elevation <- function(heightmap,
-                                side_length = 4097,
-                                output_prefix = "import") {
-
-  manifest <- prep_table(heightmap, side_length, output_prefix, type = "elevation")
-
-  temptiffs <- NULL
-  while (length(temptiffs) != nrow(manifest)) {
-    temptiffs <- unique(vapply(
-      seq_len(nrow(manifest)),
-      function(x) tempfile(fileext = ".tiff"),
-      character(1)
-    ))
-  }
-  temptiffs <- crop_tif(heightmap, manifest, temptiffs)
-
-  temppngs <- NULL
-  while (length(temppngs) != length(temptiffs)) {
-    temppngs <- unique(vapply(
-      seq_along(temptiffs),
-      function(x) tempfile(fileext = ".png"),
-      character(1)
-    ))
-  }
-  names(temppngs) <- names(temptiffs)
-  convert_to_png(temptiffs, temppngs, manifest$height[[1]])
-
-  mapply(
-    function(x, y) {
-      processing_image <- magick::image_read(x)
-      processing_image <- magick::image_flop(processing_image)
-      processing_image <- magick::image_convert(processing_image,
-                                                format = "RGB",
-                                                depth = 16,
-                                                interlace = "Plane"
-      )
-      magick::image_write(processing_image, y)
-    },
-    temppngs,
-    names(temppngs)
-  )
-
-  unlink(temppngs)
-
-  return(invisible(names(temppngs)))
-
-}
-
-#' @rdname unity_crops
-#' @export
-transform_overlay <- function(overlay,
-                              side_length = 4097,
-                              output_prefix = "import") {
-
-  manifest <- prep_table(overlay, side_length, output_prefix, type = "overlay")
-
-  temptiffs <- NULL
-  while (length(temptiffs) != nrow(manifest)) {
-    temptiffs <- unique(vapply(
-      seq_len(nrow(manifest)),
-      function(x) tempfile(fileext = ".tiff"),
-      character(1)
-      ))
-    }
-    temptiffs <- crop_tif(overlay, manifest, temptiffs, "texture")
-
-    temppngs <- NULL
-    temppngs <- names(temptiffs)
-    names(temppngs) <- names(temptiffs)
-    convert_to_png(temptiffs, temppngs, manifest$height[[1]])
-
-    mapply(
-      function(x, y) {
-        processing_image <- magick::image_read(x)
-        processing_image <- magick::image_flip(processing_image)
-        processing_image <- magick::image_flop(processing_image)
-        magick::image_write(processing_image, y)
-      },
-      temppngs,
-      names(temppngs)
-    )
-
-  return(invisible(names(temppngs)))
-}
 
 crop_tif <- function(img, manifest, temptiffs, field = "filename") {
   for (i in seq_len(nrow(manifest))) {
