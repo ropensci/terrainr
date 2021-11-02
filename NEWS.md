@@ -1,3 +1,8 @@
+# terrainr 0.5.1
+* New features:
+    * A new endpoint, `ecosystems`, has been added to `get_tiles` and 
+      `hit_national_map_api`. 
+
 # terrainr 0.5.0.
 * New features:
     * A new function, `make_manifest`, now helps automate the import of terrain
