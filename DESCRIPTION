@@ -37,7 +37,7 @@ Imports:
     units,
     grDevices,
     ggplot2
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Suggests: 
     testthat,
     covr,

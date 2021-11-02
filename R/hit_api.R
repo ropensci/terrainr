@@ -95,7 +95,8 @@ hit_national_map_api <- function(bbox,
     "NHDPlus_HR" = "https://hydro.nationalmap.gov/arcgis/rest/services/NHDPlus_HR/MapServer/export",
     "structures" = "https://carto.nationalmap.gov/arcgis/rest/services/structures/MapServer/export",
     "transportation" = "https://carto.nationalmap.gov/arcgis/rest/services/transportation/MapServer/export",
-    "wbd" = "https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer/export"
+    "wbd" = "https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer/export",
+    "ecosystems" = "https://rmgsc.cr.usgs.gov/arcgis/rest/services/contUS/MapServer/export"
   ))
   # nolint end
 

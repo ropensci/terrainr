@@ -53,6 +53,7 @@
 #' * [transportation](https://carto.nationalmap.gov/arcgis/rest/services/transportation/MapServer)
 #' * [wbd](https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer)
 #'   ("short code": watersheds)
+#' * [ecosystems](https://rmgsc.cr.usgs.gov/arcgis/rest/services/contUS/MapServer)
 #'
 # nolint end
 #'
@@ -284,7 +285,8 @@ get_tiles_internal <- function(data,
     "NHDPlus_HR",
     "structures",
     "transportation",
-    "watersheds" = "wbd"
+    "watersheds" = "wbd",
+    "ecosystems"
   )
 
   stopifnot(all(services %in% list_of_services |
