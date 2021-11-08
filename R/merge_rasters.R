@@ -42,26 +42,29 @@ merge_rasters <- function(input_rasters,
                           options = character(0),
                           overwrite = FALSE,
                           force_fallback = FALSE) {
-
-  if (file.exists(output_raster) && !overwrite) {
+  if (file.exists(output_raster) &&
+    !overwrite &&
+    !any(options == "-overwrite")) {
     stop("File exists at ", output_raster, " and overwrite is not TRUE.")
   }
 
-  if (overwrite) {
-    overwrite <- "-overwrite"
-  } else {
-    overwrite <- character(0)
-  }
-  options <- c(options, overwrite)
+  if (any(options == "-overwrite")) overwrite <- TRUE
+
+  initial_file <- output_raster
+
+  if (overwrite) initial_file <- tempfile(fileext = ".tif")
 
   if (!force_fallback) {
     tryCatch(
-      sf::gdal_utils(
-        util = "warp",
-        source = as.character(input_rasters),
-        destination = output_raster,
-        options =
-      ),
+      {
+        sf::gdal_utils(
+          util = "warp",
+          source = as.character(input_rasters),
+          destination = initial_file,
+          options = options
+        )
+        if (overwrite) file.copy(initial_file, output_raster, TRUE)
+      },
       error = function(e) {
         warning(
           "\nReceived error from gdalwarp.",
@@ -71,6 +74,7 @@ merge_rasters <- function(input_rasters,
       }
     )
   } else {
+    options <- setdiff(options, "-overwrite")
     merge_rasters_deprecated(input_rasters, output_raster, options)
   }
   return(invisible(output_raster))
