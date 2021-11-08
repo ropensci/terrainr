@@ -2,6 +2,12 @@
 * New features:
     * A new endpoint, `ecosystems`, has been added to `get_tiles` and 
       `hit_national_map_api`. 
+* Improvements and bug fixes:
+    * `merge_rasters` gains an argument, `overwrite`, which allows you to 
+      specify whether or not to overwrite `output_raster` if it exists. Previous
+      versions expected you to pass "-overwrite" to `options`. If a file exists
+      at `output_raster` and `overwrite` is FALSE, `merge_rasters` will throw an
+      error.
 
 # terrainr 0.5.0.
 * New features:

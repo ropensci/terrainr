@@ -4,8 +4,7 @@ test_that("merge_raster files are identical no matter the filename", {
     lat = c(44.050030001, 44.05003),
     lng = c(-74.01164, -74.011640001)
   )
-  df_sf <- sf::st_as_sf(df, coords = c("lng", "lat"))
-  df_sf <- sf::st_set_crs(df_sf, 4326)
+  df_sf <- sf::st_as_sf(df, coords = c("lng", "lat"), crs = 4326)
   first_tile <- add_bbox_buffer(df_sf, 10)
   ft_bbox <- sf::st_bbox(first_tile)
 
@@ -13,8 +12,7 @@ test_that("merge_raster files are identical no matter the filename", {
     lat = c(44.051030001, 44.05103),
     lng = c(-74.01264, -74.012640001)
   )
-  df_sf <- sf::st_as_sf(df, coords = c("lng", "lat"))
-  df_sf <- sf::st_set_crs(df_sf, 4326)
+  df_sf <- sf::st_as_sf(df, coords = c("lng", "lat"), crs = 4326)
   second_tile <- add_bbox_buffer(df_sf, 10)
   # assign the output tile filenames...
   tmptif <- vector("list")
@@ -82,4 +80,53 @@ test_that("fallback method works", {
 
   expect_equal(stored_raster@crs, test_raster@crs)
   expect_equal(stored_raster@extent, test_raster@extent)
+})
+
+test_that("overwrite works as expected", {
+  test_file <- tempfile(fileext = ".tif")
+  test_copy <- tempfile(fileext = ".tif")
+
+  df <- data.frame(
+    lat = c(44.050030001, 44.05003),
+    lng = c(-74.01164, -74.011640001)
+  )
+  df_sf <- sf::st_as_sf(df, coords = c("lng", "lat"), crs = 4326)
+  first_tile <- add_bbox_buffer(df_sf, 10)
+  ft_bbox <- sf::st_bbox(first_tile)
+
+  df <- data.frame(
+    lat = c(44.051030001, 44.05103),
+    lng = c(-74.01264, -74.012640001)
+  )
+  df_sf <- sf::st_as_sf(df, coords = c("lng", "lat"), crs = 4326)
+  second_tile <- add_bbox_buffer(df_sf, 10)
+
+  tmptif <- vector("list")
+  tmptif[[1]] <- get_tiles(first_tile)[[1]]
+  tmptif[[2]] <- get_tiles(second_tile)[[1]]
+
+  merge_rasters(c(tmptif[[1]], tmptif[[2]]), test_file)
+  file.copy(test_file, test_copy)
+  expect_error(
+    merge_rasters(c(tmptif[[1]], tmptif[[2]]), test_file),
+    "File exists at"
+  )
+  expect_warning(
+    merge_rasters(c(tmptif[[1]], tmptif[[2]]), test_file, overwrite = TRUE),
+    NA
+  )
+  expect_warning(
+    merge_rasters(c(tmptif[[1]], tmptif[[2]]), test_file, options = "-overwrite"),
+    NA
+  )
+  expect_warning(
+    merge_rasters(c(tmptif[[1]], tmptif[[2]]), test_file, overwrite = TRUE, options = "-overwrite"),
+    NA
+  )
+
+  merge_rasters(c(tmptif[[2]]), output_raster = test_file, overwrite = TRUE)
+
+  expect_false(
+    raster::raster(test_file)@extent == raster::raster(test_copy)@extent
+  )
 })

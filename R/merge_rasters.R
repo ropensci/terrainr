@@ -11,6 +11,10 @@
 #' to.
 #' @param options Optionally, a character vector of options to be passed
 #' directly to [sf::gdal_utils].
+#' @param overwrite Logical: overwrite `output_raster` if it exists? If FALSE
+#' and the file exists, this function will fail with an error. The behavior if
+#' this argument is TRUE and "-overwrite" is passed to `options` directly is
+#' not stable.
 #' @param force_fallback Logical: if TRUE, uses the much slower fallback method
 #' by default. This is used for testing purposes and is not recommended for use
 #' by end users.
@@ -36,15 +40,36 @@
 merge_rasters <- function(input_rasters,
                           output_raster = tempfile(fileext = ".tif"),
                           options = character(0),
+                          overwrite = FALSE,
                           force_fallback = FALSE) {
+  if (file.exists(output_raster) &&
+    !overwrite &&
+    !any(options == "-overwrite")) {
+    stop("File exists at ", output_raster, " and overwrite is not TRUE.")
+  }
+
+  # see https://github.com/r-spatial/sf/issues/1834 for why we don't pass this
+  # as an option
+  if (any(options == "-overwrite")) overwrite <- TRUE
+
+  initial_file <- output_raster
+
+  if (overwrite) initial_file <- tempfile(fileext = ".tif")
+
   if (!force_fallback) {
     tryCatch(
-      sf::gdal_utils(
-        util = "warp",
-        source = as.character(input_rasters),
-        destination = output_raster,
-        options = options
-      ),
+      {
+        sf::gdal_utils(
+          util = "warp",
+          source = as.character(input_rasters),
+          destination = initial_file,
+          options = options
+        )
+        if (overwrite) {
+          file.copy(initial_file, output_raster, TRUE)
+          file.remove(initial_file)
+        }
+      },
       error = function(e) {
         warning(
           "\nReceived error from gdalwarp.",
@@ -54,6 +79,7 @@ merge_rasters <- function(input_rasters,
       }
     )
   } else {
+    options <- setdiff(options, "-overwrite")
     merge_rasters_deprecated(input_rasters, output_raster, options)
   }
   return(invisible(output_raster))
