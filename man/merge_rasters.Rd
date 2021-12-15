@@ -20,7 +20,8 @@ georeferenced rasters you want to use.}
 to.}
 
 \item{options}{Optionally, a character vector of options to be passed
-directly to [sf::gdal_utils].}
+directly to [sf::gdal_utils]. If the fallback is used and any options (other
+than "-overwrite") are specified, this will issue a warning.}
 
 \item{overwrite}{Logical: overwrite `output_raster` if it exists? If FALSE
 and the file exists, this function will fail with an error. The behavior if
