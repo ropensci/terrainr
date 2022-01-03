@@ -32,3 +32,4 @@ methods-in-ecology-and-evolution.csl
 ^merged.tif$
 ^cran-comments\.md$
 ^CRAN-RELEASE$
+^CRAN-SUBMISSION$
