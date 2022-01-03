@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-green)](https://choosealicense.com/licenses/mit/) [![CRAN status](https://www.r-pkg.org/badges/version/terrainr)](https://cran.r-project.org/package=terrainr) [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html#maturing) [![codecov](https://codecov.io/gh/ropensci/terrainr/branch/main/graph/badge.svg)](https://codecov.io/gh/ropensci/terrainr) [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) [![R build status](https://github.com/ropensci/terrainr/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/terrainr/actions) [![rOpenSci Review Status](https://badges.ropensci.org/416_status.svg)](https://github.com/ropensci/software-review/issues/416)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](https://choosealicense.com/licenses/mit/) [![CRAN status](https://www.r-pkg.org/badges/version/terrainr)](https://cran.r-project.org/package=terrainr) [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html#maturing) [![codecov](https://codecov.io/gh/ropensci/terrainr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ropensci/terrainr) [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) [![R build status](https://github.com/ropensci/terrainr/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/terrainr/actions) [![rOpenSci Review Status](https://badges.ropensci.org/416_status.svg)](https://github.com/ropensci/software-review/issues/416)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5142763.svg)](https://doi.org/10.5281/zenodo.5142763)
 
 <!-- badges: end -->
@@ -118,7 +118,7 @@ make_manifest(output_tiles$elevation,
 ```
 
 We can then import these tiles to Unity (following the 
-[Import Vignette]((https://docs.ropensci.org/terrainr/articles/unity_instructions.html))) 
+[Import Vignette](https://docs.ropensci.org/terrainr/articles/unity_instructions.html))
 to create:
 
 ```{r echo=FALSE}
