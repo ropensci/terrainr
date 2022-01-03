@@ -8,6 +8,9 @@
       versions expected you to pass "-overwrite" to `options`. If a file exists
       at `output_raster` and `overwrite` is FALSE, `merge_rasters` will throw an
       error.
+* Dependency changes:
+    * `sf` now has a minimum dependency of 1.0-5, to take advantage of an 
+      upstream bug fix (relating to `merge_rasters` overwrite)
 
 # terrainr 0.5.0.
 * New features:

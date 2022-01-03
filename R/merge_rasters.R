@@ -49,13 +49,11 @@ merge_rasters <- function(input_rasters,
     stop("File exists at ", output_raster, " and overwrite is not TRUE.")
   }
 
-  # see https://github.com/r-spatial/sf/issues/1834 for why we don't pass this
-  # as an option
-  if (any(options == "-overwrite")) overwrite <- TRUE
+  if (!any(options == "-overwrite") && overwrite) {
+    options <- c(options, "-overwrite")
+  }
 
   initial_file <- output_raster
-
-  if (overwrite) initial_file <- tempfile(fileext = ".tif")
 
   if (!force_fallback) {
     tryCatch(
@@ -63,13 +61,9 @@ merge_rasters <- function(input_rasters,
         sf::gdal_utils(
           util = "warp",
           source = as.character(input_rasters),
-          destination = initial_file,
+          destination = output_raster,
           options = options
         )
-        if (overwrite) {
-          file.copy(initial_file, output_raster, TRUE)
-          file.remove(initial_file)
-        }
       },
       error = function(e) {
         warning(
