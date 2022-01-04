@@ -2,7 +2,7 @@
   "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "identifier": "terrainr",
-  "description": "Functions for the retrieval, manipulation, and visualization of 'geospatial' data, with an aim towards producing '3D' landscape visualizations in the 'Unity' '3D' rendering engine. Functions are also provided for retrieving elevation data and base map tiles from the 'USGS' National Map ('<https://apps.nationalmap.gov/services/>').",
+  "description": "Functions for the retrieval, manipulation, and visualization of 'geospatial' data, with an aim towards producing '3D' landscape visualizations in the 'Unity' '3D' rendering engine. Functions are also provided for retrieving elevation data and base map tiles from the 'USGS' National Map <https://apps.nationalmap.gov/services/>.",
   "name": "terrainr: Landscape Visualizations in R and 'Unity'",
   "relatedLink": "https://docs.ropensci.org/terrainr/",
   "codeRepository": "https://github.com/ropensci/terrainr",
@@ -272,7 +272,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "4048.585KB",
+  "fileSize": "4048.652KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
@@ -284,11 +284,9 @@
         }
       ],
       "name": "{terrainr}: Landscape Visualizations in R and Unity",
-      "identifier": "https://doi.org/10.5281/zenodo.5142763",
+      "identifier": " 10.5281/zenodo.5142763",
       "url": "https://CRAN.R-project.org/package=terrainr",
-      "description": "R package version 0.5.1",
-      "@id": "https://doi.org/10.5281/zenodo.5142763",
-      "sameAs": "https://doi.org/10.5281/zenodo.5142763"
+      "description": "R package version 0.5.1"
     }
   ]
 }

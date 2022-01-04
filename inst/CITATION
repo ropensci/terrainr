@@ -12,7 +12,7 @@ bibentry(bibtype = "Manual",
          author = person("Michael", "Mahoney"),
          year = year,
          note = note,
-         doi = "https://doi.org/10.5281/zenodo.5142763",
+         doi = " 10.5281/zenodo.5142763",
          url = "https://CRAN.R-project.org/package=terrainr")
 
  textVersion = paste0("Michael J Mahoney, (", year, ").",
