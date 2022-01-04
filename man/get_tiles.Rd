@@ -135,7 +135,7 @@ documentation.
 \item \href{https://carto.nationalmap.gov/arcgis/rest/services/transportation/MapServer}{transportation}
 \item \href{https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer}{wbd}
 ("short code": watersheds)
-\item \href{https://rmgsc.cr.usgs.gov/arcgis/rest/services/contUS/MapServer}{ecosystems}
+\item \href{https://www.usgs.gov/centers/geosciences-and-environmental-change-science-center/science/global-ecosystems}{ecosystems}
 }
 }
 
