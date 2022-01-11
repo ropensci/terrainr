@@ -98,11 +98,15 @@ converted to the desired coordinate reference system.
 
 ## Creating IVEs
 
-### Non-`terrainr` methodologies
+### Current IVE workflow
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{workflow} \caption{Workflow diagrams for producing IVEs using real-world DEMs as described in Keil et al. (2021) (left) and using terrainr (right). Green boxes relate to data retrieval, red to data processing, and yellow to import into Unity.}\label{fig:keilworkflow}
+\end{figure}
 
 An approach for creating immersive virtual environments inside the Unity game 
 engine using real-world terrain data is provided in section 3 of Keil et al.
-[-@Keil2020]. 
+[-@Keil2020] (Figure 1). 
 This approach involves first manually downloading data for an area of interest
 from a data portal, with the user responsible for inputting their area of 
 interest into a web-based graphical interface or identifying which pre-generated
@@ -119,11 +123,9 @@ Z directions, resolution, system endianness, and terrain orientation options
 are set correctly. 
 This process results in, as phrased by Keil et al. [@Keil2020], "an untextured 
 terrain excluding additional spatial elements." 
-While the surface will have mostly (though not entirely, due to the image rescaling)
-accurate terrain heights, no other information (such as other raster imagery or
-vector geometries) will be represented (Figure 1, left). 
+While the surface will have mostly accurate terrain heights, 
+no other information will be represented (Figure 2, left). 
 This process incorporates multiple softwares 
-(namely the data portal, a GIS program for format conversion, image editing software, and Unity) 
 and must be repeated for each tile the user wishes to import, 
 with each tile limited to a maximum of 4,097 pixels in length.
 
@@ -144,14 +146,14 @@ the same coordinate reference system, extent, and resolution as the elevation
 data throughout all manipulations is a notable obstacle to incorporating 
 geographic data in these visualizations.
 
-### `terrainr` methodology
+### `terrainr` workflow
 
 `terrainr` attempts to simplify this process by combining R's advanced 
 geospatial processing ecosystem and image editing packages to handle 
 data transformation, image manipulation, and data transformation, 
 while providing an automated method for importing terrain into Unity 
 which abstracts away the many options and decisions required to import
-geospatial data.
+geospatial data (Figure 1).
 Users create a single-band raster, as well as an optional multi-band raster of
 the same extent, resolution, and sharing the same coordinate reference system,
 and save these rasters as any format supported by their GDAL installation [@GDAL].
@@ -166,6 +168,10 @@ After copying these files into a new Unity project, users will notice a new
 This menu option produces a terrain import wizard which will read the manifest
 file, import the terrain tiles into Unity in their proper scale and spatial 
 arrangement, and then attach any provided image overlays as terrain textures.
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{vrs_dot} \caption{From Mahoney, Beier, and Ackerman (2021), an IVE produced using terrainr showing a section of the Adirondack Park in northeastern New York State, USA. A red dot in the center of the image represents Johns Brook Lodge. Areas which can see and be seen by the lodge are brightly lit, while areas outside the lodge's viewshed are dim.}\label{fig:vrs}
+\end{figure}
 
 On its own, `terrainr` provides for the first time a method for creating 
 reproducible IVEs in Unity from arbitrary spatial data; any raster 
@@ -188,15 +194,13 @@ to combine point geodata,
 a boolean raster of viewshed boundaries, 
 and orthoimagery 
 with elevation data 
-into a IVE of a region within New York State's Adirondack Park (Figure 2).
-
-\begin{figure}
-\includegraphics[width=1\linewidth]{vrs_dot} \caption{From Mahoney, Beier, and Ackerman (2021), an IVE produced using terrainr showing a section of the Adirondack Park in northeastern New York State, USA. A red dot in the center of the image represents Johns Brook Lodge. Areas which can see and be seen by the lodge (that is, within the lodge's viewshed) are brightly lit, while areas outside the lodge's viewshed are dim.}\label{fig:vrs}
-\end{figure}
+into a IVE of a region within New York State's Adirondack Park (Figure 3).
 
 # Acknowledgements
 
 This work was supported by the State University of New York via the ESF Pathways 
 to Net Zero Carbon initiative.
+
+\newpage
 
 # References
