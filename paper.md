@@ -105,7 +105,7 @@ converted to the desired coordinate reference system.
 \end{figure}
 
 An approach for creating immersive virtual environments inside the Unity game 
-engine using real-world terrain data is provided in section 3 of Keil et al.
+engine using real-world terrain data is provided in Section 3 of Keil et al.
 [-@Keil2020] (Figure 1). 
 This approach involves first manually downloading data for an area of interest
 from a data portal, with the user responsible for inputting their area of 
