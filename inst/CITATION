@@ -4,18 +4,15 @@ citHeader("The United States Geological Survey provides guidelines for\n",
           "\n",
           "To cite terrainr in publications please use:")
 
-year <- sub("-.*", "", meta$Date)
-note <- sprintf("R package version %s", meta$Version)
-
-bibentry(bibtype = "Manual",
-         title = "{terrainr}: Landscape Visualizations in R and Unity",
-         author = person("Michael", "Mahoney"),
-         year = year,
-         note = note,
-         doi = " 10.5281/zenodo.5142763",
-         url = "https://CRAN.R-project.org/package=terrainr")
-
- textVersion = paste0("Michael J Mahoney, (", year, ").",
-  " terrainr: Landscape Visualizations in R and Unity. ",
-  note, ".",
-  " https://CRAN.R-project.org/package=terrainr")
+bibentry(bibtype = "Article",
+         year = "2022",
+         publisher = "The Open Journal",
+         volume = "7",
+         number = "69",
+         pages = "4060",
+         author = "Michael J. Mahoney and Colin M. Beier and Aidan C. Ackerman",
+         title = "{terrainr}: An R package for creating immersive virtual environments",
+         journal = "Journal of Open Source Software",
+         doi = "10.21105/joss.04060",
+         url = "https://doi.org/10.21105/joss.04060",
+         textVersion = "Mahoney et al., (2022). terrainr: An R package for creating immersive virtual environments. Journal of Open Source Software, 7(69), 4060, https://doi.org/10.21105/joss.04060")

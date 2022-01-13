@@ -5,6 +5,7 @@
 
 <!-- badges: start -->
 
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.04060/status.svg)](https://doi.org/10.21105/joss.04060)
 [![License:
 MIT](https://img.shields.io/badge/license-MIT-green)](https://choosealicense.com/licenses/mit/)
 [![CRAN
@@ -19,7 +20,6 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 status](https://github.com/ropensci/terrainr/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/terrainr/actions)
 [![rOpenSci Review
 Status](https://badges.ropensci.org/416_status.svg)](https://github.com/ropensci/software-review/issues/416)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5142763.svg)](https://doi.org/10.5281/zenodo.5142763)
 
 <!-- badges: end -->
 
@@ -125,46 +125,76 @@ you’ll be more confident that your computer is still churning along and
 not just stalled out. For more information, check out [the introductory
 vignette](https://docs.ropensci.org/terrainr//articles/overview.html)
 and [the guide to importing your data into
-Unity\!](https://docs.ropensci.org/terrainr//articles/unity_instructions.html)
+Unity!](https://docs.ropensci.org/terrainr//articles/unity_instructions.html)
+
+## Citing terrainr
+
+The United States Geological Survey provides guidelines for citing USGS
+data products (as downloaded from `get_tiles`) at
+<https://www.usgs.gov/faqs/how-should-i-cite-datasets-and-services-national-map>
+.
+
+To cite terrainr in publications please use:
+
+> Mahoney et al., (2022). terrainr: An R package for creating immersive
+> virtual environments. Journal of Open Source Software, 7(69), 4060,
+> <https://doi.org/10.21105/joss.04060>
+
+A BibTeX entry for LaTeX users is:
+
+``` bibtex
+  @Article{,
+    year = {2022},
+    publisher = {The Open Journal},
+    volume = {7},
+    number = {69},
+    pages = {4060},
+    author = {Michael J. Mahoney and Colin M. Beier and Aidan C. Ackerman},
+    title = {{terrainr}: An R package for creating immersive virtual environments},
+    journal = {Journal of Open Source Software},
+    doi = {10.21105/joss.04060},
+    url = {https://doi.org/10.21105/joss.04060},
+  }
+```
 
 ## Available Datasets
 
 The following datasets can currently be downloaded using `get_tiles` or
 `hit_national_map_api`:
 
-  - [3DEPElevation](https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer):
+-   [3DEPElevation](https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer):
     The USGS 3D Elevation Program (3DEP) Bare Earth DEM.
-  - [USGSNAIPPlus](https://services.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/MapServer):
+-   [USGSNAIPPlus](https://services.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/MapServer):
     National Agriculture Imagery Program (NAIP) and high resolution
     orthoimagery (HRO).
-  - [nhd](https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer):
+-   [nhd](https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer):
     A comprehensive set of digital spatial data that encodes information
     about naturally occurring and constructed bodies of surface water
     (lakes, ponds, and reservoirs), paths through which water flows
     (canals, ditches, streams, and rivers), and related entities such as
     point features (springs, wells, stream gauges, and dams).
-  - [govunits](https://carto.nationalmap.gov/arcgis/rest/services/govunits/MapServer):
+-   [govunits](https://carto.nationalmap.gov/arcgis/rest/services/govunits/MapServer):
     Major civil areas for the Nation, including States or Territories,
     counties (or equivalents), Federal and Native American areas,
     congressional districts, minor civil divisions, incorporated places
     (such as cities and towns), and unincorporated places.
-  - [contours](https://carto.nationalmap.gov/arcgis/rest/services/contours/MapServer):
+-   [contours](https://carto.nationalmap.gov/arcgis/rest/services/contours/MapServer):
     The USGS Elevation Contours service.
-  - [geonames](https://carto.nationalmap.gov/arcgis/rest/services/geonames/MapServer):
+-   [geonames](https://carto.nationalmap.gov/arcgis/rest/services/geonames/MapServer):
     Information about physical and cultural geographic features,
     geographic areas, and locational entities that are generally
     recognizable and locatable by name.
-  - [NHDPlus\_HR](https://hydro.nationalmap.gov/arcgis/rest/services/NHDPlus_HR/MapServer):
+-   [NHDPlus_HR](https://hydro.nationalmap.gov/arcgis/rest/services/NHDPlus_HR/MapServer):
     A comprehensive set of digital spatial data comprising a nationally
     seamless network of stream reaches, elevation-based catchment areas,
     flow surfaces, and value-added attributes.
-  - [structures](https://carto.nationalmap.gov/arcgis/rest/services/structures/MapServer):
+-   [structures](https://carto.nationalmap.gov/arcgis/rest/services/structures/MapServer):
     The name, function, location, and other core information and
     characteristics of selected manmade facilities.
-  - [transportation](https://carto.nationalmap.gov/arcgis/rest/services/transportation/MapServer):
+-   [transportation](https://carto.nationalmap.gov/arcgis/rest/services/transportation/MapServer):
     Roads, railroads, trails, airports, and other features associated
     with the transport of people or commerce.
-  - [wbd](https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer):
+-   [wbd](https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer):
     Hydrologic Unit (HU) polygon boundaries for the United States,
     Puerto Rico, and the U.S. Virgin Islands.
 
@@ -189,7 +219,7 @@ devtools::install_github("ropensci/terrainr")
 ```
 
 Be aware that the development version is not stable, and features that
-haven’t been published on CRAN may change at any time\!
+haven’t been published on CRAN may change at any time!
 
 ## Code of Conduct
 
@@ -197,4 +227,4 @@ Please note that this package is released with a [Contributor Code of
 Conduct](https://ropensci.org/code-of-conduct/). By contributing to this
 project, you agree to abide by its terms.
 
-[![ropensci\_footer](https://ropensci.org/public_images/github_footer.png)](https://ropensci.org)
+[![ropensci_footer](https://ropensci.org/public_images/github_footer.png)](https://ropensci.org)
