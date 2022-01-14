@@ -22,7 +22,8 @@ test_that("The deprecated list method still works", {
   output_tif <- suppressWarnings(
     get_tiles(list(
       c(lat = 44.04905, lng = -74.01188),
-      c(lat = 44.04911, lng = -74.01179)
+      c(lat = 44.04911, lng = -74.01179),
+      tolerance = 0.01
     ),
     services = c("elevation", "3DEPElevation"),
     georeference = FALSE
@@ -41,7 +42,8 @@ test_that("The deprecated list method still works", {
   expect_equal(stored_raster@extent, test_raster@extent)
   expect_equal(
     raster::cellStats(stored_raster, "max"),
-    raster::cellStats(test_raster, "max")
+    raster::cellStats(test_raster, "max"),
+    tolerance = 0.01
   )
 })
 
@@ -67,6 +69,7 @@ test_that("projected returns are consistent", {
   expect_equal(stored_raster@extent, test_raster@extent)
   expect_equal(
     raster::cellStats(stored_raster, "max"),
-    raster::cellStats(test_raster, "max")
+    raster::cellStats(test_raster, "max"),
+    tolerance = 0.01
   )
 })
