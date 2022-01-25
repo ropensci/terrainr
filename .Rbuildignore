@@ -33,3 +33,4 @@ methods-in-ecology-and-evolution.csl
 ^cran-comments\.md$
 ^CRAN-RELEASE$
 ^CRAN-SUBMISSION$
+^CITATION\.cff$
