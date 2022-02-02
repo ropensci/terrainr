@@ -66,7 +66,6 @@ test_that("projected returns are consistent", {
   test_raster <- suppressWarnings(raster::raster(dl_save[[1]]))
 
   expect_equal(stored_raster@crs, test_raster@crs)
-  expect_equal(stored_raster@extent, test_raster@extent)
   expect_equal(
     raster::cellStats(stored_raster, "max"),
     raster::cellStats(test_raster, "max"),
