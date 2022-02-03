@@ -59,7 +59,7 @@ make_unity <- function(project,
   }
 
   script <- unifir::save_scene(script)
-  script <- unifir::action(script)
   script <- unifir::set_active_scene(script, scene_name)
+  script <- unifir::action(script)
 
 }
