@@ -53,7 +53,7 @@
 #' * [transportation](https://carto.nationalmap.gov/arcgis/rest/services/transportation/MapServer)
 #' * [wbd](https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer)
 #'   ("short code": watersheds)
-#' * [ecosystems](https://rmgsc.cr.usgs.gov/arcgis/rest/services/contUS/MapServer)
+#' * [ecosystems](https://www.usgs.gov/centers/geosciences-and-environmental-change-science-center/science/global-ecosystems)
 #'
 # nolint end
 #'

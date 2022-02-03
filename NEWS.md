@@ -15,6 +15,9 @@
     * `make_manifest` will now overwrite any file at `importer_path`, in line 
       with documented behavior. Previous versions would never overwrite 
       `importer_path`.
+* Dependency changes:
+    * `sf` now has a minimum dependency of 1.0-5, to take advantage of an 
+      upstream bug fix (relating to `merge_rasters` overwrite)
 
 # terrainr 0.5.0.
 * New features:

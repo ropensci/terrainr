@@ -5,13 +5,14 @@
 
 <!-- badges: start -->
 
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.04060/status.svg)](https://doi.org/10.21105/joss.04060)
 [![License:
 MIT](https://img.shields.io/badge/license-MIT-green)](https://choosealicense.com/licenses/mit/)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/terrainr)](https://cran.r-project.org/package=terrainr)
 [![Lifecycle:
 maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html#maturing)
-[![codecov](https://codecov.io/gh/ropensci/terrainr/branch/main/graph/badge.svg)](https://codecov.io/gh/ropensci/terrainr)
+[![codecov](https://codecov.io/gh/ropensci/terrainr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ropensci/terrainr)
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -19,7 +20,6 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 status](https://github.com/ropensci/terrainr/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/terrainr/actions)
 [![rOpenSci Review
 Status](https://badges.ropensci.org/416_status.svg)](https://github.com/ropensci/software-review/issues/416)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5142763.svg)](https://doi.org/10.5281/zenodo.5142763)
 
 <!-- badges: end -->
 
@@ -136,7 +136,7 @@ make_manifest(output_tiles$elevation,
 ```
 
 We can then import these tiles to Unity (following the [Import
-Vignette](\(https://docs.ropensci.org/terrainr/articles/unity_instructions.html\)))
+Vignette](https://docs.ropensci.org/terrainr/articles/unity_instructions.html))
 to create:
 
 <img src="man/figures/20210728unity.jpg" width="100%" />
@@ -148,6 +148,36 @@ not just stalled out. For more information, check out [the introductory
 vignette](https://docs.ropensci.org/terrainr//articles/overview.html)
 and [the guide to importing your data into
 Unity\!](https://docs.ropensci.org/terrainr//articles/unity_instructions.html)
+
+## Citing terrainr
+
+The United States Geological Survey provides guidelines for citing USGS
+data products (as downloaded from `get_tiles`) at
+<https://www.usgs.gov/faqs/how-should-i-cite-datasets-and-services-national-map>
+.
+
+To cite terrainr in publications please use:
+
+> Mahoney et al., (2022). terrainr: An R package for creating immersive
+> virtual environments. Journal of Open Source Software, 7(69), 4060,
+> <https://doi.org/10.21105/joss.04060>
+
+A BibTeX entry for LaTeX users is:
+
+``` bibtex
+  @Article{,
+    year = {2022},
+    publisher = {The Open Journal},
+    volume = {7},
+    number = {69},
+    pages = {4060},
+    author = {Michael J. Mahoney and Colin M. Beier and Aidan C. Ackerman},
+    title = {{terrainr}: An R package for creating immersive virtual environments},
+    journal = {Journal of Open Source Software},
+    doi = {10.21105/joss.04060},
+    url = {https://doi.org/10.21105/joss.04060},
+  }
+```
 
 ## Available Datasets
 

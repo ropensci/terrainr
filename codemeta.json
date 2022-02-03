@@ -1,12 +1,10 @@
 {
-  "@context": [
-    "https://doi.org/10.5063/schema/codemeta-2.0",
-    "http://schema.org"
-  ],
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "identifier": "terrainr",
-  "description": "Functions for the retrieval, manipulation, and visualization of \n    'geospatial' data, with an aim towards producing '3D' landscape \n    visualizations in the 'Unity' '3D' rendering engine. Functions are also \n    provided for retrieving elevation data and base map tiles from the 'USGS' \n    National Map ('<https://apps.nationalmap.gov/services/>').",
+  "description": "Functions for the retrieval, manipulation, and visualization of 'geospatial' data, with an aim towards producing '3D' landscape visualizations in the 'Unity' '3D' rendering engine. Functions are also provided for retrieving elevation data and base map tiles from the 'USGS' National Map <https://apps.nationalmap.gov/services/>.",
   "name": "terrainr: Landscape Visualizations in R and 'Unity'",
+  "relatedLink": "https://docs.ropensci.org/terrainr/",
   "codeRepository": "https://github.com/ropensci/terrainr",
   "issueTracker": "https://github.com/ropensci/terrainr/issues",
   "license": "https://spdx.org/licenses/MIT",
@@ -16,7 +14,13 @@
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.1.1 (2021-08-10)",
+  "runtimePlatform": "R version 4.1.2 (2021-11-01)",
+  "provider": {
+    "@id": "https://cran.r-project.org",
+    "@type": "Organization",
+    "name": "Comprehensive R Archive Network (CRAN)",
+    "url": "https://cran.r-project.org"
+  },
   "author": [
     {
       "@type": "Person",
@@ -26,9 +30,6 @@
       "@id": "https://orcid.org/0000-0003-2402-304X"
     }
   ],
-  "contributor": {},
-  "copyrightHolder": {},
-  "funder": {},
   "maintainer": [
     {
       "@type": "Person",
@@ -153,8 +154,8 @@
       "name": "unifir"
     }
   ],
-  "softwareRequirements": [
-    {
+  "softwareRequirements": {
+    "1": {
       "@type": "SoftwareApplication",
       "identifier": "base64enc",
       "name": "base64enc",
@@ -166,7 +167,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=base64enc"
     },
-    {
+    "2": {
       "@type": "SoftwareApplication",
       "identifier": "httr",
       "name": "httr",
@@ -178,7 +179,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=httr"
     },
-    {
+    "3": {
       "@type": "SoftwareApplication",
       "identifier": "raster",
       "name": "raster",
@@ -190,7 +191,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=raster"
     },
-    {
+    "4": {
       "@type": "SoftwareApplication",
       "identifier": "magick",
       "name": "magick",
@@ -203,7 +204,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=magick"
     },
-    {
+    "5": {
       "@type": "SoftwareApplication",
       "identifier": "gdalUtils",
       "name": "gdalUtils",
@@ -215,12 +216,12 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=gdalUtils"
     },
-    {
+    "6": {
       "@type": "SoftwareApplication",
       "identifier": "methods",
       "name": "methods"
     },
-    {
+    "7": {
       "@type": "SoftwareApplication",
       "identifier": "png",
       "name": "png",
@@ -232,10 +233,11 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=png"
     },
-    {
+    "8": {
       "@type": "SoftwareApplication",
       "identifier": "sf",
       "name": "sf",
+      "version": ">= 1.0-5",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -244,7 +246,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=sf"
     },
-    {
+    "9": {
       "@type": "SoftwareApplication",
       "identifier": "units",
       "name": "units",
@@ -256,12 +258,12 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=units"
     },
-    {
+    "10": {
       "@type": "SoftwareApplication",
       "identifier": "grDevices",
       "name": "grDevices"
     },
-    {
+    "11": {
       "@type": "SoftwareApplication",
       "identifier": "ggplot2",
       "name": "ggplot2",
@@ -272,66 +274,47 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=ggplot2"
-    }
-  ],
-  "releaseNotes": "https://github.com/ropensci/terrainr/blob/master/NEWS.md",
-  "readme": "https://github.com/ropensci/terrainr/blob/main/README.md",
-  "fileSize": "4047.343KB",
-  "contIntegration": "https://codecov.io/gh/ropensci/terrainr",
-  "developmentStatus": ["https://lifecycle.r-lib.org/articles/stages.html#maturing", "https://www.repostatus.org/#active"],
-  "keywords": [
-    "r",
-    "r-package",
-    "cran",
-    "terrainr",
-    "rstats",
-    "usgs",
-    "map",
-    "mapping",
-    "national-map",
-    "unity-rendering-engine",
-    "unity",
-    "map-tiles",
-    "progressr",
-    "peer-reviewed",
-    "retrieve-data",
-    "orthoimagery",
-    "dems",
-    "datasets",
-    "nhd"
-  ],
-  "relatedLink": [
-    "https://mikemahoney218.github.io/terrainr/",
-    "https://docs.ropensci.org/terrainr",
-    "https://docs.ropensci.org/terrainr/",
-    "https://CRAN.R-project.org/package=terrainr"
-  ],
-  "review": {
-    "@type": "Review",
-    "url": "https://github.com/ropensci/software-review/issues/416",
-    "provider": "https://ropensci.org"
+    },
+    "SystemRequirements": null
   },
-  "provider": {
-    "@id": "https://cran.r-project.org",
-    "@type": "Organization",
-    "name": "Comprehensive R Archive Network (CRAN)",
-    "url": "https://cran.r-project.org"
-  },
+  "fileSize": "4055.445KB",
   "citation": [
     {
-      "@type": "SoftwareSourceCode",
+      "@type": "ScholarlyArticle",
+      "datePublished": "2022",
       "author": [
         {
           "@type": "Person",
-          "givenName": "Michael",
+          "givenName": ["Michael", "J."],
           "familyName": "Mahoney"
+        },
+        {
+          "@type": "Person",
+          "givenName": ["Colin", "M."],
+          "familyName": "Beier"
+        },
+        {
+          "@type": "Person",
+          "givenName": ["Aidan", "C."],
+          "familyName": "Ackerman"
         }
       ],
-      "name": "{terrainr}: Landscape Visualizations in R and Unity",
-      "identifier": "https://doi.org/10.5281/zenodo.5142763",
-      "url": "https://CRAN.R-project.org/package=terrainr",
-      "@id": "https://doi.org/10.5281/zenodo.5142763",
-      "sameAs": "https://doi.org/10.5281/zenodo.5142763"
+      "name": "{terrainr}: An R package for creating immersive virtual environments",
+      "identifier": "10.21105/joss.04060",
+      "url": "https://doi.org/10.21105/joss.04060",
+      "pagination": "4060",
+      "@id": "https://doi.org/10.21105/joss.04060",
+      "sameAs": "https://doi.org/10.21105/joss.04060",
+      "isPartOf": {
+        "@type": "PublicationIssue",
+        "issueNumber": "69",
+        "datePublished": "2022",
+        "isPartOf": {
+          "@type": ["PublicationVolume", "Periodical"],
+          "volumeNumber": "7",
+          "name": "Journal of Open Source Software"
+        }
+      }
     }
   ]
 }

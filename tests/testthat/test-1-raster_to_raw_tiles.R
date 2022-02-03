@@ -27,7 +27,7 @@ test_that("raster_to_raw warns about deprecation", {
   )
 
   expect_equal(
-    png::readPNG(outputs[[1]]),
+    png::readPNG(outputs[[1]])[, , 1:3],
     png::readPNG("testdata/raster_to_raw_1.png")
   )
 })

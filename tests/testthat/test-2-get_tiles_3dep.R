@@ -24,7 +24,8 @@ test_that("get_tiles gets the same elevation tiles twice", {
   expect_equal(stored_raster@extent, test_raster@extent)
   expect_equal(
     raster::cellStats(stored_raster, "max"),
-    raster::cellStats(test_raster, "max")
+    raster::cellStats(test_raster, "max"),
+    tolerance = 0.01
   )
 })
 
