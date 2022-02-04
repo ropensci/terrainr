@@ -29,6 +29,7 @@ Imports:
     base64enc,
     httr,
     raster,
+    rgdal,
     magick (>= 2.5.0),
     methods,
     png,
