@@ -18,6 +18,8 @@
 * Dependency changes:
     * `sf` now has a minimum dependency of 1.0-5, to take advantage of an 
       upstream bug fix (relating to `merge_rasters` overwrite)
+    * `gdalUtils` has been removed from dependencies following CRAN directions
+    * 
 
 # terrainr 0.5.0.
 * New features:
