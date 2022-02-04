@@ -1,3 +1,19 @@
+# terrainr 0.6.0
+* New features:
+    * Two new functions, `transform_elevation` and `transform_overlay`, should 
+      now provide raster transformation functions that were possible with 
+      `raster_to_raw_tiles` but not with `make_manifest`. As an added bonus, the
+      internal code to handle tiling is now dramatically simpler.
+* Improvements and bug fixes:
+    * `make_manifest` will now overwrite any file at `importer_path`, in line 
+      with documented behavior. Previous versions would never overwrite 
+      `importer_path`.
+    * `merge_rasters`' fallback method now runs much faster
+* Dependency changes:
+    * `gdalUtils` has been removed from dependencies following CRAN directions
+    * `rgdal` is now an explicit dependency (had previously been imported via
+      `gdalUtils`)
+
 # terrainr 0.5.1
 * New features:
     * A new endpoint, `ecosystems`, has been added to `get_tiles` and 

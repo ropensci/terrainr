@@ -1,7 +1,7 @@
 Package: terrainr
 Type: Package
 Title: Landscape Visualizations in R and 'Unity'
-Version: 0.5.1
+Version: 0.6.0
 Authors@R: c(
     person(given = "Michael",
            family = "Mahoney",
@@ -29,8 +29,8 @@ Imports:
     base64enc,
     httr,
     raster,
+    rgdal,
     magick (>= 2.5.0),
-    gdalUtils,
     methods,
     png,
     sf (>= 1.0-5),

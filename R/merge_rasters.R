@@ -86,120 +86,29 @@ merge_rasters <- function(input_rasters,
 merge_rasters_deprecated <- function(input_rasters,
                                      output_raster = tempfile(fileext = ".tif"),
                                      options = character(0)) {
-  if (length(options) > 0) {
+  if (length(options) > 0 ||
+      !(length(options == 1) && options == "-overwrite")) {
     warning("Options are not respected when trying to merge rasters with differing numbers of bands") # nolint
   }
 
-  output_list <- vector("list")
-  output_list$output_raster <- output_raster
-
-  # writeRaster seems to write a .tif if a .tiff is specified, which means
-  # mosaic_rasters does nothing and you get a useless blank .tif output unless
-  # you run the function twice.
-  # this is silly.
-  # so, we'll work around it if necessary -- do our work in a .tif then rename
-  # it at the end
-  if (!grepl("\\.tif", output_raster)) {
-    stop("Output files must be TIFFs.")
-  }
-
-  fix_height <- 0
-
-  if (grepl("\\.tiff$", output_raster)) {
-    fix_height <- 1
-    output_raster <- substr(output_raster, 1, nchar(output_raster) - 1)
-  }
-
-  input_raster_objects <- lapply(input_rasters, function(x) raster::raster(x))
-
-  # if some files were downloaded as RGBA and some RGB, mosaic_rasters will fail
-  #
-  # so drop the alpha channel if we need to, but only if we need to, because
-  # this takes a while
-  if (any(vapply(
-    input_raster_objects,
-    function(x) x@file@nbands == 4,
-    logical(1)
-  )) &&
-    !all(vapply(
-      input_raster_objects,
-      function(x) x@file@nbands == 4,
-      logical(1)
-    ))) {
-    tmprst <- vapply(
-      seq_along(input_rasters),
-      function(x) tempfile(fileext = ".tif"),
-      character(1)
-    )
-    mapply(
-      function(x, y) {
-        raster::writeRaster(
-          raster::stack(x[[1]],
-            bands = 1:3
-          ),
-          y
-        )
-      },
-      input_rasters,
-      tmprst
-    )
-    input_raster_objects <- lapply(tmprst, function(x) raster::raster(x))
-    input_rasters <- tmprst
-  }
-
-  total_extent <- raster::raster(raster::extent(
-    min(vapply(
-      input_raster_objects,
-      function(x) raster::extent(x)@xmin,
-      numeric(1)
-    )),
-    max(vapply(
-      input_raster_objects,
-      function(x) raster::extent(x)@xmax,
-      numeric(1)
-    )),
-    min(vapply(
-      input_raster_objects,
-      function(x) raster::extent(x)@ymin,
-      numeric(1)
-    )),
-    max(vapply(
-      input_raster_objects,
-      function(x) raster::extent(x)@ymax,
-      numeric(1)
-    ))
-  ))
-  raster::projection(total_extent) <- raster::projection(input_raster_objects[[1]]) # nolint
-
-  # we're writing an entirely NA raster to file
-  # raster, like a good package should
-  # attempts to warn us about this silly thing we're doing
-  # but we're doing it on purpose, so suppress those warnings
-  suppressWarnings(raster::writeRaster(total_extent,
+  temp_output <- tempfile(fileext = ".vrt")
+  sf::gdal_utils(
+    "buildvrt",
+    input_rasters,
+    temp_output
+  )
+  sf::gdal_utils(
+    "warp",
+    temp_output,
     output_raster,
-    overwrite = TRUE
-  ))
-
-  invisible(
-    utils::capture.output(
-      gdalUtils::mosaic_rasters(
-        gdalfile = input_rasters,
-        dst_dataset = output_raster
-      )
-    )
+    options = options
   )
 
-  if (fix_height) {
-    file.rename(output_raster, paste0(output_raster, "f"))
-  }
-
-  if (exists("tmprst")) lapply(tmprst, unlink)
-
   message(
-    "...done.\n",
+    "\n...done.\n",
     "The alternate method seems to have worked!\n",
     "If your merged output looks right, you can ignore the above error.\n"
   )
 
-  return(output_list)
+  return(invisible(output_raster))
 }

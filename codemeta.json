@@ -8,7 +8,7 @@
   "codeRepository": "https://github.com/ropensci/terrainr",
   "issueTracker": "https://github.com/ropensci/terrainr/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -147,6 +147,11 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=brio"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "unifir",
+      "name": "unifir"
     }
   ],
   "softwareRequirements": {
@@ -272,21 +277,44 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "4048.652KB",
+  "fileSize": "4055.445KB",
   "citation": [
     {
-      "@type": "SoftwareSourceCode",
+      "@type": "ScholarlyArticle",
+      "datePublished": "2022",
       "author": [
         {
           "@type": "Person",
-          "givenName": "Michael",
+          "givenName": ["Michael", "J."],
           "familyName": "Mahoney"
+        },
+        {
+          "@type": "Person",
+          "givenName": ["Colin", "M."],
+          "familyName": "Beier"
+        },
+        {
+          "@type": "Person",
+          "givenName": ["Aidan", "C."],
+          "familyName": "Ackerman"
         }
       ],
-      "name": "{terrainr}: Landscape Visualizations in R and Unity",
-      "identifier": " 10.5281/zenodo.5142763",
-      "url": "https://CRAN.R-project.org/package=terrainr",
-      "description": "R package version 0.5.1"
+      "name": "{terrainr}: An R package for creating immersive virtual environments",
+      "identifier": "10.21105/joss.04060",
+      "url": "https://doi.org/10.21105/joss.04060",
+      "pagination": "4060",
+      "@id": "https://doi.org/10.21105/joss.04060",
+      "sameAs": "https://doi.org/10.21105/joss.04060",
+      "isPartOf": {
+        "@type": "PublicationIssue",
+        "issueNumber": "69",
+        "datePublished": "2022",
+        "isPartOf": {
+          "@type": ["PublicationVolume", "Periodical"],
+          "volumeNumber": "7",
+          "name": "Journal of Open Source Software"
+        }
+      }
     }
   ]
 }

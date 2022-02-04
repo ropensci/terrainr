@@ -23,6 +23,28 @@ Status](https://badges.ropensci.org/416_status.svg)](https://github.com/ropensci
 
 <!-- badges: end -->
 
+## This is an experimental build of terrainr
+
+This feature branch requires the
+[unifir](https://github.com/mikemahoney218/unifir) package, currently
+not on CRAN. If you want to try out the new features in this version –
+particularly the new `make_unity` function – install unifir using the
+command:
+
+``` r
+# install.packages("remotes")
+remotes::install_github("mikemahoney218/unifir")
+```
+
+Then install this version of terrainr using:
+
+``` r
+remotes::install_github("ropensci/terrainr", "unified")
+```
+
+Please note that unifir is currently very young and subject to change,
+and the features in this branch are likely to change with it.
+
 ## Overview
 
 terrainr makes it easy to retrieve elevation and base map image tiles
