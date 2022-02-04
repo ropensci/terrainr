@@ -88,15 +88,15 @@ raster_to_raw_tiles <- function(input_file,
           y_tiles[[j]]
         ))
       } # nocov end
-      # changing this to gdalUtilities causes my computer to crash
-      gdalUtils::gdal_translate(input_file, temptiffs[[counter]],
-        srcwin = paste0(
+      sf::gdal_utils(
+        "translate",
+        input_file,
+        temptiffs[[counter]],
+        options = c(
+          "-srcwin",
           x_tiles[[i]],
-          ", ",
           y_tiles[[j]],
-          ", ",
           side_length,
-          ", ",
           side_length
         )
       )
@@ -132,7 +132,6 @@ raster_to_raw_tiles <- function(input_file,
       if (requireNamespace("progressr", quietly = TRUE)) { # nocov start
         p(message = sprintf("Converting tile %s to PNG", x))
       } # nocov end
-      # changing this to gdalUtils causes errors
       sf::gdal_utils(
         "translate",
         source = x,

@@ -228,16 +228,16 @@ prep_table <- function(input_raster,
 
 crop_tif <- function(img, manifest, temptiffs, field = "filename") {
   for (i in seq_len(nrow(manifest))) {
-    # changing this to gdalUtilities causes my computer to crash
-    gdalUtils::gdal_translate(img, temptiffs[[i]],
-      srcwin = paste0(
+    sf::gdal_utils(
+      "translate",
+      img,
+      temptiffs[[i]],
+      options = c(
+        "-srcwin",
         -manifest$x_pos[[i]],
-        ", ",
-        manifest$z_pos[[i]],
-        ", ",
-        manifest$x_length[[i]],
-        ", ",
-        manifest$z_length[[i]]
+         manifest$z_pos[[i]],
+         manifest$x_length[[i]],
+         manifest$z_length[[i]]
       )
     )
     names(temptiffs)[[i]] <- manifest[[field]][[i]]
@@ -251,7 +251,6 @@ convert_to_png <- function(temptiffs,
                            max_val) {
   mapply(
     function(x, y) {
-      # changing this to gdalUtils causes errors
       sf::gdal_utils(
         "translate",
         source = x,

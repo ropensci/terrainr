@@ -30,7 +30,6 @@ Imports:
     httr,
     raster,
     magick (>= 2.5.0),
-    gdalUtils,
     methods,
     png,
     sf (>= 1.0-5),
