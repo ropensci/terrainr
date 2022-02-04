@@ -147,11 +147,6 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=brio"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "unifir",
-      "name": "unifir"
     }
   ],
   "softwareRequirements": {
@@ -193,6 +188,18 @@
     },
     "4": {
       "@type": "SoftwareApplication",
+      "identifier": "rgdal",
+      "name": "rgdal",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rgdal"
+    },
+    "5": {
+      "@type": "SoftwareApplication",
       "identifier": "magick",
       "name": "magick",
       "version": ">= 2.5.0",
@@ -203,18 +210,6 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=magick"
-    },
-    "5": {
-      "@type": "SoftwareApplication",
-      "identifier": "gdalUtils",
-      "name": "gdalUtils",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=gdalUtils"
     },
     "6": {
       "@type": "SoftwareApplication",
@@ -277,7 +272,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "4055.445KB",
+  "fileSize": "4051.066KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
