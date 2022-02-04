@@ -1,25 +1,32 @@
 # terrainr 0.6.0
 * New features:
-    * A new endpoint, `ecosystems`, has been added to `get_tiles` and 
-      `hit_national_map_api`. 
     * Two new functions, `transform_elevation` and `transform_overlay`, should 
       now provide raster transformation functions that were possible with 
       `raster_to_raw_tiles` but not with `make_manifest`. As an added bonus, the
       internal code to handle tiling is now dramatically simpler.
+* Improvements and bug fixes:
+    * `make_manifest` will now overwrite any file at `importer_path`, in line 
+      with documented behavior. Previous versions would never overwrite 
+      `importer_path`.
+    * `merge_rasters`' fallback method now runs much faster
+* Dependency changes:
+    * `gdalUtils` has been removed from dependencies following CRAN directions
+    * `rgdal` is now an explicit dependency (had previously been imported via
+      `gdalUtils`)
+
+# terrainr 0.5.1
+* New features:
+    * A new endpoint, `ecosystems`, has been added to `get_tiles` and 
+      `hit_national_map_api`. 
 * Improvements and bug fixes:
     * `merge_rasters` gains an argument, `overwrite`, which allows you to 
       specify whether or not to overwrite `output_raster` if it exists. Previous
       versions expected you to pass "-overwrite" to `options`. If a file exists
       at `output_raster` and `overwrite` is FALSE, `merge_rasters` will throw an
       error.
-    * `make_manifest` will now overwrite any file at `importer_path`, in line 
-      with documented behavior. Previous versions would never overwrite 
-      `importer_path`.
 * Dependency changes:
     * `sf` now has a minimum dependency of 1.0-5, to take advantage of an 
       upstream bug fix (relating to `merge_rasters` overwrite)
-    * `gdalUtils` has been removed from dependencies following CRAN directions
-    * 
 
 # terrainr 0.5.0.
 * New features:

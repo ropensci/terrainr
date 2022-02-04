@@ -86,7 +86,8 @@ merge_rasters <- function(input_rasters,
 merge_rasters_deprecated <- function(input_rasters,
                                      output_raster = tempfile(fileext = ".tif"),
                                      options = character(0)) {
-  if (length(options) > 0) {
+  if (length(options) > 0 ||
+      !(length(options == 1) && options == "-overwrite")) {
     warning("Options are not respected when trying to merge rasters with differing numbers of bands") # nolint
   }
 
@@ -94,13 +95,13 @@ merge_rasters_deprecated <- function(input_rasters,
   sf::gdal_utils(
     "buildvrt",
     input_rasters,
-    temp_output,
-    options = c("-addalpha")
+    temp_output
   )
   sf::gdal_utils(
     "warp",
     temp_output,
-    output_raster
+    output_raster,
+    options = options
   )
 
   message(
