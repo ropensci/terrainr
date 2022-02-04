@@ -47,8 +47,7 @@ Suggests:
     progress,
     jpeg,
     tiff,
-    brio,
-    unifir
+    brio
 Config/testthat/parallel: true
 Config/testthat/edition: 3
 VignetteBuilder: knitr
