@@ -1,3 +1,11 @@
+# terrainr 0.6.1
+* Improvements and bug fixes:
+    * The README of version 0.6.0 has a disclaimer at the top stating that the 
+      package is an experimental build relying on as-of-yet unreleased packages.
+      This is not true.
+      This release removes that language. Otherwise, this release is identical
+      to version 0.6.0.
+
 # terrainr 0.6.0
 * New features:
     * Two new functions, `transform_elevation` and `transform_overlay`, should 

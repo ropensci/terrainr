@@ -23,28 +23,6 @@ Status](https://badges.ropensci.org/416_status.svg)](https://github.com/ropensci
 
 <!-- badges: end -->
 
-## This is an experimental build of terrainr
-
-This feature branch requires the
-[unifir](https://github.com/mikemahoney218/unifir) package, currently
-not on CRAN. If you want to try out the new features in this version –
-particularly the new `make_unity` function – install unifir using the
-command:
-
-``` r
-# install.packages("remotes")
-remotes::install_github("mikemahoney218/unifir")
-```
-
-Then install this version of terrainr using:
-
-``` r
-remotes::install_github("ropensci/terrainr", "unified")
-```
-
-Please note that unifir is currently very young and subject to change,
-and the features in this branch are likely to change with it.
-
 ## Overview
 
 terrainr makes it easy to retrieve elevation and base map image tiles
@@ -147,7 +125,7 @@ you’ll be more confident that your computer is still churning along and
 not just stalled out. For more information, check out [the introductory
 vignette](https://docs.ropensci.org/terrainr//articles/overview.html)
 and [the guide to importing your data into
-Unity\!](https://docs.ropensci.org/terrainr//articles/unity_instructions.html)
+Unity!](https://docs.ropensci.org/terrainr//articles/unity_instructions.html)
 
 ## Citing terrainr
 
@@ -184,39 +162,39 @@ A BibTeX entry for LaTeX users is:
 The following datasets can currently be downloaded using `get_tiles` or
 `hit_national_map_api`:
 
-  - [3DEPElevation](https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer):
+-   [3DEPElevation](https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer):
     The USGS 3D Elevation Program (3DEP) Bare Earth DEM.
-  - [USGSNAIPPlus](https://services.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/MapServer):
+-   [USGSNAIPPlus](https://services.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/MapServer):
     National Agriculture Imagery Program (NAIP) and high resolution
     orthoimagery (HRO).
-  - [nhd](https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer):
+-   [nhd](https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer):
     A comprehensive set of digital spatial data that encodes information
     about naturally occurring and constructed bodies of surface water
     (lakes, ponds, and reservoirs), paths through which water flows
     (canals, ditches, streams, and rivers), and related entities such as
     point features (springs, wells, stream gauges, and dams).
-  - [govunits](https://carto.nationalmap.gov/arcgis/rest/services/govunits/MapServer):
+-   [govunits](https://carto.nationalmap.gov/arcgis/rest/services/govunits/MapServer):
     Major civil areas for the Nation, including States or Territories,
     counties (or equivalents), Federal and Native American areas,
     congressional districts, minor civil divisions, incorporated places
     (such as cities and towns), and unincorporated places.
-  - [contours](https://carto.nationalmap.gov/arcgis/rest/services/contours/MapServer):
+-   [contours](https://carto.nationalmap.gov/arcgis/rest/services/contours/MapServer):
     The USGS Elevation Contours service.
-  - [geonames](https://carto.nationalmap.gov/arcgis/rest/services/geonames/MapServer):
+-   [geonames](https://carto.nationalmap.gov/arcgis/rest/services/geonames/MapServer):
     Information about physical and cultural geographic features,
     geographic areas, and locational entities that are generally
     recognizable and locatable by name.
-  - [NHDPlus\_HR](https://hydro.nationalmap.gov/arcgis/rest/services/NHDPlus_HR/MapServer):
+-   [NHDPlus_HR](https://hydro.nationalmap.gov/arcgis/rest/services/NHDPlus_HR/MapServer):
     A comprehensive set of digital spatial data comprising a nationally
     seamless network of stream reaches, elevation-based catchment areas,
     flow surfaces, and value-added attributes.
-  - [structures](https://carto.nationalmap.gov/arcgis/rest/services/structures/MapServer):
+-   [structures](https://carto.nationalmap.gov/arcgis/rest/services/structures/MapServer):
     The name, function, location, and other core information and
     characteristics of selected manmade facilities.
-  - [transportation](https://carto.nationalmap.gov/arcgis/rest/services/transportation/MapServer):
+-   [transportation](https://carto.nationalmap.gov/arcgis/rest/services/transportation/MapServer):
     Roads, railroads, trails, airports, and other features associated
     with the transport of people or commerce.
-  - [wbd](https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer):
+-   [wbd](https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer):
     Hydrologic Unit (HU) polygon boundaries for the United States,
     Puerto Rico, and the U.S. Virgin Islands.
 
@@ -241,7 +219,7 @@ devtools::install_github("ropensci/terrainr")
 ```
 
 Be aware that the development version is not stable, and features that
-haven’t been published on CRAN may change at any time\!
+haven’t been published on CRAN may change at any time!
 
 ## Code of Conduct
 
@@ -249,4 +227,4 @@ Please note that this package is released with a [Contributor Code of
 Conduct](https://ropensci.org/code-of-conduct/). By contributing to this
 project, you agree to abide by its terms.
 
-[![ropensci\_footer](https://ropensci.org/public_images/github_footer.png)](https://ropensci.org)
+[![ropensci_footer](https://ropensci.org/public_images/github_footer.png)](https://ropensci.org)
