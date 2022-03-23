@@ -102,4 +102,5 @@ make_unity <- function(project,
   if (action) {
     script <- unifir::action(script)
   }
+  script
 }
