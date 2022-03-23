@@ -199,9 +199,12 @@ hit_national_map_api <- function(bbox,
       }
     } else if (counter < 15) {
       get_href(counter = counter + 1)
-    } else {
-      stop("Map server returned error code ", httr::status_code(img_res)) # nocov
-    }
+    } else { # nocov start
+      stop(
+        "Map server returned error code ",
+        httr::status_code(img_res)
+      )
+    } # nocov end
   }
 
   body <- get_href()

@@ -335,7 +335,8 @@ get_tiles_internal <- function(data,
 
   for (i in seq_len(x_tiles)) {
     for (j in seq_len(y_tiles)) {
-      current_box <- tile_boxes[tile_boxes$x_tiles == i & tile_boxes$y_tiles == j, ]
+      current_box <- tile_boxes[tile_boxes$x_tiles == i &
+        tile_boxes$y_tiles == j, ]
       current_bbox <- data.frame(
         lat = c(current_box$min_y, current_box$max_y),
         lng = c(current_box$min_x, current_box$max_x)

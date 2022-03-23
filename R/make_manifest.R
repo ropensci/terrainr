@@ -92,7 +92,11 @@ make_manifest <- function(heightmap,
 transform_elevation <- function(heightmap,
                                 side_length = 4097,
                                 output_prefix = "import") {
-  manifest <- prep_table(heightmap, side_length, output_prefix, type = "elevation")
+  manifest <- prep_table(heightmap,
+    side_length,
+    output_prefix,
+    type = "elevation"
+  )
 
   temptiffs <- NULL
   while (length(temptiffs) != nrow(manifest)) {
@@ -186,7 +190,6 @@ prep_table <- function(input_raster,
 
   x_tiles <- ceiling(input_raster@ncols / side_length)
   y_tiles <- ceiling(input_raster@nrows / side_length)
-  n_tiles <- x_tiles * y_tiles
 
   file_combos <- expand.grid(
     x = 1:x_tiles,
@@ -235,9 +238,9 @@ crop_tif <- function(img, manifest, temptiffs, field = "filename") {
       options = c(
         "-srcwin",
         -manifest$x_pos[[i]],
-         manifest$z_pos[[i]],
-         manifest$x_length[[i]],
-         manifest$z_length[[i]]
+        manifest$z_pos[[i]],
+        manifest$x_length[[i]],
+        manifest$z_length[[i]]
       )
     )
     names(temptiffs)[[i]] <- manifest[[field]][[i]]

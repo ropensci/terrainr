@@ -116,11 +116,17 @@ test_that("overwrite works as expected", {
     NA
   )
   expect_warning(
-    merge_rasters(c(tmptif[[1]], tmptif[[2]]), test_file, options = "-overwrite"),
+    merge_rasters(c(tmptif[[1]], tmptif[[2]]),
+      test_file,
+      options = "-overwrite"
+    ),
     NA
   )
   expect_warning(
-    merge_rasters(c(tmptif[[1]], tmptif[[2]]), test_file, overwrite = TRUE, options = "-overwrite"),
+    merge_rasters(c(tmptif[[1]], tmptif[[2]]),
+      test_file,
+      overwrite = TRUE, options = "-overwrite"
+    ),
     NA
   )
 

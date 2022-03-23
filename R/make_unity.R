@@ -35,17 +35,18 @@ make_unity <- function(project,
                        overlay = NULL,
                        scene_name = "terrainr_scene",
                        action = TRUE) {
-
   if (!requireNamespace("unifir", quietly = TRUE)) {
-    stop("make_unity requires the unifir package to work correctly. ",
-         "Please install unifir to continue.")
+    stop(
+      "make_unity requires the unifir package to work correctly. ",
+      "Please install unifir to continue."
+    )
   }
 
   elevation_prefix <- tempfile()
   manifest <- prep_table(heightmap,
-                         side_length = 4097,
-                         output_prefix = elevation_prefix,
-                         type = "elevation"
+    side_length = 4097,
+    output_prefix = elevation_prefix,
+    type = "elevation"
   )
   transform_elevation(
     heightmap = heightmap,
@@ -62,9 +63,9 @@ make_unity <- function(project,
   if (!is.null(overlay)) {
     overlay_prefix <- tempfile()
     overlay_manifest <- prep_table(heightmap,
-                                   side_length = 4097,
-                                   output_prefix = overlay_prefix,
-                                   type = "overlay"
+      side_length = 4097,
+      output_prefix = overlay_prefix,
+      type = "overlay"
     )
     manifest$texture <- overlay_manifest$texture
     transform_overlay(
@@ -101,5 +102,4 @@ make_unity <- function(project,
   if (action) {
     script <- unifir::action(script)
   }
-
 }
