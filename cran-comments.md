@@ -1,11 +1,14 @@
-## Resubmission
-
-This is a resubmission. In this version, I fixed the incorrect DOI in the CITATION file and edited the URL format in the description. Thank you for pointing that out!
+I apologize for the rapid re-submission!
+The README of version 0.6.0 has a disclaimer at the top stating that the 
+package is an experimental build relying on as-of-yet unreleased packages.
+This is not true.
+This release removes that language. 
+Otherwise, this release is identical to version 0.6.0.
 
 ## Test environments
 * local R installation, R 4.1.2
 * ubuntu 20.04 (on GitHub Actions), R devel, 4.1.2, 4.0.5
-* MacOS X 10.15.7 (on GitHub Actions), R 4.1.2
+* MacOS X 11.6.3 (on GitHub Actions), R 4.1.2
 * Windows Server 2019 (on GitHub Actions), R 4.1.2
 * win-builder (devel, 4.1.2, 4.0.5)
 

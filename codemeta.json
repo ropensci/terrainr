@@ -8,13 +8,13 @@
   "codeRepository": "https://github.com/ropensci/terrainr",
   "issueTracker": "https://github.com/ropensci/terrainr/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.1.2 (2021-11-01)",
+  "runtimePlatform": "R version 4.1.3 (2022-03-10)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -193,6 +193,18 @@
     },
     "4": {
       "@type": "SoftwareApplication",
+      "identifier": "rgdal",
+      "name": "rgdal",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rgdal"
+    },
+    "5": {
+      "@type": "SoftwareApplication",
       "identifier": "magick",
       "name": "magick",
       "version": ">= 2.5.0",
@@ -203,18 +215,6 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=magick"
-    },
-    "5": {
-      "@type": "SoftwareApplication",
-      "identifier": "gdalUtils",
-      "name": "gdalUtils",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=gdalUtils"
     },
     "6": {
       "@type": "SoftwareApplication",
@@ -277,7 +277,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "4055.445KB",
+  "fileSize": "4051.414KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
