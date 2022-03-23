@@ -1,7 +1,45 @@
+#' Initialize terrain inside of a Unity project.
+#'
+#' @param project The directory path of the Unity project to create terrain
+#' inside.
+#' @param heightmap The file path for the raster to transform into terrain.
+#' @param overlay Optionally, a file path for an image overlay to layer on top
+#' of the terrain surface. Leave as NULL for no overlay.
+#' @param scene_name The name of the Unity scene to create the terrain in.
+#' @param action Boolean: Execute the unifir "script" and create the Unity
+#' project? If FALSE, returns a non-executed script.
+#'
+#' @return An object of class "unifir_script", containing either an executed
+#' unifir script (if action = TRUE) or a non-executed script object
+#' (if action = FALSE).
+#'
+#' @examples
+#' \dontrun{
+#' if (!isTRUE(as.logical(Sys.getenv("CI")))) {
+#'   simulated_data <- data.frame(
+#'     id = seq(1, 100, 1),
+#'     lat = runif(100, 44.04905, 44.17609),
+#'     lng = runif(100, -74.01188, -73.83493)
+#'   )
+#'   simulated_data <- sf::st_as_sf(simulated_data, coords = c("lng", "lat"))
+#'   output_files <- get_tiles(simulated_data)
+#'   temptiff <- tempfile(fileext = ".tif")
+#'   merge_rasters(output_files["elevation"][[1]], temptiff)
+#'   make_unity(file.path(tempdir(), "unity"), temptiff)
+#' }
+#' }
+#'
+#' @export
 make_unity <- function(project,
                        heightmap,
                        overlay = NULL,
-                       scene_name = "terrainr_scene") {
+                       scene_name = "terrainr_scene",
+                       action = TRUE) {
+
+  if (!requireNamespace("unifir", quietly = TRUE)) {
+    stop("make_unity requires the unifir package to work correctly. ",
+         "Please install unifir to continue.")
+  }
 
   elevation_prefix <- tempfile()
   manifest <- prep_table(heightmap,
@@ -38,8 +76,8 @@ make_unity <- function(project,
       manifest$texture,
       function(x) file.rename(x, file.path(project, basename(x)))
     )
+    manifest$texture <- basename(manifest$texture)
   }
-  manifest$texture <- basename(manifest$texture)
 
   script <- unifir::make_script(project, scene_name = scene_name)
   script <- unifir::new_scene(script, "DefaultGameObjects", "Single")
@@ -60,6 +98,8 @@ make_unity <- function(project,
 
   script <- unifir::save_scene(script)
   script <- unifir::set_active_scene(script, scene_name)
-  script <- unifir::action(script)
+  if (action) {
+    script <- unifir::action(script)
+  }
 
 }
