@@ -5,6 +5,8 @@
 #' @param heightmap The file path for the raster to transform into terrain.
 #' @param overlay Optionally, a file path for an image overlay to layer on top
 #' of the terrain surface. Leave as NULL for no overlay.
+#' @param side_length The side length, in map units, for the terrain tiles.
+#' Must be equal to 2^x + 1, for any x between 5 and 12.
 #' @param scene_name The name of the Unity scene to create the terrain in.
 #' @param action Boolean: Execute the unifir "script" and create the Unity
 #' project? If FALSE, returns a non-executed script.
@@ -33,6 +35,7 @@
 make_unity <- function(project,
                        heightmap,
                        overlay = NULL,
+                       side_length = 4097,
                        scene_name = "terrainr_scene",
                        action = TRUE) {
   if (!requireNamespace("unifir", quietly = TRUE)) {
@@ -42,15 +45,22 @@ make_unity <- function(project,
     )
   }
 
+  if (!(side_length %in% 2^(5:12) + 1)) {
+    stop(
+      "side_length must be equal to a value of 2^x + 1, for any x ",
+      "between 2 and 5."
+    )
+  }
+
   elevation_prefix <- tempfile()
   manifest <- prep_table(heightmap,
-    side_length = 4097,
+    side_length = side_length,
     output_prefix = elevation_prefix,
     type = "elevation"
   )
   transform_elevation(
     heightmap = heightmap,
-    side_length = 4097,
+    side_length = side_length,
     output_prefix = elevation_prefix
   )
   dir.create(project)
@@ -63,14 +73,14 @@ make_unity <- function(project,
   if (!is.null(overlay)) {
     overlay_prefix <- tempfile()
     overlay_manifest <- prep_table(heightmap,
-      side_length = 4097,
+      side_length = side_length,
       output_prefix = overlay_prefix,
       type = "overlay"
     )
     manifest$texture <- overlay_manifest$texture
     transform_overlay(
       overlay = overlay,
-      side_length = 4097,
+      side_length = side_length,
       output_prefix = overlay_prefix
     )
     lapply(
@@ -98,7 +108,6 @@ make_unity <- function(project,
   }
 
   script <- unifir::save_scene(script)
-  script <- unifir::set_active_scene(script, scene_name)
   if (action) {
     script <- unifir::action(script)
   }
