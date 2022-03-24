@@ -8,6 +8,7 @@ make_unity(
   project,
   heightmap,
   overlay = NULL,
+  side_length = 4097,
   scene_name = "terrainr_scene",
   action = TRUE
 )
@@ -20,6 +21,9 @@ inside.}
 
 \item{overlay}{Optionally, a file path for an image overlay to layer on top
 of the terrain surface. Leave as NULL for no overlay.}
+
+\item{side_length}{The side length, in map units, for the terrain tiles.
+Must be equal to 2^x + 1, for any x between 5 and 12.}
 
 \item{scene_name}{The name of the Unity scene to create the terrain in.}
 
