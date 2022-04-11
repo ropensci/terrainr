@@ -20,12 +20,12 @@ georeferenced rasters you want to use.}
 to.}
 
 \item{options}{Optionally, a character vector of options to be passed
-directly to [sf::gdal_utils]. If the fallback is used and any options (other
+directly to \link[sf:gdal_utils]{sf::gdal_utils}. If the fallback is used and any options (other
 than "-overwrite") are specified, this will issue a warning.}
 
-\item{overwrite}{Logical: overwrite `output_raster` if it exists? If FALSE
+\item{overwrite}{Logical: overwrite \code{output_raster} if it exists? If FALSE
 and the file exists, this function will fail with an error. The behavior if
-this argument is TRUE and "-overwrite" is passed to `options` directly is
+this argument is TRUE and "-overwrite" is passed to \code{options} directly is
 not stable.}
 
 \item{force_fallback}{Logical: if TRUE, uses the much slower fallback method
@@ -33,12 +33,12 @@ by default. This is used for testing purposes and is not recommended for use
 by end users.}
 }
 \value{
-`output_raster`, invisibly.
+\code{output_raster}, invisibly.
 }
 \description{
-Some functions like [get_tiles] return multiple separate files
+Some functions like \link{get_tiles} return multiple separate files
 when it can be useful to have a single larger raster instead. This function
-is a thin wrapper over [sf::gdal_utils(util = "warp")], making it easy to
+is a thin wrapper over \link[sf:gdal_utils]{sf::gdal_utils}, making it easy to
 collapse those multiple raster files into a single TIFF.
 }
 \examples{

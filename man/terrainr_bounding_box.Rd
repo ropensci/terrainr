@@ -8,17 +8,17 @@ terrainr_bounding_box(bl, tr, coord_units = "degrees")
 }
 \arguments{
 \item{bl, tr}{The bottom left (\code{bl}) and top right (\code{tr}) corners of
-the bounding box, either as a [terrainr_coordinate_pair] object
+the bounding box, either as a \link{terrainr_coordinate_pair} object
 or a coordinate pair. If the coordinate pair is not named, it is assumed to
 be in (lat, lng) format; if it is named, the function will attempt to
 properly identify coordinates.}
 
-\item{coord_units}{Arguments passed to [terrainr_coordinate_pair].
-If \code{bl} and \code{tr} are already [terrainr_coordinate_pair]
+\item{coord_units}{Arguments passed to \link{terrainr_coordinate_pair}.
+If \code{bl} and \code{tr} are already \link{terrainr_coordinate_pair}
 objects, these arguments are not used.}
 }
 \value{
-An object of class [terrainr_bounding_box].
+An object of class \link{terrainr_bounding_box}.
 }
 \description{
 In order to simplify code, most \code{terrainr} functions expect a set S4

@@ -2,7 +2,7 @@
 #'
 #' Some functions like [get_tiles] return multiple separate files
 #' when it can be useful to have a single larger raster instead. This function
-#' is a thin wrapper over [sf::gdal_utils(util = "warp")], making it easy to
+#' is a thin wrapper over [sf::gdal_utils], making it easy to
 #' collapse those multiple raster files into a single TIFF.
 #'
 #' @param input_rasters A character vector containing the file paths to the
