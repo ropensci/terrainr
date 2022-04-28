@@ -60,6 +60,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          remotes::install_cran("devtools")
           remotes::install_github("mikemahoney218/unifir")
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}

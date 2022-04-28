@@ -1,3 +1,12 @@
+# terrainr 0.7.0
+* New features:
+    * `make_unity` is a new function which uses the new `unifir` package to 
+      automatically create Unity scenes, no clicking necessary.
+* Improvements and bug fixes: 
+    * `make_manifest`, `transform_elevation`, and `transform_overlay` no longer
+      error when providing non-standard side lengths; they now warn as intended.
+    * Fixed some documentation, unused objects, restyled and removed lints
+
 # terrainr 0.6.1
 * Improvements and bug fixes:
     * The README of version 0.6.0 has a disclaimer at the top stating that the 

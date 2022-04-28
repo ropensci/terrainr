@@ -48,7 +48,7 @@ make_unity <- function(project,
   if (!(side_length %in% 2^(5:12) + 1)) {
     stop(
       "side_length must be equal to a value of 2^x + 1, for any x ",
-      "between 2 and 5."
+      "between 5 and 12."
     )
   }
 
