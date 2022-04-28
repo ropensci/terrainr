@@ -179,7 +179,7 @@ prep_table <- function(input_raster,
                        side_length,
                        output_prefix,
                        type) {
-  if (!all.equal(log((side_length - 1), 2), round(log((side_length - 1), 2)))) {
+  if (!identical(log((side_length - 1), 2), round(log((side_length - 1), 2)))) {
     warning(
       "Side lengths must be equal to 2^x + 1 (for x <= 12) for import into Unity.\n", # nolint
       "Tiles will still be produced but may not be usable."

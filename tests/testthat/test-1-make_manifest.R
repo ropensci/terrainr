@@ -28,3 +28,16 @@ test_that("make_manifest reproduces the same tiles", {
     png::readPNG("testdata/manifest_ort.png")
   )
 })
+
+test_that("prep_table warns when expected", {
+
+  expect_warning(
+    prep_table("testdata/3DEP_gr.tif",
+               10,
+               "import",
+               type = "elevation"
+    ),
+    "Side lengths must be equal"
+  )
+
+})
