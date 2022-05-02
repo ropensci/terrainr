@@ -15,4 +15,4 @@ bibentry(bibtype = "Article",
          journal = "Journal of Open Source Software",
          doi = "10.21105/joss.04060",
          url = "https://doi.org/10.21105/joss.04060",
-         textVersion = "Mahoney et al., (2022). terrainr: An R package for creating immersive virtual environments. Journal of Open Source Software, 7(69), 4060, https://doi.org/10.21105/joss.04060")
+         textVersion = "Mahoney M. J., Beier C. M., and Ackerman, A. C. (2022). terrainr: An R package for creating immersive virtual environments. Journal of Open Source Software, 7(69), 4060, https://doi.org/10.21105/joss.04060")
