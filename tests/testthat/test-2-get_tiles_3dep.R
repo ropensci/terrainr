@@ -25,8 +25,8 @@ test_that("get_tiles gets the same elevation tiles twice", {
   expect_equal(as.vector(terra::ext(stored_raster)),
                as.vector(terra::ext(test_raster)))
   expect_equal(
-    as.vector(terra::global(stored_raster, max)),
-    as.vector(terra::global(test_raster, max)),
+    stats::setNames(as.vector(terra::global(stored_raster, max)), NULL),
+    stats::setNames(as.vector(terra::global(test_raster, max)), NULL),
     tolerance = 0.01
   )
 })
