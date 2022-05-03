@@ -5,6 +5,9 @@
 * Improvements and bug fixes: 
     * `make_manifest`, `transform_elevation`, and `transform_overlay` no longer
       error when providing non-standard side lengths; they now warn as intended.
+    * `make_manifest`, `transform_elevation`, `transform_overlay`, and
+      `raster_to_raw_tiles` no longer give warnings about nodata values 
+      being clamped to 0.
     * Fixed some documentation, unused objects, restyled and removed lints
 
 # terrainr 0.6.1

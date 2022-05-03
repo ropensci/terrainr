@@ -139,7 +139,8 @@ raster_to_raw_tiles <- function(input_file,
         options = c(
           "-ot", "UInt16",
           "-of", "png",
-          "-scale", "0", max_raster, "0", "65535"
+          "-scale", "0", max_raster, "0", "65535",
+          "-a_nodata", "0"
         )
       )
     },

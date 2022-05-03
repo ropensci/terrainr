@@ -261,7 +261,8 @@ convert_to_png <- function(temptiffs,
         options = c(
           "-ot", "UInt16",
           "-of", "png",
-          "-scale", "0", max_val, "0", "65535"
+          "-scale", "0", max_val, "0", "65535",
+          "-a_nodata", "0"
         )
       )
     },
