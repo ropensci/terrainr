@@ -11,12 +11,12 @@
 #' options described in [ggplot2::geom_raster], there are two additional
 #' methods:
 #'
-#' If a `RasterStack` object (see [raster::stack]), this function will coerce
-#' the stack to a data frame and assume the raster bands are in RGB order
+#' If a `SpatRaster` object (see [terra::rast]), this function will coerce
+#' the raster to a data frame and assume the raster bands are in RGB order
 #' (while allowing for, but ignoring, a fourth alpha band).
 #'
 #' If a length-1 character vector, this function will attempt to load the object
-#' via [raster::stack].
+#' via [terra::rast].
 #'
 #' @inheritParams ggplot2::geom_raster
 #' @param scale Integer. Maximum (possible) value in the three channels.
@@ -45,7 +45,7 @@
 #' merged_ortho <- tempfile(fileext = ".tif")
 #' merge_rasters(output_tiles[["ortho"]], merged_ortho)
 #'
-#' merged_stack <- raster::stack(merged_ortho)
+#' merged_stack <- terra::rast(merged_ortho)
 #'
 #' library(ggplot2)
 #'
@@ -142,8 +142,8 @@ geom_spatial_rgb_internal.character <- function(data = NULL,
                                                 inherit.aes = TRUE,
                                                 scale = NULL) {
   stopifnot(length(data) == 1)
-  data <- raster::stack(data)
-  geom_spatial_rgb_internal.RasterStack(
+  data <- terra::rast(data)
+  geom_spatial_rgb_internal.SpatRaster(
     data = data,
     mapping = mapping,
     stat = stat,
@@ -168,13 +168,41 @@ geom_spatial_rgb_internal.RasterStack <- function(data = NULL,
                                                   show.legend = NA,
                                                   inherit.aes = TRUE,
                                                   scale = NULL) {
-  data <- raster::as.data.frame(data, xy = TRUE)
-  if (ncol(data) == 5) {
+  data <- terra::rast(data)
+  geom_spatial_rgb_internal(
+    data = data,
+    mapping = mapping,
+    stat = stat,
+    position = position,
+    na.rm = na.rm,
+    show.legend = show.legend,
+    inherit.aes = inherit.aes,
+    scale = scale,
+    ...
+  )
+}
+
+geom_spatial_rgb_internal.SpatRaster <- function(data = NULL,
+                                                 mapping = NULL,
+                                                 stat = "spatialRGB",
+                                                 position = "identity",
+                                                 ...,
+                                                 hjust = 0.5,
+                                                 vjust = 0.5,
+                                                 interpolate = FALSE,
+                                                 na.rm = FALSE,
+                                                 show.legend = NA,
+                                                 inherit.aes = TRUE,
+                                                 scale = NULL) {
+  data <- terra::as.data.frame(data, xy = TRUE)
+  if (terra::ncol(data) == 5) {
     data <- stats::setNames(data, c("x", "y", "red", "green", "blue"))
-  } else if (ncol(data) == 6) {
+  } else if (terra::ncol(data) == 6) {
     data <- stats::setNames(data, c("x", "y", "red", "green", "blue", "alpha"))
   } else {
-    stop("Can't assume band values from ", ncol(data) - 2, " band raster.")
+    stop("Can't assume band values from ",
+         terra::ncol(data) - 2,
+         " band raster.")
   }
 
   geom_spatial_rgb_internal(
@@ -302,8 +330,8 @@ stat_spatial_rgb_internal.character <- function(data = NULL,
                                                 scale = NULL,
                                                 ...) {
   stopifnot(length(data) == 1)
-  data <- raster::stack(data)
-  stat_spatial_rgb_internal.RasterStack(
+  data <- terra::rast(data)
+  stat_spatial_rgb_internal.SpatRaster(
     data = data,
     mapping = mapping,
     geom = geom,
@@ -325,13 +353,33 @@ stat_spatial_rgb_internal.RasterStack <- function(data = NULL,
                                                   inherit.aes = TRUE,
                                                   scale = NULL,
                                                   ...) {
-  data <- raster::as.data.frame(data, xy = TRUE)
-  if (ncol(data) == 5) {
+  data <- terra::rast(data)
+  stat_spatial_rgb_internal(
+    data = data, mapping = mapping, geom = geom,
+    position = position, na.rm = na.rm,
+    show.legend = show.legend, inherit.aes = inherit.aes,
+    scale = scale, ...
+  )
+}
+
+stat_spatial_rgb_internal.SpatRaster <- function(data = NULL,
+                                                 mapping = NULL,
+                                                 geom = "raster",
+                                                 position = "identity",
+                                                 na.rm = FALSE,
+                                                 show.legend = FALSE,
+                                                 inherit.aes = TRUE,
+                                                 scale = NULL,
+                                                 ...) {
+  data <- terra::as.data.frame(data, xy = TRUE)
+  if (terra::ncol(data) == 5) {
     data <- stats::setNames(data, c("x", "y", "red", "green", "blue"))
-  } else if (ncol(data) == 6) {
+  } else if (terra::ncol(data) == 6) {
     data <- stats::setNames(data, c("x", "y", "red", "green", "blue", "alpha"))
   } else {
-    stop("Can't assume band values from ", ncol(data) - 2, " band raster.")
+    stop("Can't assume band values from ",
+         terra::ncol(data) - 2,
+         " band raster.")
   }
 
   stat_spatial_rgb_internal(

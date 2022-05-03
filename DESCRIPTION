@@ -1,56 +1,52 @@
-Package: terrainr
 Type: Package
+Package: terrainr
 Title: Landscape Visualizations in R and 'Unity'
 Version: 0.7.0
 Authors@R: c(
-    person(given = "Michael",
-           family = "Mahoney",
-           role = c("aut", "cre"),
-           email = "mike.mahoney.218@gmail.com",
+    person("Michael", "Mahoney", , "mike.mahoney.218@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-2402-304X")),
-    person(given = "Mike",
-           family = "Johnson",
-           role = c("rev"),
-           comment = c("Mike reviewed the package (v. 0.2.1) for rOpenSci, see <https://github.com/ropensci/software-review/issues/416>")),
-    person(given = "Sydney",
-           family = "Foks",
-           role = c("rev"),
-           comment = c("Sydney reviewed the package (v. 0.2.1) for rOpenSci, see <https://github.com/ropensci/software-review/issues/416>")))
-Description: Functions for the retrieval, manipulation, and visualization of 
-    'geospatial' data, with an aim towards producing '3D' landscape 
-    visualizations in the 'Unity' '3D' rendering engine. Functions are also 
-    provided for retrieving elevation data and base map tiles from the 'USGS' 
-    National Map <https://apps.nationalmap.gov/services/>.
-URL: https://docs.ropensci.org/terrainr/, https://github.com/ropensci/terrainr
-BugReports: https://github.com/ropensci/terrainr/issues
+    person("Mike", "Johnson", role = "rev",
+           comment = "Mike reviewed the package (v. 0.2.1) for rOpenSci, see <https://github.com/ropensci/software-review/issues/416>"),
+    person("Sydney", "Foks", role = "rev",
+           comment = "Sydney reviewed the package (v. 0.2.1) for rOpenSci, see <https://github.com/ropensci/software-review/issues/416>")
+  )
+Description: Functions for the retrieval, manipulation, and visualization
+    of 'geospatial' data, with an aim towards producing '3D' landscape
+    visualizations in the 'Unity' '3D' rendering engine. Functions are
+    also provided for retrieving elevation data and base map tiles from
+    the 'USGS' National Map <https://apps.nationalmap.gov/services/>.
 License: MIT + file LICENSE
-Encoding: UTF-8
+URL: https://docs.ropensci.org/terrainr/,
+    https://github.com/ropensci/terrainr
+BugReports: https://github.com/ropensci/terrainr/issues
 Imports: 
     base64enc,
+    ggplot2,
+    grDevices,
     httr,
-    raster,
-    rgdal,
-    terra,
     magick (>= 2.5.0),
     methods,
     png,
     sf (>= 1.0-5),
-    units,
-    grDevices,
-    ggplot2
-RoxygenNote: 7.1.2
+    terra,
+    units
 Suggests: 
-    testthat,
-    covr,
-    progressr,
-    knitr,
-    rmarkdown,
-    progress,
-    jpeg,
-    tiff,
     brio,
+    covr,
+    jpeg,
+    knitr,
+    progress,
+    progressr,
+    raster,
+    rgdal,
+    rmarkdown,
+    testthat,
+    tiff,
     unifir
-Config/testthat/parallel: true
+VignetteBuilder: 
+    knitr
 Config/testthat/edition: 3
-VignetteBuilder: knitr
+Config/testthat/parallel: true
+Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2

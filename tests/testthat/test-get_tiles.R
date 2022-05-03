@@ -11,9 +11,14 @@ test_that("raster method is consistent", {
 
 test_that("warnings fire appropriately", {
   skip_on_cran()
-  tmp_raster <- raster::raster("testdata/merge_rasters_test.tif")
+  tmp_raster <- terra::rast("testdata/merge_rasters_test.tif")
+  terra::crs(tmp_raster) <- NA
   expect_warning(
-    get_tiles(tmp_raster)
+    expect_warning(
+      get_tiles(tmp_raster),
+      "Assuming geographic CRS"
+    ),
+    "Assuming CRS of"
   )
 })
 

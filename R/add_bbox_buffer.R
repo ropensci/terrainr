@@ -126,8 +126,9 @@ add_bbox_buffer.Raster <- function(data,
                                    distance,
                                    distance_unit = "meters",
                                    error_crs = NULL) {
-
-  data <- terra::rast(data@file@name)
+  tmp <- tempfile(fileext = ".tiff")
+  raster::writeRaster(data, tmp)
+  data <- terra::rast(tmp)
   add_bbox_buffer(
     data = data,
     distance = distance,
@@ -142,7 +143,7 @@ add_bbox_buffer.SpatRaster <- function(data,
                                        distance,
                                        distance_unit = "meters",
                                        error_crs = NULL) {
-  bbox <- terra::ext(data)@ptr$vector
+  bbox <- as.vector(terra::ext(data))
   data_sf <- data.frame(
     lat = c(bbox[[3]], bbox[[4]]),
     lng = c(bbox[[1]], bbox[[2]])

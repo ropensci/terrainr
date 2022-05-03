@@ -108,28 +108,40 @@ test_that("all methods of geom_spatial_rgb are equivalent", {
     ggplot2::geom_sf(data = simulated_data)
   ggplot2::ggsave(plots[[6]])
 
-  expect_identical(
-    brio::read_file_raw(plots[[1]]),
-    brio::read_file_raw(plots[[2]]),
+  agreement <- sum(
+    (png::readPNG(plots[[1]]) == png::readPNG(plots[[2]])) /
+      length(png::readPNG(plots[[1]]))
   )
 
-  expect_identical(
-    brio::read_file_raw(plots[[3]]),
-    brio::read_file_raw(plots[[4]]),
+  expect_true(
+    agreement > 0.95
   )
 
-  expect_identical(
-    brio::read_file_raw(plots[[5]]),
-    brio::read_file_raw(plots[[6]]),
+  agreement <- sum(
+    (png::readPNG(plots[[3]]) == png::readPNG(plots[[4]])) /
+      length(png::readPNG(plots[[1]]))
   )
 
-  expect_identical(
-    brio::read_file_raw(plots[[2]]),
-    brio::read_file_raw(plots[[3]]),
+  expect_true(
+    agreement > 0.95
   )
 
-  expect_identical(
-    brio::read_file_raw(plots[[1]]),
-    brio::read_file_raw(plots[[6]]),
+  agreement <- sum(
+    (png::readPNG(plots[[5]]) == png::readPNG(plots[[6]])) /
+      length(png::readPNG(plots[[6]]))
   )
+
+  expect_true(
+    agreement > 0.95
+  )
+
+  agreement <- sum(
+    (png::readPNG(plots[[1]]) == png::readPNG(plots[[6]])) /
+      length(png::readPNG(plots[[1]]))
+  )
+
+  expect_true(
+    agreement > 0.95
+  )
+
 })

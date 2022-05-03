@@ -44,12 +44,12 @@ plot. You must supply \code{mapping} if there is no plot mapping.}
 options described in \link[ggplot2:geom_tile]{ggplot2::geom_raster}, there are two additional
 methods:
 
-If a \code{RasterStack} object (see \link[raster:stack]{raster::stack}), this function will coerce
-the stack to a data frame and assume the raster bands are in RGB order
+If a \code{SpatRaster} object (see \link[terra:rast]{terra::rast}), this function will coerce
+the raster to a data frame and assume the raster bands are in RGB order
 (while allowing for, but ignoring, a fourth alpha band).
 
 If a length-1 character vector, this function will attempt to load the object
-via \link[raster:stack]{raster::stack}.}
+via \link[terra:rast]{terra::rast}.}
 
 \item{stat}{The statistical transformation to use on the data for this
 layer, as a string.}
@@ -120,7 +120,7 @@ output_tiles <- get_tiles(simulated_data,
 merged_ortho <- tempfile(fileext = ".tif")
 merge_rasters(output_tiles[["ortho"]], merged_ortho)
 
-merged_stack <- raster::stack(merged_ortho)
+merged_stack <- terra::rast(merged_ortho)
 
 library(ggplot2)
 

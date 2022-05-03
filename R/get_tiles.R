@@ -186,23 +186,24 @@ get_tiles.Raster <- function(data,
                              georeference = TRUE,
                              projected = NULL,
                              ...) {
-  data <- terra::rast(data)
-  get_tiles.SpatRast(data,
-                     output_prefix = output_prefix,
-                     side_length = side_length,
-                     resolution = resolution,
-                     services = services,
-                     verbose = verbose,
-                     georeference = georeference,
-                     projected = projected,
-                     ...)
-
+  tmp <- tempfile(fileext = ".tiff")
+  raster::writeRaster(data, tmp)
+  data <- terra::rast(tmp)
+  get_tiles.SpatRaster(data,
+                       output_prefix = output_prefix,
+                       side_length = side_length,
+                       resolution = resolution,
+                       services = services,
+                       verbose = verbose,
+                       georeference = georeference,
+                       projected = projected,
+                       ...)
 }
 
 
 #' @rdname get_tiles
 #' @export
-get_tiles.SpatRast <- function(data,
+get_tiles.SpatRaster <- function(data,
                                output_prefix = tempfile(),
                                side_length = NULL,
                                resolution = 1,

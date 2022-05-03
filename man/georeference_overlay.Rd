@@ -16,9 +16,8 @@ detected automatically from file extension; options include \code{jpeg/jpg},
 \code{png}, and \code{tif/tiff}.}
 
 \item{reference_raster}{The raster file to base georeferencing on. The output
-image will have the same extent and CRS as the reference raster. Accepts both
-Raster* objects from the \code{raster} package or a file readable by
-\link[raster:raster]{raster::raster}.}
+image will have the same extent and CRS as the reference raster. Accepts
+anything that can be read by \link[terra:rast]{terra::rast}}
 
 \item{output_file}{The path to write the georeferenced image file to. Must
 be a TIFF.}
