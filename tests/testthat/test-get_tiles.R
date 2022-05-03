@@ -77,8 +77,8 @@ test_that("projected returns are consistent", {
   expect_equal(as.vector(terra::crs(stored_raster)),
                as.vector(terra::crs(test_raster)))
   expect_equal(
-    as.vector(terra::global(stored_raster, max)),
-    as.vector(terra::global(test_raster, max)),
+    as.vector(terra::global(stored_raster, max))[[1]],
+    as.vector(terra::global(test_raster, max))[[1]],
     tolerance = 0.01
   )
 })
