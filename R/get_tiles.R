@@ -4,8 +4,8 @@
 #' tiles, and retrieves data from the USGS National map for each tile. As of
 #' version 0.5.0, the method for lists has been deprecated.
 #'
-#' @param data An `sf` or `Raster` object; tiles will be downloaded for the full
-#' extent of the provided object.
+#' @param data An `sf` or `SpatRast` object; tiles will be downloaded for the
+#' full extent of the provided object.
 #' @param output_prefix The file prefix to use when saving tiles.
 #' @param side_length The length, in meters, of each side of tiles to download.
 #' If \code{NULL}, defaults to the maximum side length permitted by the least
@@ -186,6 +186,31 @@ get_tiles.Raster <- function(data,
                              georeference = TRUE,
                              projected = NULL,
                              ...) {
+  data <- terra::rast(data)
+  get_tiles.SpatRast(data,
+                     output_prefix = output_prefix,
+                     side_length = side_length,
+                     resolution = resolution,
+                     services = services,
+                     verbose = verbose,
+                     georeference = georeference,
+                     projected = projected,
+                     ...)
+
+}
+
+
+#' @rdname get_tiles
+#' @export
+get_tiles.SpatRast <- function(data,
+                               output_prefix = tempfile(),
+                               side_length = NULL,
+                               resolution = 1,
+                               services = "elevation",
+                               verbose = FALSE,
+                               georeference = TRUE,
+                               projected = NULL,
+                               ...) {
   dots <- list(...)
   if (is.null(projected)) {
     projected <- !sf::st_is_longlat(data)
@@ -206,10 +231,10 @@ get_tiles.Raster <- function(data,
     imageSR <- dots[["imageSR"]]
   } # nolint
 
-  data <- raster::extent(data)
+  data <- as.vector(terra::ext(data))
   data <- data.frame(
-    lng = c(data@xmin, data@xmax),
-    lat = c(data@ymin, data@ymax)
+    lng = c(data[[1]], data[[2]]),
+    lat = c(data[[3]], data[[4]])
   )
   data <- sf::st_as_sf(data, coords = c("lng", "lat"))
   data <- sf::st_bbox(data)
@@ -228,6 +253,7 @@ get_tiles.Raster <- function(data,
     ...
   )
 }
+
 
 #' @rdname get_tiles
 #' @export
@@ -403,19 +429,19 @@ get_tiles_internal <- function(data,
         }
 
         if (georeference && services[[k]] != "3DEPElevation") {
-          cur_raster <- raster::brick(png::readPNG(cur_path))
-          cur_raster@crs <- raster::crs(paste0(
+          cur_raster <- terra::rast(png::readPNG(cur_path))
+          terra::crs(cur_raster) <- paste0(
             "+init=EPSG:",
             img_bin$extent$spatialReference$wkid
-          ))
-          cur_raster@extent <- raster::extent(
+          )
+          terra::ext(cur_raster) <- c(
             img_bin$extent$xmin,
             img_bin$extent$xmax,
             img_bin$extent$ymin,
             img_bin$extent$ymax
           )
 
-          raster::writeRaster(cur_raster,
+          terra::writeRaster(cur_raster,
             final_path,
             overwrite = TRUE
           )

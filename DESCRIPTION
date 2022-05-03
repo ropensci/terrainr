@@ -30,6 +30,7 @@ Imports:
     httr,
     raster,
     rgdal,
+    terra,
     magick (>= 2.5.0),
     methods,
     png,

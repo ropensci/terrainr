@@ -2,6 +2,13 @@
 * New features:
     * `make_unity` is a new function which uses the new `unifir` package to 
       automatically create Unity scenes, no clicking necessary.
+    * Internally, all calls to functions from {raster} have been replaced with
+      calls to {terra}. This future-proofs the package against any coming 
+      deprecations and takes advantage of newer, faster terra code.
+      This is not intended to be a breaking change; any methods that previously
+      took {raster} objects should still work (and silently convert to {terra}
+      under the hood). If you have any workflows impacted by this change, 
+      please file a bug report!
 * Improvements and bug fixes: 
     * `make_manifest`, `transform_elevation`, and `transform_overlay` no longer
       error when providing non-standard side lengths; they now warn as intended.

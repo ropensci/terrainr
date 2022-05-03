@@ -5,9 +5,11 @@
 \alias{add_bbox_buffer}
 \alias{add_bbox_buffer.sf}
 \alias{add_bbox_buffer.Raster}
+\alias{add_bbox_buffer.SpatRaster}
 \alias{set_bbox_side_length}
 \alias{set_bbox_side_length.sf}
 \alias{set_bbox_side_length.Raster}
+\alias{set_bbox_side_length.SpatRaster}
 \title{Add a uniform buffer around a bounding box for geographic coordinates}
 \usage{
 add_bbox_buffer(data, distance, distance_unit = "meters", error_crs = NULL)
@@ -15,6 +17,8 @@ add_bbox_buffer(data, distance, distance_unit = "meters", error_crs = NULL)
 \method{add_bbox_buffer}{sf}(data, distance, distance_unit = "meters", error_crs = NULL)
 
 \method{add_bbox_buffer}{Raster}(data, distance, distance_unit = "meters", error_crs = NULL)
+
+\method{add_bbox_buffer}{SpatRaster}(data, distance, distance_unit = "meters", error_crs = NULL)
 
 set_bbox_side_length(
   data,
@@ -31,6 +35,13 @@ set_bbox_side_length(
 )
 
 \method{set_bbox_side_length}{Raster}(
+  data,
+  distance,
+  distance_unit = "meters",
+  error_crs = NULL
+)
+
+\method{set_bbox_side_length}{SpatRaster}(
   data,
   distance,
   distance_unit = "meters",

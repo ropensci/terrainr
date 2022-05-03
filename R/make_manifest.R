@@ -185,11 +185,11 @@ prep_table <- function(input_raster,
       "Tiles will still be produced but may not be usable."
     )
   }
-  input_raster <- raster::raster(input_raster)
-  max_raster <- raster::cellStats(input_raster, "max")
+  input_raster <- terra::rast(input_raster)
+  max_raster <- max(terra::global(input_raster, "max"))
 
-  x_tiles <- ceiling(input_raster@ncols / side_length)
-  y_tiles <- ceiling(input_raster@nrows / side_length)
+  x_tiles <- ceiling(terra::ncol(input_raster) / side_length)
+  y_tiles <- ceiling(terra::nrow(input_raster) / side_length)
 
   file_combos <- expand.grid(
     x = 1:x_tiles,

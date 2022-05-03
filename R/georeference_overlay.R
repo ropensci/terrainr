@@ -9,9 +9,8 @@
 #' detected automatically from file extension; options include `jpeg/jpg`,
 #' `png`, and `tif/tiff`.
 #' @param reference_raster The raster file to base georeferencing on. The output
-#' image will have the same extent and CRS as the reference raster. Accepts both
-#' Raster* objects from the `raster` package or a file readable by
-#' [raster::raster].
+#' image will have the same extent and CRS as the reference raster. Accepts
+#' anything that can be read by [terra::rast]
 #' @param output_file The path to write the georeferenced image file to. Must
 #' be a TIFF.
 #'
@@ -50,6 +49,8 @@ georeference_overlay <- function(overlay_file,
   stopifnot(grepl("tiff?$", output_file))
   file_type <- regmatches(overlay_file, regexpr("\\w*$", overlay_file))
 
+  reference_raster <- terra::rast(reference_raster)
+
   official_names <- c(
     "jpeg" = "jpg",
     "tiff" = "tif"
@@ -72,18 +73,12 @@ georeference_overlay <- function(overlay_file,
     "jpeg" = jpeg::readJPEG
   )
 
-  if (is.character(reference_raster) && length(reference_raster) == 1) {
-    reference_raster <- raster::raster(reference_raster)
-  } else {
-    stopifnot(any(grepl("^Raster", class(reference_raster))))
-  }
-
-  # Need image_read in order for brick to correctly detect scale
+    # Need image_read in order for brick to correctly detect scale
   # otherwise assumes 8bit
-  overlay_file <- raster::brick(image_read(overlay_file))
-  raster::crs(overlay_file) <- reference_raster@crs
-  raster::extent(overlay_file) <- reference_raster@extent
-  raster::writeRaster(overlay_file, output_file)
+  overlay_file <- terra::rast(image_read(overlay_file))
+  terra::crs(overlay_file) <- terra::crs(reference_raster)
+  terra::ext(overlay_file) <- terra::ext(reference_raster)
+  terra::writeRaster(overlay_file, output_file)
 
   return(invisible(output_file))
 }

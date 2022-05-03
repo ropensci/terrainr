@@ -9,7 +9,7 @@
 #' @param reference_raster The raster file to produce an overlay for. The output
 #' overlay will have the same extent and resolution as the input raster. Users
 #' may provide either a Raster* object or a length 1 character
-#' vector containing a path to a file readable by [raster::raster].
+#' vector containing a path to a file readable by [terra::rast].
 #' @param output_file The path to save the image overlay to. If `NULL`, saves to
 #' a tempfile.
 #' @param transparent The hex code for a color to be made transparent in the
@@ -71,11 +71,7 @@ vector_to_overlay <- function(vector_data,
     stopifnot(any(grepl("^sf", class(vector_data))))
   }
 
-  if (is.character(reference_raster) && length(reference_raster) == 1) {
-    reference_raster <- raster::raster(reference_raster)
-  } else {
-    stopifnot(any(grepl("^Raster", class(reference_raster))))
-  }
+  reference_raster <- terra::rast(reference_raster)
 
   if (is.na(sf::st_crs(vector_data))) {
     if (is.null(error_crs)) {
@@ -115,6 +111,8 @@ vector_to_overlay <- function(vector_data,
   # quiet R CMD check not appreciating ggplot's NSE...
   X <- Y <- NULL # nolint
 
+  extent <- as.vector(terra::ext(reference_raster))
+
   output_ggplot <- ggplot2::ggplot(
     vector_data,
     ggplot2::aes(x = X, y = Y, group = grouping)
@@ -123,15 +121,15 @@ vector_to_overlay <- function(vector_data,
     ggplot2::scale_x_continuous(
       expand = c(0, 0),
       limits = c(
-        reference_raster@extent@xmin,
-        reference_raster@extent@xmax
+        extent[[1]],
+        extent[[2]]
       )
     ) +
     ggplot2::scale_y_continuous(
       expand = c(0, 0),
       limits = c(
-        reference_raster@extent@ymin,
-        reference_raster@extent@ymax
+        extent[[3]],
+        extent[[4]]
       )
     ) +
     ggplot2::theme_void() +
@@ -150,8 +148,8 @@ vector_to_overlay <- function(vector_data,
   ggplot2::ggsave(
     filename = output_file,
     plot = output_ggplot,
-    width = reference_raster@ncols / 72,
-    height = reference_raster@nrows / 72,
+    width = terra::ncol(reference_raster) / 72,
+    height = terra::nrow(reference_raster) / 72,
     units = "in",
     dpi = "screen",
     limitsize = FALSE

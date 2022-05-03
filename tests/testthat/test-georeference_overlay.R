@@ -12,20 +12,18 @@ test_that("georeference_overlay edge cases work", {
 })
 
 test_that("georeference_overlay produces the same file twice", {
-  gr_rst <- raster::raster(georeference_overlay(
+  gr_rst <- terra::rast(georeference_overlay(
     "testdata/NAIPPlus.png",
     "testdata/NAIPPlus_gr.tif",
     tempfile(fileext = ".tif")
   ))
-  gr_rst@file@name <- ""
-  gr_rst@data@names <- ""
-
-  ref_rst <- raster::raster("testdata/NAIPPlus_gr.tif")
-  ref_rst@file@name <- ""
-  ref_rst@data@names <- ""
-
+  ref_rst <- terra::rast("testdata/NAIPPlus_gr.tif")
   expect_equal(
-    gr_rst,
-    ref_rst
+    terra::crs(gr_rst),
+    terra::crs(ref_rst)
+  )
+  expect_equal(
+    as.vector(terra::ext(gr_rst)),
+    as.vector(terra::ext(ref_rst))
   )
 })
