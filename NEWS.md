@@ -21,8 +21,12 @@
       through `raster` previously).
     * `raster` and `rgdal` are now in Suggests (used temporarily in 
       `Raster*` methods for `get_tiles` and `add_bbox_buffer`, until the new
-      version of `raster` hits CRAN
-
+      version of `raster` hits CRAN).
+* Internal changes:
+    * `raster_to_raw_tiles` is now a thin wrapper around the functions 
+      `transform_overlay` and `transform_elevation`. It is no longer tested; 
+      it will be removed entirely in the next release (see deprecation notice
+      in terrainr 0.5.0).
 
 # terrainr 0.6.1
 * Improvements and bug fixes:

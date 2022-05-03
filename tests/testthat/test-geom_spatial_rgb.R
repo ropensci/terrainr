@@ -17,8 +17,8 @@ test_that("all methods of geom_spatial_rgb are equivalent", {
   merged_ortho <- tempfile(fileext = ".tif")
   merge_rasters(output_tiles[["ortho"]], merged_ortho)
 
-  test <- raster::stack(merged_ortho)
-  test_df <- raster::as.data.frame(test, xy = TRUE)
+  test <- terra::rast(merged_ortho)
+  test_df <- terra::as.data.frame(test, xy = TRUE)
   test_df <- setNames(test_df, c("x", "y", "red", "green", "blue"))
 
   plots <- vapply(1:6, function(x) tempfile(fileext = ".png"), character(1))
