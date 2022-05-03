@@ -50,8 +50,8 @@ test_that("The deprecated list method still works", {
   expect_equal(as.vector(terra::ext(stored_raster)),
                as.vector(terra::ext(test_raster)))
   expect_equal(
-    as.vector(terra::global(stored_raster, max)),
-    as.vector(terra::global(test_raster, max)),
+    as.vector(terra::global(stored_raster, max))[[1]],
+    as.vector(terra::global(test_raster, max))[[1]],
     tolerance = 0.01
   )
 })
