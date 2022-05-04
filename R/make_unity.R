@@ -10,6 +10,8 @@
 #' @param scene_name The name of the Unity scene to create the terrain in.
 #' @param action Boolean: Execute the unifir "script" and create the Unity
 #' project? If FALSE, returns a non-executed script.
+#' @param unity The location of the Unity executable to create projects with.
+#' By default, will be auto-detected by [unifir::find_unity]
 #'
 #' @return An object of class "unifir_script", containing either an executed
 #' unifir script (if action = TRUE) or a non-executed script object
@@ -37,7 +39,8 @@ make_unity <- function(project,
                        overlay = NULL,
                        side_length = 4097,
                        scene_name = "terrainr_scene",
-                       action = TRUE) {
+                       action = TRUE,
+                       unity = find_unity()) {
   if (!requireNamespace("unifir", quietly = TRUE)) {
     stop(
       "make_unity requires the unifir package to work correctly. ",
@@ -63,7 +66,7 @@ make_unity <- function(project,
     side_length = side_length,
     output_prefix = elevation_prefix
   )
-  dir.create(project)
+  if (!dir.exists(project)) dir.create(project)
   lapply(
     manifest$filename,
     function(x) file.rename(x, file.path(project, basename(x)))
@@ -90,7 +93,9 @@ make_unity <- function(project,
     manifest$texture <- basename(manifest$texture)
   }
 
-  script <- unifir::make_script(project, scene_name = scene_name)
+  script <- unifir::make_script(project,
+                                scene_name = scene_name,
+                                unity = unity)
   script <- unifir::new_scene(script, "DefaultGameObjects", "Single")
 
   for (i in seq_len(nrow(manifest))) {
