@@ -16,6 +16,11 @@
       should no longer give warnings about nodata values in most cases.
       being clamped to 0.
     * Fixed some documentation, unused objects, restyled and removed lints.
+    * `transform_overlay` (and by extension, every Unity overlay importer) now
+      tries to automatically guess the scale of the input raster. Values under
+      1 are scaled from 0-1, integers under 255 are scaled 0-255, and integers
+      under 65535 are scaled 0-65536. The main effect of this is more realistic
+      coloring when importing terrain. Floats above 1 won't be affected.
 * Dependency changes:
     * `terra` is now included as an Import (had been recursively imported 
       through `raster` previously).

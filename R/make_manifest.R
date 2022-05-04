@@ -186,7 +186,20 @@ prep_table <- function(input_raster,
     )
   }
   input_raster <- terra::rast(input_raster)
-  max_raster <- max(terra::global(input_raster, "max"))
+  max_raster <- max(terra::global(input_raster, "max", na.rm = TRUE))
+  if (type == "overlay") {
+    if (max_raster < 1) {
+      max_raster <- 1
+    } else if (
+      isTRUE(all.equal(as.integer(max_raster), max_raster)) &
+      max_raster < 255) {
+      max_raster <- 255
+    } else if (
+      isTRUE(all.equal(as.integer(max_raster), max_raster)) &
+      max_raster < 65535) {
+      max_raster <- 65535
+    }
+  }
 
   x_tiles <- ceiling(terra::ncol(input_raster) / side_length)
   y_tiles <- ceiling(terra::nrow(input_raster) / side_length)
