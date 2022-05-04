@@ -17,6 +17,8 @@
 #' unifir script (if action = TRUE) or a non-executed script object
 #' (if action = FALSE).
 #'
+#' @importFrom unifir find_unity
+#'
 #' @examples
 #' \dontrun{
 #' if (!isTRUE(as.logical(Sys.getenv("CI")))) {

@@ -10,7 +10,8 @@ make_unity(
   overlay = NULL,
   side_length = 4097,
   scene_name = "terrainr_scene",
-  action = TRUE
+  action = TRUE,
+  unity = find_unity()
 )
 }
 \arguments{
@@ -29,6 +30,9 @@ Must be equal to 2^x + 1, for any x between 5 and 12.}
 
 \item{action}{Boolean: Execute the unifir "script" and create the Unity
 project? If FALSE, returns a non-executed script.}
+
+\item{unity}{The location of the Unity executable to create projects with.
+By default, will be auto-detected by \link[unifir:find_unity]{unifir::find_unity}}
 }
 \value{
 An object of class "unifir_script", containing either an executed

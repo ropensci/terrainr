@@ -29,6 +29,7 @@ Imports:
     png,
     sf (>= 1.0-5),
     terra,
+    unifir,
     units
 Suggests: 
     brio,
@@ -41,8 +42,7 @@ Suggests:
     rgdal,
     rmarkdown,
     testthat,
-    tiff,
-    unifir
+    tiff
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3
