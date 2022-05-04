@@ -17,14 +17,16 @@ test_that("get_tiles gets the same elevation tiles twice", {
   expect_equal(length(output_tif), 1)
   expect_equal(length(output_tif[[1]]), 1)
 
-  stored_raster <- raster::raster("testdata/3DEP.tif")
-  test_raster <- raster::raster(output_tif[[1]])
+  stored_raster <- terra::rast("testdata/3DEP.tif")
+  test_raster <- terra::rast(output_tif[[1]])
 
-  expect_equal(stored_raster@crs, test_raster@crs)
-  expect_equal(stored_raster@extent, test_raster@extent)
+  expect_equal(as.vector(terra::crs(stored_raster)),
+               as.vector(terra::crs(test_raster)))
+  expect_equal(as.vector(terra::ext(stored_raster)),
+               as.vector(terra::ext(test_raster)))
   expect_equal(
-    raster::cellStats(stored_raster, "max"),
-    raster::cellStats(test_raster, "max"),
+    as.vector(terra::global(stored_raster, max))[[1]],
+    as.vector(terra::global(test_raster, max))[[1]],
     tolerance = 0.01
   )
 })

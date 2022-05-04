@@ -5,6 +5,7 @@
 \alias{get_tiles.sf}
 \alias{get_tiles.sfc}
 \alias{get_tiles.Raster}
+\alias{get_tiles.SpatRaster}
 \alias{get_tiles.list}
 \title{A user-friendly way to get USGS National Map data tiles for an area}
 \usage{
@@ -56,6 +57,18 @@ get_tiles(
   ...
 )
 
+\method{get_tiles}{SpatRaster}(
+  data,
+  output_prefix = tempfile(),
+  side_length = NULL,
+  resolution = 1,
+  services = "elevation",
+  verbose = FALSE,
+  georeference = TRUE,
+  projected = NULL,
+  ...
+)
+
 \method{get_tiles}{list}(
   data,
   output_prefix = tempfile(),
@@ -69,8 +82,8 @@ get_tiles(
 )
 }
 \arguments{
-\item{data}{An \code{sf} or \code{Raster} object; tiles will be downloaded for the full
-extent of the provided object.}
+\item{data}{An \code{sf} or \code{SpatRast} object; tiles will be downloaded for the
+full extent of the provided object.}
 
 \item{output_prefix}{The file prefix to use when saving tiles.}
 

@@ -21,7 +21,7 @@ character vector containing a path to a file readable by \link[sf:st_read]{sf::r
 \item{reference_raster}{The raster file to produce an overlay for. The output
 overlay will have the same extent and resolution as the input raster. Users
 may provide either a Raster* object or a length 1 character
-vector containing a path to a file readable by \link[raster:raster]{raster::raster}.}
+vector containing a path to a file readable by \link[terra:rast]{terra::rast}.}
 
 \item{output_file}{The path to save the image overlay to. If \code{NULL}, saves to
 a tempfile.}

@@ -1,3 +1,38 @@
+# terrainr 0.7.0
+* New features:
+    * `make_unity` is a new function which uses the new `unifir` package to 
+      automatically create Unity scenes, no clicking necessary.
+    * Internally, all calls to functions from {raster} have been replaced with
+      calls to {terra}. This future-proofs the package against any coming 
+      deprecations and takes advantage of newer, faster terra code.
+      This is not intended to be a breaking change; any methods that previously
+      took {raster} objects should still work (and silently convert to {terra}
+      under the hood). If you have any workflows impacted by this change, 
+      please file a bug report!
+* Improvements and bug fixes: 
+    * `make_manifest`, `transform_elevation`, and `transform_overlay` no longer
+      error when providing non-standard side lengths; they now warn as intended.
+    * `make_manifest`, `transform_elevation`, and `transform_overlay`
+      should no longer give warnings about nodata values in most cases.
+      being clamped to 0.
+    * Fixed some documentation, unused objects, restyled and removed lints.
+    * `transform_overlay` (and by extension, every Unity overlay importer) now
+      tries to automatically guess the scale of the input raster. Values under
+      1 are scaled from 0-1, integers under 255 are scaled 0-255, and integers
+      under 65535 are scaled 0-65536. The main effect of this is more realistic
+      coloring when importing terrain. Floats above 1 won't be affected.
+* Dependency changes:
+    * `terra` is now included as an Import (had been recursively imported 
+      through `raster` previously).
+    * `raster` and `rgdal` are now in Suggests (used temporarily in 
+      `Raster*` methods for `get_tiles` and `add_bbox_buffer`, until the new
+      version of `raster` hits CRAN).
+* Internal changes:
+    * `raster_to_raw_tiles` is now a thin wrapper around the functions 
+      `transform_overlay` and `transform_elevation`. It is no longer tested; 
+      it will be removed entirely in the next release (see deprecation notice
+      in terrainr 0.5.0).
+
 # terrainr 0.6.1
 * Improvements and bug fixes:
     * The README of version 0.6.0 has a disclaimer at the top stating that the 

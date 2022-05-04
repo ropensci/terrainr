@@ -21,14 +21,14 @@ the original point to apply}
 \item{azimuth}{A azimuth (in units specified in \code{azimuth_unit})
 representing the direction to apply the distance from the original point in}
 
-\item{distance_unit}{A string passed to [convert_distance]
+\item{distance_unit}{A string passed to convert_distance
 indicating the units of the provided distance.}
 
 \item{azimuth_unit}{A string (either \code{degrees} or \code{radians})
 indicating the units of the \code{azimuth} argument}
 }
 \value{
-An object of class [terrainr_coordinate_pair].
+An object of class \link{terrainr_coordinate_pair}.
 }
 \description{
 Find latitude and longitude for a certain distance and azimuth from a point.

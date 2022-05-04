@@ -12,13 +12,12 @@ georeference_overlay(
 }
 \arguments{
 \item{overlay_file}{The image overlay to georeference. File format will be
-detected automatically from file extension; options include `jpeg/jpg`,
-`png`, and `tif/tiff`.}
+detected automatically from file extension; options include \code{jpeg/jpg},
+\code{png}, and \code{tif/tiff}.}
 
 \item{reference_raster}{The raster file to base georeferencing on. The output
-image will have the same extent and CRS as the reference raster. Accepts both
-Raster* objects from the `raster` package or a file readable by
-[raster::raster].}
+image will have the same extent and CRS as the reference raster. Accepts
+anything that can be read by \link[terra:rast]{terra::rast}}
 
 \item{output_file}{The path to write the georeferenced image file to. Must
 be a TIFF.}
@@ -30,7 +29,7 @@ The file path written to, invisibly.
 This function georeferences an image overlay based on a reference raster,
 setting the extent and CRS of the image to those of the raster file. To
 georeference multiple images and merge them into a single file, see
-[merge_rasters].
+\link{merge_rasters}.
 }
 \examples{
 \dontrun{

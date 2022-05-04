@@ -48,7 +48,7 @@ test_that("set_bbox_side_length works within 1%", {
   tolerance = 8000 * 0.005
   )
 
-  tmp_raster <- raster::raster("testdata/merge_rasters_test.tif")
+  tmp_raster <- terra::rast("testdata/merge_rasters_test.tif")
   rstr_bbox <- set_bbox_side_length(tmp_raster, 8000)
   rstr_bbox <- sf::st_bbox(rstr_bbox)
 

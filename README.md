@@ -136,8 +136,9 @@ data products (as downloaded from `get_tiles`) at
 
 To cite terrainr in publications please use:
 
-> Mahoney et al., (2022). terrainr: An R package for creating immersive
-> virtual environments. Journal of Open Source Software, 7(69), 4060,
+> Mahoney, M. J., Beier, C. M., and Ackerman, A. C., (2022). terrainr:
+> An R package for creating immersive virtual environments. Journal of
+> Open Source Software, 7(69), 4060,
 > <https://doi.org/10.21105/joss.04060>
 
 A BibTeX entry for LaTeX users is:

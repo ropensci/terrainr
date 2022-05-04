@@ -59,7 +59,7 @@ get_centroid <- function(lat, lng) {
 #' the original point to apply
 #' @param azimuth A azimuth (in units specified in \code{azimuth_unit})
 #' representing the direction to apply the distance from the original point in
-#' @param distance_unit A string passed to [convert_distance]
+#' @param distance_unit A string passed to convert_distance
 #' indicating the units of the provided distance.
 #' @param azimuth_unit A string (either \code{degrees} or \code{radians})
 #' indicating the units of the \code{azimuth} argument

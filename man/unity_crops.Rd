@@ -22,7 +22,7 @@ transform_overlay(overlay, side_length = 4097, output_prefix = "import")
 \item{heightmap}{File path to the heightmap to transform.}
 
 \item{overlay}{File path to the image overlay to transform. Optional for
-[make_manifest].}
+\link{make_manifest}.}
 
 \item{output_prefix}{The file path to prefix output tiles with.}
 
@@ -32,18 +32,18 @@ transform_overlay(overlay, side_length = 4097, output_prefix = "import")
 to not copy the importer script. Will overwrite any file at the same path.}
 
 \item{side_length}{Side length, in pixels, of each output tile. If the raster
-has dimensions not evenly divisible by `side_length`, tiles will be generated
+has dimensions not evenly divisible by \code{side_length}, tiles will be generated
 with overhanging pieces set to 0 units of elevation or RGB 0 (pure black).
 Side lengths not equal to 2^x + 1 (for x <= 12) will cause a warning, as
 tiles must be this size for import into Unity.}
 }
 \value{
-`manifest_path`, invisibly.
+\code{manifest_path}, invisibly.
 }
 \description{
 These functions crop input raster files into smaller square tiles and then
 converts them into either .png or .raw files which are ready to be imported
-into the Unity game engine. [make_manifest] also writes a "manifest" file and
+into the Unity game engine. \link{make_manifest} also writes a "manifest" file and
 importer script which may be used to automatically import the tiles into
 Unity.
 }

@@ -2,7 +2,7 @@
 #'
 #' Some functions like [get_tiles] return multiple separate files
 #' when it can be useful to have a single larger raster instead. This function
-#' is a thin wrapper over [sf::gdal_utils(util = "warp")], making it easy to
+#' is a thin wrapper over [sf::gdal_utils], making it easy to
 #' collapse those multiple raster files into a single TIFF.
 #'
 #' @param input_rasters A character vector containing the file paths to the
@@ -53,8 +53,6 @@ merge_rasters <- function(input_rasters,
     options <- c(options, "-overwrite")
   }
 
-  initial_file <- output_raster
-
   if (!force_fallback) {
     tryCatch(
       {
@@ -86,9 +84,10 @@ merge_rasters <- function(input_rasters,
 merge_rasters_deprecated <- function(input_rasters,
                                      output_raster = tempfile(fileext = ".tif"),
                                      options = character(0)) {
-  if (length(options) > 0 ||
-      !(length(options == 1) && options == "-overwrite")) {
-    warning("Options are not respected when trying to merge rasters with differing numbers of bands") # nolint
+  if (length(options) > 0) {
+    if(!(length(options == 1) && options == "-overwrite")) {
+      warning("Options are not respected when trying to merge rasters with differing numbers of bands") # nolint
+    }
   }
 
   temp_output <- tempfile(fileext = ".vrt")

@@ -126,19 +126,38 @@ add_bbox_buffer.Raster <- function(data,
                                    distance,
                                    distance_unit = "meters",
                                    error_crs = NULL) {
-  bbox <- raster::extent(data)
-  data_sf <- data.frame(
-    lat = c(bbox@ymin, bbox@ymax),
-    lng = c(bbox@xmin, bbox@xmax)
-  )
-  data_sf <- sf::st_as_sf(data_sf, coords = c("lng", "lat"))
-  data_sf <- sf::st_set_crs(data_sf, sf::st_crs(data))
-  add_bbox_buffer(data_sf,
+  tmp <- tempfile(fileext = ".tiff")
+  raster::writeRaster(data, tmp)
+  data <- terra::rast(tmp)
+  add_bbox_buffer(
+    data = data,
     distance = distance,
     distance_unit = distance_unit,
     error_crs = error_crs
   )
 }
+
+#' @rdname addbuff
+#' @export
+add_bbox_buffer.SpatRaster <- function(data,
+                                       distance,
+                                       distance_unit = "meters",
+                                       error_crs = NULL) {
+  bbox <- as.vector(terra::ext(data))
+  data_sf <- data.frame(
+    lat = c(bbox[[3]], bbox[[4]]),
+    lng = c(bbox[[1]], bbox[[2]])
+  )
+  data_sf <- sf::st_as_sf(data_sf, coords = c("lng", "lat"))
+  data_sf <- sf::st_set_crs(data_sf, sf::st_crs(data))
+  add_bbox_buffer(data_sf,
+                  distance = distance,
+                  distance_unit = distance_unit,
+                  error_crs = error_crs
+  )
+}
+
+
 
 #' @rdname addbuff
 #' @examples
@@ -193,10 +212,26 @@ set_bbox_side_length.Raster <- function(data,
                                         distance,
                                         distance_unit = "meters",
                                         error_crs = NULL) {
-  bbox <- raster::extent(data)
+  data <- terra::rast(data@file@name)
+  set_bbox_side_length(
+    data = data,
+    distance = distance,
+    distance_unit = distance_unit,
+    error_crs = error_crs
+  )
+}
+
+
+#' @rdname addbuff
+#' @export
+set_bbox_side_length.SpatRaster <- function(data,
+                                            distance,
+                                            distance_unit = "meters",
+                                            error_crs = NULL) {
+  bbox <- terra::ext(data)@ptr$vector
   data_sf <- data.frame(
-    lat = c(bbox@ymin, bbox@ymax),
-    lng = c(bbox@xmin, bbox@xmax)
+    lat = c(bbox[[3]], bbox[[4]]),
+    lng = c(bbox[[1]], bbox[[2]])
   )
   data_sf <- sf::st_as_sf(data_sf, coords = c("lng", "lat"))
   data_sf <- sf::st_set_crs(data_sf, sf::st_crs(data))

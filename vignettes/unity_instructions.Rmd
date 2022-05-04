@@ -64,62 +64,27 @@ merged_tiles <- zion %>%
   lapply(merge_rasters)
 ```
 
-We've now got our data downloaded! Our next step is to turn it into a data 
-format we can import into Unity.
+We've now got our data downloaded! All that's left is to import these tiles into
+Unity.
 
-As of terrainr 0.5.0, the way to do this is via the function `make_manifest`. 
-The first argument to this function is the elevation raster you want to use as
-a heightmap -- in our case, `merged_tiles$elevation`. The second argument 
-optionally takes the image overlay you want to put on top of that heightmap. 
-In our case, that means everything we need to provide is in the `merged_tiles`
-list:
+As of terrainr 0.7.0, the way to do this is via the function `make_unity`. 
+Assuming you have Unity installed on your computer, we can go ahead and 
+import our terrain into a brand new project, named `zion`, through the 
+following:
 
-```{r, eval = FALSE}
-make_manifest(merged_tiles$elevation, 
-              merged_tiles$ortho)
+```{r eval = FALSE}
+make_unity(
+  project = "zion",
+  heightmap = merged_tiles$elevation,
+  overlay = merged_tiles$ortho
+)
 ```
 
-After a moment, this function will spit out a number of files: our heightmap and
-overlay tiles, all prefixed with `import_`, a C# file named `import_terrain.cs`,
-and a final file named `terrainr.manifest` (note that all of these names can be 
-changed via arguments to `make_manifest`, but for simplicity's sake I'm using 
-the default names now). 
-
-```{r, echo = FALSE}
-knitr::include_graphics("generated_files.png")
-```
-
-Now go ahead and open Unity. From the main "Hub" menu, click "New" to create a
-new project. Set the project name to whatever you want, then click "Create".
-
-```{r, echo = FALSE}
-knitr::include_graphics("new_unity.jpg")
-```
-
-Go ahead and move all the files from `make_manifest` into the root directory of
-your new Unity project. Then move the `import_terrain.cs` file into the `Assets`
-directory inside that folder (but leave everything else in the root directory!).
-
-Go back to Unity now. A second after you click into the window, you should 
-notice a "terrainr" menu appear in the top bar. Click that menu, then the only
-option in the drop-down. A menu should appear; click "Import" to import your 
-tiles into Unity.
-
-```{r, echo = FALSE}
-knitr::include_graphics("manifest_import.png")
-```
-
-The importer menu will disappear, then Unity will take a minute or two to import
-all your tiles. Depending on your data, you may see something that looks like
-this:
-
-```{r, echo = FALSE}
-knitr::include_graphics("ominous.png")
-```
-
-That's perfectly fine! Right click on the "Scene" window in the middle, and then
-press and hold "S" on your keyboard to move the camera back. After a 
-second, you should see your terrain surface!
+This will create a new folder, named `zion`, containing our Unity project. 
+Open that project in Unity, and then open the scene (either using `Ctrl+O`
+or `File -> Open Scene`) named `Scenes/terrainr_scene.unity`. 
+Double click on one of the terrain tiles and you'll zoom out to see the
+entire terrain:
 
 ```{r, echo = FALSE}
 knitr::include_graphics("terrain_surface.jpg")
@@ -127,7 +92,8 @@ knitr::include_graphics("terrain_surface.jpg")
 
 You can now move around your surface by right clicking on the image and moving
 around with the W-A-S-D keys on your keyboard. Note that your movement speed 
-starts off very slow, and then accelerates over time.
+starts off very slow, and then accelerates over time (especially if you
+press and hold the "shift" key).
 
 And ta-da, you have a surface in Unity! You can go ahead and customize the scene
 further (I'll usually then click on "Directional Light" and change "Render Mode" 

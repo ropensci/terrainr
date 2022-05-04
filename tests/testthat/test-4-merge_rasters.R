@@ -27,15 +27,18 @@ test_that("merge_raster files are identical no matter the filename", {
   merge_rasters(c(tmptif[[1]], tmptif[[2]]), tmptif[[4]])
 
   expect_equal(
-    raster::raster(tmptif[[3]])@extent,
-    raster::raster(tmptif[[4]])@extent
+    as.vector(terra::ext(terra::rast(tmptif[[3]]))),
+    as.vector(terra::ext(terra::rast(tmptif[[4]])))
   )
 
-  stored_raster <- raster::raster("testdata/merge_dem.tif")
-  test_raster <- raster::raster(tmptif[[4]])
+  stored_raster <- terra::rast("testdata/merge_dem.tif")
+  test_raster <- terra::rast(tmptif[[4]])
 
-  expect_equal(stored_raster@crs, test_raster@crs)
-  expect_equal(stored_raster@extent, test_raster@extent)
+  expect_equal(as.vector(terra::crs(stored_raster)),
+               as.vector(terra::crs(test_raster)))
+  expect_equal(as.vector(terra::ext(stored_raster)),
+               as.vector(terra::ext(test_raster)))
+
 })
 
 test_that("fallback method works", {
@@ -71,15 +74,17 @@ test_that("fallback method works", {
   merge_rasters(c(tmptif[[1]], tmptif[[2]]), tmptif[[4]], force_fallback = TRUE)
 
   expect_equal(
-    raster::raster(tmptif[[3]])@extent,
-    raster::raster(tmptif[[4]])@extent
+    as.vector(terra::ext(terra::rast(tmptif[[3]]))),
+    as.vector(terra::ext(terra::rast(tmptif[[4]])))
   )
 
-  stored_raster <- raster::raster("testdata/merge_dem.tif")
-  test_raster <- raster::raster(tmptif[[4]])
+  stored_raster <- terra::rast("testdata/merge_dem.tif")
+  test_raster <- terra::rast(tmptif[[4]])
 
-  expect_equal(stored_raster@crs, test_raster@crs)
-  expect_equal(stored_raster@extent, test_raster@extent)
+  expect_equal(as.vector(terra::crs(stored_raster)),
+               as.vector(terra::crs(test_raster)))
+  expect_equal(as.vector(terra::ext(stored_raster)),
+               as.vector(terra::ext(test_raster)))
 })
 
 test_that("overwrite works as expected", {
@@ -116,17 +121,26 @@ test_that("overwrite works as expected", {
     NA
   )
   expect_warning(
-    merge_rasters(c(tmptif[[1]], tmptif[[2]]), test_file, options = "-overwrite"),
+    merge_rasters(c(tmptif[[1]], tmptif[[2]]),
+      test_file,
+      options = "-overwrite"
+    ),
     NA
   )
   expect_warning(
-    merge_rasters(c(tmptif[[1]], tmptif[[2]]), test_file, overwrite = TRUE, options = "-overwrite"),
+    merge_rasters(c(tmptif[[1]], tmptif[[2]]),
+      test_file,
+      overwrite = TRUE, options = "-overwrite"
+    ),
     NA
   )
 
   merge_rasters(c(tmptif[[2]]), output_raster = test_file, overwrite = TRUE)
 
   expect_false(
-    raster::raster(test_file)@extent == raster::raster(test_copy)@extent
+    all(
+      as.vector(terra::ext(terra::rast(test_file))) ==
+        as.vector(terra::ext(terra::rast(test_copy)))
+    )
   )
 })

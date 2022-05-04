@@ -92,7 +92,11 @@ make_manifest <- function(heightmap,
 transform_elevation <- function(heightmap,
                                 side_length = 4097,
                                 output_prefix = "import") {
-  manifest <- prep_table(heightmap, side_length, output_prefix, type = "elevation")
+  manifest <- prep_table(heightmap,
+    side_length,
+    output_prefix,
+    type = "elevation"
+  )
 
   temptiffs <- NULL
   while (length(temptiffs) != nrow(manifest)) {
@@ -175,18 +179,30 @@ prep_table <- function(input_raster,
                        side_length,
                        output_prefix,
                        type) {
-  if (!all.equal(log((side_length - 1), 2), round(log((side_length - 1), 2)))) {
+  if (!identical(log((side_length - 1), 2), round(log((side_length - 1), 2)))) {
     warning(
       "Side lengths must be equal to 2^x + 1 (for x <= 12) for import into Unity.\n", # nolint
       "Tiles will still be produced but may not be usable."
     )
   }
-  input_raster <- raster::raster(input_raster)
-  max_raster <- raster::cellStats(input_raster, "max")
+  input_raster <- terra::rast(input_raster)
+  max_raster <- max(terra::global(input_raster, "max", na.rm = TRUE))
+  if (type == "overlay") {
+    if (max_raster < 1) {
+      max_raster <- 1
+    } else if (
+      isTRUE(all.equal(as.integer(max_raster), max_raster)) &
+      max_raster < 255) {
+      max_raster <- 255
+    } else if (
+      isTRUE(all.equal(as.integer(max_raster), max_raster)) &
+      max_raster < 65535) {
+      max_raster <- 65535
+    }
+  }
 
-  x_tiles <- ceiling(input_raster@ncols / side_length)
-  y_tiles <- ceiling(input_raster@nrows / side_length)
-  n_tiles <- x_tiles * y_tiles
+  x_tiles <- ceiling(terra::ncol(input_raster) / side_length)
+  y_tiles <- ceiling(terra::nrow(input_raster) / side_length)
 
   file_combos <- expand.grid(
     x = 1:x_tiles,
@@ -235,9 +251,9 @@ crop_tif <- function(img, manifest, temptiffs, field = "filename") {
       options = c(
         "-srcwin",
         -manifest$x_pos[[i]],
-         manifest$z_pos[[i]],
-         manifest$x_length[[i]],
-         manifest$z_length[[i]]
+        manifest$z_pos[[i]],
+        manifest$x_length[[i]],
+        manifest$z_length[[i]]
       )
     )
     names(temptiffs)[[i]] <- manifest[[field]][[i]]
@@ -258,7 +274,8 @@ convert_to_png <- function(temptiffs,
         options = c(
           "-ot", "UInt16",
           "-of", "png",
-          "-scale", "0", max_val, "0", "65535"
+          "-scale", "0", max_val, "0", "65535",
+          "-a_nodata", "0"
         )
       )
     },

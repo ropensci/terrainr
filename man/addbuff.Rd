@@ -5,9 +5,11 @@
 \alias{add_bbox_buffer}
 \alias{add_bbox_buffer.sf}
 \alias{add_bbox_buffer.Raster}
+\alias{add_bbox_buffer.SpatRaster}
 \alias{set_bbox_side_length}
 \alias{set_bbox_side_length.sf}
 \alias{set_bbox_side_length.Raster}
+\alias{set_bbox_side_length.SpatRaster}
 \title{Add a uniform buffer around a bounding box for geographic coordinates}
 \usage{
 add_bbox_buffer(data, distance, distance_unit = "meters", error_crs = NULL)
@@ -15,6 +17,8 @@ add_bbox_buffer(data, distance, distance_unit = "meters", error_crs = NULL)
 \method{add_bbox_buffer}{sf}(data, distance, distance_unit = "meters", error_crs = NULL)
 
 \method{add_bbox_buffer}{Raster}(data, distance, distance_unit = "meters", error_crs = NULL)
+
+\method{add_bbox_buffer}{SpatRaster}(data, distance, distance_unit = "meters", error_crs = NULL)
 
 set_bbox_side_length(
   data,
@@ -36,36 +40,43 @@ set_bbox_side_length(
   distance_unit = "meters",
   error_crs = NULL
 )
+
+\method{set_bbox_side_length}{SpatRaster}(
+  data,
+  distance,
+  distance_unit = "meters",
+  error_crs = NULL
+)
 }
 \arguments{
-\item{data}{The original data to add a buffer around. Must be either an `sf`
-or `Raster` object.}
+\item{data}{The original data to add a buffer around. Must be either an \code{sf}
+or \code{Raster} object.}
 
 \item{distance}{The distance to add or to set side lengths equal to.}
 
 \item{distance_unit}{The units of the distance to add to the buffer, passed
-to [units::as_units].}
+to \link[units:units]{units::as_units}.}
 
-\item{error_crs}{Logical: Should this function error if `data` has no CRS?
-If `TRUE`, function errors; if `FALSE`, function quietly assumes EPSG:4326.
-If `NULL`, the default, function assumes EPSG:4326 with a warning.}
+\item{error_crs}{Logical: Should this function error if \code{data} has no CRS?
+If \code{TRUE}, function errors; if \code{FALSE}, function quietly assumes EPSG:4326.
+If \code{NULL}, the default, function assumes EPSG:4326 with a warning.}
 }
 \value{
-An `sfc` object (from [sf::st_as_sfc]).
+An \code{sfc} object (from \link[sf:st_as_sfc]{sf::st_as_sfc}).
 }
 \description{
-[add_bbox_buffer] calculates the great circle distance both corners of
+\link{add_bbox_buffer} calculates the great circle distance both corners of
 your bounding box are from the centroid and extends those by a set distance.
 Due to using Haversine/great circle distance, latitude/longitude calculations
 will not be exact.
 
-[set_bbox_side_length] is a thin wrapper around [add_bbox_buffer] which sets
+\link{set_bbox_side_length} is a thin wrapper around \link{add_bbox_buffer} which sets
 all sides of the bounding box to (approximately) a specified length.
 
 Both of these functions are intended to be used with geographic coordinate
 systems (data using longitude and latitude for position). For projected
-coordinate systems, a more sane approach is to use [sf::st_buffer] to add a
-buffer, or combine [sf::st_centroid] with the buffer to set a specific side
+coordinate systems, a more sane approach is to use \link[sf:geos_unary]{sf::st_buffer} to add a
+buffer, or combine \link[sf:geos_unary]{sf::st_centroid} with the buffer to set a specific side
 length.
 }
 \examples{

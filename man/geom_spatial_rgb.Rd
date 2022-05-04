@@ -41,15 +41,15 @@ default), it is combined with the default mapping at the top level of the
 plot. You must supply \code{mapping} if there is no plot mapping.}
 
 \item{data}{The data to be displayed in this layer. In addition to the three
-options described in [ggplot2::geom_raster], there are two additional
+options described in \link[ggplot2:geom_tile]{ggplot2::geom_raster}, there are two additional
 methods:
 
-If a `RasterStack` object (see [raster::stack]), this function will coerce
-the stack to a data frame and assume the raster bands are in RGB order
+If a \code{SpatRaster} object (see \link[terra:rast]{terra::rast}), this function will coerce
+the raster to a data frame and assume the raster bands are in RGB order
 (while allowing for, but ignoring, a fourth alpha band).
 
 If a length-1 character vector, this function will attempt to load the object
-via [raster::stack].}
+via \link[terra:rast]{terra::rast}.}
 
 \item{stat}{The statistical transformation to use on the data for this
 layer, as a string.}
@@ -88,17 +88,17 @@ that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:borders]{borders()}}.}
 
 \item{scale}{Integer. Maximum (possible) value in the three channels.
-If `NULL`, attempts to infer proper values from data -- if all RGB values
+If \code{NULL}, attempts to infer proper values from data -- if all RGB values
 are <= 1 then 1, <= 255 then 255, and otherwise 65535.}
 
 \item{geom}{The geometric object to use display the data}
 }
 \description{
-`geom_spatial_rgb` and `stat_spatial_rgb` allow users to plot three-band RGB
-rasters in [ggplot2], using these layers as background base maps for other
-spatial plotting. Note that unlike [ggplot2::geom_sf], this function does
-_not_ force [ggplot2::coord_sf]; for accurate mapping, add
-[ggplot2::coord_sf] with a `crs` value matching your input raster as a layer.
+\code{geom_spatial_rgb} and \code{stat_spatial_rgb} allow users to plot three-band RGB
+rasters in \link{ggplot2}, using these layers as background base maps for other
+spatial plotting. Note that unlike \link[ggplot2:ggsf]{ggplot2::geom_sf}, this function does
+\emph{not} force \link[ggplot2:ggsf]{ggplot2::coord_sf}; for accurate mapping, add
+\link[ggplot2:ggsf]{ggplot2::coord_sf} with a \code{crs} value matching your input raster as a layer.
 }
 \examples{
 \dontrun{
@@ -120,7 +120,7 @@ output_tiles <- get_tiles(simulated_data,
 merged_ortho <- tempfile(fileext = ".tif")
 merge_rasters(output_tiles[["ortho"]], merged_ortho)
 
-merged_stack <- raster::stack(merged_ortho)
+merged_stack <- terra::rast(merged_ortho)
 
 library(ggplot2)
 

@@ -44,142 +44,22 @@ raster_to_raw_tiles <- function(input_file,
                                 side_length = 4097,
                                 raw = TRUE) {
   .Deprecated(
-    "make_manifest",
+    "transform_elevation",
     "terrainr",
     msg = paste("'raster_to_raw_tiles' is deprecated as of terrainr 0.5.0.",
-      "Use 'make_manifest' instead.",
+      "Use 'transform_elevation' instead.",
       sep = "\n"
     )
   )
 
-  input_raster <- raster::raster(input_file)
-  max_raster <- raster::cellStats(input_raster, "max")
-
-  x_tiles <- ceiling(input_raster@ncols / side_length)
-  y_tiles <- ceiling(input_raster@nrows / side_length)
-  if (requireNamespace("progressr", quietly = TRUE)) { # nocov start
-    p <- progressr::progressor(steps = x_tiles * y_tiles * 3)
-  } # nocov end
-
-  temptiffs <- NULL
-  while (length(temptiffs) != x_tiles * y_tiles) {
-    temptiffs <- unique(vapply(
-      1:(x_tiles * y_tiles),
-      function(x) tempfile(fileext = ".tiff"),
-      character(1)
-    ))
-  }
-
-  x_tiles <- 0:(x_tiles - 1)
-  x_tiles <- (x_tiles * side_length)
-
-  y_tiles <- 0:(y_tiles - 1)
-  y_tiles <- (y_tiles * side_length)
-
-
-  counter <- 1
-
-  for (i in seq_along(x_tiles)) {
-    for (j in seq_along(y_tiles)) {
-      if (requireNamespace("progressr", quietly = TRUE)) { # nocov start
-        p(message = sprintf(
-          "Cropping tile (%d,%d)",
-          x_tiles[[i]],
-          y_tiles[[j]]
-        ))
-      } # nocov end
-      sf::gdal_utils(
-        "translate",
-        input_file,
-        temptiffs[[counter]],
-        options = c(
-          "-srcwin",
-          x_tiles[[i]],
-          y_tiles[[j]],
-          side_length,
-          side_length
-        )
-      )
-      names(temptiffs)[[counter]] <- paste0(
-        output_prefix,
-        "_",
-        i,
-        "_",
-        j,
-        ifelse(raw, ".raw", ".png")
-      )
-      counter <- counter + 1
-    }
-  }
-
-  temppngs <- NULL
   if (raw) {
-    while (length(temppngs) != length(temptiffs)) {
-      temppngs <- unique(vapply(
-        seq_along(temptiffs),
-        function(x) tempfile(fileext = ".png"),
-        character(1)
-      ))
-    }
+    transform_elevation(heightmap = input_file,
+                        side_length = side_length,
+                        output_prefix = output_prefix)
   } else {
-    temppngs <- names(temptiffs)
+    transform_overlay(overlay = input_file,
+                      side_length = side_length,
+                      output_prefix = output_prefix)
   }
 
-  names(temppngs) <- names(temptiffs)
-
-  mapply(
-    function(x, y) {
-      if (requireNamespace("progressr", quietly = TRUE)) { # nocov start
-        p(message = sprintf("Converting tile %s to PNG", x))
-      } # nocov end
-      sf::gdal_utils(
-        "translate",
-        source = x,
-        destination = y,
-        options = c(
-          "-ot", "UInt16",
-          "-of", "png",
-          "-scale", "0", max_raster, "0", "65535"
-        )
-      )
-    },
-    temptiffs,
-    temppngs
-  )
-
-  unlink(temptiffs)
-
-  mapply(
-    function(x, y) {
-      processing_image <- magick::image_read(x)
-
-      if (requireNamespace("progressr", quietly = TRUE)) { # nocov start
-        if (raw) {
-          p(message = sprintf("Converting tile %s to RAW", x))
-        } else {
-          p(message = sprintf("Flipping tile %s for Unity", x))
-        }
-      } # nocov end
-
-      if (raw) {
-        processing_image <- magick::image_flop(processing_image)
-        processing_image <- magick::image_convert(processing_image,
-          format = "RGB",
-          depth = 16,
-          interlace = "Plane"
-        )
-      } else {
-        processing_image <- magick::image_flip(processing_image)
-        processing_image <- magick::image_flop(processing_image)
-      }
-
-      magick::image_write(processing_image, y)
-    },
-    temppngs,
-    names(temppngs)
-  )
-
-  if (raw) unlink(temppngs)
-
-  return(invisible(names(temppngs)))
 }
