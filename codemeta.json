@@ -171,11 +171,6 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=tiff"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "unifir",
-      "name": "unifir"
     }
   ],
   "softwareRequirements": {
@@ -277,6 +272,18 @@
     },
     "10": {
       "@type": "SoftwareApplication",
+      "identifier": "unifir",
+      "name": "unifir",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=unifir"
+    },
+    "11": {
+      "@type": "SoftwareApplication",
       "identifier": "units",
       "name": "units",
       "provider": {
@@ -289,7 +296,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "4059.882KB",
+  "fileSize": "3978.587KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
