@@ -75,12 +75,15 @@ vector_to_overlay <- function(vector_data,
 
   if (is.na(sf::st_crs(vector_data))) {
     if (is.null(error_crs)) {
-      warning(
-        "No CRS associated with input vector data.\n",
-        "Assuming it shares the CRS of reference_raster."
+      rlang::warn(
+        c(
+          "No CRS associated with input vector data",
+          i = "Assuming it shares the CRS of reference_raster",
+          i = "Set the CRS of `vector_data` explicity to override"
+        )
       )
     } else if (error_crs) {
-      stop("No CRS associated with input vector data.")
+      rlang::abort("No CRS associated with input vector data.")
     }
     sf::st_crs(vector_data) <- sf::st_crs(reference_raster)
   }

@@ -43,17 +43,16 @@ make_unity <- function(project,
                        scene_name = "terrainr_scene",
                        action = TRUE,
                        unity = find_unity()) {
-  if (!requireNamespace("unifir", quietly = TRUE)) {
-    stop(
-      "make_unity requires the unifir package to work correctly. ",
-      "Please install unifir to continue."
-    )
-  }
+
+  rlang::check_installed("unifir")
 
   if (!(side_length %in% 2^(5:12) + 1)) {
-    stop(
-      "side_length must be equal to a value of 2^x + 1, for any x ",
-      "between 5 and 12."
+    rlang::abort(
+      c(
+        "The specified `side_length` will not work with Unity",
+        x = "Side lengths must be equal to 2^x + 1 (for 5 <= x <= 12) for import into Unity", # nolint
+        i = "Choose a different value of `side_length`"
+      )
     )
   }
 

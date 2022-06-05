@@ -116,7 +116,10 @@ get_tiles.sf <- function(data,
   if (is.null(projected)) {
     projected <- !sf::st_is_longlat(data)
     if (is.na(projected)) {
-      warning("Assuming geographic CRS. Set 'projected' to TRUE if projected.")
+      rlang::warn(c(
+        "Assuming geographic CRS.",
+        i = "Set 'projected' to TRUE if projected."
+      ))
       projected <- FALSE
     }
   }
@@ -216,7 +219,10 @@ get_tiles.SpatRaster <- function(data,
   if (is.null(projected)) {
     projected <- !sf::st_is_longlat(data)
     if (is.na(projected)) {
-      warning("Assuming geographic CRS. Set 'projected' to TRUE if projected.")
+      rlang::warn(c(
+        "Assuming geographic CRS.",
+        i = "Set 'projected' to TRUE if projected."
+      ))
       projected <- FALSE
     }
   }
@@ -345,10 +351,16 @@ get_tiles_internal <- function(data,
   }
 
   if (any(services %in% png_files) && side_length > 4096) {
-    stop("USGSNAIPPlus tiles have a maximum side length of 4096.")
+    rlang::abort(c(
+      "USGSNAIPPlus tiles have a maximum side length of 4096.",
+      i = "Set `side_length` to 4096 or less"
+    ))
   }
   if (("3DEPElevation" %in% services) && side_length > 8000) {
-    stop("3DEPElevation tiles have a maximum side length of 8000.")
+    rlang::abort(c(
+      "3DEPElevation tiles have a maximum side length of 8000.",
+      i = "Set `side_length` to 8000 or less"
+    ))
   }
 
   bbox_splits <- split_bbox(data, side_length, resolution, projected)
@@ -477,10 +489,16 @@ handle_bboxSR <- function(data, projected) {
   if (!is.na(sf::st_crs(data)$epsg)) {
     sf::st_crs(data)$epsg
   } else if (projected) {
-    warning("Assuming CRS of EPSG 5071 (set bboxSR explicity to override)")
+    rlang::warn(c(
+      "Assuming CRS of EPSG 5071",
+      i = "Set bboxSR explicity to override"
+      ))
     5071
   } else {
-    warning("Assuming CRS of EPSG 4326 (set bboxSR explicity to override)")
+    rlang::warn(c(
+      "Assuming CRS of EPSG 4326",
+      i = "Set bboxSR explicity to override"
+    ))
     4326
   }
 }

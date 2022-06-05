@@ -168,7 +168,7 @@ hit_national_map_api <- function(bbox,
     if (!httr::http_error(res)) {
       body <- tryCatch(
         {
-          if (verbose) message("Interpreting JSON attempt 1")
+          if (verbose) rlang::inform("Interpreting JSON attempt 1")
           httr::content(res, type = "application/json")
         },
         # nocov start
@@ -178,12 +178,12 @@ hit_national_map_api <- function(bbox,
         error = function(e) {
           tryCatch(
             {
-              if (verbose) message("Interpreting JSON attempt 2")
+              if (verbose) rlang::inform("Interpreting JSON attempt 2")
               res <- httr::GET(url, agent, query = c(bbox_arg, query_arg))
               httr::content(res, type = "application/json")
             },
             error = function(e) {
-              if (verbose) message("Interpreting JSON attempt 3")
+              if (verbose) rlang::inform("Interpreting JSON attempt 3")
               res <- httr::GET(url, agent, query = c(bbox_arg, query_arg))
               httr::content(res, type = "application/json")
             }
@@ -210,11 +210,11 @@ hit_national_map_api <- function(bbox,
   body <- get_href()
 
   if (!is.null(body$href)) {
-    if (verbose) message(sprintf("API call 2 attempt %d", 1))
+    if (verbose) rlang::inform(sprintf("API call 2 attempt %d", 1))
     img_res <- httr::GET(body$href, agent)
     counter <- 0
     while (counter < 15 && httr::http_error(img_res)) {
-      if (verbose) message(sprintf("API call 2 attempt %d", counter + 1))
+      if (verbose) rlang::inform(sprintf("API call 2 attempt %d", counter + 1))
       backoff <- stats::runif(n = 1, min = 0, max = floor(c(
         2^counter - 1,
         30

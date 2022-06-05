@@ -59,13 +59,7 @@ georeference_overlay <- function(overlay_file,
     file_type <- names(official_names)[which((official_names) %in% file_type)]
   }
 
-  if (!requireNamespace(file_type, quietly = TRUE)) { # nocov start
-    stop(
-      "Package ", file_type, " is required to load ", file_type,
-      " images.\n", "Please install ", file_type,
-      " via install.packages('", file_type, "') to continue."
-    )
-  } # nocov end
+  rlang::check_installed(file_type)
 
   image_read <- switch(file_type,
     "png" = png::readPNG,

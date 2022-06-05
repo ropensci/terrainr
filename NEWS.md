@@ -1,3 +1,17 @@
+# terrainr (development version)
+* Roadmap:
+    * When a new `raster` version hits CRAN, bump the minimum version dependency
+      and remove all `raster` calls left in the package (needs at least version
+      3.5-19).
+
+* Improvements and bug fixes:
+    * `merge_rasters` no longer warns that options aren't respected when using
+      the fallback method before immediately passing said options to `gdalwarp`.
+    * Starting to move error messages into `rlang` with string interpolation
+      via `glue`. 
+* Dependency changes:
+    * `rlang` and `glue` have been added to Imports
+
 # terrainr 0.7.0
 * New features:
     * `make_unity` is a new function which uses the new `unifir` package to 

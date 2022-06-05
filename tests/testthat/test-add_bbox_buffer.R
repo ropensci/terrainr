@@ -6,13 +6,12 @@ test_that("set_bbox_side_length works within 1%", {
 
   df_sf <- sf::st_as_sf(df, coords = c("lng", "lat"))
 
-  expect_warning(
-    set_bbox_side_length(df_sf, 8000),
-    "No CRS associated with input data. Assuming EPSG:4326.\n"
+  expect_snapshot(
+    set_bbox_side_length(df_sf, 8000)
   )
-  expect_error(
+  expect_snapshot(
     set_bbox_side_length(df_sf, 8000, error_crs = TRUE),
-    "No CRS associated with input data."
+    error = TRUE
   )
   bbox_default <- set_bbox_side_length(df_sf, 8000, error_crs = FALSE)
 

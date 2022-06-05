@@ -180,9 +180,12 @@ prep_table <- function(input_raster,
                        output_prefix,
                        type) {
   if (!identical(log((side_length - 1), 2), round(log((side_length - 1), 2)))) {
-    warning(
-      "Side lengths must be equal to 2^x + 1 (for x <= 12) for import into Unity.\n", # nolint
-      "Tiles will still be produced but may not be usable."
+    rlang::warn(
+      c(
+        "The specified `side_length` may not work with Unity",
+        x = "Side lengths must be equal to 2^x + 1 (for 5 <= x <= 12) for import into Unity", # nolint
+        i = "Tiles will still be produced but may not be usable"
+      )
     )
   }
   input_raster <- terra::rast(input_raster)

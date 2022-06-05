@@ -92,10 +92,10 @@ geom_spatial_rgb <- function(mapping = NULL,
                              inherit.aes = TRUE,
                              scale = NULL) {
   if (!(is.numeric(hjust) && length(hjust) == 1)) {
-    stop("`hjust` must be a numeric scalar")
+    rlang::abort("`hjust` must be a numeric scalar")
   }
   if (!(is.numeric(vjust) && length(vjust) == 1)) {
-    stop("`vjust` must be a numeric scalar")
+    rlang::abort("`vjust` must be a numeric scalar")
   }
   geom_spatial_rgb_internal(
     data = data,
@@ -200,9 +200,13 @@ geom_spatial_rgb_internal.SpatRaster <- function(data = NULL,
   } else if (terra::ncol(data) == 6) {
     data <- stats::setNames(data, c("x", "y", "red", "green", "blue", "alpha"))
   } else {
-    stop("Can't assume band values from ",
-         terra::ncol(data) - 2,
-         " band raster.")
+    rlang::abort(
+      c(
+        paste0("Can't assume band values from ",
+               terra::ncol(data) - 2,
+               " band raster."),
+        i = "Set `red`, `green`, and `blue` explicitly inside of `aes()`"
+      ))
   }
 
   geom_spatial_rgb_internal(
@@ -377,9 +381,13 @@ stat_spatial_rgb_internal.SpatRaster <- function(data = NULL,
   } else if (terra::ncol(data) == 6) {
     data <- stats::setNames(data, c("x", "y", "red", "green", "blue", "alpha"))
   } else {
-    stop("Can't assume band values from ",
-         terra::ncol(data) - 2,
-         " band raster.")
+    rlang::abort(
+      c(
+        paste0("Can't assume band values from ",
+               terra::ncol(data) - 2,
+               " band raster."),
+        i = "Set `red`, `green`, and `blue` explicitly inside of `aes()`"
+      ))
   }
 
   stat_spatial_rgb_internal(

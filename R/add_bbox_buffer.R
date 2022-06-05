@@ -50,9 +50,11 @@ add_bbox_buffer <- function(data,
                             error_crs = NULL) {
   projected <- sf::st_is_longlat(data)
   if (!is.na(projected) && !projected) {
-    warning(
-      "add_bbox_buffer and set_bbox_side_length only make sense for geographic coordinate systems.", # nolint
-      "Consider using sf::st_buffer instead."
+    rlang::warn(
+      c(
+        "add_bbox_buffer and set_bbox_side_length only make sense for geographic coordinate systems.", # nolint
+        i = "Consider using sf::st_buffer instead."
+      )
     )
   }
 
@@ -69,9 +71,11 @@ add_bbox_buffer.sf <- function(data,
 
   if (is.na(input_crs)) {
     if (is.null(error_crs)) {
-      warning("No CRS associated with input data. Assuming EPSG:4326.\n")
+      rlang::warn(
+        c("No CRS associated with input data.", i = "Assuming EPSG:4326.")
+      )
     } else if (error_crs) {
-      stop("No CRS associated with input data.")
+      rlang::abort("No CRS associated with input data.")
     }
     input_crs <- 4326
     data <- sf::st_set_crs(data, input_crs)
