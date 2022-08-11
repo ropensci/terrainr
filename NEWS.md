@@ -1,16 +1,13 @@
-# terrainr (development version)
-* Roadmap:
-    * When a new `raster` version hits CRAN, bump the minimum version dependency
-      and remove all `raster` calls left in the package (needs at least version
-      3.5-19).
-
+# terrainr 0.7.1
 * Improvements and bug fixes:
+    * Redocumented package to stay on CRAN.
     * `merge_rasters` no longer warns that options aren't respected when using
       the fallback method before immediately passing said options to `gdalwarp`.
     * Starting to move error messages into `rlang` with string interpolation
       via `glue`. 
 * Dependency changes:
     * `rlang` and `glue` have been added to Imports
+    * `raster` now requires a minimum version of 3.5-19. 
 
 # terrainr 0.7.0
 * New features:
