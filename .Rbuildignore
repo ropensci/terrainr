@@ -35,3 +35,4 @@ methods-in-ecology-and-evolution.csl
 ^CRAN-SUBMISSION$
 ^CITATION\.cff$
 
+^revdep$
