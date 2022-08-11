@@ -1,3 +1,5 @@
+# terrainr (development version)
+
 # terrainr 0.7.1
 * Improvements and bug fixes:
     * Redocumented package to stay on CRAN.
