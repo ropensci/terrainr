@@ -1,9 +1,5 @@
-## Test environments
-* local R installation, R release
-* ubuntu 20.04 (on GitHub Actions), R devel, release, oldrelease
-* MacOS X 11.6.3 (on GitHub Actions), R release
-* Windows Server 2019 (on GitHub Actions), R release
-* win-builder (devel, release)
+This release points the default orthoimagery download at a new URL, and
+fixes some code in response to new warnings with ggplot 3.4.0.
 
 ## R CMD check results
 

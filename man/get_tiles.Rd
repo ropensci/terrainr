@@ -136,7 +136,7 @@ documentation.
 \itemize{
 \item \href{https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer}{3DEPElevation}
 (short code: elevation)
-\item \href{https://services.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/MapServer}{USGSNAIPPlus}
+\item \href{https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/ImageServer/exportImage}{USGSNAIPPlus}
 (short code: ortho)
 \item \href{https://imagery.nationalmap.gov/arcgis/rest/services/HRO/ImageServer}{HRO}
 \item \href{https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer}{USGSNAIPImagery}

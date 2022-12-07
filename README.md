@@ -163,41 +163,41 @@ A BibTeX entry for LaTeX users is:
 The following datasets can currently be downloaded using `get_tiles` or
 `hit_national_map_api`:
 
--   [3DEPElevation](https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer):
-    The USGS 3D Elevation Program (3DEP) Bare Earth DEM.
--   [USGSNAIPPlus](https://services.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/MapServer):
-    National Agriculture Imagery Program (NAIP) and high resolution
-    orthoimagery (HRO).
--   [nhd](https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer):
-    A comprehensive set of digital spatial data that encodes information
-    about naturally occurring and constructed bodies of surface water
-    (lakes, ponds, and reservoirs), paths through which water flows
-    (canals, ditches, streams, and rivers), and related entities such as
-    point features (springs, wells, stream gauges, and dams).
--   [govunits](https://carto.nationalmap.gov/arcgis/rest/services/govunits/MapServer):
-    Major civil areas for the Nation, including States or Territories,
-    counties (or equivalents), Federal and Native American areas,
-    congressional districts, minor civil divisions, incorporated places
-    (such as cities and towns), and unincorporated places.
--   [contours](https://carto.nationalmap.gov/arcgis/rest/services/contours/MapServer):
-    The USGS Elevation Contours service.
--   [geonames](https://carto.nationalmap.gov/arcgis/rest/services/geonames/MapServer):
-    Information about physical and cultural geographic features,
-    geographic areas, and locational entities that are generally
-    recognizable and locatable by name.
--   [NHDPlus_HR](https://hydro.nationalmap.gov/arcgis/rest/services/NHDPlus_HR/MapServer):
-    A comprehensive set of digital spatial data comprising a nationally
-    seamless network of stream reaches, elevation-based catchment areas,
-    flow surfaces, and value-added attributes.
--   [structures](https://carto.nationalmap.gov/arcgis/rest/services/structures/MapServer):
-    The name, function, location, and other core information and
-    characteristics of selected manmade facilities.
--   [transportation](https://carto.nationalmap.gov/arcgis/rest/services/transportation/MapServer):
-    Roads, railroads, trails, airports, and other features associated
-    with the transport of people or commerce.
--   [wbd](https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer):
-    Hydrologic Unit (HU) polygon boundaries for the United States,
-    Puerto Rico, and the U.S. Virgin Islands.
+- [3DEPElevation](https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer):
+  The USGS 3D Elevation Program (3DEP) Bare Earth DEM.
+- [USGSNAIPPlus](https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/ImageServer/exportImage):
+  National Agriculture Imagery Program (NAIP) and high resolution
+  orthoimagery (HRO).
+- [nhd](https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer):
+  A comprehensive set of digital spatial data that encodes information
+  about naturally occurring and constructed bodies of surface water
+  (lakes, ponds, and reservoirs), paths through which water flows
+  (canals, ditches, streams, and rivers), and related entities such as
+  point features (springs, wells, stream gauges, and dams).
+- [govunits](https://carto.nationalmap.gov/arcgis/rest/services/govunits/MapServer):
+  Major civil areas for the Nation, including States or Territories,
+  counties (or equivalents), Federal and Native American areas,
+  congressional districts, minor civil divisions, incorporated places
+  (such as cities and towns), and unincorporated places.
+- [contours](https://carto.nationalmap.gov/arcgis/rest/services/contours/MapServer):
+  The USGS Elevation Contours service.
+- [geonames](https://carto.nationalmap.gov/arcgis/rest/services/geonames/MapServer):
+  Information about physical and cultural geographic features,
+  geographic areas, and locational entities that are generally
+  recognizable and locatable by name.
+- [NHDPlus_HR](https://hydro.nationalmap.gov/arcgis/rest/services/NHDPlus_HR/MapServer):
+  A comprehensive set of digital spatial data comprising a nationally
+  seamless network of stream reaches, elevation-based catchment areas,
+  flow surfaces, and value-added attributes.
+- [structures](https://carto.nationalmap.gov/arcgis/rest/services/structures/MapServer):
+  The name, function, location, and other core information and
+  characteristics of selected manmade facilities.
+- [transportation](https://carto.nationalmap.gov/arcgis/rest/services/transportation/MapServer):
+  Roads, railroads, trails, airports, and other features associated with
+  the transport of people or commerce.
+- [wbd](https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer):
+  Hydrologic Unit (HU) polygon boundaries for the United States, Puerto
+  Rico, and the U.S. Virgin Islands.
 
 (All descriptions above taken from the [National Map API
 descriptions](https://apps.nationalmap.gov/services).)

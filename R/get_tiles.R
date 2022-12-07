@@ -41,7 +41,7 @@
 #'
 #' * [3DEPElevation](https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer)
 #'   (short code: elevation)
-#' * [USGSNAIPPlus](https://services.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/MapServer)
+#' * [USGSNAIPPlus](https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/ImageServer/exportImage)
 #'   (short code: ortho)
 #' * [HRO](https://imagery.nationalmap.gov/arcgis/rest/services/HRO/ImageServer)
 #' * [USGSNAIPImagery](https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer)
