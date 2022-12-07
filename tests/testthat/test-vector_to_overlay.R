@@ -83,7 +83,7 @@ test_that("vector_to_overlay generates the same tiles", {
       vector_to_overlay(
         sf::st_cast(sf::st_union(simulated_data_sf), "LINESTRING"),
         merged_file[[1]],
-        size = 5,
+        linewidth = 5,
         color = "red",
         na.rm = TRUE
       )
@@ -100,7 +100,7 @@ test_that("vector_to_overlay generates the same tiles", {
       vector_to_overlay(
         sf::st_cast(sf::st_union(simulated_data_sf), "POLYGON"),
         merged_file[[1]],
-        size = 5,
+        linewidth = 5,
         color = "red",
         na.rm = TRUE
       )

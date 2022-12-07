@@ -43,6 +43,8 @@
 #'   (short code: elevation)
 #' * [USGSNAIPPlus](https://services.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/MapServer)
 #'   (short code: ortho)
+#' * [HRO](https://imagery.nationalmap.gov/arcgis/rest/services/HRO/ImageServer)
+#' * [USGSNAIPImagery](https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer)
 #' * [nhd](https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer)
 #'   (short code: hydro)
 #' * [govunits](https://carto.nationalmap.gov/arcgis/rest/services/govunits/MapServer)

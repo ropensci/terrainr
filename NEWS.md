@@ -1,4 +1,15 @@
 # terrainr (development version)
+* New features:
+    * Two new endpoints are available: `HRO`, which provides orthoimagery for 
+      non-CONUS US domains, and `USGSNAIPImagery`, which _only_ returns NAIP 
+      (whereas `USGSNAIPPlus`, the default for `ortho`, will use `HRO` where
+      appropriate).
+* Improvements and bug fixes:
+    * Updated NAIP URL to its new home, which should reenable NAIP downloads.
+    * Fixed warning in `geom_spatial_rgb()` about "dropped aesthetics".
+    * Fixed `govunits` test.
+* Dependency changes:
+    * `ggplot2` now requires a minimum of 3.4.0
 
 # terrainr 0.7.1
 * Improvements and bug fixes:

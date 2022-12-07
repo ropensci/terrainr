@@ -36,3 +36,4 @@ methods-in-ecology-and-evolution.csl
 ^CITATION\.cff$
 
 ^revdep$
+^data-raw$

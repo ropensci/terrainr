@@ -84,10 +84,11 @@ hit_national_map_api <- function(bbox,
   stopifnot(methods::is(bbox, "bbox"))
 
   # nolint start
-  # API endpoint for elevation mapping:
-  url <- httr::parse_url(switch(service,
+  available_endpoints <- c(
     "3DEPElevation" = "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer/exportImage",
-    "USGSNAIPPlus" = "https://services.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/MapServer/export",
+    "USGSNAIPPlus" = "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/ImageServer/exportImage",
+    "USGSNAIPImagery" = "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer/exportImage",
+    "HRO" = "https://imagery.nationalmap.gov/arcgis/rest/services/HRO/ImageServer/exportImage",
     "nhd" = "https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer/export",
     "govunits" = "https://carto.nationalmap.gov/arcgis/rest/services/govunits/MapServer/export",
     "contours" = "https://carto.nationalmap.gov/arcgis/rest/services/contours/MapServer/export",
@@ -97,8 +98,11 @@ hit_national_map_api <- function(bbox,
     "transportation" = "https://carto.nationalmap.gov/arcgis/rest/services/transportation/MapServer/export",
     "wbd" = "https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer/export",
     "ecosystems" = "https://rmgsc.cr.usgs.gov/arcgis/rest/services/contUS/MapServer/export"
-  ))
+  )
   # nolint end
+
+  # API endpoint for elevation mapping:
+  url <- httr::parse_url(available_endpoints[[service]])
 
   standard_png_args <- list(
     bboxSR = 4326,
