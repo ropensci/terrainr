@@ -50,7 +50,7 @@ set_bbox_side_length(
 }
 \arguments{
 \item{data}{The original data to add a buffer around. Must be either an \code{sf}
-or \code{Raster} object.}
+or \code{SpatRaster} object.}
 
 \item{distance}{The distance to add or to set side lengths equal to.}
 
