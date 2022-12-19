@@ -38,8 +38,6 @@ Suggests:
     covr,
     jpeg,
     knitr,
-    raster,
-    rgdal,
     progress,
     progressr,
     rmarkdown,
