@@ -4,7 +4,7 @@
 #' tiles, and retrieves data from the USGS National map for each tile. As of
 #' version 0.5.0, the method for lists has been deprecated.
 #'
-#' @param data An `sf` or `SpatRast` object; tiles will be downloaded for the
+#' @param data An `sf` or `SpatRaster` object; tiles will be downloaded for the
 #' full extent of the provided object.
 #' @param output_prefix The file prefix to use when saving tiles.
 #' @param side_length The length, in meters, of each side of tiles to download.
@@ -191,9 +191,7 @@ get_tiles.Raster <- function(data,
                              georeference = TRUE,
                              projected = NULL,
                              ...) {
-  tmp <- tempfile(fileext = ".tiff")
-  raster::writeRaster(data, tmp)
-  data <- terra::rast(tmp)
+  data <- terra::rast(data)
   get_tiles.SpatRaster(data,
                        output_prefix = output_prefix,
                        side_length = side_length,

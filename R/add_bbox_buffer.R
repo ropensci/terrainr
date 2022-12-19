@@ -17,7 +17,7 @@
 #' length.
 #'
 #' @param data The original data to add a buffer around. Must be either an `sf`
-#' or `Raster` object.
+#' or `SpatRaster` object.
 #' @param distance The distance to add or to set side lengths equal to.
 #' @param distance_unit The units of the distance to add to the buffer, passed
 #' to [units::as_units].
@@ -130,9 +130,7 @@ add_bbox_buffer.Raster <- function(data,
                                    distance,
                                    distance_unit = "meters",
                                    error_crs = NULL) {
-  tmp <- tempfile(fileext = ".tiff")
-  raster::writeRaster(data, tmp)
-  data <- terra::rast(tmp)
+  data <- terra::rast(data)
   add_bbox_buffer(
     data = data,
     distance = distance,
@@ -216,7 +214,7 @@ set_bbox_side_length.Raster <- function(data,
                                         distance,
                                         distance_unit = "meters",
                                         error_crs = NULL) {
-  data <- terra::rast(data@file@name)
+  data <- terra::rast(data)
   set_bbox_side_length(
     data = data,
     distance = distance,
@@ -232,7 +230,7 @@ set_bbox_side_length.SpatRaster <- function(data,
                                             distance,
                                             distance_unit = "meters",
                                             error_crs = NULL) {
-  bbox <- terra::ext(data)@ptr$vector
+  bbox <- as.vector(terra::ext(data))
   data_sf <- data.frame(
     lat = c(bbox[[3]], bbox[[4]]),
     lng = c(bbox[[1]], bbox[[2]])

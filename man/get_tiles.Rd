@@ -82,7 +82,7 @@ get_tiles(
 )
 }
 \arguments{
-\item{data}{An \code{sf} or \code{SpatRast} object; tiles will be downloaded for the
+\item{data}{An \code{sf} or \code{SpatRaster} object; tiles will be downloaded for the
 full extent of the provided object.}
 
 \item{output_prefix}{The file prefix to use when saving tiles.}
