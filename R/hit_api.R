@@ -217,8 +217,10 @@ hit_national_map_api <- function(bbox,
     if (verbose) rlang::inform(sprintf("API call 2 attempt %d", 1))
     img_res <- httr::GET(body$href, agent)
     counter <- 0
-    while (counter < 15 && httr::http_error(img_res)) {
-      if (verbose) rlang::inform(sprintf("API call 2 attempt %d", counter + 1))
+    for (counter in 1:15) {
+      if (!httr::http_error(img_res)) break
+
+      if (verbose) rlang::inform(sprintf("API call 2 attempt %d", counter))
       backoff <- stats::runif(n = 1, min = 0, max = floor(c(
         2^counter - 1,
         30
