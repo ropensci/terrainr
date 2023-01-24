@@ -151,6 +151,11 @@ documentation.
 \item \href{https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer}{wbd}
 ("short code": watersheds)
 \item \href{https://www.usgs.gov/centers/geosciences-and-environmental-change-science-center/science/global-ecosystems}{ecosystems}
+\item \href{https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer}{USGSTopo}
+\item \href{https://basemap.nationalmap.gov/arcgis/rest/services/USGSShadedReliefOnly/MapServer}{USGSShadedReliefOnly}
+\item \href{https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer}{USGSImageryOnly}
+\item \href{https://basemap.nationalmap.gov/arcgis/rest/services/USGSHydroCached/MapServer}{USGSHydroCached}
+\item \href{https://basemap.nationalmap.gov/arcgis/rest/services/USGSTNMBlank/MapServer}{USGSTNMBlank}
 }
 }
 
