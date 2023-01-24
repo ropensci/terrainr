@@ -1,3 +1,4 @@
+# Disabled due to unreliable API endpoint
 test_that("get_tiles gets the same contours tiles twice", {
   skip_on_cran()
   dl_loc <- data.frame(
