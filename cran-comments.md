@@ -1,5 +1,5 @@
-This release points the default orthoimagery download at a new URL, and
-fixes some code in response to new warnings with ggplot 3.4.0.
+This release points the default contours download at a new URL, and
+removes raster and rgdal as dependencies.
 
 ## R CMD check results
 

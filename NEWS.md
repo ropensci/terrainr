@@ -1,5 +1,9 @@
 # terrainr (development version)
 
+* Updated contours URL to new location
+* Removing dependencies on raster and rgdal
+* Fixed infinite loop when following two-stage APIs
+
 # terrainr 0.7.2
 * New features:
     * Two new endpoints are available: `HRO`, which provides orthoimagery for 

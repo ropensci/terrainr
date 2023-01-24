@@ -202,6 +202,10 @@ The following datasets can currently be downloaded using `get_tiles` or
 (All descriptions above taken from the [National Map API
 descriptions](https://apps.nationalmap.gov/services).)
 
+Note that sometimes these resources go offline, for reasons unrelated to
+anything in this package. You can see the current status of these
+resources [at this link](https://stats.uptimerobot.com/gxzRZFARLZ).
+
 ## Installation
 
 You can install terrainr from CRAN via:
