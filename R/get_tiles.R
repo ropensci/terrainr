@@ -56,6 +56,12 @@
 #' * [wbd](https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer)
 #'   ("short code": watersheds)
 #' * [ecosystems](https://www.usgs.gov/centers/geosciences-and-environmental-change-science-center/science/global-ecosystems)
+#' * [USGSTopo](https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer)
+#' * [USGSShadedReliefOnly](https://basemap.nationalmap.gov/arcgis/rest/services/USGSShadedReliefOnly/MapServer)
+#' * [USGSImageryOnly](https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer)
+#' * [USGSHydroCached](https://basemap.nationalmap.gov/arcgis/rest/services/USGSHydroCached/MapServer)
+#' * [USGSTNMBlank](https://basemap.nationalmap.gov/arcgis/rest/services/USGSTNMBlank/MapServer)
+#'
 #'
 # nolint end
 #'
@@ -321,7 +327,12 @@ get_tiles_internal <- function(data,
     "structures",
     "transportation",
     "watersheds" = "wbd",
-    "ecosystems"
+    "ecosystems",
+    "USGSTopo",
+    "USGSShadedReliefOnly",
+    "USGSImageryOnly",
+    "USGSHydroCached",
+    "USGSTNMBlank"
   )
 
   stopifnot(all(services %in% list_of_services |
@@ -352,7 +363,7 @@ get_tiles_internal <- function(data,
 
   if (any(services %in% png_files) && side_length > 4096) {
     rlang::abort(c(
-      "USGSNAIPPlus tiles have a maximum side length of 4096.",
+      "These tiles have a maximum side length of 4096.",
       i = "Set `side_length` to 4096 or less"
     ))
   }

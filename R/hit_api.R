@@ -97,7 +97,12 @@ hit_national_map_api <- function(bbox,
     "structures" = "https://carto.nationalmap.gov/arcgis/rest/services/structures/MapServer/export",
     "transportation" = "https://carto.nationalmap.gov/arcgis/rest/services/transportation/MapServer/export",
     "wbd" = "https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer/export",
-    "ecosystems" = "https://rmgsc.cr.usgs.gov/arcgis/rest/services/contUS/MapServer/export"
+    "ecosystems" = "https://rmgsc.cr.usgs.gov/arcgis/rest/services/contUS/MapServer/export",
+    "USGSTopo" = "https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/export",
+    "USGSShadedReliefOnly" = "https://basemap.nationalmap.gov/arcgis/rest/services/USGSShadedReliefOnly/MapServer/export",
+    "USGSImageryOnly" = "https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/export",
+    "USGSHydroCached" = "https://basemap.nationalmap.gov/arcgis/rest/services/USGSHydroCached/MapServer/export",
+    "USGSTNMBlank" = "https://basemap.nationalmap.gov/arcgis/rest/services/USGSTNMBlank/MapServer/export"
   )
   # nolint end
 
