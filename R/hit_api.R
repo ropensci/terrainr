@@ -201,12 +201,12 @@ hit_national_map_api <- function(bbox,
         # nocov end
       )
 
-      if (counter < 15 && !is.null(body$error)) {
+      if (counter < 5 && !is.null(body$error)) {
         get_href(counter = counter + 1) # nocov
       } else {
         return(body)
       }
-    } else if (counter < 15) {
+    } else if (counter < 5) {
       get_href(counter = counter + 1)
     } else { # nocov start
       stop(
@@ -222,7 +222,7 @@ hit_national_map_api <- function(bbox,
     if (verbose) rlang::inform(sprintf("API call 2 attempt %d", 1))
     img_res <- httr::GET(body$href, agent)
     counter <- 0
-    for (counter in 1:15) {
+    for (counter in seq_len(5)) {
       if (!httr::http_error(img_res)) break
 
       if (verbose) rlang::inform(sprintf("API call 2 attempt %d", counter))
