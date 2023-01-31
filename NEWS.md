@@ -3,6 +3,7 @@
 * Updated contours URL to new location
 * Removing dependencies on raster and rgdal
 * Fixed infinite loop when following two-stage APIs
+* Removed HRO, as the endpoint appears to have disappeared
 
 # terrainr 0.7.2
 * New features:

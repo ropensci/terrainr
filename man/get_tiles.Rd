@@ -138,7 +138,6 @@ documentation.
 (short code: elevation)
 \item \href{https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/ImageServer/exportImage}{USGSNAIPPlus}
 (short code: ortho)
-\item \href{https://imagery.nationalmap.gov/arcgis/rest/services/HRO/ImageServer}{HRO}
 \item \href{https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer}{USGSNAIPImagery}
 \item \href{https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer}{nhd}
 (short code: hydro)
