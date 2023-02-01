@@ -1,3 +1,7 @@
+## Resubmission
+
+This is a resubmission. In this version, I fixed a note which was added to R-devel between my prior submission to CRAN and the package being reviewed, and have ensured tests are passing on CRAN machines.
+
 This release points the default contours download at a new URL, and
 removes raster and rgdal as dependencies.
 

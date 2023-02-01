@@ -1,9 +1,3 @@
-citHeader("The United States Geological Survey provides guidelines for\n",
-          "citing USGS data products (as downloaded from 'get_tiles') at:\n",
-          "https://www.usgs.gov/faqs/how-should-i-cite-datasets-and-services-national-map \n",
-          "\n",
-          "To cite terrainr in publications please use:")
-
 bibentry(bibtype = "Article",
          year = "2022",
          publisher = "The Open Journal",
@@ -15,4 +9,5 @@ bibentry(bibtype = "Article",
          journal = "Journal of Open Source Software",
          doi = "10.21105/joss.04060",
          url = "https://doi.org/10.21105/joss.04060",
-         textVersion = "Mahoney M. J., Beier C. M., and Ackerman, A. C. (2022). terrainr: An R package for creating immersive virtual environments. Journal of Open Source Software, 7(69), 4060, https://doi.org/10.21105/joss.04060")
+         textVersion = "Mahoney M. J., Beier C. M., and Ackerman, A. C. (2022). terrainr: An R package for creating immersive virtual environments. Journal of Open Source Software, 7(69), 4060, https://doi.org/10.21105/joss.04060",
+         mheader = "The United States Geological Survey provides guidelines for\nciting USGS data products (as downloaded from 'get_tiles') at:\nhttps://www.usgs.gov/faqs/how-should-i-cite-datasets-and-services-national-map \n\nTo cite terrainr in publications please use:")
