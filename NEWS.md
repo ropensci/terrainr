@@ -1,4 +1,4 @@
-# terrainr (development version)
+# terrainr 0.7.4
 
 * New query method is dramatically faster and less-error prone.
 
