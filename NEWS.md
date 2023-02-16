@@ -1,5 +1,7 @@
 # terrainr (development version)
 
+* New query method is dramatically faster and less-error prone.
+
 # terrainr 0.7.3
 
 * Updated contours URL to new location

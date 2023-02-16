@@ -88,6 +88,7 @@ test_that("fallback method works", {
 })
 
 test_that("overwrite works as expected", {
+  skip_on_cran()
   test_file <- tempfile(fileext = ".tif")
   test_copy <- tempfile(fileext = ".tif")
 

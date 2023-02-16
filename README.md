@@ -40,11 +40,6 @@ function, downloading data tiles for the area represented by an `sf` or
 library(terrainr)
 library(sf)
 
-# Optional way to display a progress bar while your tiles download:
-library(progressr)
-handlers("progress")
-handlers(global = TRUE)
-
 location_of_interest <- tmaptools::geocode_OSM("Hyampom California")$coords
 
 location_of_interest <- data.frame(
