@@ -88,7 +88,7 @@ hit_national_map_api <- function(bbox,
     "3DEPElevation" = "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer/exportImage",
     "USGSNAIPPlus" = "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/ImageServer/exportImage",
     "USGSNAIPImagery" = "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer/exportImage",
-# Currently offline
+    # Currently offline
     #    "HRO" = "https://imagery.nationalmap.gov/arcgis/rest/services/HRO/ImageServer/exportImage",
     "nhd" = "https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer/export",
     "govunits" = "https://carto.nationalmap.gov/arcgis/rest/services/govunits/MapServer/export",
@@ -120,23 +120,23 @@ hit_national_map_api <- function(bbox,
   )
 
   query_arg <- switch(service,
-    "3DEPElevation" = list(
-      bboxSR = 4326,
-      imageSR = 4326,
-      size = paste(img_width, img_height, sep = ","),
-      format = "tiff",
-      pixelType = "F32",
-      noDataInterpretation = "esriNoDataMatchAny",
-      interpolation = "+RSP_BilinearInterpolation",
-      f = "json"
-    ),
-    # purposefully exclude transparency from NAIP downloads
-    "USGSNAIPPlus" = c(
-      standard_png_args[names(standard_png_args) != "transparent"],
-      transparent = "false"
-    ),
-    "nhd" = c(layers = 0, standard_png_args),
-    standard_png_args
+                      "3DEPElevation" = list(
+                        bboxSR = 4326,
+                        imageSR = 4326,
+                        size = paste(img_width, img_height, sep = ","),
+                        format = "tiff",
+                        pixelType = "F32",
+                        noDataInterpretation = "esriNoDataMatchAny",
+                        interpolation = "+RSP_BilinearInterpolation",
+                        f = "json"
+                      ),
+                      # purposefully exclude transparency from NAIP downloads
+                      "USGSNAIPPlus" = c(
+                        standard_png_args[names(standard_png_args) != "transparent"],
+                        transparent = "false"
+                      ),
+                      "nhd" = c(layers = 0, standard_png_args),
+                      standard_png_args
   )
 
   bbox_arg <- list(bbox = paste(
@@ -158,94 +158,84 @@ hit_national_map_api <- function(bbox,
   # length of dots changes after that last step, so check again
   if (length(dots) > 0) query_arg <- c(query_arg, dots) # nocov
 
-  agent <- httr::user_agent("https://github.com/mikemahoney218/terrainr")
+  agent <- httr::user_agent("https://github.com/ropensci/terrainr")
 
-  # periodically res is a HTML file instead of the JSON
-  # I haven't been able to capture this happening, it just crashes something
-  # like 3% of the time
-  # But it's non-deterministic, so we can just retry
-  get_href <- function(counter = 0) {
+  api_call_res <- vector("list", 5L)
+  for (api_call_1 in 1:5) {
     backoff <- stats::runif(
       n = 1,
       min = 0,
-      max = floor(c(2^counter - 1, 30))
+      max = floor(c(2^api_call_1 - 1, 30))
     )
+
     Sys.sleep(backoff)
-    if (verbose) message(sprintf("API call 1 attempt %d", counter + 1))
+    if (verbose) message(sprintf("API call 1 attempt %d", api_call_1 + 1))
 
     res <- httr::GET(url, agent, query = c(bbox_arg, query_arg))
 
-    if (!httr::http_error(res)) {
-      body <- tryCatch(
-        {
-          if (verbose) rlang::inform("Interpreting JSON attempt 1")
-          httr::content(res, type = "application/json")
-        },
-        # nocov start
-        # Hard to force temporary API errors
-        # Rather than have code coverage improve when servers go down,
-        # I just exclude error handling from coverage
-        error = function(e) {
-          tryCatch(
-            {
-              if (verbose) rlang::inform("Interpreting JSON attempt 2")
-              res <- httr::GET(url, agent, query = c(bbox_arg, query_arg))
-              httr::content(res, type = "application/json")
-            },
-            error = function(e) {
-              if (verbose) rlang::inform("Interpreting JSON attempt 3")
-              res <- httr::GET(url, agent, query = c(bbox_arg, query_arg))
-              httr::content(res, type = "application/json")
-            }
-          )
-        }
-        # nocov end
-      )
+    if (httr::http_error(res)) next
 
-      if (counter < 5 && !is.null(body$error)) {
-        get_href(counter = counter + 1) # nocov
-      } else {
-        return(body)
+    body <- tryCatch(
+      {
+        if (verbose) rlang::inform("Interpreting JSON attempt 1")
+        httr::content(res, type = "application/json")
+      },
+      # nocov start
+      # periodically res is a HTML file instead of the JSON
+      # I haven't been able to capture this happening, it just crashes something
+      # like 3% of the time
+      # But it's non-deterministic, so we can just retry
+      error = function(e) {
+        tryCatch(
+          {
+            if (verbose) rlang::inform("Interpreting JSON attempt 2")
+            res <- httr::GET(url, agent, query = c(bbox_arg, query_arg))
+            httr::content(res, type = "application/json")
+          },
+          error = function(e) {
+            if (verbose) rlang::inform("Interpreting JSON attempt 3")
+            res <- httr::GET(url, agent, query = c(bbox_arg, query_arg))
+            httr::content(res, type = "application/json")
+          }
+        )
       }
-    } else if (counter < 5) {
-      get_href(counter = counter + 1)
-    } else { # nocov start
-      stop(
-        "Map server returned error code ",
-        httr::status_code(img_res)
-      )
-    } # nocov end
-  }
+      # nocov end
+    )
 
-  body <- get_href()
+    if (!is.null(body$error)) next
+    if (is.null(body$href)) return(body)
+    api_call_res[[api_call_1]] <- body$href
 
-  if (!is.null(body$href)) {
-    if (verbose) rlang::inform(sprintf("API call 2 attempt %d", 1))
-    img_res <- httr::GET(body$href, agent)
-    counter <- 0
-    for (counter in seq_len(5)) {
-      if (!httr::http_error(img_res)) break
-
-      if (verbose) rlang::inform(sprintf("API call 2 attempt %d", counter))
+    for (api_call_2 in 1:5) {
+      if (verbose) rlang::inform(sprintf("API call 2 attempt %d", api_call_2))
       backoff <- stats::runif(n = 1, min = 0, max = floor(c(
-        2^counter - 1,
+        2^api_call_2 - 1,
         30
       )))
       Sys.sleep(backoff)
-      img_res <- httr::GET(body$href, agent)
+      for (body_href in api_call_res) {
+        if (is.null(body_href)) next
+        img_res <- httr::GET(body$href, agent)
+        if (!httr::http_error(img_res)) break
+      }
+      if (!httr::http_error(img_res)) break
     }
-
-    if (httr::http_error(img_res)) {
-      # nocov start
-      stop("Map server returned error code ", httr::status_code(img_res))
-      # nocov end
-    }
-
-    return(list(
-      imageData = httr::content(img_res, "raw"),
-      extent = body$extent
-    ))
-  } else {
-    return(body)
   }
+
+  if (httr::http_error(res)) {
+    # nocov start
+    stop("Map server returned error code ", httr::status_code(res))
+    # nocov end
+  }
+
+  if (httr::http_error(img_res)) {
+    # nocov start
+    stop("Map server returned error code ", httr::status_code(img_res))
+    # nocov end
+  }
+
+  list(
+    imageData = httr::content(img_res, "raw"),
+    extent = body$extent
+  )
 }
