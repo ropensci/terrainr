@@ -1,7 +1,7 @@
 Type: Package
 Package: terrainr
 Title: Landscape Visualizations in R and 'Unity'
-Version: 0.7.4
+Version: 0.7.4.9000
 Authors@R: c(
     person("Michael", "Mahoney", , "mike.mahoney.218@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-2402-304X")),
