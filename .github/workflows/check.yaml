@@ -1,8 +1,7 @@
 on:
   push:
     branches:
-      - '*'
-      - '!gh-pages'
+      - 'main'
   pull_request:
     branches:
       - '*'
@@ -62,13 +61,13 @@ jobs:
           do
             eval sudo $cmd
           done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
-          
+
       - name: Install macOS dependencies
         if: runner.os == 'macOS'
         run: |
           brew install proj
           brew install gdal
-          
+
       - name: Install dependencies
         run: |
           remotes::install_github("mikemahoney218/unifir")
