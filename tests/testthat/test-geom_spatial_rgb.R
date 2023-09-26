@@ -1,5 +1,6 @@
 test_that("all methods of geom_spatial_rgb are equivalent", {
   skip_on_cran()
+  skip_if_offline()
   simulated_data <- data.frame(
     id = seq(1, 100, 1),
     lat = runif(100, 44.04905, 44.17609),

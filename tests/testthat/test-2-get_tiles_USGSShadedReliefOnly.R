@@ -1,6 +1,7 @@
 # Disabled due to unreliable API endpoint
 test_that("get_tiles gets the same topo tiles twice", {
   skip_on_cran()
+  skip_if_offline()
   dl_loc <- data.frame(
     lat = c(44.04905, 44.04911),
     lng = c(-74.01188, -74.01179)

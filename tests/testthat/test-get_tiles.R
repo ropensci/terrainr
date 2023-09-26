@@ -1,6 +1,8 @@
 # Note: Individual data sources also have tests as test-2-get_tiles_<data>.R
 
 test_that("SpatRast method is consistent", {
+  skip_on_cran()
+  skip_if_offline()
   tmp_raster <- terra::rast("testdata/merge_rasters_test.tif")
   rstr_tile <- get_tiles(tmp_raster, bboxSR = 4326, imageSR = 4326)
   downloaded_raster <- terra::rast(rstr_tile[["elevation"]])
@@ -26,6 +28,7 @@ test_that("warnings fire appropriately", {
 
 test_that("The deprecated list method still works", {
   skip_on_cran()
+  skip_if_offline()
   output_tif <- suppressWarnings(
     get_tiles(list(
       c(lat = 44.04905, lng = -74.01188),
@@ -58,6 +61,7 @@ test_that("The deprecated list method still works", {
 
 test_that("projected returns are consistent", {
   skip_on_cran()
+  skip_if_offline()
   # For some reason, the exact boundaries appear to be system-specific
   # They're very close across systems, but the API returns a slightly wider
   # area for Mac and Windows than Linux
