@@ -1,5 +1,6 @@
 test_that("dots replace their arguments", {
   skip_on_cran()
+  skip_if_offline()
   expect_equal(
     hit_national_map_api(
       list(

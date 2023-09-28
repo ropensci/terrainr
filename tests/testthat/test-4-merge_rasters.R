@@ -1,5 +1,6 @@
 test_that("merge_raster files are identical no matter the filename", {
   skip_on_cran()
+  skip_if_offline()
   df <- data.frame(
     lat = c(44.050030001, 44.05003),
     lng = c(-74.01164, -74.011640001)
@@ -43,6 +44,7 @@ test_that("merge_raster files are identical no matter the filename", {
 
 test_that("fallback method works", {
   skip_on_cran()
+  skip_if_offline()
   # Just for time savings
   skip_on_os(c("windows", "mac"))
   df <- data.frame(
@@ -89,6 +91,7 @@ test_that("fallback method works", {
 
 test_that("overwrite works as expected", {
   skip_on_cran()
+  skip_if_offline()
   test_file <- tempfile(fileext = ".tif")
   test_copy <- tempfile(fileext = ".tif")
 

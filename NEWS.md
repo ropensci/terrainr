@@ -1,5 +1,9 @@
 # terrainr (development version)
 
+* More tests are flagged to skip on CRAN, or when run offline
+
+* `georeference_overlay` should give fewer useless warnings
+
 # terrainr 0.7.4
 
 * New query method is dramatically faster and less-error prone.

@@ -63,7 +63,7 @@ georeference_overlay <- function(overlay_file,
 
   image_read <- switch(file_type,
     "png" = png::readPNG,
-    "tiff" = tiff::readTIFF,
+    "tiff" = \(x) suppressWarnings(tiff::readTIFF(x)),
     "jpeg" = jpeg::readJPEG
   )
 

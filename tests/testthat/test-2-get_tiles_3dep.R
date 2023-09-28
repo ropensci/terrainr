@@ -1,5 +1,6 @@
 test_that("get_tiles gets the same elevation tiles twice", {
   skip_on_cran()
+  skip_if_offline()
   dl_loc <- data.frame(
     lat = c(44.04905, 44.04911),
     lng = c(-74.01188, -74.01179)
@@ -56,6 +57,7 @@ test_that("get_tiles fails as expected", {
 
 test_that("specifying SR works", {
   skip_on_cran()
+  skip_if_offline()
   dat <- data.frame(
     lat = c(44.04905, 44.04911),
     lng = c(-74.01188, -74.01179)
