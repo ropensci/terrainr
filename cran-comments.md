@@ -1,4 +1,4 @@
-This release fixes an error on CRAN and improves the query handling in the package.
+This release fixes an error on CRAN.
 
 ## R CMD check results
 
