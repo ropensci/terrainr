@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-20.04
     name: Drat Upload
     steps:
-      - uses: mikemahoney218/upload-to-drat-repo@v0.2
+      - uses: mikemahoney218/upload-to-drat-repo@v0.2.1
         with:
           drat_repo: 'mikemahoney218/drat'
           token: "${{ secrets.DRAT_TOKEN }}"
