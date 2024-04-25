@@ -1,4 +1,5 @@
 test_that("combine_overlays works", {
+  skip_if_not_installed("tiff")
   x_tmp <- tempfile(fileext = ".png")
   y_tmp <- tempfile(fileext = ".png")
 
