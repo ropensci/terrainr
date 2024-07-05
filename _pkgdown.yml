@@ -10,6 +10,7 @@ navbar:
     - reference
 #    - tutorials
     - news
+    - search
     - github
   components:
     home:
