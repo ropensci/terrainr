@@ -129,6 +129,7 @@ geom_spatial_rgb_internal <- function(data = NULL,
 }
 
 
+#' @export
 geom_spatial_rgb_internal.character <- function(data = NULL,
                                                 mapping = NULL,
                                                 stat = "spatialRGB",
@@ -156,6 +157,7 @@ geom_spatial_rgb_internal.character <- function(data = NULL,
   )
 }
 
+#' @export
 geom_spatial_rgb_internal.RasterStack <- function(data = NULL,
                                                   mapping = NULL,
                                                   stat = "spatialRGB",
@@ -182,6 +184,7 @@ geom_spatial_rgb_internal.RasterStack <- function(data = NULL,
   )
 }
 
+#' @export
 geom_spatial_rgb_internal.SpatRaster <- function(data = NULL,
                                                  mapping = NULL,
                                                  stat = "spatialRGB",
@@ -222,6 +225,7 @@ geom_spatial_rgb_internal.SpatRaster <- function(data = NULL,
   )
 }
 
+#' @export
 geom_spatial_rgb_internal.default <- function(data = NULL,
                                               mapping = NULL,
                                               stat = "spatialRGB",
@@ -325,6 +329,7 @@ stat_spatial_rgb_internal <- function(data = NULL,
   UseMethod("stat_spatial_rgb_internal")
 }
 
+#' @export
 stat_spatial_rgb_internal.character <- function(data = NULL,
                                                 mapping = NULL,
                                                 geom = "raster",
@@ -349,6 +354,7 @@ stat_spatial_rgb_internal.character <- function(data = NULL,
   )
 }
 
+#' @export
 stat_spatial_rgb_internal.RasterStack <- function(data = NULL,
                                                   mapping = NULL,
                                                   geom = "raster",
@@ -367,6 +373,7 @@ stat_spatial_rgb_internal.RasterStack <- function(data = NULL,
   )
 }
 
+#' @export
 stat_spatial_rgb_internal.SpatRaster <- function(data = NULL,
                                                  mapping = NULL,
                                                  geom = "raster",
@@ -399,6 +406,7 @@ stat_spatial_rgb_internal.SpatRaster <- function(data = NULL,
   )
 }
 
+#' @export
 stat_spatial_rgb_internal.default <- function(data = NULL,
                                               mapping = NULL,
                                               geom = "raster",
