@@ -79,18 +79,20 @@
 #' }
 #'
 #' @export
-geom_spatial_rgb <- function(mapping = NULL,
-                             data = NULL,
-                             stat = "spatialRGB",
-                             position = "identity",
-                             ...,
-                             hjust = 0.5,
-                             vjust = 0.5,
-                             interpolate = FALSE,
-                             na.rm = FALSE,
-                             show.legend = NA,
-                             inherit.aes = TRUE,
-                             scale = NULL) {
+geom_spatial_rgb <- function(
+  mapping = NULL,
+  data = NULL,
+  stat = "spatialRGB",
+  position = "identity",
+  ...,
+  hjust = 0.5,
+  vjust = 0.5,
+  interpolate = FALSE,
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  scale = NULL
+) {
   if (!(is.numeric(hjust) && length(hjust) == 1)) {
     rlang::abort("`hjust` must be a numeric scalar")
   }
@@ -113,34 +115,39 @@ geom_spatial_rgb <- function(mapping = NULL,
   )
 }
 
-geom_spatial_rgb_internal <- function(data = NULL,
-                                      mapping = NULL,
-                                      stat = "spatialRGB",
-                                      position = "identity",
-                                      ...,
-                                      hjust = 0.5,
-                                      vjust = 0.5,
-                                      interpolate = FALSE,
-                                      na.rm = FALSE,
-                                      show.legend = NA,
-                                      inherit.aes = TRUE,
-                                      scale = NULL) {
+#' @noRd
+geom_spatial_rgb_internal <- function(
+  data = NULL,
+  mapping = NULL,
+  stat = "spatialRGB",
+  position = "identity",
+  ...,
+  hjust = 0.5,
+  vjust = 0.5,
+  interpolate = FALSE,
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  scale = NULL
+) {
   UseMethod("geom_spatial_rgb_internal")
 }
 
-
-geom_spatial_rgb_internal.character <- function(data = NULL,
-                                                mapping = NULL,
-                                                stat = "spatialRGB",
-                                                position = "identity",
-                                                ...,
-                                                hjust = 0.5,
-                                                vjust = 0.5,
-                                                interpolate = FALSE,
-                                                na.rm = FALSE,
-                                                show.legend = NA,
-                                                inherit.aes = TRUE,
-                                                scale = NULL) {
+#' @noRd
+geom_spatial_rgb_internal.character <- function(
+  data = NULL,
+  mapping = NULL,
+  stat = "spatialRGB",
+  position = "identity",
+  ...,
+  hjust = 0.5,
+  vjust = 0.5,
+  interpolate = FALSE,
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  scale = NULL
+) {
   stopifnot(length(data) == 1)
   data <- terra::rast(data)
   geom_spatial_rgb_internal.SpatRaster(
@@ -156,18 +163,21 @@ geom_spatial_rgb_internal.character <- function(data = NULL,
   )
 }
 
-geom_spatial_rgb_internal.RasterStack <- function(data = NULL,
-                                                  mapping = NULL,
-                                                  stat = "spatialRGB",
-                                                  position = "identity",
-                                                  ...,
-                                                  hjust = 0.5,
-                                                  vjust = 0.5,
-                                                  interpolate = FALSE,
-                                                  na.rm = FALSE,
-                                                  show.legend = NA,
-                                                  inherit.aes = TRUE,
-                                                  scale = NULL) {
+#' @noRd
+geom_spatial_rgb_internal.RasterStack <- function(
+  data = NULL,
+  mapping = NULL,
+  stat = "spatialRGB",
+  position = "identity",
+  ...,
+  hjust = 0.5,
+  vjust = 0.5,
+  interpolate = FALSE,
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  scale = NULL
+) {
   data <- terra::rast(data)
   geom_spatial_rgb_internal(
     data = data,
@@ -182,18 +192,21 @@ geom_spatial_rgb_internal.RasterStack <- function(data = NULL,
   )
 }
 
-geom_spatial_rgb_internal.SpatRaster <- function(data = NULL,
-                                                 mapping = NULL,
-                                                 stat = "spatialRGB",
-                                                 position = "identity",
-                                                 ...,
-                                                 hjust = 0.5,
-                                                 vjust = 0.5,
-                                                 interpolate = FALSE,
-                                                 na.rm = FALSE,
-                                                 show.legend = NA,
-                                                 inherit.aes = TRUE,
-                                                 scale = NULL) {
+#' @noRd
+geom_spatial_rgb_internal.SpatRaster <- function(
+  data = NULL,
+  mapping = NULL,
+  stat = "spatialRGB",
+  position = "identity",
+  ...,
+  hjust = 0.5,
+  vjust = 0.5,
+  interpolate = FALSE,
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  scale = NULL
+) {
   data <- terra::as.data.frame(data, xy = TRUE)
   if (terra::ncol(data) == 5) {
     data <- stats::setNames(data, c("x", "y", "red", "green", "blue"))
@@ -202,11 +215,14 @@ geom_spatial_rgb_internal.SpatRaster <- function(data = NULL,
   } else {
     rlang::abort(
       c(
-        paste0("Can't assume band values from ",
-               terra::ncol(data) - 2,
-               " band raster."),
+        paste0(
+          "Can't assume band values from ",
+          terra::ncol(data) - 2,
+          " band raster."
+        ),
         i = "Set `red`, `green`, and `blue` explicitly inside of `aes()`"
-      ))
+      )
+    )
   }
 
   geom_spatial_rgb_internal(
@@ -222,18 +238,21 @@ geom_spatial_rgb_internal.SpatRaster <- function(data = NULL,
   )
 }
 
-geom_spatial_rgb_internal.default <- function(data = NULL,
-                                              mapping = NULL,
-                                              stat = "spatialRGB",
-                                              position = "identity",
-                                              ...,
-                                              hjust = 0.5,
-                                              vjust = 0.5,
-                                              interpolate = FALSE,
-                                              na.rm = FALSE,
-                                              show.legend = NA,
-                                              inherit.aes = TRUE,
-                                              scale = NULL) {
+#' @noRd
+geom_spatial_rgb_internal.default <- function(
+  data = NULL,
+  mapping = NULL,
+  stat = "spatialRGB",
+  position = "identity",
+  ...,
+  hjust = 0.5,
+  vjust = 0.5,
+  interpolate = FALSE,
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  scale = NULL
+) {
   ggplot2::layer(
     data = data,
     mapping = mapping,
@@ -276,9 +295,15 @@ StatSpatialRGB <- ggplot2::ggproto(
     params
   },
   compute_group = function(data, scales, params, scale = NULL) {
-    if (any(data$r < 0)) data[data$r < 0, ]$r <- 0
-    if (any(data$g < 0)) data[data$g < 0, ]$g <- 0
-    if (any(data$b < 0)) data[data$b < 0, ]$b <- 0
+    if (any(data$r < 0)) {
+      data[data$r < 0, ]$r <- 0
+    }
+    if (any(data$g < 0)) {
+      data[data$g < 0, ]$g <- 0
+    }
+    if (any(data$b < 0)) {
+      data[data$b < 0, ]$b <- 0
+    }
     data$fill <- grDevices::rgb(data$r / scale, data$g / scale, data$b / scale)
     data.frame(
       x = data$x,
@@ -291,15 +316,17 @@ StatSpatialRGB <- ggplot2::ggproto(
 #' @export
 #' @rdname geom_spatial_rgb
 #' @inheritParams ggplot2::stat_identity
-stat_spatial_rgb <- function(mapping = NULL,
-                             data = NULL,
-                             geom = "raster",
-                             position = "identity",
-                             na.rm = FALSE,
-                             show.legend = FALSE,
-                             inherit.aes = TRUE,
-                             scale = NULL,
-                             ...) {
+stat_spatial_rgb <- function(
+  mapping = NULL,
+  data = NULL,
+  geom = "raster",
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = FALSE,
+  inherit.aes = TRUE,
+  scale = NULL,
+  ...
+) {
   stat_spatial_rgb_internal(
     data = data,
     mapping = mapping,
@@ -313,27 +340,34 @@ stat_spatial_rgb <- function(mapping = NULL,
   )
 }
 
-stat_spatial_rgb_internal <- function(data = NULL,
-                                      mapping = NULL,
-                                      geom = "raster",
-                                      position = "identity",
-                                      na.rm = FALSE,
-                                      show.legend = FALSE,
-                                      inherit.aes = TRUE,
-                                      scale = NULL,
-                                      ...) {
+
+#' @noRd
+stat_spatial_rgb_internal <- function(
+  data = NULL,
+  mapping = NULL,
+  geom = "raster",
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = FALSE,
+  inherit.aes = TRUE,
+  scale = NULL,
+  ...
+) {
   UseMethod("stat_spatial_rgb_internal")
 }
 
-stat_spatial_rgb_internal.character <- function(data = NULL,
-                                                mapping = NULL,
-                                                geom = "raster",
-                                                position = "identity",
-                                                na.rm = FALSE,
-                                                show.legend = FALSE,
-                                                inherit.aes = TRUE,
-                                                scale = NULL,
-                                                ...) {
+#' @noRd
+stat_spatial_rgb_internal.character <- function(
+  data = NULL,
+  mapping = NULL,
+  geom = "raster",
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = FALSE,
+  inherit.aes = TRUE,
+  scale = NULL,
+  ...
+) {
   stopifnot(length(data) == 1)
   data <- terra::rast(data)
   stat_spatial_rgb_internal.SpatRaster(
@@ -349,33 +383,44 @@ stat_spatial_rgb_internal.character <- function(data = NULL,
   )
 }
 
-stat_spatial_rgb_internal.RasterStack <- function(data = NULL,
-                                                  mapping = NULL,
-                                                  geom = "raster",
-                                                  position = "identity",
-                                                  na.rm = FALSE,
-                                                  show.legend = FALSE,
-                                                  inherit.aes = TRUE,
-                                                  scale = NULL,
-                                                  ...) {
+#' @noRd
+stat_spatial_rgb_internal.RasterStack <- function(
+  data = NULL,
+  mapping = NULL,
+  geom = "raster",
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = FALSE,
+  inherit.aes = TRUE,
+  scale = NULL,
+  ...
+) {
   data <- terra::rast(data)
   stat_spatial_rgb_internal(
-    data = data, mapping = mapping, geom = geom,
-    position = position, na.rm = na.rm,
-    show.legend = show.legend, inherit.aes = inherit.aes,
-    scale = scale, ...
+    data = data,
+    mapping = mapping,
+    geom = geom,
+    position = position,
+    na.rm = na.rm,
+    show.legend = show.legend,
+    inherit.aes = inherit.aes,
+    scale = scale,
+    ...
   )
 }
 
-stat_spatial_rgb_internal.SpatRaster <- function(data = NULL,
-                                                 mapping = NULL,
-                                                 geom = "raster",
-                                                 position = "identity",
-                                                 na.rm = FALSE,
-                                                 show.legend = FALSE,
-                                                 inherit.aes = TRUE,
-                                                 scale = NULL,
-                                                 ...) {
+#' @noRd
+stat_spatial_rgb_internal.SpatRaster <- function(
+  data = NULL,
+  mapping = NULL,
+  geom = "raster",
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = FALSE,
+  inherit.aes = TRUE,
+  scale = NULL,
+  ...
+) {
   data <- terra::as.data.frame(data, xy = TRUE)
   if (terra::ncol(data) == 5) {
     data <- stats::setNames(data, c("x", "y", "red", "green", "blue"))
@@ -384,30 +429,41 @@ stat_spatial_rgb_internal.SpatRaster <- function(data = NULL,
   } else {
     rlang::abort(
       c(
-        paste0("Can't assume band values from ",
-               terra::ncol(data) - 2,
-               " band raster."),
+        paste0(
+          "Can't assume band values from ",
+          terra::ncol(data) - 2,
+          " band raster."
+        ),
         i = "Set `red`, `green`, and `blue` explicitly inside of `aes()`"
-      ))
+      )
+    )
   }
 
   stat_spatial_rgb_internal(
-    data = data, mapping = mapping, geom = geom,
-    position = position, na.rm = na.rm,
-    show.legend = show.legend, inherit.aes = inherit.aes,
-    scale = scale, ...
+    data = data,
+    mapping = mapping,
+    geom = geom,
+    position = position,
+    na.rm = na.rm,
+    show.legend = show.legend,
+    inherit.aes = inherit.aes,
+    scale = scale,
+    ...
   )
 }
 
-stat_spatial_rgb_internal.default <- function(data = NULL,
-                                              mapping = NULL,
-                                              geom = "raster",
-                                              position = "identity",
-                                              na.rm = FALSE,
-                                              show.legend = FALSE,
-                                              inherit.aes = TRUE,
-                                              scale = NULL,
-                                              ...) {
+#' @noRd
+stat_spatial_rgb_internal.default <- function(
+  data = NULL,
+  mapping = NULL,
+  geom = "raster",
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = FALSE,
+  inherit.aes = TRUE,
+  scale = NULL,
+  ...
+) {
   ggplot2::layer(
     stat = StatSpatialRGB,
     data = data,
@@ -418,7 +474,8 @@ stat_spatial_rgb_internal.default <- function(data = NULL,
     inherit.aes = inherit.aes,
     params = list(
       scale = scale,
-      na.rm = na.rm, ...
+      na.rm = na.rm,
+      ...
     )
   )
 }
