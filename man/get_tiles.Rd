@@ -154,7 +154,6 @@ documentation.
 \item \href{https://basemap.nationalmap.gov/arcgis/rest/services/USGSShadedReliefOnly/MapServer}{USGSShadedReliefOnly}
 \item \href{https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer}{USGSImageryOnly}
 \item \href{https://basemap.nationalmap.gov/arcgis/rest/services/USGSHydroCached/MapServer}{USGSHydroCached}
-\item \href{https://basemap.nationalmap.gov/arcgis/rest/services/USGSTNMBlank/MapServer}{USGSTNMBlank}
 }
 }
 

@@ -32,19 +32,21 @@ test_that("set_bbox_side_length works within 1%", {
   bbox <- sf::st_bbox(bbox)
 
   tl <- c(lat = bbox[["ymax"]], lng = bbox[["xmin"]])
-  expect_equal(calc_haversine_distance(
-    c(lat = bbox[["ymax"]], lng = bbox[["xmax"]]),
-    tl
-  ),
-  8000,
-  tolerance = 8000 * 0.005
+  expect_equal(
+    calc_haversine_distance(
+      c(lat = bbox[["ymax"]], lng = bbox[["xmax"]]),
+      tl
+    ),
+    8000,
+    tolerance = 8000 * 0.005
   )
-  expect_equal(calc_haversine_distance(
-    c(lat = bbox[["ymin"]], lng = bbox[["xmin"]]),
-    tl
-  ),
-  8000,
-  tolerance = 8000 * 0.005
+  expect_equal(
+    calc_haversine_distance(
+      c(lat = bbox[["ymin"]], lng = bbox[["xmin"]]),
+      tl
+    ),
+    8000,
+    tolerance = 8000 * 0.005
   )
 
   tmp_raster <- terra::rast("testdata/merge_rasters_test.tif")
@@ -52,19 +54,21 @@ test_that("set_bbox_side_length works within 1%", {
   rstr_bbox <- sf::st_bbox(rstr_bbox)
 
   tl <- c(lat = rstr_bbox[["ymax"]], lng = rstr_bbox[["xmin"]])
-  expect_equal(calc_haversine_distance(
-    c(lat = rstr_bbox[["ymax"]], lng = rstr_bbox[["xmax"]]),
-    tl
-  ),
-  8000,
-  tolerance = 8000 * 0.005
+  expect_equal(
+    calc_haversine_distance(
+      c(lat = rstr_bbox[["ymax"]], lng = rstr_bbox[["xmax"]]),
+      tl
+    ),
+    8000,
+    tolerance = 8000 * 0.005
   )
-  expect_equal(calc_haversine_distance(
-    c(lat = rstr_bbox[["ymin"]], lng = rstr_bbox[["xmin"]]),
-    tl
-  ),
-  8000,
-  tolerance = 8000 * 0.005
+  expect_equal(
+    calc_haversine_distance(
+      c(lat = rstr_bbox[["ymin"]], lng = rstr_bbox[["xmin"]]),
+      tl
+    ),
+    8000,
+    tolerance = 8000 * 0.005
   )
 
   expect_equal(

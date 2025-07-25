@@ -1,7 +1,7 @@
 #' Plot RGB rasters in ggplot2
 #'
 #' `geom_spatial_rgb` and `stat_spatial_rgb` allow users to plot three-band RGB
-#' rasters in [ggplot2], using these layers as background base maps for other
+#' rasters in ggplot2, using these layers as background base maps for other
 #' spatial plotting. Note that unlike [ggplot2::geom_sf], this function does
 #' _not_ force [ggplot2::coord_sf]; for accurate mapping, add
 #' [ggplot2::coord_sf] with a `crs` value matching your input raster as a layer.

@@ -1,4 +1,4 @@
-This release fixes an error on CRAN.
+This release fixes a note on CRAN.
 
 ## R CMD check results
 

@@ -60,7 +60,6 @@
 #' * [USGSShadedReliefOnly](https://basemap.nationalmap.gov/arcgis/rest/services/USGSShadedReliefOnly/MapServer)
 #' * [USGSImageryOnly](https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer)
 #' * [USGSHydroCached](https://basemap.nationalmap.gov/arcgis/rest/services/USGSHydroCached/MapServer)
-#' * [USGSTNMBlank](https://basemap.nationalmap.gov/arcgis/rest/services/USGSTNMBlank/MapServer)
 #'
 #'
 # nolint end
@@ -96,29 +95,33 @@
 #' @rdname get_tiles
 #' @md
 #' @export
-get_tiles <- function(data,
-                      output_prefix = tempfile(),
-                      side_length = NULL,
-                      resolution = 1,
-                      services = "elevation",
-                      verbose = FALSE,
-                      georeference = TRUE,
-                      projected = NULL,
-                      ...) {
+get_tiles <- function(
+  data,
+  output_prefix = tempfile(),
+  side_length = NULL,
+  resolution = 1,
+  services = "elevation",
+  verbose = FALSE,
+  georeference = TRUE,
+  projected = NULL,
+  ...
+) {
   UseMethod("get_tiles")
 }
 
 #' @rdname get_tiles
 #' @export
-get_tiles.sf <- function(data,
-                         output_prefix = tempfile(),
-                         side_length = NULL,
-                         resolution = 1,
-                         services = "elevation",
-                         verbose = FALSE,
-                         georeference = TRUE,
-                         projected = NULL,
-                         ...) {
+get_tiles.sf <- function(
+  data,
+  output_prefix = tempfile(),
+  side_length = NULL,
+  resolution = 1,
+  services = "elevation",
+  verbose = FALSE,
+  georeference = TRUE,
+  projected = NULL,
+  ...
+) {
   dots <- list(...)
 
   if (is.null(projected)) {
@@ -163,18 +166,21 @@ get_tiles.sf <- function(data,
 
 #' @rdname get_tiles
 #' @export
-get_tiles.sfc <- function(data,
-                          output_prefix = tempfile(),
-                          side_length = NULL,
-                          resolution = 1,
-                          services = "elevation",
-                          verbose = FALSE,
-                          georeference = TRUE,
-                          projected = NULL,
-                          ...) {
+get_tiles.sfc <- function(
+  data,
+  output_prefix = tempfile(),
+  side_length = NULL,
+  resolution = 1,
+  services = "elevation",
+  verbose = FALSE,
+  georeference = TRUE,
+  projected = NULL,
+  ...
+) {
   data <- sf::st_as_sf(data)
 
-  get_tiles(data,
+  get_tiles(
+    data,
     output_prefix = output_prefix,
     side_length = side_length,
     resolution = resolution,
@@ -188,39 +194,45 @@ get_tiles.sfc <- function(data,
 
 #' @rdname get_tiles
 #' @export
-get_tiles.Raster <- function(data,
-                             output_prefix = tempfile(),
-                             side_length = NULL,
-                             resolution = 1,
-                             services = "elevation",
-                             verbose = FALSE,
-                             georeference = TRUE,
-                             projected = NULL,
-                             ...) {
+get_tiles.Raster <- function(
+  data,
+  output_prefix = tempfile(),
+  side_length = NULL,
+  resolution = 1,
+  services = "elevation",
+  verbose = FALSE,
+  georeference = TRUE,
+  projected = NULL,
+  ...
+) {
   data <- terra::rast(data)
-  get_tiles.SpatRaster(data,
-                       output_prefix = output_prefix,
-                       side_length = side_length,
-                       resolution = resolution,
-                       services = services,
-                       verbose = verbose,
-                       georeference = georeference,
-                       projected = projected,
-                       ...)
+  get_tiles.SpatRaster(
+    data,
+    output_prefix = output_prefix,
+    side_length = side_length,
+    resolution = resolution,
+    services = services,
+    verbose = verbose,
+    georeference = georeference,
+    projected = projected,
+    ...
+  )
 }
 
 
 #' @rdname get_tiles
 #' @export
-get_tiles.SpatRaster <- function(data,
-                               output_prefix = tempfile(),
-                               side_length = NULL,
-                               resolution = 1,
-                               services = "elevation",
-                               verbose = FALSE,
-                               georeference = TRUE,
-                               projected = NULL,
-                               ...) {
+get_tiles.SpatRaster <- function(
+  data,
+  output_prefix = tempfile(),
+  side_length = NULL,
+  resolution = 1,
+  services = "elevation",
+  verbose = FALSE,
+  georeference = TRUE,
+  projected = NULL,
+  ...
+) {
   dots <- list(...)
   if (is.null(projected)) {
     projected <- !sf::st_is_longlat(data)
@@ -270,19 +282,22 @@ get_tiles.SpatRaster <- function(data,
 
 #' @rdname get_tiles
 #' @export
-get_tiles.list <- function(data,
-                           output_prefix = tempfile(),
-                           side_length = NULL,
-                           resolution = 1,
-                           services = "elevation",
-                           verbose = FALSE,
-                           georeference = TRUE,
-                           projected = NULL,
-                           ...) {
+get_tiles.list <- function(
+  data,
+  output_prefix = tempfile(),
+  side_length = NULL,
+  resolution = 1,
+  services = "elevation",
+  verbose = FALSE,
+  georeference = TRUE,
+  projected = NULL,
+  ...
+) {
   .Deprecated(
     "get_tiles.list",
     "terrainr",
-    msg = paste("'get_tiles.list' is deprecated as of terrainr 0.5.0.",
+    msg = paste(
+      "'get_tiles.list' is deprecated as of terrainr 0.5.0.",
       "Convert your list to an sf object instead.",
       sep = "\n"
     )
@@ -304,16 +319,17 @@ get_tiles.list <- function(data,
   )
 }
 
-get_tiles_internal <- function(data,
-                               output_prefix = tempfile(),
-                               side_length = NULL,
-                               resolution = 1,
-                               services = "elevation",
-                               verbose = FALSE,
-                               georeference = TRUE,
-                               projected = NULL,
-                               ...) {
-
+get_tiles_internal <- function(
+  data,
+  output_prefix = tempfile(),
+  side_length = NULL,
+  resolution = 1,
+  services = "elevation",
+  verbose = FALSE,
+  georeference = TRUE,
+  projected = NULL,
+  ...
+) {
   # short codes are assigned as names; we'll cast them into the full name later
   # full names are from the API URL, hence capitalization woes
   list_of_services <- c(
@@ -331,19 +347,20 @@ get_tiles_internal <- function(data,
     "USGSTopo",
     "USGSShadedReliefOnly",
     "USGSImageryOnly",
-    "USGSHydroCached",
-    "USGSTNMBlank"
+    "USGSHydroCached"
   )
 
-  stopifnot(all(services %in% list_of_services |
-    services %in% names(list_of_services)))
+  stopifnot(all(
+    services %in% list_of_services | services %in% names(list_of_services)
+  ))
 
   tif_files <- c("3DEPElevation")
   png_files <- list_of_services[!(list_of_services %in% tif_files)]
 
   services <- stats::setNames(services, services)
 
-  if (any(services %in% names(list_of_services))) { # cast short codes now
+  if (any(services %in% names(list_of_services))) {
+    # cast short codes now
     replacements <- which(services %in% names(list_of_services))
     services[replacements] <- as.vector(
       list_of_services[services[replacements]]
@@ -379,14 +396,17 @@ get_tiles_internal <- function(data,
   x_tiles <- bbox_splits[[2]]
   y_tiles <- bbox_splits[[3]]
 
-  if (requireNamespace("progressr", quietly = TRUE)) { # nocov start
+  if (requireNamespace("progressr", quietly = TRUE)) {
+    # nocov start
     p <- progressr::progressor(steps = x_tiles * y_tiles * length(services))
   } # nocov end
 
   for (i in seq_len(x_tiles)) {
     for (j in seq_len(y_tiles)) {
-      current_box <- tile_boxes[tile_boxes$x_tiles == i &
-        tile_boxes$y_tiles == j, ]
+      current_box <- tile_boxes[
+        tile_boxes$x_tiles == i &
+          tile_boxes$y_tiles == j,
+      ]
       current_bbox <- data.frame(
         lat = c(current_box$min_y, current_box$max_y),
         lng = c(current_box$min_x, current_box$max_x)
@@ -394,13 +414,16 @@ get_tiles_internal <- function(data,
       current_bbox <- sf::st_as_sf(current_bbox, coords = c("lng", "lat"))
       current_bbox <- sf::st_bbox(current_bbox)
       for (k in seq_along(services)) {
-        if (requireNamespace("progressr", quietly = TRUE)) { # nocov start
-          p(message = sprintf(
-            "Retrieving %s tile (%d, %d)",
-            services[[k]],
-            i,
-            j
-          ))
+        if (requireNamespace("progressr", quietly = TRUE)) {
+          # nocov start
+          p(
+            message = sprintf(
+              "Retrieving %s tile (%d, %d)",
+              services[[k]],
+              i,
+              j
+            )
+          )
         } # nocov end
 
         if (services[[k]] %in% tif_files | georeference) {
@@ -429,9 +452,11 @@ get_tiles_internal <- function(data,
         }
 
         counter <- 0
-        while ((!file.exists(cur_path) ||
-          file.size(cur_path) == 0) &&
-          counter < 5) {
+        while (
+          (!file.exists(cur_path) ||
+            file.size(cur_path) == 0) &&
+            counter < 5
+        ) {
           img_bin <- hit_national_map_api(
             current_bbox,
             current_box[["img_width"]],
@@ -465,10 +490,7 @@ get_tiles_internal <- function(data,
             img_bin$extent$ymax
           )
 
-          terra::writeRaster(cur_raster,
-            final_path,
-            overwrite = TRUE
-          )
+          terra::writeRaster(cur_raster, final_path, overwrite = TRUE)
           if (rm_path) unlink(cur_path)
         }
       }
@@ -503,7 +525,7 @@ handle_bboxSR <- function(data, projected) {
     rlang::warn(c(
       "Assuming CRS of EPSG 5071",
       i = "Set bboxSR explicity to override"
-      ))
+    ))
     5071
   } else {
     rlang::warn(c(

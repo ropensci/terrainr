@@ -1,5 +1,5 @@
 test_that("georeference_overlay edge cases work", {
-
+  testthat::skip_if_not_installed("tiff")
   # change input file name and load raster
   expect_equal(
     tiff::readTIFF(georeference_overlay(

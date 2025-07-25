@@ -115,9 +115,9 @@ to create:
 <img src="man/figures/20210728unity.jpg" width="100%" />
 
 The more time intensive processing steps can all be monitored via the
-[progressr](https://github.com/HenrikBengtsson/progressr) package, so
-you’ll be more confident that your computer is still churning along and
-not just stalled out. For more information, check out [the introductory
+[progressr](https://github.com/futureverse/progressr) package, so you’ll
+be more confident that your computer is still churning along and not
+just stalled out. For more information, check out [the introductory
 vignette](https://docs.ropensci.org/terrainr//articles/overview.html)
 and [the guide to importing your data into
 Unity!](https://docs.ropensci.org/terrainr//articles/unity_instructions.html)

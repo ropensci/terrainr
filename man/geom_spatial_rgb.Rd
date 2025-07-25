@@ -145,7 +145,7 @@ give the geom as \code{"point"}.
 }
 \description{
 \code{geom_spatial_rgb} and \code{stat_spatial_rgb} allow users to plot three-band RGB
-rasters in \link{ggplot2}, using these layers as background base maps for other
+rasters in ggplot2, using these layers as background base maps for other
 spatial plotting. Note that unlike \link[ggplot2:ggsf]{ggplot2::geom_sf}, this function does
 \emph{not} force \link[ggplot2:ggsf]{ggplot2::coord_sf}; for accurate mapping, add
 \link[ggplot2:ggsf]{ggplot2::coord_sf} with a \code{crs} value matching your input raster as a layer.

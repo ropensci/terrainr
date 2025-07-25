@@ -2,7 +2,8 @@
 
     Code
       set_bbox_side_length(df_sf, 8000)
-    Warning <rlang_warning>
+    Condition
+      Warning:
       No CRS associated with input data.
       i Assuming EPSG:4326.
     Output
@@ -11,13 +12,14 @@
       Dimension:     XY
       Bounding box:  xmin: -73.97357 ymin: 44.07662 xmax: -73.87337 ymax: 44.14857
       Geodetic CRS:  WGS 84
-    Message <simpleMessage>
+    Message
       POLYGON ((-73.97357 44.07662, -73.87337 44.0766...
 
 ---
 
     Code
       set_bbox_side_length(df_sf, 8000, error_crs = TRUE)
-    Error <rlang_error>
-      No CRS associated with input data.
+    Condition
+      Error in `add_bbox_buffer()`:
+      ! No CRS associated with input data.
 

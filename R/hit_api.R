@@ -27,11 +27,11 @@
 #'
 #' * `bboxSR`: The spatial reference of the bounding box given to this function.
 #'   If not specified, assumed to be
-#'   [4326](https://spatialreference.org/ref/epsg/wgs-84/).
+#'   [4326](https://spatialreference.org/ref/epsg/4326/).
 #'
 #' * `imageSR`: The spatial reference of the image downloaded.
 #'   If not specified, assumed to be
-#'   [4326](https://spatialreference.org/ref/epsg/wgs-84/).
+#'   [4326](https://spatialreference.org/ref/epsg/4326/).
 #'
 #' * layers: Which data layers to download. If the National Map API returns data
 #'   without specifying layers, this argument isn't used by default. When the
@@ -66,12 +66,14 @@
 #'
 #' @export
 #' @md
-hit_national_map_api <- function(bbox,
-                                 img_width,
-                                 img_height,
-                                 service,
-                                 verbose = FALSE,
-                                 ...) {
+hit_national_map_api <- function(
+  bbox,
+  img_width,
+  img_height,
+  service,
+  verbose = FALSE,
+  ...
+) {
   dots <- list(...)
 
   if (is.list(bbox) && length(bbox) == 2) {
@@ -119,33 +121,36 @@ hit_national_map_api <- function(bbox,
     f = "json"
   )
 
-  query_arg <- switch(service,
-                      "3DEPElevation" = list(
-                        bboxSR = 4326,
-                        imageSR = 4326,
-                        size = paste(img_width, img_height, sep = ","),
-                        format = "tiff",
-                        pixelType = "F32",
-                        noDataInterpretation = "esriNoDataMatchAny",
-                        interpolation = "+RSP_BilinearInterpolation",
-                        f = "json"
-                      ),
-                      # purposefully exclude transparency from NAIP downloads
-                      "USGSNAIPPlus" = c(
-                        standard_png_args[names(standard_png_args) != "transparent"],
-                        transparent = "false"
-                      ),
-                      "nhd" = c(layers = 0, standard_png_args),
-                      standard_png_args
+  query_arg <- switch(
+    service,
+    "3DEPElevation" = list(
+      bboxSR = 4326,
+      imageSR = 4326,
+      size = paste(img_width, img_height, sep = ","),
+      format = "tiff",
+      pixelType = "F32",
+      noDataInterpretation = "esriNoDataMatchAny",
+      interpolation = "+RSP_BilinearInterpolation",
+      f = "json"
+    ),
+    # purposefully exclude transparency from NAIP downloads
+    "USGSNAIPPlus" = c(
+      standard_png_args[names(standard_png_args) != "transparent"],
+      transparent = "false"
+    ),
+    "nhd" = c(layers = 0, standard_png_args),
+    standard_png_args
   )
 
-  bbox_arg <- list(bbox = paste(
-    bbox[["xmin"]],
-    bbox[["ymin"]],
-    bbox[["xmax"]],
-    bbox[["ymax"]],
-    sep = ","
-  ))
+  bbox_arg <- list(
+    bbox = paste(
+      bbox[["xmin"]],
+      bbox[["ymin"]],
+      bbox[["xmax"]],
+      bbox[["ymax"]],
+      sep = ","
+    )
+  )
 
   if (length(dots) > 0) {
     if (any(names(dots) %in% names(query_arg))) {
@@ -156,7 +161,9 @@ hit_national_map_api <- function(bbox,
   }
 
   # length of dots changes after that last step, so check again
-  if (length(dots) > 0) query_arg <- c(query_arg, dots) # nocov
+  if (length(dots) > 0) {
+    query_arg <- c(query_arg, dots)
+  } # nocov
 
   agent <- httr::user_agent("https://github.com/ropensci/terrainr")
 
@@ -164,7 +171,6 @@ hit_national_map_api <- function(bbox,
   api_call_res <- vector("list", loop_iterations)
   # Loop 1: first API call returns either another URL, or the requested data
   for (api_call_1 in seq_len(loop_iterations)) {
-
     backoff <- stats::runif(
       n = 1,
       min = 0,
@@ -172,18 +178,24 @@ hit_national_map_api <- function(bbox,
     )
 
     Sys.sleep(backoff)
-    if (verbose) message(sprintf("API call 1 attempt %d", api_call_1 + 1))
+    if (verbose) {
+      message(sprintf("API call 1 attempt %d", api_call_1 + 1))
+    }
 
     # Main query of loop 1
     res <- httr::GET(url, agent, query = c(bbox_arg, query_arg))
 
     # If main query failed: try again
-    if (httr::http_error(res)) next
+    if (httr::http_error(res)) {
+      next
+    }
 
     # Interpret main query results
     body <- tryCatch(
       {
-        if (verbose) rlang::inform("Interpreting JSON attempt 1")
+        if (verbose) {
+          rlang::inform("Interpreting JSON attempt 1")
+        }
         httr::content(res, type = "application/json")
       },
       # nocov start
@@ -194,12 +206,16 @@ hit_national_map_api <- function(bbox,
       error = function(e) {
         tryCatch(
           {
-            if (verbose) rlang::inform("Interpreting JSON attempt 2")
+            if (verbose) {
+              rlang::inform("Interpreting JSON attempt 2")
+            }
             res <- httr::GET(url, agent, query = c(bbox_arg, query_arg))
             httr::content(res, type = "application/json")
           },
           error = function(e) {
-            if (verbose) rlang::inform("Interpreting JSON attempt 3")
+            if (verbose) {
+              rlang::inform("Interpreting JSON attempt 3")
+            }
             res <- httr::GET(url, agent, query = c(bbox_arg, query_arg))
             httr::content(res, type = "application/json")
           }
@@ -209,25 +225,36 @@ hit_national_map_api <- function(bbox,
     )
 
     # If main query failed: try again
-    if (!is.null(body$error)) next
+    if (!is.null(body$error)) {
+      next
+    }
 
     # If body isn't a link to other data: exit
-    if (is.null(body$href)) return(body)
+    if (is.null(body$href)) {
+      return(body)
+    }
 
     # Loop 2: if body links to other data, query that URL
     # Store all provided URLs to try again in outer loop iterations:
     api_call_res[[api_call_1]] <- body$href
     for (api_call_2 in seq_len(loop_iterations)) {
-
-      if (verbose) rlang::inform(sprintf("API call 2 attempt %d", api_call_2))
+      if (verbose) {
+        rlang::inform(sprintf("API call 2 attempt %d", api_call_2))
+      }
 
       # Loop 3: query all provided URLs so far:
       for (body_href in api_call_res) {
-        if (is.null(body_href)) next
-        backoff <- stats::runif(n = 1, min = 0, max = floor(c(
-          2^api_call_2 - 1,
-          30
-        )))
+        if (is.null(body_href)) {
+          next
+        }
+        backoff <- stats::runif(
+          n = 1,
+          min = 0,
+          max = floor(c(
+            2^api_call_2 - 1,
+            30
+          ))
+        )
         Sys.sleep(backoff)
         img_res <- httr::GET(body$href, agent)
 
